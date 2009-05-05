@@ -1,0 +1,68 @@
+### Message header            : "WinIDE\0403.3\040changed\040code\040table\040for\0400-20-197\012\005\000¯\000ISAA41\040CDOW\040281800\040CCD\012"
+### Message version           : 2
+###          length           : 152
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 4
+###      Data category        : 0
+###      master table version : 11
+###      local table version  : 35
+###      Year                 : 5
+###      Month                : 4
+###      Day                  : 28
+###      Hour                 : 18
+###      Min                  : 0
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 74
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 48
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 33 descriptors
+   001204 VALUE=DOW 
+   006002 VALUE=-79.47
+   005002 VALUE=43.78
+   007001 VALUE=187
+   004001 VALUE=2005 
+   004002 VALUE=4 
+   004003 VALUE=28 
+   004004 VALUE=18 
+   004005 VALUE=0 
+   002196 VALUE=14 
+   001195 VALUE=0 
+   020194 VALUE=10 
+   020215 VALUE=10 
+   008002 VALUE=5 
+   020196 VALUE=1 
+   020013 VALUE=300.0
+   020206 VALUE=7 
+   020197 VALUE=23 
+   020193 VALUE=10 
+   008002 MSNG
+   020001 VALUE=6440.0
+   012001 VALUE=295.2
+   012003 VALUE=292.2
+   012002 VALUE=293.2
+   012199 VALUE=285.2
+   008021 VALUE=2 
+   004025 VALUE=-2
+   011011 VALUE=110 
+   011012 VALUE=11.3
+   008021 MSNG
+   004025 MSNG
+   013003 VALUE=83 
+   205007 VALUE=TEST IC
+

@@ -1,0 +1,11 @@
+*
+*** local table D update ***
+*
+*Format:  each line describe a list of descriptors beginning with a new local table D descriptor 
+*
+*  3XXYYY FXXYYY FXXYYY FXXYYY FXXYYY ...
+*
+*
+301120 301001 001094 002011 301121
+301121 008041 301122 301021 007031 007007
+301122 301011 301012 201135 202130 004006 202000 201000

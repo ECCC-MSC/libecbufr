@@ -1,0 +1,88 @@
+Description:
+
+LibECBUFR: Environment Canada BUFR Library
+
+It is designed as a simple to use, Templates oriented, general purposes
+library for reading and writing BUFR messages.  Using one single interface
+for both reading and writing.
+
+
+History:
+
+It originated from an older BUFR encoding library which was created in
+1994 within a project named GEWEX aka MOLTS (Model Output Local Time
+Series) in which a BUFR encoder was needed to convert model forecast time
+series into BUFR files for exchange purposes.  At that time, the library
+was only capable of encoding BUFR.  At the beginning of summer 2007,
+a new project in SCRIBE was started for replacing the Text Matrixes
+by a new and modern BUFR files format based on templates.  Very soon,
+the need of a library capable of reading and writing BUFR files based
+on templates was identified, and that none of the existing library
+(publicly available) can satisfy and capable to do what was needed.
+
+At the end of summer 2007 (end of august), a fast prototype of a library
+was created using the old BUFR encoding library, which was reviewed.
+Also, new decoding functions along with a template supports functions
+was added to the library.  At the end of october (after 2 months), a
+working new BUFR library was born, which allow Applications to easily
+read and writes BUFR files using templates.
+
+See the Examples directory for how to encode and decode BUFR using
+this library.
+
+For compiling, see INSTALL
+
+
+Note to Developpers who Wish to Contribute
+==========================================
+
+Software Used
+-------------
+
+ - The autotools (autoconf, automake, configure) are used to generate 
+   the Makefiles.
+   http://www.gnu.org/software/autoconf/manual/
+   http://www.gnu.org/software/automake/manual/
+
+ - Libtool is used with the autotools to generate the libraries 
+   automatically for any platform.
+   http://www.gnu.org/software/libtool/manual/
+
+ - Doxygen is used to automatically generate documentation from source code 
+   comments.
+   http://www.doxygen.org/
+
+Standards
+---------
+
+This project follows certain standards.  Here is a list of standards that
+should be followed when contributing to the libECBUFR project:
+
+ - The NEWS file should contain a dated annoucement for every public release.
+ - When a bug or an issu is found, always report it
+ - Any public release of libECBUFR should have a different version.
+ - The major version number (first number) should be changed when libECBUFR 
+   acquires such a major change that it loses some backward compatibility. 
+ - The minor version number (second number) should be changed when 
+   the library acquires a new fonctionality, but maintains backward 
+   compatibility. Something new from the user's point of view, like a new
+   argument added to a function is enough to change the minor version number.
+ - The micro version number (third number) should be changed when bugs are 
+   fixed. Essentially, when the micro version number changes, one should 
+   assume that the library does exactly the same thing but has clearer 
+   documentation, fewer bugs, something might be implemented differently, 
+   but it should be transparent for the user, etc...
+
+ - When one is about to commit a change, one should make sure 
+   the change is recorded in the Changelog file, and the entry in bug tracking 
+   is updated before proceeding.
+
+ - Don't forget to update your working directory before commiting any changes,
+   if possible.
+
+ - When you work in a branch for a modification that isn't trivial, 
+   you should merge the bugfixes from the trunk regularily if relevant,
+   so that you don't get yourself in a position where you need to merge 
+   a huge amount of differences later on. The inverse is also true, 
+   so don't forget to merge back in the trunk the bugs you fix in your branch.
+

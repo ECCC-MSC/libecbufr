@@ -1,0 +1,10 @@
+BUFR input samples
+
+These are intended to be inputs to a decoder regression test. Ideally,
+they should be reasonably short (to test for specific conditions and not
+bloat the package), have some indication as to purpose (a comment at the
+beginning, for example), and only use BUFR elements from the default tables
+(../../Tables/).
+
+Broken (non-decodable) examples are also welcome. A decoder should be
+able to survive bad data.

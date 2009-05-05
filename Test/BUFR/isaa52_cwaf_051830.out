@@ -1,0 +1,117 @@
+### Message header            : "climate\040messages\012ISAA52\040CWAF\040051830\012"
+### Message version           : 2
+###          length           : 334
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 11
+###      local table version  : 35
+###      Year                 : 7
+###      Month                : 10
+###      Day                  : 5
+###      Hour                 : 18
+###      Min                  : 30
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 172
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 132
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 82 descriptors
+   001204 VALUE=WAF 
+   001019 VALUE=ILE ROUGE, QUE.                 
+   060001 VALUE=164 
+   006002 VALUE=-69.55
+   005002 VALUE=48.07
+   007001 VALUE=6
+   004001 VALUE=2007 
+   004002 VALUE=10 
+   004003 VALUE=5 
+   004004 VALUE=18 
+   004005 VALUE=30 
+   001001 VALUE=71 
+   001002 VALUE=426 
+   001196 VALUE=0 
+   002196 VALUE=7 
+   060005 MSNG
+   008197 VALUE=0 
+   002207 VALUE=14.4
+   008197 VALUE=0 
+   012001 VALUE=286.4
+   008021 VALUE=2 
+   004025 VALUE=-10
+   008197 VALUE=0 
+   011011 VALUE=235 
+   008197 VALUE=0 
+   011012 VALUE=9.3
+   004025 MSNG
+   008021 MSNG
+   004025 VALUE=-10
+   007006 VALUE=10 
+   008197 VALUE=0 
+   011047 VALUE=11.2
+   007006 MSNG
+   004025 MSNG
+   004025 VALUE=-2
+   008197 VALUE=0 
+   011011 VALUE=245 
+   008197 VALUE=0 
+   011012 VALUE=8.9
+   004025 MSNG
+   004032 VALUE=60 
+   008023 VALUE=4 
+   008197 VALUE=0 
+   012004 VALUE=285.3
+   004032 MSNG
+   008023 MSNG
+   008197 VALUE=0 
+   013003 VALUE=82 
+   008021 VALUE=2 
+   004024 VALUE=-1
+   008197 VALUE=0 
+   011011 VALUE=215 
+   008197 VALUE=0 
+   011012 VALUE=8.9
+   008021 MSNG
+   004024 MSNG
+   004024 VALUE=-1
+   008197 VALUE=0 
+   011049 VALUE=12 
+   004024 MSNG
+   004024 VALUE=-1
+   007006 VALUE=10 
+   008021 VALUE=2 
+   008197 VALUE=0 
+   011042 VALUE=9.8
+   008021 MSNG
+   007006 MSNG
+   004024 MSNG
+   004024 VALUE=-1
+   007006 VALUE=10 
+   008197 VALUE=0 
+   011010 VALUE=218 
+   008197 VALUE=0 
+   011046 VALUE=11.7
+   007006 MSNG
+   004024 MSNG
+   004024 VALUE=-1
+   008197 VALUE=0 
+   012011 VALUE=286.9
+   004024 VALUE=-1
+   008197 VALUE=0 
+   012012 VALUE=284.0
+

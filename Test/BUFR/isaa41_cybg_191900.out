@@ -1,0 +1,71 @@
+### Message header            : "ISAA41\040CYBG\040191900\012test\040for\040an\040issue\040with\040-SHRA\040present\040weather\012"
+### Message version           : 2
+###          length           : 158
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 6
+###      local table version  : 14
+###      Year                 : 5
+###      Month                : 4
+###      Day                  : 19
+###      Hour                 : 19
+###      Min                  : 0
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 80
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 48
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 36 descriptors
+   001204 VALUE=YBG 
+   006002 VALUE=-71.00
+   005002 VALUE=48.33
+   007001 VALUE=159
+   004001 VALUE=2005 
+   004002 VALUE=4 
+   004003 VALUE=19 
+   004004 VALUE=19 
+   004005 VALUE=0 
+   002196 VALUE=14 
+   001195 VALUE=0 
+   020194 VALUE=10 
+   020215 VALUE=10 
+   008002 VALUE=5 
+   020196 VALUE=6 
+   020013 VALUE=1560.0
+   020206 VALUE=6 
+   020197 VALUE=12 
+   020193 VALUE=10 
+   008002 MSNG
+   020001 VALUE=16090.0
+   020210 VALUE=15 
+   010197 VALUE=98610.0
+   010004 VALUE=98610.0
+   010051 VALUE=100540.0
+   012001 VALUE=287.9
+   012003 VALUE=277.3
+   012002 VALUE=282.5
+   008021 VALUE=2 
+   004025 VALUE=-2
+   011011 VALUE=210 
+   011012 VALUE=3.6
+   008021 MSNG
+   004025 MSNG
+   010052 VALUE=100510.0
+   013003 VALUE=49 
+

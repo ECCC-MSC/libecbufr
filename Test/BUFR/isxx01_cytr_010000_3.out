@@ -1,0 +1,44 @@
+### Message header            : "ISXX01\040CYTR\040010000\012"
+### Message version           : 3
+###          length           : 72
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 53
+###      sub center           : 0
+###      update sequence      : 0
+###      Data category        : 255
+###      Data subcategory     : 0
+###      master table version : 8
+###      local table version  : 0
+###      Year                 : 8
+###      Month                : 1
+###      Day                  : 7
+###      Hour                 : 14
+###      Min                  : 27
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 16
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 26
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 7 descriptors
+   001204 VALUE=XXXX
+#  101000 {R=0}
+   031001 {R=0} VALUE=4 
+   001204 {R=1} VALUE=AAAA
+   001204 {R=2} VALUE=BBBB
+   001204 {R=3} VALUE=CCCC
+   001204 {R=4} VALUE=DDDD
+

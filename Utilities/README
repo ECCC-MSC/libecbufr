@@ -1,0 +1,39 @@
+The  bufr_encoder  and bufr_decoder here are written as examples for
+using the BUFR API  library to encode and decode BUFR files.
+
+In order to use the library and the encoder or decoder, you
+need to install the BUFR Tables first. These Tables files are in
+bufr_api/Tables. Copy those 2 files Table B and D in a directory
+and define an environment variable  BUFR_TABLES pointing to it.
+These 2 files are copy of the Operational BUFR Tables files in use
+here at CMC.  Usually, they are located here at CMC in the directory
+$AFSISIO/datafiles/constants.
+
+To use the encoder, you will need a BUFR template file which contains the
+list of descriptors like those found in the templates directory. These
+template may point to file containing local descriptors if the template
+make use of local descriptors which are needed to encode the BUFR message.
+
+Here are usage example of the encoder and decoder
+
+# encode the a message using the ozone template with 3 datasubset and set
+# default values compress the data if possible and write the output to a
+file OUT.BUFR
+
+bufr_encoder -template ./templates/ozone.template -nbsubset 3 -compress \
+             -def_values -outbufr OUT.BUFR
+
+# print the content of BUFR file to standard out
+
+bufr_decoder -inbufr OUT.BUFR
+
+# dump the content of BUFR file in a format that can be reloaded with the
+# encoder
+
+bufr_decoder -inbufr OUT.BUFR  -dump  -output dump.out
+
+# the dump.out file can now be edited with and text editor to set codes values
+# this file can then be reloaded back into BUFR format
+
+bufr_encoder -template ./templates/ozone.template -datafile dump.out \
+             -outbufr OUT2.BUFR

@@ -1,0 +1,91 @@
+Decoder Testing
+===============
+
+Some basic regression testing of the BUFR decoder.
+
+test_bufr_decoder.sh runs the decoder against each sample (BUFR/*.bufr),
+and compares the output against previous runs (BUFR/*.out).
+test_bufr_rencoder.sh also uses the samples as a sort of "smoke test".
+
+If the output changes, it will be detected and the new version stored in
+BUFR/*.out.tmp. "make check" will fail, which means any build process which
+includes a "make check" will also fail.
+
+Note that it's perfectly acceptable to keep "broken" examples in the
+test suite if they fail in a repeatable fashion (i.e. there isn't a
+bunch of random junk in the output file).
+
+Procedures are more or less as follows:
+
+1) New Samples
+	a) place the sample $SAMPLE at BUFR/$SAMPLE.bufr
+	b) add to subversion: svn add BUFR/$SAMPLE.bufr
+	c) run regression test: make check
+	d) check the output, BUFR/$SAMPLE.out
+	e) if good, add to subversion: svn add BUFR/$SAMPLE.out
+	f) svn commit -m "new BUFR sample $SAMPLE"
+	g) ensure the test is repeatable: make check
+
+	If you're adding a sample which demonstrates a bug in the library,
+	add the new sample BEFORE fixing the bug. Once fixed, the bug should
+	trigger a test failure and you can follow the process for fixing a
+	regression. The idea here is to have the failure itself in the VCS
+	rather than jumping directly to a fixed state.
+
+2) Regressions
+   a) find the failed test, $FAILED: make check
+	b) compare the failure message: diff BUFR/$FAILED.out BUFR/$FAILED.out.tmp
+	c) if it's truly a regression (i.e. an unintentional change), fix the
+	bug until "make check" passes
+	d) if it's an intentional change, replace the old output with the new
+	output: cp BUFR/$FAILED.out.tmp diff BUFR/$FAILED.out
+	e) goto a) until "make check" passes for all tests
+	f) svn commit
+
+Encoder Testing
+===============
+
+test_bufr_encoder.sh runs the encoder against each template/dump pair in
+Dump/ and compares the output against previous runs (Dump/*.bufr).
+
+If the output changes, it will be detected and the new version stored in
+BUFR/*.bufr.tmp. "make check" will fail, which means any build process which
+includes a "make check" will also fail. Note that this check is a binary
+comparison. In order to figure out the changes, you'll need to decode
+both the expected and new output and diff those results.
+
+Note that it's perfectly acceptable to keep "broken" examples in the
+test suite if they fail in a repeatable fashion (i.e. there isn't a
+bunch of random junk in the output file).
+
+Note that encoder examples MUST specify date/time information for
+section 1 rather than falling back to some kind of default "current
+time". The tests must be repeatable at any time.
+
+Procedures are more or less as follows:
+
+1) New Samples
+	a) place the sample $SAMPLE.template and $SAMPLE.dump in Dump/
+	b) add to subversion: svn add Dump/$SAMPLE.*
+	c) run regression test: make check
+	d) check the output, Dump/$SAMPLE.bufr
+	e) if good, add to subversion: svn add Dump/$SAMPLE.bufr
+	f) svn commit -m "new encoder test $SAMPLE"
+	g) ensure the test is repeatable: make check
+
+	If you're adding a sample which demonstrates a bug in the library,
+	add the new sample BEFORE fixing the bug. Once fixed, the bug should
+	trigger a test failure and you can follow the process for fixing a
+	regression. The idea here is to have the failure itself in the VCS
+	rather than jumping directly to a fixed state.
+
+2) Regressions
+   a) find the failed test, $FAILED: make check
+	b) you'll need to compare the two BUFR files, which are binary files,
+	probably by decoding and diffing the decoded results.
+	c) if it's truly a regression (i.e. an unintentional change), fix the
+	bug until "make check" passes
+	d) if it's an intentional change, replace the old output with the new
+	output: cp BUFR/$FAILED.bufr.tmp diff BUFR/$FAILED.bufr
+	e) goto a) until "make check" passes for all tests
+	f) svn commit

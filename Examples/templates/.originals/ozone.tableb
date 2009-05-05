@@ -1,0 +1,27 @@
+*1234567*1234567890123456789012345678901234567890123456789012345678901234*1234567890*12*1234567890*12345
+*
+* The following line will be used in BUFR message (0-255)
+DATA_CATEGORY=240
+*
+* The following line will be incorporated in BUFR message (up to 64 caracters)
+DATA_DESCRIPTION=CMC LOCAL TABLES UPDATE
+*
+*
+* NOTES:
+*
+*   NOUVEAU ELEMENTS EN ATTENTE DE L'APPROBATION DE OMM ET SONT PAS DANS
+*   LA TABLE B OPERATIONNELLE
+*
+*   002071 008026 008043 008090 015008 015030 025143 033070 033071 033042
+*
+*
+002071  SPECTROGRAPHIC WAVELENGTH                                        M           13          0    30
+008026  MATRIX SIGNIFICANCE                                              Code Table   0          0     6
+008043  ATMOSPH. CHEMICAL OR PHYSICAL CONSTITUENT TYPE                   Code Table   0          0     8
+008090  DECIMAL SCALE OF FOLLOWING VALUES                                Numeric      0       -127     8
+015008  SCALED VOLUMETRIC MIXING RATIO                                   Numeric      0          0    10
+015030  AEROSOL CONTAMINATION INDEX                                      Numeric      2      -1000    12
+025143  LINEAR COEFFICIENT                                               Numeric      6   -5000000    24
+033070  SBUV TOTAL OZONE QUALITY                                         Code Table   0          0     4
+033071  SBUV PROFILE OZONE QUALITY                                       Code Table   0          0     4
+033042  TYPE OF LIMIT REPRESENTED BY FOLLOWING VALUE                     Code Table   0          0     3

@@ -1,0 +1,64 @@
+### Message header            : "precip\040test\012ISAA41\040CYVV\040201229\012"
+### Message version           : 2
+###          length           : 134
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 6
+###      local table version  : 14
+###      Year                 : 5
+###      Month                : 4
+###      Day                  : 20
+###      Hour                 : 12
+###      Min                  : 29
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 66
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 38
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 29 descriptors
+   001204 VALUE=YVV 
+   006002 VALUE=-81.10
+   005002 VALUE=44.75
+   007001 VALUE=222
+   004001 VALUE=2005 
+   004002 VALUE=4 
+   004003 VALUE=20 
+   004004 VALUE=12 
+   004005 VALUE=29 
+   002196 VALUE=14 
+   001195 VALUE=1 
+   020194 VALUE=10 
+   020215 VALUE=10 
+   008002 VALUE=5 
+   020196 VALUE=2 
+   020013 VALUE=150.0
+   020206 VALUE=6 
+   020197 VALUE=9 
+   020193 VALUE=10 
+   008002 MSNG
+   020001 VALUE=8050.0
+   020210 VALUE=15 
+   020210 VALUE=80 
+   008021 VALUE=2 
+   004025 VALUE=-2
+   011011 VALUE=60 
+   011012 VALUE=6.2
+   008021 MSNG
+   004025 MSNG
+

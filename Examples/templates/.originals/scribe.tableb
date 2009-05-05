@@ -1,0 +1,28 @@
+*1234567*1234567890123456789012345678901234567890123456789012345678901234*1234567890*12*1234567890*12345
+*
+* The following line will be used in BUFR message (0-255)
+DATA_CATEGORY=240
+*
+* The following line will be incorporated in BUFR message (up to 64 caracters)
+DATA_DESCRIPTION=CMC LOCAL TABLES UPDATE
+*
+* NOTES: 
+*
+*   ELEMENTS LOCAUX PRESENT DANS TABLE B OPERATIONNELLE
+*
+*     012203 014203 059172 059200
+*
+*   NOUVEAU ELEMENTS EN ATTENTE DE L'APPROBATION DE OMM ET SONT PAS DANS 
+*   LA TABLE B OPERATIONNELLE
+*
+*     013047 022046 033042 033045 
+*
+012203  DEPRESSION POINT DE ROSEE (2M)                                   K            1          0     9
+013047  MODIFIED SHOWALTER STABILITY INDEX                               K            0        -60     6
+014203  INDEX UV ENVIRONMENT CANADA                                      NUMERIC      1          0     7
+022046  SEA ICE FRACTION                                                 NUMERIC      2          0     7
+022049  SEA SURFACE TEMPERATURE                                          K            2          0    15
+033042  TYPE OF LIMIT REPRESENTED BY FOLLOWING VALUE                     Code Table   0          0     3
+033045  PROBABILITY OF FOLLOWING EVENT                                   %            0          0     7
+059172  PCPNS CONV. ACCUM., FENETRE TEMP. COURANTE                       KG/M**2      1         -1    14
+059200  EMBRUN VERGLACANT PREVU PAR LE MODELE                            KG/M**2/H    0          0    10

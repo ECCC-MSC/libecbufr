@@ -1,0 +1,107 @@
+Documenting The ECBUFR API
+==========================
+
+The API is documented using the doxygen package. Documented is generated
+from the source code at build time. Currently, HTML and RTF format
+documentation are created in the Docs/ directory for both French and
+English.
+
+Doxygen documentation is available online at http://doxygen.org/manual.html
+
+For developers on Debian systems, it's strongly recommended that you
+install the doxygen-doc package, at which point the manual is available
+in /usr/share/doc/doxygen/html/index.html
+
+Documenting The Code
+====================
+
+Doxygen, simply put, is a JavaDoc-style inline documentation system for
+C and other languages we're not concerned with here.
+
+Documentation is placed in the code base where it can be updated
+alongside the associated code. Documentation should be placed in the
+.c file itself, rather than the header file. IF documentation is desired in
+the header, a simple @brief might be appropriate.
+
+Typical doxygen markup for a function definition would be as a C comment
+looking something like:
+
+	/**
+	 * @english
+	 * @brief This call creates copies of a BUFR code structure.
+	 *
+	 * This is used to copy
+	 * templates before expansion for encoding and decoding.. A pointer to a
+	 * BUFR code structure is returned if there is no error, in case of error a
+	 * NULL be returned if no more memory or if the data is invalid.
+	 *
+	 * @param dup code to duplicate
+	 * @return BufrCode pointer, to be cleared with bufr_free_code
+	 * @endenglish
+	 * @francais
+	 * @todo translate to French
+	 * @endfrancais
+	 *
+	 *    BufrCode *cb = bufr_duplicate_code( dup );
+	 *
+	 * @see bufr_free_code
+	 */
+	BufrCode      *bufr_duplicate_code      ( BufrCode *dup ) {
+		...
+	}
+
+A few things to note about this kind of markup:
+
+  * English documentation is in a @english ... @endenglish section, French
+  goes in @francais ... @endfrancais section. Language-independent stuff
+  like relations to other functions (in this case, a @see section and a
+  code snippet) can go outside both sections to avoid duplication.
+  * the comment style for a doxygen section in /** ... */ Other styles
+  are allowed, but consistency is recommended.
+  * standard @ tags are defined in the doxygen documentation. Other
+  forms can be used.
+  * doxygen comments _cannot_ be embedded into a C function. So if you
+  want to make usage notes about a function, it needs to go outside. A
+  useful example of this is to note things which need to be fixed or
+  usage caveats:
+
+    /** @bug should check if min or max are NULL */
+    int bufr_code_get_range ( BufrCode *cb, double *min, double *max )
+      {
+        ...
+      }
+
+  * @todo and @bug notes will end up on separate todo.html and bug.html
+  pages. It's probably a good idea to leave these notes as
+  language-indendepent so everyone sees them irrespective of what
+  version of the documentation is used unless the issue is
+  language-specific.
+
+Main Page
+=========
+
+The content of the main "index" is in Docs/index.dox in a
+"@mainpage" tagged section.
+ 
+Examples
+========
+
+Examples should have meaningful names and go in Examples/*.c with an
+@example markup
+
+	/**
+	@example example_filename.c
+	@english
+	English description of example
+	@endenglish
+	@francais
+	@todo example_filename.c description should be translated
+	@endfrancais
+	*/
+
+Doxygen will compile these into a separate examples.html page, and
+examples will be marked such that known functions and data structures
+link back to the appropriate pages.
+
+Missing, but planned examples are also listed in the Docs/index.dox
+file.

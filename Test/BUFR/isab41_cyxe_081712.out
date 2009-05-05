@@ -1,0 +1,70 @@
+### Message header            : "special\040with\040temperature\012ISAB41\040CYXE\040081712\012"
+### Message version           : 2
+###          length           : 150
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 4
+###      local table version  : 4
+###      Year                 : 5
+###      Month                : 12
+###      Day                  : 8
+###      Hour                 : 17
+###      Min                  : 12
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 78
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 42
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 35 descriptors
+   001204 VALUE=CYXE
+   006002 VALUE=-106.72
+   005002 VALUE=52.17
+   007001 VALUE=504
+   004001 VALUE=2005 
+   004002 VALUE=12 
+   004003 VALUE=8 
+   004004 VALUE=17 
+   004005 VALUE=12 
+   008197 VALUE=3 
+   002196 VALUE=15 
+   008197 VALUE=0 
+   001195 VALUE=1 
+   020194 VALUE=9 
+   020215 VALUE=10 
+   020013 VALUE=1200.0
+   020206 VALUE=2 
+   020197 VALUE=12 
+   020193 VALUE=4 
+   008002 VALUE=5 
+   020196 VALUE=3 
+   020013 VALUE=2400.0
+   020206 VALUE=6 
+   020197 VALUE=0 
+   020193 VALUE=5 
+   008002 MSNG
+   020001 VALUE=4830.0
+   020210 VALUE=31 
+   012001 VALUE=266.4
+   008021 VALUE=2 
+   004025 VALUE=-2
+   011011 VALUE=320 
+   011012 VALUE=5.7
+   008021 MSNG
+   004025 MSNG
+

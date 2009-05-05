@@ -1,0 +1,13 @@
+1) implement Table C  222000  see file bfr_stw.dat
+
+2) Implementation of Table C operators of BUFR edition 3 and 4
+3) Documentation  (Draft done 25/01/2008)
+4) Add functions to calculate encoded size:
+
+   int bufr_encoded_size( BUFR_Message *msg );
+
+5) Add more errors handling
+
+6) Add function   BUFR_Tables *bufr_find_best_tables( BUFR_Message *msg );
+
+7) Unit Testing (Regression, Tests Suite)

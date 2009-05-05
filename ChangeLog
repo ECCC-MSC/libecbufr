@@ -1,0 +1,481 @@
+2007-09-27 13:00  vanh
+
+   * Made 0.1 initial version.
+
+2007-10-15 16:00  vanh
+
+   * Made 0.2 version.
+
+	- Bugs fixes 
+	  1) zero delayed replication count
+	  2) memory leaks
+	  3) reference value was not applied on items with no scaling 
+   - improved debug mode print out
+	- Full Implementation of Data Description Operator 209YYY (IEEE floating point
+	  representation, write and read in either non-compressed or compressed message 
+   - Implemented Associated Fields for non-compressed and compressed message
+
+   * Made 0.3 version.
+	- Bugs fixes 
+
+2007-10-30 14:00  vanh
+
+   * Made 0.3 version.
+
+	- Implemented meta informations for time or location associated with replicators
+   - Fixed bug with decoded values of integer value type (no scaling).
+	- Added capabilities to examples applications bufr_encoder and bufr_decoder
+	  to dump and load BUFR Dataset to and from an ASCII file.
+
+
+2008-01-08 14:00  vanh
+
+   * Made 0.4.1 version.
+   - Fixed a bug in function bufr_decode_message for compressed dataset
+
+2008-01-09 22:00  vanh
+
+   * Made 0.4.2 version.
+   - removed thrdsafe.c and thrdsafe.h (has no purpose)
+   - replaced calls to my_strdup by strdup
+   - use strtok_r for reentrant strtok where's needed
+	- Allow length of section1 to be 22 instead of 23 for BUFR edition=4
+	- exit nicely when template defintion is bad during message decoding
+	- change the way Time Location Replication is matched, both must be present
+	  to enable value changes
+   - implement 207YYY of the Edition 4 Table C operator
+	- add DATA_FLAG to bufr_encoder and bufr_decoder to transport value of
+	  section3 flag
+
+2008-01-11 10:00  vanh
+
+   * Made 0.4.3 version.
+   - Optimisation of decoding speed by creating an array index of Codes' Node in BufrCodeList
+	- inlining a few functions in bufr_codelist.c
+	- Added option in Examples/bufr_decoder.c to disable output printout 
+
+2008-01-16 15:00  vanh
+
+   * Made 0.5 version.
+   - Major changes to handling of BUFR Tables 
+     (removal of global static tables and replaced by parameters.)
+   - partial of implementation of Table C operator 223255-223000 for decoder and encoder
+
+2008-01-18 16:00  vanh
+
+   * Made 0.5.1 version.
+   - changed all local static in functions of bufr_tables.c to simply, not
+	  keeping previous value anymore for thread safe issue.
+   - change parameter  BufrEncoding be into  pointers.
+   - transfer all control values of DataPresentBitmap into bufr_apply_Tables
+	  this simplify alot in user encoder codes and also in decoder's code.
+
+2008-01-22 22:00  vanh
+
+   * Made 0.5.2 version.
+   - moved functions of local tables update out of bufr_dataset.c into a
+     new file bufr_local.c, this file could be omitted from the official release
+     also created a new header file bufr_local.h
+   - moved bufr_dump_dataset() and bufr_load_dataset() inside the library
+   - changed  bufr_print_metadata parameters to make it thread safe.
+   - implemented ValueINT8
+
+2008-01-23 22:00  vanh
+
+   * Made 0.5.3 version.
+   - Fixed a problem with Descriptor 31000 nbits=1  where value=1 stored 
+     is not -1 (missing) but actuall equal 1 as value
+   - Fixed problem with expansion of unspecified delayed Replication count
+   - added a new function  bufr_create_dataset_from_codelist
+
+2008-01-28 10:00  vanh
+
+   * Made 0.5.4 version.
+   - Moved bufr_encoder and bufr_decoder into a new directory "Utilities"
+   - now Examples only contains exampleNN.c
+   - added bufr_sread_message and bufr_swrite_message to API for sockets read and write
+	  using file descriptors instead of file pointers in a new file  "bufr_sio.c"
+   - all references to file seek are removed from  bufr_io.c by doing partial
+	  read as suggested by Chris Beauregard
+
+2008-02-14 10:00  vanh
+
+   * Made 0.6 version.
+   - package renamed to LibECBUFR
+   - Added new option "-describe" in Utilities/bufr_decoder.c to enable printout 
+     of descriptor's unit and description
+
+2008-02-18 15:00  vanh
+
+   * Made 0.6.1 version.
+   - Fixed a bug with bufr_seek_msg_start return code that breaks
+     bufr_read_message()
+   - Fixed bug in Utilities/bufr_decoder.c to use the descriptor when
+     s_descriptor not defined for printing unit and description
+
+2008-04-11 16:30  vanh
+
+   - Fixed a bug which prevent Time Location Meta Information from displaying
+	- added functions:
+	    bufr_fetch_meta_tlc()
+	    bufr_missing_float()
+	    bufr_missing_double()
+	    bufr_missing_int()
+		 bufr_desc_valtype()
+	- function prototype changed:
+	    bufr_create_code()
+		 bufr_keep_timelocation()
+		 bufr_clear_timelocation()
+
+2008-05-01 16:30  vanh
+
+   - Fixed a bug with replication within unexpanded Table D descriptors, the
+	  nesting depth meta information was not created
+
+2008-05-02 16:30  vanh
+
+   * Made 0.6.2 version.
+
+2008-05-20 9:00  vanh
+
+   * Made 0.6.3 version.
+
+   - Fixed problem in bufr_load_datasubsets(): error reading a lines value
+	  while skipping Meta Info 
+   - Fixed potential problem of int32 overflow when left shitfting bits 
+
+2008-05-22 16:30  vanh
+
+   Major API changed to Data Structure names and functions name to use terms
+	that are more compliant with WMO terminology.
+
+	Defines
+   Old                               New
+   -------------------------------------------------------------
+   TYPE_TABLEC                       TYPE_OPERATOR
+	TYPE_TABLED                       TYPE_SEQUENCE
+
+
+	Data Structure Name
+   Old                               New
+   -------------------------------------------------------------
+	CodeValue                         BufrDescValue
+	BufrEncoding                      BufrValueEncoding
+   DataType                          BufrDataType
+	BufrCode                          BufrDescriptor
+	BufrCodeList                      BUFR_Sequence
+   TimeLocEncoding                   LocationEncoding
+	TimeLocCode                       LocationValue
+	BufrMeta                          BufrRTMD
+
+	Functions Name
+   Old                               New
+   -------------------------------------------------------------
+	bufr_init_codevalue               bufr_init_DescValue
+	bufr_valloc_codevalue             bufr_valloc_DescValue
+	bufr_vfree_codevalue              bufr_vfree_DescValue
+	bufr_template_add_code            bufr_template_add_DescValue
+	bufr_set_key_time                 bufr_set_key_location
+	bufr_code_to_datatype             bufr_descriptor_to_datatype
+	bufr_code2fxy                     bufr_descriptor_to_fxy
+	bufr_fxy2code                     bufr_fxy_to_descriptor
+	bufr_fxy2codei2                   bufr_fxy_to_descriptor_i16
+   bufr_i4codei2                     bufr_descriptor_i32_to_i16
+
+	bufr_cvt_fval2i                   bufr_cvt_fval_to_i32
+	bufr_cvt_dval2l                   bufr_cvt_dval_to_i64
+   bufr_cvt_i2fval                   bufr_cvt_i32_to_fval
+	bufr_cvt_l2dval                   bufr_cvt_i64_to_dval
+	bufr_datype_to_valtype            bufr_datatype_to_valtype
+	bufr_create_code                  bufr_create_descriptor
+
+	bufr_duplicate_code               bufr_dupl_descriptor
+   bufr_free_code                    bufr_free_descriptor
+	bufr_copy_code                    bufr_copy_descriptor
+	bufr_make_value_for_code          bufr_mkvale_for_descriptor
+	bufr_print_code                   bufr_print_descriptor
+
+   bufr_is_timelocation              bufr_is_location
+	bufr_code_get_time                bufr_descriptor_get_location
+	bufr_init_timelocation            bufr_init_location
+	bufr_current_timelocation         bufr_current_location
+	bufr_keep_timelocation            bufr_keep_location
+   bufr_assoc_timelocation           bufr_assoc_location
+   bufr_clear_timelocation           bufr_clear_location
+	bufr_set_current_timelocation     bufr_set_current_location
+
+	bufr_code_get_range               bufr_descriptor_get_range
+	bufr_code_set_fvalue              bufr_descriptor_set_fvalue
+	bufr_code_set_dvalue              bufr_descriptor_set_dvalue
+	bufr_code_set_ivalue              bufr_descriptor_set_ivalue
+	bufr_code_set_svalue              bufr_descriptor_set_svalue
+	bufr_code_set_bitsvalue           bufr_descriptor_set_bitsvalue
+	bufr_code_get_fvalue              bufr_descriptor_get_fvalue
+	bufr_code_get_dvalue              bufr_descriptor_get_dvalue
+	bufr_code_get_ivalue              bufr_descriptor_get_ivalue
+	bufr_code_get_svalue              bufr_descriptor_get_svalue
+
+   bufr_create_codelist              bufr_create_sequence             
+	bufr_free_codelist                bufr_free_sequence
+	bufr_reindex_codelist             bufr_reindex_sequence
+	bufr_getnode_codelist             bufr_getnode_sequence
+	bufr_add_code2list                bufr_add_descriptor_to_sequence
+	bufr_copy_codelist                bufr_copy_sequence
+	bufr_expand_code                  bufr_expand_node_descriptor
+	bufr_expand_codelist              bufr_expand_sequence
+	bufr_check_codelist               bufr_check_sequence
+	bufr_codelist_2CodeArray          bufr_sequence_to_array
+
+	bufr_create_metadata              bufr_create_rtmd
+	bufr_duplicate_metadata           bufr_duplicate_rtmd
+	bufr_copy_metadata                bufr_copy_rtmd
+ 	bufr_free_metadata                bufr_free_rtmd
+	bufr_fetch_meta_tlc               bufr_fetch_rtmd_location
+	bufr_print_metadata               bufr_print_rtmd_data
+	bufr_print_metarepl               bufr_print_rtmd_repl
+
+	bufr_subset_find_code             bufr_subset_find_descriptor
+	bufr_set_code_afd                 bufr_set_descriptor_afd
+	bufr_datasubset_count_code        bufr_datasubset_count_descriptor
+	bufr_datasubset_get_code          bufr_datasubset_get_descriptor
+	bufr_datasubset_next_code         bufr_datasubset_next_descriptor
+	bufr_create_dataset_from_codelist bufr_create_dataset_from_sequence
+
+	Function prototype changed
+   -------------------------------------------------------------
+   Old:   void bufr_getstring ( BUFR_Message *bufr, char *str, int len )
+	New:   int  bufr_getstring ( BUFR_Message *bufr, char *str, int len )
+
+   Old:   uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits )
+   New:   uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode )
+
+   Old:   BufrDDOp *bufr_apply_Tables 
+	       ( BufrDDOp *, BUFR_Sequence *, BUFR_Template *, ListNode * )
+   New:   BufrDDOp *bufr_apply_Tables 
+	       ( BufrDDOp *, BUFR_Sequence *, BUFR_Template *, ListNode *, int * )
+
+   Old:   int bufr_compare_value( BufrValue *bv1, BufrValue *bv2 )
+   New:   int bufr_compare_value( BufrValue *bv1, BufrValue *bv2, double eps )
+
+2008-05-30 10:30  vanh
+
+   - implemented 224000 224255 of the Edition 3 Table C operator
+
+2008-06-03 9:30  vanh
+
+   - Changed most (char *) to (void *) in bufr_array.h
+
+2008-06-05 16:15  vanh
+
+   * Made pre-release version 0.7
+
+   - Fixed problem with loading of dataset in bufr_load_datasubsets, values
+	  preceded by "{}{}" not read properly
+   - Changed index of present data for DPBM to include only classe 0
+
+2008-06-06 14:45  vanh
+
+   - Fixed a bug with compressed missing values during read and write
+     compressed values must not affect R0 and have all bits set 1 in R(i)
+   - also unified missing values print out by "MSNG" for both int and float
+   - dump now print FLAG TABLE values in Binary
+	      added 3 new functions: bufr_print_binary() 
+	                             bufr_binary_to_int()
+	                             bufr_str_is_binary()
+
+   * Made pre-release version 0.7.1
+
+2008-06-09 16:25  vanh
+
+   added 1 function:   bufr_print_rtmd_location()
+
+2008-06-13 00:50  vanh
+
+  - Fixed bug with encoding of float to int
+  - Fixed bug in function bufr_str_is_binary
+  - Added new option "-nometa" "-locdesc"  "-location"
+  - Added comment for compiling on IRIX
+  - Removed a few unused declaration of variables
+  - Changed bufr_decode_message so that decoding stop whenever and error occur
+	 in extracting bits from section4 to avoid looping endlessly with faulty
+	 BUFR messages
+
+2008-07-03 20:15  vanh
+   * Made pre-release version 0.7.2
+
+2008-07-11 16:15  vanh
+   - All floating point values now print out using same precision as defined
+	  in Table B scale of the descriptor
+   - Dumping to file now append instead of overwriting, 
+	  this fix the problem of dumped file containing only the last BUFR message,
+   - Loading of datafile now permit loading of multiple datasets dumpfile 
+	  New functions have been added to do this
+
+     BUFR_Dataset *bufr_read_dataset_dump  ( FILE *fp )
+     int           bufr_fdump_dataset      ( BUFR_Dataset *dts, FILE *fp )
+     int           bufr_genmsgs_from_dump ( BUFR_Template *tmplt, const char
+													  *infile, const char *outfile, int )
+
+   - The functions bufr_dump_dataset() and bufr_load_dataset() are now obsolete
+
+   - Added new functions to print value according to its Table B scaling
+     int           bufr_print_dscptr_value   ( char *outstr, BufrDescriptor *cb )
+	  int           bufr_print_scaled_value   ( char *outstr, BufrValue *bv, int scale )
+	  void          bufr_print_scaled_float   ( char *str, float fval, int scale )
+
+   - Added handling of message tag string (header) preceding the BUFR message
+
+2008-08-06 16:15  vanh
+   - All array pointers are changed from char * to  ArrayPtr type
+	  and objects arrays have objecttype specific array type defined
+   - regression tests updated according to changes made
+   * Made pre-release version 0.7.3
+
+2008-08-26 16:45  vanh
+   - Improved decoding speed for compressed dataset
+	- Changed returned value for missing int to max_float when obtained via
+	  bufr_descriptor_get_fvalue
+   * Made pre-release version 0.7.4
+
+2008-10-07 14:00  vanh
+   - Merged with bugs fixed from branches/beauregardc/mm-patches upto 
+	  revision 200. 
+	  This includes bugs:  1668, 2707, 2708, 2721, 1730, 1739, 1761
+   * Made pre-release version 0.7.5
+
+2009-01-19 10:30 Michel Van Eeckhout
+   - Solved bug 1845.  Doxygen was creating 16000 empty directories
+     because the variable CREATE_SUBDIRS was set to YES in the
+     configuration file.  This is usually necessary when you deal
+     with an overwhelming amount of documentation which is not our
+     case.
+
+2009-01-19 16:00 Michel Van Eeckhout
+   - Solved bug 1846.  A typo in the BUFR_API_VERSION variable in the
+     API/Headers/bufr_api.h.in file was preventing the proper use of the
+     software's version for printing purposes.
+
+2009-01-20 14:30 Michel Van Eeckhout
+   - Solved bug 1847.  Almost every file had execution permission turned
+     on regardless of its relevance. Now, only files that need to be
+     executed have execution permission turned on.
+
+2009-02-12 15:40 Michel Van Eeckhout
+   - Solved bug 1684 and 1849.  Merging fix done in branch 0.7.5. Test
+     files have been updated accordingly.
+
+2009-02-13 11:00  Yves Pelletier
+   - Terminology adjustments, as described in bugs 1623 and 1763
+     CHANGES TO API CODE
+     * Files bufr_code.[ch] were renamed to bufr_desc.[ch] . References
+       to bufr_desc.h in other files were adjusted accordingly.
+     * Files bufr_codelist.[ch] were renamed to bufr_sequence.[ch].
+       References to bufr_sequence.h in other files were adjusted
+       accordingly. 
+     * In file bufr_datablk.h, replaced "code" by "descriptor" in the
+	parameters of function templates bufr_add_dlste and
+	bufr_searchdlste
+     * In file bufr_tables.h, macro FXY_TO_CODE(f,x,y) was renamed
+	FXY_TO_DESC(f,x,y). References to this macro in other files
+	were adjusted accordingly.
+     * Wherever they appear, variables bcl and bcl2 (short for b-codelist)
+	were renamed bsq and bsq2 (b-sequence)
+     * Wherever it appears, variable bcls was renamed bseq
+     * Wherever it appears, macro OP_RM_EXPAND_CODE was renamed
+	OP_RM_XPNDBL_DESC
+
+     OTHER CHANGES
+     * Updated encoding/decoding utilities with better terminology
+	in messages to user. Also updated the usage message with
+	current information on available switches.
+     * Terminology was adjusted in a few code comments and internal code
+	documentation
+     * Changed some variable names that are internal to the utilities.
+	No impact expected on API. (tableD_code to sequ_desc; and bcv to bdv).
+
+2009-02-17 8:00 Ahmed Mahidjiba
+   - Solved bug 1828.  Usage has been updated for encoder and decoder.
+
+2009-02-17 16:00 Michel Van Eeckhout
+   - Adapted test results according to terminology changes.
+
+2009-02-17 17:00 Yves Pelletier
+   - Prepended copyright and license statements in all .c and .h files
+   - Changed file COPYING to GPLv3
+   - Added file COPYING.LESSER
+
+2009-02-19 9:00 Michel Van Eeckhout
+   - Solved bug 1874. "make check" now fails properlly with test_mem.sh
+     script.
+
+2009-02-19 9:30 Michel Van Eeckhout
+   - Solved bug 1875. test_mem.c now generates files with the keyword 
+     "descriptor" instead of "code".
+	
+2009-02-19 11:30 Michel Van Eeckhout
+   - Merged "trunk" with "terminology" and cleaned usage message from both
+     encoder and decoder. 
+     
+     Removed -output option from encoder as this
+     wasn't used by the encoder and is only useful for the decoder anyway
+     according to the comments of the bufr_io.c:bufr_set_output_file() 
+     function. 
+	
+     Removed -loctime option from decoder.  This option was deprecated
+     since option -location was added.
+
+     Removed deprecated option -errlog from both encoder and decoder.
+
+     Changed "atol()" for "atoi()" in two places.
+
+     Added in the encoder, the -sequence option which will do the same 
+     thing as -sequ. Only -sequence will appear in the "usage" help 
+     message.  -sequ option will eventually be declared deprecated.
+
+     Added BUFR_TABLES environment variable to the encoder's "usage" 
+     help message.
+
+     Removed -no_output option.  Vanh confirms it is not useful anymore.
+
+2009-02-24 12:00 Michel Van Eeckhout
+   - Added Copyright notice to usage message in decoder/encoder.
+	
+2009-02-24 13:00 Michel Van Eeckhout
+   - Changing version to 0.8.0 with the new terminology.
+
+2009-03-12 13:54  vanh
+
+  - Fixed bug 1908 with memory leaks if reading bad BUFR messages 
+
+2009-03-16 11:50  vanh
+
+  - Replaced flag like variables in BufrDDOp by a single int 
+
+2009-03-17 10:30  vanh
+
+  - removed DOS end of line control characters
+  - Update to latest version of table_b_bufr included in the package
+  - Added Table B version in BUFR_Tables->master.version and value read from
+	 CMC Table B are kept
+  - Added warning message in DEBUG in case Table B used not compatible with
+	 message's
+
+2009-03-20 15:45  vanh
+
+  - Changed function bufr_str_is_binary() to disregard trailing spaces
+  - Added "\r" as delimiter in function bufr_load_datasubsets and also renamed 
+    several references to code as descriptors. Bugzilla#1910
+
+2009-03-24 11:55  vanh
+  - Changed ways to determine if compression should apply, Fix bugzilla#1780
+  - Also added new parameter "-no_compress" to deactivate compression
+  - Deactive writing of message "Saving message with xx subsets" 
+    to file DEBUG.encoder
+
+2009-03-24 13:20  vanh
+  - Redirect all output to stdout if "-output" not specified. Fixe for
+	 Bugzilla#1844
+
+2009-03-25 14:40  vanh
+  - merged branch 0.8.0 with trunk
+

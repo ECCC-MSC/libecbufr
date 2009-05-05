@@ -1,0 +1,18 @@
+*1234567*1234567890123456789012345678901234567890123456789012345678901234*1234567890*12*1234567890*12345
+*
+* The following line will be used in BUFR message (0-255)
+DATA_CATEGORY=240
+*
+* The following line will be incorporated in BUFR message (up to 64 caracters)
+DATA_DESCRIPTION=CMC LOCAL TABLES UPDATE
+*
+*
+* NOTES:
+*
+*   NOUVEAU ELEMENTS EN ATTENTE DE L'APPROBATION DE OMM ET SONT PAS DANS
+*   LA TABLE B OPERATIONNELLE
+*
+*   8083
+*
+*
+008083  Nominal value indicator                                          Flag Table   0          0    15

@@ -1,0 +1,67 @@
+### Message header            : "another\040undecodable\040message\012ISAB41\040CYMJ\040071710\012"
+### Message version           : 2
+###          length           : 32972
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 6
+###      local table version  : 14
+###      Year                 : 5
+###      Month                : 3
+###      Day                  : 7
+###      Hour                 : 17
+###      Min                  : 10
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 72
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 102
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 32 descriptors
+   001204 VALUE=YMJ 
+   006002 VALUE=-105.55
+   005002 VALUE=50.33
+   007001 VALUE=577
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+   004004 VALUE=17 
+   004005 VALUE=10 
+   002196 VALUE=14 
+   001195 VALUE=1 
+   020194 VALUE=10 
+   020215 VALUE=10 
+   008002 VALUE=5 
+   020196 VALUE=6 
+   020013 VALUE=210.0
+   020206 VALUE=4 
+   020197 VALUE=9 
+   020193 VALUE=6 
+   008002 MSNG
+   020013 VALUE=450.0
+   020206 VALUE=6 
+   020197 VALUE=12 
+   020193 VALUE=4 
+   020001 VALUE=19310.0
+   008021 VALUE=2 
+   004025 VALUE=-2
+   011011 VALUE=320 
+   011012 VALUE=3.6
+   008021 MSNG
+   004025 MSNG
+   205064 VALUE=PIREP UA/OV YMJ 1705/FL DURGD/TP TEX2/SK O32 OVC 065/IC LGT MXD/
+

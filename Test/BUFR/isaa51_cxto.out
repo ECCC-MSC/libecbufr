@@ -1,0 +1,103 @@
+### Message header            : "ISAA51\040CXTO\040071700\012"
+### Message version           : 2
+###          length           : 288
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 11
+###      local table version  : 35
+###      Year                 : 5
+###      Month                : 3
+###      Day                  : 7
+###      Hour                 : 17
+###      Min                  : 0
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 144
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 114
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 68 descriptors
+   001204 VALUE=XTO 
+   001019 VALUE=TORONTO CITY CS, ONT            
+   060001 VALUE=160 
+   006002 VALUE=-79.40
+   005002 VALUE=43.67
+   007001 VALUE=113
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+   004004 VALUE=17 
+   004005 VALUE=0 
+   001001 VALUE=71 
+   001002 VALUE=508 
+   001195 VALUE=0 
+   001196 VALUE=1 
+   002196 VALUE=7 
+   008197 VALUE=0 
+   010004 VALUE=97530.0
+   008197 VALUE=0 
+   010051 VALUE=98880.0
+   008197 VALUE=0 
+   012001 VALUE=278.2
+   004024 VALUE=-1
+   008197 VALUE=0 
+   012012 VALUE=276.2
+   008197 VALUE=0 
+   012011 VALUE=278.2
+   004024 MSNG
+   008197 VALUE=0 
+   012003 VALUE=276.0
+   008197 VALUE=0 
+   013021 VALUE=0.0
+   008197 VALUE=0 
+   013019 VALUE=0.0
+   004024 VALUE=-1
+   008197 VALUE=0 
+   013011 VALUE=0.0
+   004024 MSNG
+   008197 VALUE=3 
+   013013 VALUE=0.17
+   004032 VALUE=60 
+   008023 VALUE=4 
+   008197 VALUE=0 
+   012004 VALUE=276.8
+   004032 MSNG
+   008023 MSNG
+   008197 VALUE=0 
+   013003 VALUE=86 
+   004032 VALUE=1 
+   008023 VALUE=4 
+   004025 VALUE=-45
+   008197 VALUE=0 
+   013218 VALUE=387.4
+   004025 VALUE=-30
+   008197 VALUE=0 
+   013218 VALUE=387.4
+   004025 VALUE=-15
+   008197 VALUE=0 
+   013218 VALUE=387.5
+   004025 VALUE=-1
+   008197 VALUE=0 
+   013218 VALUE=387.7
+   004032 MSNG
+   008023 MSNG
+   008197 VALUE=0 
+   010063 VALUE=8 
+   008197 VALUE=0 
+   010061 VALUE=510.0
+

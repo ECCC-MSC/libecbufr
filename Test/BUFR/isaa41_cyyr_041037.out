@@ -1,0 +1,74 @@
+### Message header            : "test\040for\040"partially\040obscured"\012ISAA41\040CYYR\040041037\012"
+### Message version           : 2
+###          length           : 162
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 11
+###      local table version  : 35
+###      Year                 : 7
+###      Month                : 5
+###      Day                  : 4
+###      Hour                 : 10
+###      Min                  : 37
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 86
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 46
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 39 descriptors
+   001204 VALUE=YYR 
+   006002 VALUE=-60.42
+   005002 VALUE=53.32
+   007001 VALUE=49
+   004001 VALUE=2007 
+   004002 VALUE=5 
+   004003 VALUE=4 
+   004004 VALUE=10 
+   004005 VALUE=37 
+   002196 VALUE=14 
+   001195 VALUE=1 
+   020194 VALUE=10 
+   020215 VALUE=10 
+   020013 MSNG
+   020206 VALUE=8 
+   020197 VALUE=24 
+   020193 VALUE=2 
+   008002 VALUE=5 
+   020196 VALUE=6 
+   020013 VALUE=480.0
+   020206 VALUE=4 
+   020197 VALUE=12 
+   020193 VALUE=4 
+   008002 MSNG
+   020013 VALUE=750.0
+   020206 VALUE=6 
+   020197 VALUE=12 
+   020193 VALUE=4 
+   020001 VALUE=4830.0
+   020210 VALUE=11 
+   020210 VALUE=31 
+   008021 VALUE=2 
+   004025 VALUE=-2
+   011011 VALUE=340 
+   011012 VALUE=6.7
+   008021 MSNG
+   004025 MSNG
+   011212 VALUE=1 
+   011041 VALUE=10.3
+

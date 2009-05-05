@@ -1,0 +1,138 @@
+### Message header            : "ISAB51\040CXPL\040071700\012"
+### Message version           : 2
+###          length           : 400
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 11
+###      local table version  : 35
+###      Year                 : 5
+###      Month                : 3
+###      Day                  : 7
+###      Hour                 : 17
+###      Min                  : 0
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 214
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 156
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 103 descriptors
+   001204 VALUE=XPL 
+   001019 VALUE=POLLOCKVILLE AGDM               
+   060001 VALUE=160 
+   006002 VALUE=-111.70
+   005002 VALUE=51.13
+   007001 VALUE=750
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+   004004 VALUE=17 
+   004005 VALUE=0 
+   001001 VALUE=71 
+   001002 VALUE=259 
+   001195 VALUE=0 
+   001196 VALUE=1 
+   002196 VALUE=7 
+   060005 MSNG
+   008197 VALUE=0 
+   002207 VALUE=13.8
+   008197 VALUE=0 
+   012001 VALUE=274.4
+   004024 VALUE=-1
+   008197 VALUE=0 
+   012012 VALUE=271.7
+   008197 VALUE=0 
+   012011 VALUE=274.5
+   004024 MSNG
+   008197 VALUE=0 
+   012003 VALUE=270.8
+   008021 VALUE=2 
+   004025 VALUE=-10
+   008197 VALUE=0 
+   011011 VALUE=166 
+   008197 VALUE=0 
+   011012 VALUE=4.0
+   004025 MSNG
+   008021 MSNG
+   004025 VALUE=-2
+   008197 VALUE=0 
+   011011 VALUE=173 
+   008197 VALUE=0 
+   011012 VALUE=4.9
+   004025 MSNG
+   008197 VALUE=0 
+   013021 VALUE=0.0
+   008197 VALUE=0 
+   013019 VALUE=0.0
+   004024 VALUE=-1
+   008197 VALUE=0 
+   013011 VALUE=0.0
+   004024 MSNG
+   004032 VALUE=60 
+   008023 VALUE=4 
+   008197 VALUE=0 
+   012004 VALUE=273.0
+   004032 MSNG
+   008023 MSNG
+   008197 VALUE=0 
+   013003 VALUE=77 
+   008021 VALUE=2 
+   004024 VALUE=-1
+   008197 VALUE=0 
+   011011 VALUE=144 
+   008197 VALUE=0 
+   011012 VALUE=3.1
+   008021 MSNG
+   004024 MSNG
+   004024 VALUE=-1
+   008197 VALUE=0 
+   011049 VALUE=14 
+   004024 MSNG
+   004024 VALUE=-1
+   007006 VALUE=10 
+   008021 VALUE=2 
+   008197 VALUE=0 
+   011042 VALUE=4.0
+   008021 MSNG
+   007006 MSNG
+   004024 MSNG
+   004024 VALUE=-1
+   007006 VALUE=10 
+   008197 VALUE=0 
+   011010 VALUE=163 
+   008197 VALUE=0 
+   011046 VALUE=5.4
+   007006 MSNG
+   004024 MSNG
+   004032 VALUE=1 
+   008023 VALUE=4 
+   004025 VALUE=-45
+   008197 VALUE=0 
+   013218 VALUE=236.9
+   004025 VALUE=-30
+   008197 VALUE=0 
+   013218 VALUE=236.9
+   004025 VALUE=-15
+   008197 VALUE=0 
+   013218 VALUE=236.9
+   004025 VALUE=-1
+   008197 VALUE=0 
+   013218 VALUE=236.9
+   004032 MSNG
+   008023 MSNG
+

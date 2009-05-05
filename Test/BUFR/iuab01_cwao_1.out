@@ -1,0 +1,193 @@
+### Message header            : "IUAB01\040CWAO\040072043\012"
+### Message version           : 2
+###          length           : 280
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 53
+###      update sequence      : 0
+###      Data category        : 4
+###      master table version : 2
+###      local table version  : 1
+###      Year                 : 5
+###      Month                : 3
+###      Day                  : 7
+###      Hour                 : 20
+###      Min                  : 37
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 24
+###      datasubsets          : 5
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 226
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 30 descriptors
+#  311001 
+#  301051 
+   001006 VALUE=        
+   002061 VALUE=0 
+#  301011 
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+#  301012 
+   004004 VALUE=20 
+   004005 VALUE=37 
+#  301021 
+   005001 VALUE=49.77000
+   006001 VALUE=-97.05666
+   008004 VALUE=6 
+   007002 VALUE=1320.0
+   012001 VALUE=254.2
+   011001 VALUE=299 
+   011002 VALUE=5.7
+   011031 MSNG
+   011032 MSNG
+   011033 MSNG
+   020041 MSNG
+   007007 MSNG
+   011036 MSNG
+   011076 MSNG
+   001008 VALUE=CNJCA120
+   002005 MSNG
+   002062 VALUE=3 
+   002064 VALUE=0 
+
+## Subset 2 : 30 descriptors
+#  311001 
+#  301051 
+   001006 VALUE=        
+   002061 VALUE=0 
+#  301011 
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+#  301012 
+   004004 VALUE=20 
+   004005 VALUE=38 
+#  301021 
+   005001 VALUE=49.80833
+   006001 VALUE=-97.10833
+   008004 VALUE=6 
+   007002 VALUE=990.0
+   012001 VALUE=254.7
+   011001 VALUE=308 
+   011002 VALUE=5.7
+   011031 MSNG
+   011032 MSNG
+   011033 MSNG
+   020041 MSNG
+   007007 MSNG
+   011036 MSNG
+   011076 MSNG
+   001008 VALUE=CNJCA120
+   002005 MSNG
+   002062 VALUE=3 
+   002064 VALUE=0 
+
+## Subset 3 : 30 descriptors
+#  311001 
+#  301051 
+   001006 VALUE=        
+   002061 VALUE=0 
+#  301011 
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+#  301012 
+   004004 VALUE=20 
+   004005 VALUE=39 
+#  301021 
+   005001 VALUE=49.84000
+   006001 VALUE=-97.15334
+   008004 VALUE=6 
+   007002 VALUE=710.0
+   012001 VALUE=256.2
+   011001 VALUE=292 
+   011002 VALUE=5.1
+   011031 MSNG
+   011032 MSNG
+   011033 MSNG
+   020041 MSNG
+   007007 MSNG
+   011036 MSNG
+   011076 MSNG
+   001008 VALUE=CNJCA120
+   002005 MSNG
+   002062 VALUE=3 
+   002064 VALUE=0 
+
+## Subset 4 : 30 descriptors
+#  311001 
+#  301051 
+   001006 VALUE=        
+   002061 VALUE=0 
+#  301011 
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+#  301012 
+   004004 VALUE=20 
+   004005 VALUE=40 
+#  301021 
+   005001 VALUE=49.87000
+   006001 VALUE=-97.19334
+   008004 VALUE=6 
+   007002 VALUE=440.0
+   012001 VALUE=258.2
+   011001 VALUE=303 
+   011002 VALUE=5.7
+   011031 MSNG
+   011032 MSNG
+   011033 MSNG
+   020041 MSNG
+   007007 MSNG
+   011036 MSNG
+   011076 MSNG
+   001008 VALUE=CNJCA120
+   002005 MSNG
+   002062 VALUE=3 
+   002064 VALUE=0 
+
+## Subset 5 : 30 descriptors
+#  311001 
+#  301051 
+   001006 VALUE=        
+   002061 VALUE=0 
+#  301011 
+   004001 VALUE=2005 
+   004002 VALUE=3 
+   004003 VALUE=7 
+#  301012 
+   004004 VALUE=20 
+   004005 VALUE=41 
+#  301021 
+   005001 VALUE=49.89833
+   006001 VALUE=-97.23167
+   008004 VALUE=6 
+   007002 VALUE=210.0
+   012001 VALUE=260.7
+   011001 VALUE=301 
+   011002 VALUE=4.6
+   011031 MSNG
+   011032 MSNG
+   011033 MSNG
+   020041 MSNG
+   007007 MSNG
+   011036 MSNG
+   011076 MSNG
+   001008 VALUE=CNJCA120
+   002005 MSNG
+   002062 VALUE=3 
+   002064 VALUE=0 
+

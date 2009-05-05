@@ -1,0 +1,25 @@
+*1234567*1234567890123456789012345678901234567890123456789012345678901234*1234567890*12*1234567890*12345
+*
+* The following line will be used in BUFR message (0-255)
+DATA_CATEGORY=240
+*
+* The following line will be incorporated in BUFR message (up to 64 caracters)
+DATA_DESCRIPTION=CMC LOCAL TABLES UPDATE
+*
+*
+* NOTES:
+*
+*
+008079  PRODUCT TYPE                                                     Code Table   0          0     4
+008203  SIGNIFICANT TRANSIENT PHENOMENA                                  Code Table   0          0     5
+010197  BAROMETER AS READ                                                PA          -1          0    14
+010210  DENSITY ALTITUDE                                                 FEET         0      -5000    14
+010211  PRESSURE RISING/FALLING RAPIDLY                                  Code Table   0          0     2
+011222  VARIABLE WIND STATE                                              Code Table   0          0     3
+013227  TOTAL PRECIPITATION/TOTAL WATER EQUIVALENT OF SNOW (HIGH-PREC)   Numeric      3          0    21
+020252  SURFACE ICING                                                    Code Table   0          0     3
+020253  SIGNIFICANT LOCALISED PHENOMENA                                  Code Table   0          0    16
+026192  TIME OF SIGNIFICANT TRANSIENT PHENOMENA                          HOUR         0          0     5
+026193  TIME OF SIGNIFICANT TRANSIENT PHENOMENA                          MINUTE       0          0     6
+033195  QUALITY INFORMATION (AWS data - suspect)                         Code Table   0          0    32
+033196  QUALITY INFORMATION (AWS data - suppressed)                      Code Table   0          0    32

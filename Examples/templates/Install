@@ -1,0 +1,38 @@
+#!/bin/sh
+###########################################################################
+#
+# Script to install Max 
+#
+# This will redefine directories properly
+#
+###########################################################################
+
+export SWDEST="`pwd`"
+#
+echo "BUFR API will be setup in : $SWDEST"
+#
+export SRC="$SWDEST/.originals/scribe.tem"
+export TARGET="$SWDEST/scribe.template"
+sed "s+<dest>+$SWDEST+g" < $SRC > $TARGET
+cp $SWDEST/.originals/scribe.tableb $SWDEST
+#
+export SRC="$SWDEST/.originals/ozone.tem"
+export TARGET="$SWDEST/ozone.template"
+sed "s+<dest>+$SWDEST+g" < $SRC > $TARGET
+cp $SWDEST/.originals/ozone.tableb $SWDEST
+#
+export SRC="$SWDEST/.originals/aws.tem"
+export TARGET="$SWDEST/aws.template"
+sed "s+<dest>+$SWDEST+g" < $SRC > $TARGET
+cp $SWDEST/.originals/aws.tableb $SWDEST
+cp $SWDEST/.originals/aws.tabled $SWDEST
+#
+export SRC="$SWDEST/.originals/nc-awos.tem"
+export TARGET="$SWDEST/nc-awos.template"
+sed "s+<dest>+$SWDEST+g" < $SRC > $TARGET
+cp $SWDEST/.originals/nc-awos.tableb $SWDEST
+cp $SWDEST/.originals/nc-awos.tabled $SWDEST
+#
+export SRC="$SWDEST/.originals/test209.tem"
+export TARGET="$SWDEST/test209.template"
+sed "s+<dest>+$SWDEST+g" < $SRC > $TARGET

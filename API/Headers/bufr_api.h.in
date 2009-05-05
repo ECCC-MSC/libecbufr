@@ -1,0 +1,66 @@
+/*
+ *
+ *  file      :  bufr_api.h
+ *
+ *  author    :  Souvanlasy Viengsavanh 
+ *
+ *  status    :  DEVELOPMENT
+ *
+ *  language  :  C
+ *
+ *  object    :  HEADER FILE FOR BUFR APPLICATION PROGRAMMING FRAMEWORK
+ *
+ */
+
+#ifndef _bufr_api_h_
+#define _bufr_api_h_
+
+#include "bufr_io.h"
+#include "bufr_message.h"
+#include "bufr_dataset.h"
+#include "bufr_tables.h"
+
+/** BUFR_API version number. */
+#define BUFR_API_VERSION "@PACKAGE_VERSION@"
+
+extern   void    bufr_begin_api              ( void );
+extern   void    bufr_end_api                ( void );
+
+extern   int     bufr_load_cmc_tables        ( BUFR_Tables *tables );
+
+extern   int     bufr_subset_find_descriptor ( DataSubset *subset, int descriptor, int startpos );
+
+extern   int     bufr_subset_find_values     ( DataSubset *dts, BufrDescValue *descs, int nb, int startpos );
+
+extern   void    bufr_set_key_location       ( BufrDescValue *cv, int descriptor, float value );
+
+extern   void    bufr_set_key_flt32          ( BufrDescValue *cv, int descriptor, float *values, int nbval );
+
+extern   void    bufr_set_key_int32          ( BufrDescValue *cv, int descriptor, int *values,   int nbval );
+
+extern   void    bufr_set_key_string         ( BufrDescValue *cv, int descriptor, const char **values, int nbval );
+
+extern   int     bufr_write_message          ( FILE *fp, BUFR_Message *bufr );
+
+extern   int     bufr_read_message           ( FILE *fp, BUFR_Message **rtrn );
+
+extern   int     bufr_swrite_message         ( int fd, BUFR_Message *bufr );
+extern   int     bufr_sread_message          ( int fd, BUFR_Message **rtrn );
+
+extern   ssize_t bufr_memwrite_message       ( char *mem, size_t mem_len,
+                                               BUFR_Message *bufr );
+extern   ssize_t bufr_memread_message        ( const char *mem, size_t mem_len,
+                                               BUFR_Message **rtrn );
+
+typedef ssize_t (*bufr_write_callback)       ( void *client_data, size_t len,
+                                               const char *buffer);
+typedef ssize_t (*bufr_read_callback)        ( void *client_data, size_t len,
+                                               char *buffer);
+extern    int    bufr_callback_read_message  ( bufr_read_callback readcb, void *cd,
+                                               BUFR_Message **rtrn );
+extern int       bufr_callback_write_message ( bufr_write_callback writecb,
+                                               void* client_data, BUFR_Message *bufr);
+
+extern   int     bufr_apply_dpbm             ( BufrDPBM *dpbm, BUFR_Sequence *bs, ListNode *svnode );
+
+#endif

@@ -1,0 +1,79 @@
+### Message header            : "this\040triggered\040a\040bug\040related\040to\040recent\040weather\012ISAA41\040CYUT\040161618\012"
+### Message version           : 2
+###          length           : 178
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 54
+###      update sequence      : 0
+###      Data category        : 0
+###      master table version : 11
+###      local table version  : 35
+###      Year                 : 7
+###      Month                : 5
+###      Day                  : 16
+###      Hour                 : 16
+###      Min                  : 18
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 96
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 52
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 44 descriptors
+   001204 VALUE=YUT 
+   006002 VALUE=-86.22
+   005002 VALUE=66.52
+   007001 VALUE=24
+   004001 VALUE=2007 
+   004002 VALUE=5 
+   004003 VALUE=16 
+   004004 VALUE=16 
+   004005 VALUE=18 
+   002196 VALUE=14 
+   001195 VALUE=1 
+   020194 VALUE=7 
+   020215 VALUE=8 
+   020013 VALUE=300.0
+   020206 VALUE=10 
+   020197 VALUE=9 
+   020193 VALUE=2 
+   020013 VALUE=450.0
+   020206 VALUE=2 
+   020197 VALUE=12 
+   020193 VALUE=3 
+   008002 VALUE=5 
+   020196 VALUE=3 
+   020013 VALUE=900.0
+   020206 VALUE=4 
+   020197 VALUE=12 
+   020193 VALUE=1 
+   008002 MSNG
+   020013 VALUE=3600.0
+   020206 VALUE=4 
+   020197 VALUE=0 
+   020193 VALUE=1 
+   020001 VALUE=16090.0
+   020210 VALUE=93 
+   020210 VALUE=113 
+   020210 VALUE=118 
+   008021 VALUE=2 
+   004025 VALUE=-2
+   011011 VALUE=340 
+   011012 VALUE=5.7
+   008021 MSNG
+   004025 MSNG
+   011212 VALUE=1 
+   011041 VALUE=10.3
+

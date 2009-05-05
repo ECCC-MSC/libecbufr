@@ -1,0 +1,12 @@
+#!/bin/sh
+
+rm -f config.cache
+rm -f acconfig.h
+aclocal -I m4
+autoconf
+
+# This is on;y needed if we have AC_CONFIG_HEADER in configure.in
+#
+#autoheader
+
+automake -a
