@@ -9,23 +9,25 @@ for both reading and writing.
 
 History:
 
-It originated from an older BUFR encoding library which was created in
-1994 within a project named GEWEX aka MOLTS (Model Output Local Time
+libECBUFR originated from an older BUFR encoding library which was created
+in 1994 within a project named GEWEX aka MOLTS (Model Output Local Time
 Series) in which a BUFR encoder was needed to convert model forecast time
 series into BUFR files for exchange purposes.  At that time, the library
 was only capable of encoding BUFR.  At the beginning of summer 2007,
-a new project in SCRIBE was started for replacing the Text Matrixes
-by a new and modern BUFR files format based on templates.  Very soon,
-the need of a library capable of reading and writing BUFR files based
-on templates was identified, and that none of the existing library
-(publicly available) can satisfy and capable to do what was needed.
+it became apparent that a number of needs across Environment Canada
+could only be met with a unified approach to BUFR programming.
+Soon afterwards, the need for a library capable of reading and writing BUFR
+files based on templates was identified. A national requirement analysis
+and a survey of available free and commercial software was conducted.
+The conclusion was that while there are excellent BUFR software packages
+available, the needs expressed in the Canadian context would be best met
+with in-house software.
 
-At the end of summer 2007 (end of august), a fast prototype of a library
-was created using the old BUFR encoding library, which was reviewed.
-Also, new decoding functions along with a template supports functions
-was added to the library.  At the end of october (after 2 months), a
-working new BUFR library was born, which allow Applications to easily
-read and writes BUFR files using templates.
+At the end of summer 2007, a prototype of the library was created
+using the old BUFR encoding library. Also, new decoding functions along
+with template support functions were added to the library.  At the end
+of october (after 2 months), a working new BUFR library was born, which
+allows applications to easily read and writes BUFR files using templates.
 
 See the Examples directory for how to encode and decode BUFR using
 this library.
@@ -59,7 +61,7 @@ This project follows certain standards.  Here is a list of standards that
 should be followed when contributing to the libECBUFR project:
 
  - The NEWS file should contain a dated annoucement for every public release.
- - When a bug or an issu is found, always report it
+ - When a bug or an issue is found, always report it
  - Any public release of libECBUFR should have a different version.
  - The major version number (first number) should be changed when libECBUFR 
    acquires such a major change that it loses some backward compatibility. 
@@ -86,3 +88,9 @@ should be followed when contributing to the libECBUFR project:
    a huge amount of differences later on. The inverse is also true, 
    so don't forget to merge back in the trunk the bugs you fix in your branch.
 
+- Contributions from parties outside Environment Canada may be considered for
+  merge into trunk after evaluation.  If the contributed code source is distinct
+  from the bulk of already-existing libECBUFR code, contributors may choose to
+  retain their copyright, as long as they contribute the code under the LGPL,
+  Version 3. If the code is mixed with existing Environment Canada code, we would
+  kindly ask that you consider assigning the copyright to Environment Canada.
