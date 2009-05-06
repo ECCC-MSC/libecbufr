@@ -479,3 +479,7 @@
 2009-03-25 14:40  vanh
   - merged branch 0.8.0 with trunk
 
+2009-05-05 21:10  vanh
+  - Created bazaar branch and import into Launchpad for Initial Public release
+    under LGPL v3.  Revision number now restart at 1
+
