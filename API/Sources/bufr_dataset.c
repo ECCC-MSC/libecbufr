@@ -3112,6 +3112,12 @@ static int bufr_load_header( FILE *fp, BUFR_Dataset *dts )
          if (tok)
             BUFR_SET_ORIG_CENTRE( dts, atoi( tok ) );
          }
+      else if (strncmp( ligne, "ORIG_SUB_CENTER", 15 ) == 0)
+         {
+         tok = strtok( ligne+15, " =\t\n" );
+         if (tok)
+            BUFR_SET_SUB_CENTRE( dts, atoi( tok ) );
+         }
       else if (strncmp( ligne, "UPDATE_SEQUENCE", 15 ) == 0)
          {
          tok = strtok( ligne+15, " =\t\n" );
@@ -3296,6 +3302,8 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
       fprintf( fp, "HEADER_STRING=\"%s\"\n", dts->header_string );
    fprintf( fp, "BUFR_MASTER_TABLE=%d\n", dts->s1.bufr_master_table );
    fprintf( fp, "ORIG_CENTER=%d\n", BUFR_GET_ORIG_CENTRE(dts) );
+   if (dts->tmplte->edition >= 4)
+      fprintf( fp, "ORIG_SUB_CENTER=%d\n", BUFR_GET_SUB_CENTRE(dts) );
    fprintf( fp, "UPDATE_SEQUENCE=%d\n", BUFR_GET_UPD_SEQUENCE(dts) );
    fprintf( fp, "DATA_CATEGORY=%d\n", BUFR_GET_DATA_CATEGORY(dts) );
    fprintf( fp, "INTERN_SUB_CATEGORY=%d\n", BUFR_GET_INTERN_SUB_CAT(dts) );
