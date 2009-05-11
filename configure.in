@@ -10,14 +10,14 @@ m4_define(ecbufr_version_major, 0)
 m4_define(ecbufr_version_minor, 8)
 # An odd micro number indicates in-progress development, (eg. from git/cvs)
 # An even micro number indicates a released version.
-m4_define(ecbufr_version_micro, 0)
+m4_define(ecbufr_version_micro, 1)
 
-AC_INIT(libecbufr, ecbufr_version_major.ecbufr_version_minor.ecbufr_version_micro,"libecbufr-dev")
+AC_INIT(libecbufr, ecbufr_version_major.ecbufr_version_minor.ecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
 
 AC_PREFIX_DEFAULT(/usr)
 AC_CONFIG_SRCDIR(API/Sources)
 #AM_CONFIG_HEADER(config.h)
-#AM_INIT_AUTOMAKE(ECBUFR, 0.8.0)
+#AM_INIT_AUTOMAKE(ECBUFR, 0.8.1)
 AM_INIT_AUTOMAKE(ecbufr_version_major.ecbufr_version_minor)
 
 # use these version macros in Makefile.am

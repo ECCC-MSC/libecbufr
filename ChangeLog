@@ -483,3 +483,10 @@
   - Created bazaar branch and import into Launchpad for Initial Public release
     under LGPL v3.  Revision number now restart at 1
 
+2009-05-06 16:06  Yves Pelletier 
+
+  - Clarification and Paragraph on external contributions.
+
+2009-05-08 16:11  vanh
+
+  - Fix to resolve the orig sub centre problem
