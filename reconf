@@ -2,6 +2,7 @@
 
 rm -f config.cache
 rm -f acconfig.h
+libtoolize --force
 aclocal -I m4
 autoconf
 

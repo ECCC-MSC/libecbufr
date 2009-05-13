@@ -63,7 +63,9 @@ LDFLAGS="$LDFLAGS -L${PWD}/API/Sources"
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
+#
+# AC_PROG_RANLIB is rendered obsolete by AC_PROG_LIBTOOL
+#AC_PROG_RANLIB
 # seems AC_PROG_LIBTOOL not available on IRIX, and should be commented 
 AC_PROG_LIBTOOL
 
