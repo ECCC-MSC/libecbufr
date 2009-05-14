@@ -2,12 +2,18 @@
 
 rm -f config.cache
 rm -f acconfig.h
-libtoolize --force
+#
+# regenerate the file 'aclocal.m4'
 aclocal -I m4
+#
+# regenerate the configure script based on configure.in
 autoconf
+# regenerate (--force : replace) scripts for libtool support to package
+libtoolize --force --automake
 
-# This is on;y needed if we have AC_CONFIG_HEADER in configure.in
+# This is only needed if we have AC_CONFIG_HEADER in configure.in
 #
 #autoheader
 
+# create the Makefiles  from  Makefile.am (-a : add missing files)
 automake -a
