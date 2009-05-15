@@ -1038,7 +1038,7 @@ int32_t bufr_descriptor_get_ivalue ( BufrDescriptor *cb )
  * @bug should probably return "const char*"
  * @author Vanh Souvanlasy
  */
-const char *bufr_descriptor_get_svalue ( BufrDescriptor *cb, int *len )
+char *bufr_descriptor_get_svalue ( BufrDescriptor *cb, int *len )
    {
    if (cb->value == NULL) 
       {

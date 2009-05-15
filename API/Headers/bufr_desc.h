@@ -83,7 +83,7 @@ extern int             bufr_descriptor_set_bitsvalue  ( BufrDescriptor *bdsc,  u
 extern float           bufr_descriptor_get_fvalue     ( BufrDescriptor *bdsc );
 extern double          bufr_descriptor_get_dvalue     ( BufrDescriptor *bdsc );
 extern int             bufr_descriptor_get_ivalue     ( BufrDescriptor *bdsc );
-extern const char     *bufr_descriptor_get_svalue     ( BufrDescriptor *bdsc, int *len );
+extern char           *bufr_descriptor_get_svalue     ( BufrDescriptor *bdsc, int *len );
 extern void            bufr_set_value_af              ( BufrValue *bv, const BufrDescriptor *bc );
 
 extern float           bufr_descriptor_get_location   ( BufrDescriptor *bdsc, int desc );
