@@ -1,19 +1,19 @@
 #!/bin/sh
-
-rm -f config.cache
-rm -f acconfig.h
 #
-# regenerate the file 'aclocal.m4'
-aclocal -I m4
+# first, make sure scripts for libtool support exist
+echo "*** Running libtoolize"
+if [ ! -f aclocal.m4 ]
+then
+   echo "*** This warning may appear the first time only: 'You should add the contents of...'"
+fi
+libtoolize --force
 #
-# regenerate the configure script based on configure.in
-autoconf
-# regenerate (--force : replace) scripts for libtool support to package
-libtoolize --force --automake
-
-# This is only needed if we have AC_CONFIG_HEADER in configure.in
+# let autoreconf do everything for us: it will call
+#         autoconf, autoheader,  aclocal, automake, libtoolize ...
 #
-#autoheader
-
-# create the Makefiles  from  Makefile.am (-a : add missing files)
-automake -a
+echo "*** Running autoreconf"
+autoreconf --force
+if [ $? == 0 ]
+then
+   echo "*** Done. You may now run configure"
+fi
