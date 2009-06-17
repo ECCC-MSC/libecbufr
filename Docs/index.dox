@@ -153,6 +153,18 @@ Compressing BUFR Messages
 @todo Main page should be translated
 @endfrancais
 
+@defgroup api High-level API functions
+@defgroup encode Functions used during encoding
+@defgroup decode Functions used during decoding
+@defgroup debug Debug/diagnostics
+@defgroup error Error handling
 @defgroup tables Table management functions
+@defgroup dataset Dealing with datasets, data subsets
+@defgroup template Managing templates and sequences
+@defgroup messages Functions for dealing with entire messages
+@defgroup io Input/output
+@defgroup descriptor Functions for getting/setting values
+@defgroup data_structures Linked list/array interfaces
+@defgroup internal Don't touch, don't ask
 */
 

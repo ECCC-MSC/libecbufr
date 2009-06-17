@@ -311,7 +311,7 @@ static void bufr_merge_TablesSet( BufrTablesSet *tbls1, BufrTablesSet *tbls2 )
  * @francais
  * @todo translate to French
  * @endfrancais
- * @ingroup tables
+ * @ingroup io tables
  */
 int bufr_load_m_tableB( BUFR_Tables *tbls, const char *filename )
    {
