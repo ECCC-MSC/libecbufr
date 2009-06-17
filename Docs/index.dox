@@ -108,25 +108,9 @@ BUFR_EDITION=4
    010009                  #Geopotential height (non-coordinate)
 @endverbatim
 
-@section structure Data Structure in BUFR
-This describes the data structure of BUFR within the library. It
-corresponds somewhat to the library code architecture.
-@verbatim
-0100090000037800000002001c00000000000400000003010800050000000b0
-200000000050000000c02d80dd60d040000002e0118001c000000fb02100007
-0000000000bc02000000000102022253797374656d000dd60d000092be00005
-853110026e27706881425000c020000040000002d0100000400000002010100
-1c000000fb029cff0000000000009001000000000440001254696d6573204e6
-57720526f6d616e0000000000000000000000000000000000040000002d0101
-00050000000902000000020d000000320a5a0000000100040000000000d80dd
-80d20002d00040000002d010000030000000000
-@endverbatim
-
 @section installation Installation
-This section will be deferred until tests with CMDS and ADS, It is noted
-that ?.deb? packages have already been created, but that we wish to
-resolve dependencies from other applications. The library name must also
-be finalized.
+
+See https://answers.launchpad.net/libecbufr/+faq/538
 
 @section environment Environment
 
