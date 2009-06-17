@@ -46,12 +46,13 @@ functionality; General-purpose, Decoding, Encoding, and Debugging.
 We have the defined the following terms that are frequently used in the
 documentation that we should not assume to be self-evident:
 
-- Dataset ? The data payload of the BUFR message contained in section 4.
 - BUFR Message ? A BUFR format message between ?BUFR? and ?7777? in its
 un-decoded form. This may be either as files or in sockets or pipes.
-- Data Subset ? This is a list of BUFR code that contains value which is a
-copy of the template containing needed values.  The relationships are
-shown in the diagram below:
+- Dataset ? The data payload of the BUFR message contained in section 4.
+- Template ? A format of BUFR data elements meant to describe a common
+sequence of events i.e. a synoptic observation or a vertical profile.
+- Data Subset ? Instance of data specified by the Section 3 template. A Dataset may contain
+multiple data subsets.
 - Code Descriptor ? (F,X,Y) set which is a number which identifies a
 single element.
 - Code List ? List of code descriptors.
@@ -63,8 +64,6 @@ data ? land, etc.).
 - Table D ? Contains sequences of lower-level descriptors from B or from
 - Tables C and D. In fact, a template can be defined as a Table D
 descriptors.
-- Template ? A format of BUFR data elements meant to describe a common
-sequence of events i.e. a synoptic observation or a vertical profile.
 - Definition File ? template files constructed from Table B manually via a
 text editor using a standard format (example below from NC-AWOS):
 
@@ -183,6 +182,8 @@ Receiving Local Table information in a message and Decoding
 @example compress.c
 Compressing BUFR Messages
 @endenglish
+
+@todo Should point to official WMO documentation.
 
 @francais
 @todo Main page should be translated
