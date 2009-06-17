@@ -46,7 +46,7 @@ functionality; General-purpose, Decoding, Encoding, and Debugging.
 We have the defined the following terms that are frequently used in the
 documentation that we should not assume to be self-evident:
 
-- Dataset ? The appearance of a BUFR message once it has been decoded.
+- Dataset ? The data payload of the BUFR message contained in section 4.
 - BUFR Message ? A BUFR format message between ?BUFR? and ?7777? in its
 un-decoded form. This may be either as files or in sockets or pipes.
 - Data Subset ? This is a list of BUFR code that contains value which is a
