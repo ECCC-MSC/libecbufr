@@ -134,14 +134,15 @@ be finalized.
 core library
 
 List of Environment Variables needed with sample values
-AFSISIO - CMOI operational implementation environment variable for
-looking up where to install binaries and data files at CMC. If this is
-absent (as in outside of CMC), we will look for the environment variable
-?BUFR_TABLES?.
-BUFR_TABLES ? This is used to locate the BUFR tables if ?AFSISIO? is not
-coded. This is typical outside of CMC. Thus your CMC BUFR tables should
-be placed in a directory pointed to by this variable. This only apples
-to CMC-format BUFR tables.
+
+<dl>
+<dt> BUFR_TABLES 
+<dd> This is used to locate the BUFR tables.
+Thus your BUFR tables should be placed in a directory pointed to by this variable. This only apples
+to CMC-format BUFR tables. If installing from packages, BUFR tables will be found in ...
+</dl>
+
+@todo where are the CMC tables found by default and where is the CMC table format documented?
 
 @example encode_single_template.c
 Encode a single message to a dataset using a Template
