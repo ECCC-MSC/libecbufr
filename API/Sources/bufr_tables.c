@@ -94,6 +94,7 @@ static void test_print_tableD( char *tabled );
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 BUFR_Tables *bufr_create_tables(void)
    {
@@ -129,6 +130,7 @@ BUFR_Tables *bufr_create_tables(void)
  * @todo translate to French
  * @param r a structure a detruire
  * @endfrancais
+ * @ingroup tables
  */
 void  bufr_free_tables( BUFR_Tables *tbls )
    {
@@ -222,6 +224,7 @@ void bufr_set_tables_category( BUFR_Tables *tbls, int cat, const char *desc )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 void bufr_merge_tables( BUFR_Tables *tbls1, BUFR_Tables *tbls2 )
    {
@@ -308,6 +311,7 @@ static void bufr_merge_TablesSet( BufrTablesSet *tbls1, BufrTablesSet *tbls2 )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 int bufr_load_m_tableB( BUFR_Tables *tbls, const char *filename )
    {
@@ -328,6 +332,7 @@ int bufr_load_m_tableB( BUFR_Tables *tbls, const char *filename )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 int bufr_load_l_tableB( BUFR_Tables *tbls, const char *filename )
    {
@@ -396,6 +401,7 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 int bufr_load_m_tableD( BUFR_Tables *tbls, const char *filename )
    {
@@ -416,6 +422,7 @@ int bufr_load_m_tableD( BUFR_Tables *tbls, const char *filename )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 int bufr_load_l_tableD( BUFR_Tables *tbls, const char *filename )
    {
@@ -731,6 +738,7 @@ EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int code)
  * @todo translate to French
  * @endfrancais
  * @author Christophe Beauregard
+ * @ingroup tables
  */
 EntryTableD *bufr_match_tableD_sequence  ( BUFR_Tables * tbls,
                                            int ndesc, int desc[] )
@@ -1260,6 +1268,7 @@ static int compare_tabled_seq(const void *p1, const void *p2)
  * @todo translate to French
  * @endfrancais
  * @author Christophe Beauregard
+ * @ingroup tables
  */
 EntryTableD   *bufr_tabled_match_sequence  ( EntryTableDArray tabled,
                                              int ndesc, int desc[] )

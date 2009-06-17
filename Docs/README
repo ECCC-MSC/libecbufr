@@ -105,3 +105,32 @@ link back to the appropriate pages.
 
 Missing, but planned examples are also listed in the Docs/index.dox
 file.
+
+Modules/Grouping
+================
+
+LibECBUFR uses explicit doxygen grouping. Groups are defined using
+a @defgroup tag in Docs/index.dox, and individual functions assigned
+to those groups through the @ingroup tag. For example:
+
+	/**
+	* @english
+	*    file_tables = bufr_create_tables()
+	*    (void)
+	* Create an instance of the BUFR table objects as a placeholder for the
+	* master and local tables. This does not load the tables, it only loads
+	* the object; there is separate code to load the table. This can handle
+	* the master and local tables, both Table B and Table D.
+	* @warning The storage needs to be freed by bufr_free_tableswhen it is no
+	* longer needed, but other dependent objects must be de-referenced first,
+	* thus that call needs to be the last to be made.
+	* @return BUFR_Tables
+	* @endenglish
+	* @francais
+	* @brief constructeur de la structure BUFR_Tables
+	* @todo translate to French
+	* @endfrancais
+	* @author Vanh Souvanlasy
+	* @ingroup tables
+	*/
+

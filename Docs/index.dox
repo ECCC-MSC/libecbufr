@@ -152,5 +152,7 @@ Compressing BUFR Messages
 @francais
 @todo Main page should be translated
 @endfrancais
+
+@defgroup tables Table management functions
 */
 
