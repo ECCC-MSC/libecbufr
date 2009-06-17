@@ -32,7 +32,7 @@ This file is part of libECBUFR.
  *
  */
 
-/* #define _GNU_SOURCE */
+/*
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -69,7 +69,8 @@ This file is part of libECBUFR.
  *
  *  object    :  THIS MODULE ADDS A NEW ELEMENT TO THE DYNAMIC ARRAY
  *
- */
+
+*/
 
  int
  arr_add( ArrayPtr obj, const void *elem )
@@ -116,7 +117,8 @@ This file is part of libECBUFR.
  *  object    :  THIS MODULE ALLOCATES OR REALLOCATES THE MEMORY
  *               OF THE DYNAMIC ARRAY
  *
- */
+
+*/
 
  static void
  arr_allocate( Array *arr, int len )
@@ -156,7 +158,8 @@ This file is part of libECBUFR.
  *  object    :  THIS MODULE RETURNS THE NUMBER OF ELEMENTS INTO
  *               THE DYNAMIC ARRAY
  *
- */
+
+*/
 
  int
  arr_count( ArrayPtr obj )
@@ -184,7 +187,8 @@ This file is part of libECBUFR.
  *
  *  object    :  THIS MODULE CREATES A DYNAMIC ARRAY.
  *
- */
+
+*/
 
  ArrayPtr
  arr_create(int len, int size, int grow)
@@ -240,7 +244,8 @@ This file is part of libECBUFR.
  *
  *  object    :  THIS MODULE DELETES THE LAST N ELEMENTS OF A DYNAMIC ARRAY
  *
- */
+
+*/
 
  int
  arr_del( ArrayPtr obj, int nele )
@@ -275,7 +280,8 @@ This file is part of libECBUFR.
  *
  *  object    :  THIS MODULE FREES A DYNAMIC ARRAY.
  *
- */
+
+*/
 
  void
  arr_free( ArrayPtr *obj )
@@ -315,7 +321,8 @@ This file is part of libECBUFR.
  *  object    :  THIS MODULE GETS INTO A DYNAMIC ARRAY THE ADDRESS
  *               OF THE ELEMENT AT POSITION pos
  *
- */
+
+*/
 
  ArrayItemPtr
  arr_get( ArrayPtr obj, int pos )
@@ -350,7 +357,8 @@ This file is part of libECBUFR.
  *  object    :  THIS MODULE INCREMENT THE COUNT AND SIZE OF AN ARRAY
  *               BY nele UNIT
  *
- */
+
+*/
 
  int
  arr_inc( ArrayPtr obj, int nele )
@@ -392,7 +400,8 @@ This file is part of libECBUFR.
  *  object    :  THIS MODULE REDUCE A DYNAMIC ARRAY TO THE EXACT
  *               NUMBER OF ELEMENTS IT CONTAINS
  *
- */
+
+*/
 
  extern void
  arr_reduce( ArrayPtr obj )
@@ -422,7 +431,8 @@ This file is part of libECBUFR.
  *
  *  object    :  
  *
- */
+
+*/
 
  ArrayPtr
  arr_share( ArrayPtr obj )
@@ -465,7 +475,8 @@ This file is part of libECBUFR.
  *               COMPAR RETURNS -1, 0, 1 DEPENDING IF ITS FIRST ARGUMENT
  *               IS SMALLER, EQUAL TO OR BIGGER THAN ITS SECOND.
  *
- */
+
+*/
 
  ArrayItemPtr
  arr_search( ArrayPtr obj, const void *vaddr, int (*compar)( const void *, const void * ) )
@@ -497,7 +508,8 @@ This file is part of libECBUFR.
  *
  *  object    :  THIS MODULE SET A NEW ELEMENT TO THE DYNAMIC ARRAY
  *
- */
+
+*/
 
  int
  arr_set( ArrayPtr obj, int pos, const void *elem )
@@ -538,7 +550,8 @@ This file is part of libECBUFR.
  *  object    :  THIS MODULE RETURNS THE NUMBER OF ELEMENTS INTO
  *               THE DYNAMIC ARRAY
  *
- */
+
+*/
 
  int
  arr_size( ArrayPtr obj )
@@ -567,7 +580,8 @@ This file is part of libECBUFR.
  *               COMPAR RETURNS -1, 0, 1 DEPENDING IF ITS FIRST ARGUMENT
  *               IS SMALLER, EQUAL TO OR BIGGER THAN ITS SECOND.
  *
- */
+
+*/
 
  void
  arr_sort( ArrayPtr obj, int (*compar)( const void *, const void * ) )
@@ -598,7 +612,8 @@ This file is part of libECBUFR.
  *  parray : array of string
  **
  *---------------------------------------------------------------------------
- */
+
+*/
 void arr_free_string(ArrayPtr *parray)
 {
     char **ps;
@@ -712,7 +727,8 @@ int arr_intDescCmp
  *
  *  object    :  THE FOLLOWING MODULES ARE USED FOR TESTING PURPOSES ONLY
  *
- */
+
+*/
 
  typedef struct { int pos;
                   float  v;
@@ -909,5 +925,6 @@ int arr_intDescCmp
  * ~afsmlib/lib/afsmlib.a
  * 
  * ------------- MAN LAST  -----------
- */
+
+*/
 #endif /* TEST */

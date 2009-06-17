@@ -114,8 +114,17 @@ void  bufr_free_message( BUFR_Message *r )
    free( r );
    }
 
-/*
- * nom: bufr_print_message
+/**
+ * bufr_print_message
+ * @english
+ * print message header infos
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_print_message
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -123,6 +132,7 @@ void  bufr_free_message( BUFR_Message *r )
  *
  * parametres: 
  *      r : la structure a detruire
+
  */
 
 
@@ -262,8 +272,17 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
    print_proc( "###\n" );
    }
 
-/*
- * nom: bufr_sect2_set_data
+/**
+ * bufr_sect2_set_data
+ * @english
+ * mettre des donnees dans la section 2
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_sect2_set_data
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -271,6 +290,7 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
  *
  * parametres: 
  *      r : la structure a detruire
+
  */
 
 /**
@@ -301,7 +321,8 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
 
 /*
  * padding to even octets if necessary when edition is 3
- */
+
+*/
    len2 = (r->edition <= 3)&&(len % 2) ? len + 1 : len;
    r->s2.data = (char *)malloc( len2 * sizeof(char) );
    memcpy( r->s2.data, data, len );
@@ -319,8 +340,17 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
    r->s1.flag  |= 1;  /* has optional section */
    }
 
-/*
- * nom: bufr_init_header
+/**
+ * bufr_init_header
+ * @english
+ * initialiser infos de BUFR_Message
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_init_header
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -328,6 +358,7 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
  *
  * parametres: 
  *      r : la structure a initialiser
+
  */
 void bufr_init_header(BUFR_Message *bufr, int edition)
    {
@@ -376,8 +407,17 @@ void bufr_init_header(BUFR_Message *bufr, int edition)
    bufr->s4.filled               = 0;
    }
 
-/*
- * nom: bufr_init_sect1
+/**
+ * bufr_init_sect1
+ * @english
+ * allouer l'espace memoire pour la section 3
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_init_sect1
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -385,6 +425,7 @@ void bufr_init_header(BUFR_Message *bufr, int edition)
  *
  * parametres: 
  *      bufr : la structure de donnees BUFR
+
  */
 void bufr_init_sect1( BufrSection1 *s1 )
    {
@@ -440,8 +481,17 @@ void bufr_copy_sect1( BufrSection1 *dest, BufrSection1 *src )
    dest->second               = src->second;
    }
 
-/*
- * nom: bufr_alloc_sect3
+/**
+ * bufr_alloc_sect3
+ * @english
+ * allouer l'espace memoire pour la section 3
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_alloc_sect3
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -449,6 +499,7 @@ void bufr_copy_sect1( BufrSection1 *dest, BufrSection1 *src )
  *
  * parametres: 
  *      bufr : la structure de donnees BUFR
+
  */
 static void bufr_alloc_sect3(BUFR_Message *bufr)
    {
@@ -531,12 +582,14 @@ void bufr_end_message(BUFR_Message *bufr)
       }
 /*
  * actual length of section 4
- */
+
+*/
    rem = (bufr->s4.bitno > 0) ? 1 : 0;
    bufr->s4.len = bufr->s4.filled + bufr->s4.header_len + rem;
 /*
  * pad with 0 to have an even octets count
- */
+
+*/
    if ((bufr->edition <= 3)&&(bufr->s4.len % 2))
       {
       int bpos, nbits;
@@ -557,8 +610,17 @@ void bufr_end_message(BUFR_Message *bufr)
                    bufr->s5.len ;
    }
 
-/*
- * nom: bufr_encode_sect3
+/**
+ * bufr_encode_sect3
+ * @english
+ * encoder la section 3
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_encode_sect3
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -566,6 +628,7 @@ void bufr_end_message(BUFR_Message *bufr)
  *
  * parametres: 
  *      bufr : la structure de donnees BUFR
+
  */
 int bufr_encode_sect3(BUFR_Message *bufr)
    {
@@ -595,8 +658,17 @@ int bufr_encode_sect3(BUFR_Message *bufr)
    return 0;
    }
 
-/*
- * nom: bufr_set_gmtime
+/**
+ * bufr_set_gmtime
+ * @english
+ * initialiser la partie temps a l'heure GMT actuel
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_set_gmtime
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -604,6 +676,7 @@ int bufr_encode_sect3(BUFR_Message *bufr)
  *
  * parametres: 
  *      s1  : pointeur a la section 1
+
  */
 void bufr_set_gmtime(BufrSection1 *s1)
    {
@@ -614,8 +687,17 @@ void bufr_set_gmtime(BufrSection1 *s1)
    bufr_set_time_sect1( s1, temps );
    }
 
-/*
- * nom: bufr_set_time_sect1
+/**
+ * bufr_set_time_sect1
+ * @english
+ * initialiser le temps de la section 1
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_message.c
+  * nom: bufr_set_time_sect1
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -624,6 +706,7 @@ void bufr_set_gmtime(BufrSection1 *s1)
  * parametres: 
  *      s1  : pointeur a la section 1
  *      gmt : le temps gmt
+
  */
 void bufr_set_time_sect1( BufrSection1 *s1, time_t temps )
    {

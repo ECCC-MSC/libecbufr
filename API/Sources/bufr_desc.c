@@ -40,8 +40,17 @@ This file is part of libECBUFR.
 static int bufr_check_class31_set( BufrDescriptor *cb );
 static void print_set_value_error( BufrDescriptor *cb, char *valstr );
 
-/*
- * name: bufr_print_descriptor
+/**
+ * bufr_print_descriptor
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_print_descriptor
  *
  * author:  Vanh Souvanlasy
  *
@@ -49,6 +58,7 @@ static void print_set_value_error( BufrDescriptor *cb, char *valstr );
  *
  * parametres:
  *
+
  */
 /**
  * @warning assumes outstr is large enough to represent the code
@@ -105,8 +115,17 @@ void bufr_print_descriptor( char *outstr, BufrDescriptor *cb )
       }
    }
 
-/*
- * name: bufr_create_descriptor
+/**
+ * bufr_create_descriptor
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_create_descriptor
  *
  * author:  Vanh Souvanlasy
  *
@@ -114,6 +133,7 @@ void bufr_print_descriptor( char *outstr, BufrDescriptor *cb )
  *
  * parametres:
  *
+
  */
 BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
    {
@@ -179,8 +199,17 @@ BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
    return code;
    }
 
-/*
- * name: bufr_free_descriptor
+/**
+ * bufr_free_descriptor
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_free_descriptor
  *
  * author:  Vanh Souvanlasy
  *
@@ -188,6 +217,7 @@ BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
  *
  * parametres:
  *
+
  */
 void bufr_free_descriptor( BufrDescriptor *code )
    {
@@ -214,8 +244,17 @@ void bufr_free_descriptor( BufrDescriptor *code )
    free( code );
    }
 
-/*
- * name: bufr_copy_descriptor
+/**
+ * bufr_copy_descriptor
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_copy_descriptor
  *
  * author:  Vanh Souvanlasy
  *
@@ -223,6 +262,7 @@ void bufr_free_descriptor( BufrDescriptor *code )
  *
  * parametres:
  *
+
  */
 void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
    {
@@ -261,8 +301,17 @@ void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
       }
    }
 
-/*
- * name: bufr_mkval_for_descriptor
+/**
+ * bufr_mkval_for_descriptor
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_mkval_for_descriptor
  *
  * author:  Vanh Souvanlasy
  *
@@ -270,6 +319,7 @@ void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
  *
  * parametres:
  *
+
  */
 BufrValue *bufr_mkval_for_descriptor ( BufrDescriptor *bc )
    {
@@ -343,14 +393,24 @@ void bufr_set_value_af( BufrValue *bv, const BufrDescriptor *bc )
       }
    }
 
-/*
- * name: bufr_encoding_to_valtype
+/**
+ * bufr_encoding_to_valtype
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_encoding_to_valtype
  *
  * author:  Vanh Souvanlasy
  *
  * function: 
  *
  * parametres:
+
  */
 ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
    {
@@ -364,8 +424,17 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
          else
             return VALTYPE_FLT32;
       case TYPE_NUMERIC :
-/* this is needed so that -1 is missing for int */
-         if ((be->scale == 0)&&(be->reference == 0)) 
+/**
+ * bufr_datatype_to_valtype
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+          if ((be->scale == 0)&&(be->reference == 0)) 
             {
             if (be->nbits <= 8)
                return VALTYPE_INT32; 
@@ -403,6 +472,7 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
  * function: 
  *
  * parametres:
+
  */
 ValueType bufr_datatype_to_valtype( BufrDataType type, int nbits, int scale )
    {
@@ -762,21 +832,32 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
    return rtrn;
    }
 
-/*
- * name: bufr_check_class31_set
+/**
+ * bufr_check_class31_set
+ * @english
+ * see if class31 value is already set and expanded
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_check_class31_set
  *
  * author:  Vanh Souvanlasy
  *
  * function: see if class31 value is already set and expanded
  *
  * parametres:
+
  */
 static int bufr_check_class31_set( BufrDescriptor *cb )
    {
 /*
  * delayed replication count cannot be changed once it is set and expanded
  * the FLAG_CLASS31 is set only when this code is preceded by a 1YY000
- */
+
+*/
    switch (cb->descriptor)
       {
       case 31000 :
@@ -793,14 +874,24 @@ static int bufr_check_class31_set( BufrDescriptor *cb )
    return 0;
    }
 
-/*
- * name: bufr_descriptor_set_bitsvalue
+/**
+ * bufr_descriptor_set_bitsvalue
+ * @english
+ * turn bits into value according to code type
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_descriptor_set_bitsvalue
  *
  * author:  Vanh Souvanlasy
  *
  * function: turn bits into value according to code type
  *
  * parametres:
+
  */
 /**
  * @bug where's bufr_code_get_bitsvalue?
@@ -828,7 +919,8 @@ int bufr_descriptor_set_bitsvalue ( BufrDescriptor *cb , uint64_t ival )
       {
 /*
  * special case for descriptor 31000 where 1 is 1 not -1
- */
+
+*/
       if ((cb->descriptor == 31000)&&(cb->encoding.nbits == 1))
          iv = 1;
       else
@@ -926,14 +1018,24 @@ int bufr_descriptor_set_svalue ( BufrDescriptor *cb , const char *sval )
    return rtrn;
    }
 
-/*
- * name: print_set_value_error
+/**
+ * print_set_value_error
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: print_set_value_error
  *
  * author:  Vanh Souvanlasy
  *
  * function: 
  *
  * parametres:
+
  */
 static void print_set_value_error( BufrDescriptor *cb, char *valstr )
    {
@@ -1060,14 +1162,24 @@ char *bufr_descriptor_get_svalue ( BufrDescriptor *cb, int *len )
    return (bufr_value_get_string( cb->value, len ));
    }
 
-/*
- * name: bufr_descriptor_get_location
+/**
+ * bufr_descriptor_get_location
+ * @english
+ * return the incremented time associated with this instance of BufrDescriptor
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_descriptor_get_location
  *
  * author:  Vanh Souvanlasy
  *
  * function: return the incremented time associated with this instance of BufrDescriptor
  *
  * parametres:
+
  */
 float bufr_descriptor_get_location ( BufrDescriptor *cb, int desc )
    {
@@ -1076,8 +1188,17 @@ float bufr_descriptor_get_location ( BufrDescriptor *cb, int desc )
    return ( bufr_fetch_rtmd_location( desc, cb->meta ) );
    }
 
-/*
- * name: bufr_print_dscptr_value
+/**
+ * bufr_print_dscptr_value
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_desc.c
+  * name: bufr_print_dscptr_value
  *
  * author:  Vanh Souvanlasy
  *
@@ -1085,6 +1206,7 @@ float bufr_descriptor_get_location ( BufrDescriptor *cb, int desc )
  *
  * parametres:
  *
+
  */
 /**
  * @warning assumes outstr is large enough to represent the code

@@ -31,8 +31,17 @@ static int  bufr_match_increment ( int desc );
 static void free_af_list         ( LinkedList *list );
 
 
-/*
- * name: bufr_create_BufrDPBM
+/**
+ * bufr_create_BufrDPBM
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_create_BufrDPBM
  *
  * author:  Vanh Souvanlasy
  *
@@ -41,6 +50,7 @@ static void free_af_list         ( LinkedList *list );
  * parametres:  
  *
  *    nb : number of element code
+
  */
 BufrDPBM  *bufr_create_BufrDPBM    ( int nb )
    {
@@ -64,8 +74,17 @@ BufrDPBM  *bufr_create_BufrDPBM    ( int nb )
    return dpbm;
    }
 
-/*
- * name: bufr_free_BufrDPBM
+/**
+ * bufr_free_BufrDPBM
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_free_BufrDPBM
  *
  * author:  Vanh Souvanlasy
  *
@@ -73,6 +92,7 @@ BufrDPBM  *bufr_create_BufrDPBM    ( int nb )
  *
  * parametres:
  *
+
  */
 void  bufr_free_BufrDPBM ( BufrDPBM *dpbm )
    {
@@ -98,8 +118,17 @@ void  bufr_free_BufrDPBM ( BufrDPBM *dpbm )
    free( dpbm );
    }
 
-/*
- * name: bufr_init_dpbm
+/**
+ * bufr_init_dpbm
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_init_dpbm
  *
  * author:  Vanh Souvanlasy
  *
@@ -107,6 +136,7 @@ void  bufr_free_BufrDPBM ( BufrDPBM *dpbm )
  *
  * parametres:
  *
+
  */
 void bufr_init_dpbm( BufrDPBM *dpbm, ListNode *node )
    {
@@ -118,7 +148,8 @@ void bufr_init_dpbm( BufrDPBM *dpbm, ListNode *node )
 
 /*
  * skip till we encounter the first 31031
- */
+
+*/
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
@@ -243,8 +274,17 @@ void bufr_free_BufrDDOp( BufrDDOp *ddo )
    free( ddo );
    }
 
-/*
- * name: free_af_list
+/**
+ * free_af_list
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: free_af_list
  *
  * author:  Vanh Souvanlasy
  *
@@ -252,6 +292,7 @@ void bufr_free_BufrDDOp( BufrDDOp *ddo )
  *
  * parametres:
  *
+
  */
 static void free_af_list (LinkedList *list)
    {
@@ -271,8 +312,17 @@ static void free_af_list (LinkedList *list)
    lst_dellist( list );
    }
 
-/*
- * name: bufr_substitute_svmo
+/**
+ * bufr_substitute_svmo
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_substitute_svmo
  *
  * author:  Vanh Souvanlasy
  *
@@ -280,6 +330,7 @@ static void free_af_list (LinkedList *list)
  *
  * parametres:
  *
+
  */
 int bufr_substitute_svmo
    ( ListNode *node, int desc_8083  )
@@ -287,8 +338,17 @@ int bufr_substitute_svmo
    return 0;
    }
 
-/*
- * name: bufr_resolve_tableC_v2
+/**
+ * bufr_resolve_tableC_v2
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_resolve_tableC_v2
  *
  * author:  Vanh Souvanlasy
  *
@@ -296,6 +356,7 @@ int bufr_substitute_svmo
  *
  * parametres:
  *
+
  */
 int bufr_resolve_tableC_v2
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
@@ -323,9 +384,10 @@ int bufr_resolve_tableC_v2
             }
          else if (y == 0)
             {
-/* 
+/*
  * clearing override of table B 
- */
+
+*/
             ddo->change_ref_val_op = y;
             arr_del ( ddo->override_tableb, arr_count(ddo->override_tableb) );
             }
@@ -378,8 +440,17 @@ int bufr_resolve_tableC_v2
    return x;
    }
 
-/*
- * name: bufr_resolve_tableC_v3
+/**
+ * bufr_resolve_tableC_v3
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_resolve_tableC_v3
  *
  * author:  Vanh Souvanlasy
  *
@@ -387,6 +458,7 @@ int bufr_resolve_tableC_v2
  *
  * parametres:
  *
+
  */
 int bufr_resolve_tableC_v3
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
@@ -430,8 +502,17 @@ int bufr_resolve_tableC_v3
    return x;
    }
 
-/*
- * name: bufr_resolve_tableC_v4
+/**
+ * bufr_resolve_tableC_v4
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_resolve_tableC_v4
  *
  * author:  Vanh Souvanlasy
  *
@@ -439,6 +520,7 @@ int bufr_resolve_tableC_v3
  *
  * parametres:
  *
+
  */
 int bufr_resolve_tableC_v4
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
@@ -485,8 +567,17 @@ int bufr_resolve_tableC_v4
    return x;
    }
 
-/*
- * name: bufr_resolve_tableC_v5
+/**
+ * bufr_resolve_tableC_v5
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_resolve_tableC_v5
  *
  * author:  Vanh Souvanlasy
  *
@@ -494,6 +585,7 @@ int bufr_resolve_tableC_v4
  *
  * parametres:
  *
+
  */
 int bufr_resolve_tableC_v5
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
@@ -528,8 +620,17 @@ int bufr_resolve_tableC_v5
    return x;
    }
 
-/*
- * name: bufr_set_descriptor_afd
+/**
+ * bufr_set_descriptor_afd
+ * @english
+ * set associated field defintions
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_set_descriptor_afd
  *
  * author:  Vanh Souvanlasy
  *
@@ -537,6 +638,7 @@ int bufr_resolve_tableC_v5
  *
  * parametres:
  *
+
  */
 void bufr_set_descriptor_afd( BufrDescriptor *bc, LinkedList *af_list )
    {
@@ -577,14 +679,24 @@ void bufr_set_descriptor_afd( BufrDescriptor *bc, LinkedList *af_list )
       }
    }
 
-/*
- * name: bufr_set_current_location
+/**
+ * bufr_set_current_location
+ * @english
+ * set associated field defintions
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_set_current_location
  *
  * author:  Vanh Souvanlasy
  *
  * function:  set associated field defintions
  *
  * parametres:
+
  */
 void bufr_set_current_location( BufrDDOp *ddo, int code, float value, int npos )
    {
@@ -604,8 +716,17 @@ void bufr_set_current_location( BufrDDOp *ddo, int code, float value, int npos )
          sprintf( buf, "Matching increment %.6d to %.6d incr=%f\n", code, code2, value );
          bufr_print_debug( buf );
          }
-/*      code = code2; */
-      }
+/**
+ * bufr_keep_location
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+       }
 
    count = arr_count( ddo->tlc_arr );
 
@@ -662,6 +783,7 @@ void bufr_set_current_location( BufrDDOp *ddo, int code, float value, int npos )
  * function: 
  *
  * parametres:
+
  */
 void bufr_keep_location   ( BufrDDOp *ddo, int desc,  float value )
    {
@@ -685,14 +807,24 @@ void bufr_keep_location   ( BufrDDOp *ddo, int desc,  float value )
    arr_add( ddo->current_location, (char *)&tlci );
    }
 
-/*
- * name: bufr_clear_location
+/**
+ * bufr_clear_location
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_clear_location
  *
  * author:  Vanh Souvanlasy
  *
  * function: 
  *
  * parametres:
+
  */
 void bufr_clear_location ( BufrDDOp *ddo )
    {
@@ -700,14 +832,24 @@ void bufr_clear_location ( BufrDDOp *ddo )
       arr_del( ddo->current_location, arr_count( ddo->current_location ) );
    }
 
-/*
- * name: bufr_assoc_location
+/**
+ * bufr_assoc_location
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_assoc_location
  *
  * author:  Vanh Souvanlasy
  *
  * function: 
  *
  * parametres:
+
  */
 void bufr_assoc_location  ( BufrDescriptor *bc, BufrDDOp *ddo )
    {
@@ -755,14 +897,24 @@ void bufr_assoc_location  ( BufrDescriptor *bc, BufrDDOp *ddo )
    bc->meta->nb_tlc = count;
    }
 
-/*
- * name: bufr_current_location
+/**
+ * bufr_current_location
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_current_location
  *
  * author:  Vanh Souvanlasy
  *
  * function: 
  *
  * parametres:
+
  */
 LocationValue  *bufr_current_location( BufrDDOp *ddo, BufrRTMD *meta, int *nbtlc )
    {
@@ -798,14 +950,24 @@ LocationValue  *bufr_current_location( BufrDDOp *ddo, BufrRTMD *meta, int *nbtlc
    return tlc;
    }
 
-/*
- * name: bufr_is_location
+/**
+ * bufr_is_location
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_is_location
  *
  * author:  Vanh Souvanlasy
  *
  * function: 
  *
  * parametres:
+
  */
 int bufr_is_location     ( int desc )
    {
@@ -850,14 +1012,24 @@ int bufr_is_location     ( int desc )
    return 0;
    }
 
-/*
- * name: bufr_match_increment
+/**
+ * bufr_match_increment
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_match_increment
  *
  * author:  Vanh Souvanlasy
  *
  * function: 
  *
  * parametres:
+
  */
 static int bufr_match_increment ( int desc )
    {
@@ -895,8 +1067,17 @@ static int bufr_match_increment ( int desc )
    return -1;
    }
 
-/*
- * name: bufr_is_start_dpbm
+/**
+ * bufr_is_start_dpbm
+ * @english
+ * check if descriptor is the starting code using data present bitmap
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_is_start_dpbm
  *
  * author:  Vanh Souvanlasy
  *
@@ -906,6 +1087,7 @@ static int bufr_match_increment ( int desc )
  * parametres:
  *
  *   descriptor  : data data descriptor
+
  */
 int bufr_is_start_dpbm(int descriptor)
    {
@@ -924,8 +1106,17 @@ int bufr_is_start_dpbm(int descriptor)
    return  0;
    }
 
-/*
- * name: bufr_is_marker_op
+/**
+ * bufr_is_marker_op
+ * @english
+ * check if descriptor is the marker operator code of data present bitmap
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_ddo.c
+  * name: bufr_is_marker_op
  *
  * author:  Vanh Souvanlasy
  *
@@ -934,6 +1125,7 @@ int bufr_is_start_dpbm(int descriptor)
  * parametres:
  *
  *   descriptor  : data data descriptor
+
  */
 int bufr_is_marker_dpbm(int descriptor)
    {

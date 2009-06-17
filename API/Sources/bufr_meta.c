@@ -34,8 +34,17 @@ This file is part of libECBUFR.
 #include "bufr_value.h"
 
 
-/*
- * name: bufr_create_rtmd
+/**
+ * bufr_create_rtmd
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_meta.c
+  * name: bufr_create_rtmd
  *
  * author:  Vanh Souvanlasy
  *
@@ -43,6 +52,7 @@ This file is part of libECBUFR.
  *
  * parametres:
  *
+
  */
 BufrRTMD  *bufr_create_rtmd( int count )
    {
@@ -64,8 +74,17 @@ BufrRTMD  *bufr_create_rtmd( int count )
    return bm;
    }
 
-/*
- * name: bufr_duplicate_rtmd
+/**
+ * bufr_duplicate_rtmd
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_meta.c
+  * name: bufr_duplicate_rtmd
  *
  * author:  Vanh Souvanlasy
  *
@@ -73,6 +92,7 @@ BufrRTMD  *bufr_create_rtmd( int count )
  *
  * parametres:
  *
+
  */
 BufrRTMD  *bufr_duplicate_rtmd( BufrRTMD *dup )
    {
@@ -89,8 +109,17 @@ BufrRTMD  *bufr_duplicate_rtmd( BufrRTMD *dup )
    return bm;
    }
 
-/*
- * name: bufr_copy_rtmd
+/**
+ * bufr_copy_rtmd
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_meta.c
+  * name: bufr_copy_rtmd
  *
  * author:  Vanh Souvanlasy
  *
@@ -98,6 +127,7 @@ BufrRTMD  *bufr_duplicate_rtmd( BufrRTMD *dup )
  *
  * parametres:
  *
+
  */
 void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
    {
@@ -124,8 +154,17 @@ void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
       dest->tlc[i] = src->tlc[i];
    }
 
-/*
- * name: bufr_free_rtmd
+/**
+ * bufr_free_rtmd
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_meta.c
+  * name: bufr_free_rtmd
  *
  * author:  Vanh Souvanlasy
  *
@@ -133,6 +172,7 @@ void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
  *
  * parametres:
  *
+
  */
 void bufr_free_rtmd( BufrRTMD *bm )
    {
@@ -152,8 +192,17 @@ void bufr_free_rtmd( BufrRTMD *bm )
    free( bm );
    }
 
-/*
- * name: bufr_print_rtmd_repl
+/**
+ * bufr_print_rtmd_repl
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_meta.c
+  * name: bufr_print_rtmd_repl
  *
  * author:  Vanh Souvanlasy
  *
@@ -161,6 +210,7 @@ void bufr_free_rtmd( BufrRTMD *bm )
  *
  * parametres:
  *
+
  */
 void bufr_print_rtmd_repl( char *outstr, BufrRTMD *bm )
    {
@@ -261,8 +311,17 @@ void bufr_print_rtmd_location( char *outstr, int desc, BufrRTMD *bm )
       }
    }
 
-/*
- * name: bufr_fetch_rtmd_location
+/**
+ * bufr_fetch_rtmd_location
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_meta.c
+  * name: bufr_fetch_rtmd_location
  *
  * author:  Vanh Souvanlasy
  *
@@ -270,6 +329,7 @@ void bufr_print_rtmd_location( char *outstr, int desc, BufrRTMD *bm )
  *
  * parametres:
  *
+
  */
 float bufr_fetch_rtmd_location( int descriptor, BufrRTMD *bm )
    {

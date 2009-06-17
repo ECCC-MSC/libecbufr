@@ -41,8 +41,17 @@ This file is part of libECBUFR.
 static void bufr_copy_DescValue ( BufrDescValue *dest, BufrDescValue *src );
 static void bufr_free_desc_array( char *list );
 
-/*
- * name: bufr_free_desc_array
+/**
+ * bufr_free_desc_array
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_free_desc_array
  *
  * author:  Vanh Souvanlasy
  *
@@ -50,6 +59,7 @@ static void bufr_free_desc_array( char *list );
  *
  * parametres:
  *
+
  */
 static void bufr_free_desc_array( char *list )
    {
@@ -115,8 +125,17 @@ BUFR_Template *bufr_create_template
    return tmplt;
    }
 
-/*
- * name: bufr_template_add_DescValue
+/**
+ * bufr_template_add_DescValue
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_template_add_DescValue
  *
  * author:  Vanh Souvanlasy
  *
@@ -124,6 +143,7 @@ BUFR_Template *bufr_create_template
  *
  * parametres:
  *      
+
  */
 void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, int nb )
    {
@@ -131,7 +151,8 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, i
    BufrDescValue  code;
 /*
  * a finalized template will need to be finalize again if it is changed
- */
+
+*/
    if (tmplt->gabarit != NULL)
       {
       bufr_free_desc_array( tmplt->gabarit );
@@ -144,7 +165,8 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, i
    bufr_init_DescValue( &code );
 /*
  * make a copy of descriptors list
- */
+
+*/
    for (i = 0; i < nb ; i++)
       {
       bufr_copy_DescValue( &code, &(codes[i]) );
@@ -153,8 +175,17 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, i
       }
    }
 
-/*
- * name: bufr_copy_DescValue
+/**
+ * bufr_copy_DescValue
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_copy_DescValue
  *
  * author:  Vanh Souvanlasy
  *
@@ -162,6 +193,7 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, i
  *
  * parametres:
  *      
+
  */
 static void bufr_copy_DescValue
    ( BufrDescValue *dest, BufrDescValue *src )
@@ -213,8 +245,17 @@ void bufr_vfree_DescValue ( BufrDescValue *code )
    code->nbval = 0;
    }
 
-/*
- * name: bufr_finalize_template
+/**
+ * bufr_finalize_template
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_finalize_template
  *
  * author:  Vanh Souvanlasy
  *
@@ -222,6 +263,7 @@ void bufr_vfree_DescValue ( BufrDescValue *code )
  *
  * parametres:
  *      
+
  */
 int bufr_finalize_template( BUFR_Template *tmplt )
    {
@@ -253,7 +295,8 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    
 /*
  * invalid templates are not allowed
- */
+
+*/
    flags = 0;
    if (bufr_check_sequence( gabarit, tmplt->edition, &flags, tmplt->tables, 0 ) <= 0 ) 
       {
@@ -279,8 +322,17 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    }
 
 
-/*
- * name: bufr_free_template
+/**
+ * bufr_free_template
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_free_template
  *
  * author:  Vanh Souvanlasy
  *
@@ -288,6 +340,7 @@ int bufr_finalize_template( BUFR_Template *tmplt )
  *
  * parametres:
  *      
+
  */
 void bufr_free_template ( BUFR_Template *tmplt )
    {
@@ -328,8 +381,17 @@ void bufr_free_template ( BUFR_Template *tmplt )
    free( tmplt );
    }
 
-/*
- * name: bufr_copy_template
+/**
+ * bufr_copy_template
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_copy_template
  *
  * author:  Vanh Souvanlasy
  *
@@ -337,6 +399,7 @@ void bufr_free_template ( BUFR_Template *tmplt )
  *
  * parametres:
  *      filename : input filename
+
  */
 BUFR_Template *bufr_copy_template( BUFR_Template *tmplt )
    {
@@ -352,14 +415,24 @@ BUFR_Template *bufr_copy_template( BUFR_Template *tmplt )
    return tmplt2;
    }
 
-/*
- * name: bufr_load_template
+/**
+ * bufr_load_template
+ * @english
+ * load a BUFR template description file
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_load_template
  *
  * author:  Vanh Souvanlasy
  *
  * function: load a BUFR template description file
  *
  * parametres:
+
  */
 /**
  * @english
@@ -699,8 +772,17 @@ int bufr_save_template( const char *filename, BUFR_Template *tmplt )
    return 0;
    }
 
-/*
- * name: bufr_template_count_code
+/**
+ * bufr_template_count_code
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_template_count_code
  *
  * author:  Vanh Souvanlasy
  *
@@ -708,6 +790,7 @@ int bufr_save_template( const char *filename, BUFR_Template *tmplt )
  *
  * parametres:
  *      
+
  */
 int bufr_template_count_code( BUFR_Template *tmplt )
    {
@@ -716,8 +799,17 @@ int bufr_template_count_code( BUFR_Template *tmplt )
    return arr_count( tmplt->gabarit );
    }
 
-/*
- * name: bufr_valloc_DescValue
+/**
+ * bufr_valloc_DescValue
+ * @english
+ * allocate values array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_valloc_DescValue
  *
  * author:  Vanh Souvanlasy
  *
@@ -725,6 +817,7 @@ int bufr_template_count_code( BUFR_Template *tmplt )
  *
  * parametres:
  *      
+
  */
 void bufr_valloc_DescValue     ( BufrDescValue *ct, int nb_values )
    {
@@ -737,8 +830,17 @@ void bufr_valloc_DescValue     ( BufrDescValue *ct, int nb_values )
       ct->values[i] = NULL;
    }
 
-/*
- * name: bufr_init_DescValue
+/**
+ * bufr_init_DescValue
+ * @english
+ * initialize BufrDescValue
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_init_DescValue
  *
  * author:  Vanh Souvanlasy
  *
@@ -746,6 +848,7 @@ void bufr_valloc_DescValue     ( BufrDescValue *ct, int nb_values )
  *
  * parametres:
  *      
+
  */
 void bufr_init_DescValue     ( BufrDescValue *ct )
    {
@@ -753,8 +856,17 @@ void bufr_init_DescValue     ( BufrDescValue *ct )
    ct->nbval  = 0;
    }
 
-/*
- * name: bufr_compare_template
+/**
+ * bufr_compare_template
+ * @english
+ * compare 2 template to see if the are the same
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_template.c
+  * name: bufr_compare_template
  *
  * author:  Vanh Souvanlasy
  *
@@ -764,6 +876,7 @@ void bufr_init_DescValue     ( BufrDescValue *ct )
  *
  *     t1, t2 :   pointers to 2 templates to compare
  *      
+
  */
 int bufr_compare_template( BUFR_Template *t1, BUFR_Template *t2 )
    {

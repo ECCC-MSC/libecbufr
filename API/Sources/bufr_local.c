@@ -126,20 +126,23 @@ int bufr_store_tables
 
    cat_desc = tbls->data_cat_desc;
    category = tbls->data_cat;
-/* 
+/*
  * BUFR tables, complete replacement or update 
- */
+
+*/
    BUFR_SET_MSGDTYPE( bufr, MSGDTYPE_TABLES_REPLACE_UPDATE );  
-/* 
+/*
  * other data, non-compressed 
- */
+
+*/
    BUFR_SET_UNCOMPRESSED( bufr );
    BUFR_SET_OTHER_DATA( bufr );
    bufr_begin_message( bufr );
    bufr_alloc_sect4( bufr, 8192 );
 /*
  * construire la liste descripteurs de la section 3
- */
+
+*/
    desc_list = bufr->s3.desc_list;
    clist = NULL;
    BUFR_SET_NB_DATASET(bufr, 1);
@@ -163,7 +166,8 @@ int bufr_store_tables
       arr_add( desc_list, (char *)&descriptor );
 /*
  * inscrire la categorie des donnees de cette table
- */
+
+*/
       if ( category < 0 ) category = - category;
       category = category % 256;
       sprintf( line1, "%.3d", category );
@@ -192,7 +196,8 @@ int bufr_store_tables
 
 /*
  * la sequence de la table D est optionnel
- */
+
+*/
    if (dcount > 0) 
       {
       descriptor = FXY_TO_DESC(1,1,dcount);
@@ -209,7 +214,8 @@ int bufr_store_tables
 
 /*
  * ecrire les valeurs de la table B
- */
+
+*/
    if (tcount > 0) 
       {
       EntryTableB **ptr = (EntryTableB **)arr_get( clist, 0 );
@@ -252,7 +258,8 @@ int bufr_store_tables
       }
 /*
  * ecrire les valeurs de la table D
- */
+
+*/
    if (dcount > 0) 
       {
       EntryTableD **ptr;
@@ -540,8 +547,17 @@ int bufr_contains_tables( BUFR_Dataset *dts )
    }
 
 
-/*
- * name: fill_lines
+/**
+ * fill_lines
+ * @english
+ * copy a string into a fixed length line and fill with blank 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_local.c
+  * name: fill_lines
  *
  * author:  Vanh Souvanlasy
  *
@@ -552,6 +568,7 @@ int bufr_contains_tables( BUFR_Dataset *dts )
  *      len   : maxlength of line
  *      str   : string to copy
  *      slen  : length of string
+
  */
 static void fill_line(char *line, int len, char *str, int slen)
    {
@@ -566,8 +583,17 @@ static void fill_line(char *line, int len, char *str, int slen)
       }
    }
 
-/*
- * name: split_lines
+/**
+ * split_lines
+ * @english
+ * cut a string into 2 lines and fill remaining with blank
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_local.c
+  * name: split_lines
  *
  * author:  Vanh Souvanlasy
  *
@@ -580,6 +606,7 @@ static void fill_line(char *line, int len, char *str, int slen)
  *      len2  : length of line2
  *      str   : source string to split
  *      len   : length of str
+
  */
 static void split_lines
 (char *line1, int len1, char *line2, int len2, char *str, int len)
@@ -603,8 +630,17 @@ static void split_lines
       }
    }
 
-/*
- * name: bufr_sequence_2TBarray
+/**
+ * bufr_sequence_2TBarray
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_local.c
+  * name: bufr_sequence_2TBarray
  *
  * author:  Vanh Souvanlasy
  *
@@ -612,6 +648,7 @@ static void split_lines
  *
  * parametres:
  *      
+
  */
 static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Tables *tbls )
    {
@@ -645,8 +682,17 @@ static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Table
    return arr;
    }
 
-/*
- * name: bufr_sequence_2intarr
+/**
+ * bufr_sequence_2intarr
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_local.c
+  * name: bufr_sequence_2intarr
  *
  * author:  Vanh Souvanlasy
  *
@@ -654,6 +700,7 @@ static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Table
  *
  * parametres:
  *      
+
  */
 static int *bufr_sequence_2intarr( BUFR_Sequence *bsq, int *len )
    {

@@ -94,8 +94,17 @@ void bufr_end_api(void)
    bufr_print_output( NULL );
    }
 
-/*
- * name: bufr_subset_find_descriptor
+/**
+ * bufr_subset_find_descriptor
+ * @english
+ * find a code in a datasubset using a descriptor
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_api.c
+  * name: bufr_subset_find_descriptor
  *
  * author:  Vanh Souvanlasy
  *
@@ -103,6 +112,7 @@ void bufr_end_api(void)
  *
  * parametres:
  *
+
  */
 int bufr_subset_find_descriptor( DataSubset *dts, int descriptor, int startpos )
    {
@@ -336,8 +346,17 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
       }
    }
 
-/*
- * name: bufr_set_key_location
+/**
+ * bufr_set_key_location
+ * @english
+ * define a key with a value representing time or location to search in datasubset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_api.c
+  * name: bufr_set_key_location
  *
  * author:  Vanh Souvanlasy
  *
@@ -345,6 +364,7 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
  *
  * parametres:
  *
+
  */
 void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
    {

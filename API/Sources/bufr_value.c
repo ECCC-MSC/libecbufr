@@ -22,7 +22,8 @@ This file is part of libECBUFR.
  *
  * function: 
  *
- */
+
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -36,8 +37,17 @@ This file is part of libECBUFR.
 #include "private/bufr_priv_value.h"
 
 
-/*
- * name: bufr_create_value
+/**
+ * bufr_create_value
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_create_value
  *
  * author:  Vanh Souvanlasy
  *
@@ -45,6 +55,7 @@ This file is part of libECBUFR.
  *
  * parametres:
  *
+
  */
 BufrValue  *bufr_create_value( ValueType type )
    {
@@ -129,8 +140,17 @@ BufrValue  *bufr_create_value( ValueType type )
    return bv;
    }
 
-/*
- * name: bufr_duplicate_value
+/**
+ * bufr_duplicate_value
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_duplicate_value
  *
  * author:  Vanh Souvanlasy
  *
@@ -138,6 +158,7 @@ BufrValue  *bufr_create_value( ValueType type )
  *
  * parametres:
  *
+
  */
 BufrValue  *bufr_duplicate_value( const BufrValue *bv )
    {
@@ -159,8 +180,17 @@ BufrValue  *bufr_duplicate_value( const BufrValue *bv )
    return dup;
    }
 
-/*
- * name: bufr_free_value
+/**
+ * bufr_free_value
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_free_value
  *
  * author:  Vanh Souvanlasy
  *
@@ -168,6 +198,7 @@ BufrValue  *bufr_duplicate_value( const BufrValue *bv )
  *
  * parametres:
  *
+
  */
 void bufr_free_value( BufrValue *bv )
    {
@@ -206,8 +237,17 @@ void bufr_free_value( BufrValue *bv )
    free( bv );
    }
 
-/*
- * name: bufr_copy_value
+/**
+ * bufr_copy_value
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_copy_value
  *
  * author:  Vanh Souvanlasy
  *
@@ -215,6 +255,7 @@ void bufr_free_value( BufrValue *bv )
  *
  * parametres:
  *
+
  */
 void bufr_copy_value( BufrValue *dest, const BufrValue *src )
    {
@@ -267,8 +308,17 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
       }
    }
 
-/*
- * name: bufr_value_set_string
+/**
+ * bufr_value_set_string
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_set_string
  *
  * author:  Vanh Souvanlasy
  *
@@ -276,6 +326,7 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
  *
  * parametres:
  *
+
  */
 int bufr_value_set_string
    ( BufrValue *bv, const char *str, int len )
@@ -341,8 +392,17 @@ int bufr_value_set_string
    return rtrn;
    }
 
-/*
- * name: bufr_value_set_int32
+/**
+ * bufr_value_set_int32
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_set_int32
  *
  * author:  Vanh Souvanlasy
  *
@@ -350,6 +410,7 @@ int bufr_value_set_string
  *
  * parametres:
  *
+
  */
 int bufr_value_set_int32( BufrValue *bv, int value )
    {
@@ -397,8 +458,17 @@ int bufr_value_set_int32( BufrValue *bv, int value )
    return 1;
    }
 
-/*
- * name: bufr_value_set_int64
+/**
+ * bufr_value_set_int64
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_set_int64
  *
  * author:  Vanh Souvanlasy
  *
@@ -406,6 +476,7 @@ int bufr_value_set_int32( BufrValue *bv, int value )
  *
  * parametres:
  *
+
  */
 int bufr_value_set_int64( BufrValue *bv, int64_t value )
    {
@@ -451,8 +522,17 @@ int bufr_value_set_int64( BufrValue *bv, int64_t value )
    return rtrn;
    }
 
-/*
- * name: bufr_value_set_float
+/**
+ * bufr_value_set_float
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_set_float
  *
  * author:  Vanh Souvanlasy
  *
@@ -460,6 +540,7 @@ int bufr_value_set_int64( BufrValue *bv, int64_t value )
  *
  * parametres:
  *
+
  */
 int bufr_value_set_float( BufrValue *bv, float value )
    {
@@ -513,8 +594,17 @@ int bufr_value_set_float( BufrValue *bv, float value )
    return rtrn;
    }
 
-/*
- * name: bufr_value_set_double
+/**
+ * bufr_value_set_double
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_set_double
  *
  * author:  Vanh Souvanlasy
  *
@@ -522,6 +612,7 @@ int bufr_value_set_float( BufrValue *bv, float value )
  *
  * parametres:
  *
+
  */
 int bufr_value_set_double( BufrValue *bv, double value )
    {
@@ -575,8 +666,17 @@ int bufr_value_set_double( BufrValue *bv, double value )
    return rtrn;
    }
 
-/*
- * name: bufr_value_get_int32
+/**
+ * bufr_value_get_int32
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_get_int32
  *
  * author:  Vanh Souvanlasy
  *
@@ -584,6 +684,7 @@ int bufr_value_set_double( BufrValue *bv, double value )
  *
  * parametres:
  *
+
  */
 int32_t bufr_value_get_int32( const BufrValue *bv )
    {
@@ -620,8 +721,17 @@ int32_t bufr_value_get_int32( const BufrValue *bv )
    return -1;
    }
 
-/*
- * name: bufr_value_get_int64
+/**
+ * bufr_value_get_int64
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_get_int64
  *
  * author:  Vanh Souvanlasy
  *
@@ -629,6 +739,7 @@ int32_t bufr_value_get_int32( const BufrValue *bv )
  *
  * parametres:
  *
+
  */
 int64_t bufr_value_get_int64( const BufrValue *bv )
    {
@@ -661,8 +772,17 @@ int64_t bufr_value_get_int64( const BufrValue *bv )
    return -1;
    }
 
-/*
- * name: bufr_value_get_float
+/**
+ * bufr_value_get_float
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_get_float
  *
  * author:  Vanh Souvanlasy
  *
@@ -670,6 +790,7 @@ int64_t bufr_value_get_int64( const BufrValue *bv )
  *
  * parametres:
  *
+
  */
 float bufr_value_get_float( const BufrValue *bv )
    {
@@ -707,8 +828,17 @@ float bufr_value_get_float( const BufrValue *bv )
    return bufr_get_max_float();
    }
 
-/*
- * name: bufr_value_get_double
+/**
+ * bufr_value_get_double
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_get_double
  *
  * author:  Vanh Souvanlasy
  *
@@ -716,6 +846,7 @@ float bufr_value_get_float( const BufrValue *bv )
  *
  * parametres:
  *
+
  */
 double bufr_value_get_double( const BufrValue *bv )
    {
@@ -753,8 +884,17 @@ double bufr_value_get_double( const BufrValue *bv )
    return bufr_get_max_double();
    }
 
-/*
- * name: bufr_value_get_string
+/**
+ * bufr_value_get_string
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_value_get_string
  *
  * author:  Vanh Souvanlasy
  *
@@ -762,6 +902,7 @@ double bufr_value_get_double( const BufrValue *bv )
  *
  * parametres:
  *
+
  */
 const char *bufr_value_get_string( const BufrValue *bv, int *len )
    {
@@ -785,8 +926,17 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
    return NULL;
    }
 
-/*
- * nom: bufr_missing_ivalue
+/**
+ * bufr_missing_ivalue
+ * @english
+ * retourne la valeur manquante correspondant au nombre de bits
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * nom: bufr_missing_ivalue
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -794,6 +944,7 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
  *
  * parametres:
  *        nbits : nombre de bits
+
  */
 uint64_t bufr_missing_ivalue( int nbits )
    {
@@ -805,8 +956,17 @@ uint64_t bufr_missing_ivalue( int nbits )
    return v;
    }
 
-/*
- * nom: bufr_cvt_ivalue
+/**
+ * bufr_cvt_ivalue
+ * @english
+ * retourne une valeur correspondant au nombre de bits
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * nom: bufr_cvt_ivalue
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -814,6 +974,7 @@ uint64_t bufr_missing_ivalue( int nbits )
  *
  * parametres:
  *        nbits : nombre de bits
+
  */
 int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
    {
@@ -831,8 +992,17 @@ int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
    return value;
    }
 
-/*
- * nom: bufr_negative_ivalue
+/**
+ * bufr_negative_ivalue
+ * @english
+ * retourne une valeur negative correspondant au nombre de bits
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * nom: bufr_negative_ivalue
  *
  * auteur:  Vanh Souvanlasy
  *
@@ -840,6 +1010,7 @@ int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
  *
  * parametres:
  *        nbits : nombre de bits
+
  */
 uint64_t bufr_negative_ivalue( int64_t value, int nbits )
    {
@@ -1061,14 +1232,24 @@ int bufr_is_missing_float( float f )
    return 0;
    }
 
-/*
- * nom: bufr_is_missing_int
+/**
+ * bufr_is_missing_int
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * nom: bufr_is_missing_int
  *
  * auteur:  Vanh Souvanlasy
  *
  * purpose : 
  *
  * parametres:
+
  */
 int bufr_is_missing_int( int i )
    {
@@ -1077,42 +1258,72 @@ int bufr_is_missing_int( int i )
    return 0;
    }
 
-/*
- * nom: bufr_missing_double
+/**
+ * bufr_missing_double
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * nom: bufr_missing_double
  *
  * auteur:  Vanh Souvanlasy
  *
  * purpose : return value representing MISSING in double
  *
  * parametres:
+
  */
 double bufr_missing_double(void)
    {
    return bufr_get_max_double();
    }
 
-/*
- * nom: bufr_missing_float
+/**
+ * bufr_missing_float
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * nom: bufr_missing_float
  *
  * auteur:  Vanh Souvanlasy
  *
  * purpose : return value representing MISSING in float
  *
  * parametres:
+
  */
 float bufr_missing_float(void)
    {
    return bufr_get_max_float();
    }
 
-/*
- * nom: bufr_missing_int
+/**
+ * bufr_missing_int
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * nom: bufr_missing_int
  *
  * auteur:  Vanh Souvanlasy
  *
  * purpose : return value representing MISSING in int
  *
  * parametres:
+
  */
 int bufr_missing_int(void)
    {
@@ -1160,8 +1371,17 @@ int bufr_value_is_missing( BufrValue* bv )
 	return 1;
 	}
 
-/*
- * name: bufr_compare_value
+/**
+ * bufr_compare_value
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_compare_value
  *
  * author:  Vanh Souvanlasy
  *
@@ -1169,6 +1389,7 @@ int bufr_value_is_missing( BufrValue* bv )
  *
  * parametres:
  *
+
  */
 int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
    {
@@ -1200,8 +1421,17 @@ int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
          f1 = bufr_value_get_float( bv1 );
          f2 = bufr_value_get_float( bv2 );
          if (fabsf(f1-f2) <= eps) return 0;
-/*         if (f1 == f2) return 0; */
-         }
+/**
+ * bufr_between_values
+ * @english
+ *  
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+          }
          break;
       case VALTYPE_FLT64 :
          {
@@ -1239,6 +1469,7 @@ int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
  *
  * parametres:
  *
+
  */
 int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrValue *bv2 )
    {
@@ -1306,8 +1537,17 @@ int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrVa
    return 0;
    }
 
-/*
- * name: bufr_print_float
+/**
+ * bufr_print_float
+ * @english
+ * print a float value with minimal string
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_print_float
  *
  * author:  Vanh Souvanlasy
  *
@@ -1317,6 +1557,7 @@ int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrVa
  *
  *   str  : output string
  *   fval : value to print
+
  */
 void bufr_print_float( char *str, float fval )
    {
@@ -1332,8 +1573,17 @@ void bufr_print_float( char *str, float fval )
       str[len+1] = '\0';
    }
 
-/*
- * name: bufr_print_scaled_float
+/**
+ * bufr_print_scaled_float
+ * @english
+ * print a scaled float value with precision matching with scale
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_print_scaled_float
  *
  * author:  Vanh Souvanlasy
  *
@@ -1344,6 +1594,7 @@ void bufr_print_float( char *str, float fval )
  *   str  : output string
  *   fval : value to print
  *   scale : no of decimal digit 
+
  */
 void bufr_print_scaled_float( char *str, float fval, int scale )
    {
@@ -1361,8 +1612,17 @@ void bufr_print_scaled_float( char *str, float fval, int scale )
    sprintf( str, format, fval );
    }
 
-/*
- * name: bufr_binary_to_int
+/**
+ * bufr_binary_to_int
+ * @english
+ * check if a string is in binary form
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_binary_to_int
  *
  * author:  Vanh Souvanlasy
  *
@@ -1371,6 +1631,7 @@ void bufr_print_scaled_float( char *str, float fval, int scale )
  * parametres:
  *
  *   str  : input string
+
  */
 int bufr_str_is_binary( const char *str )
    {
@@ -1379,12 +1640,14 @@ int bufr_str_is_binary( const char *str )
    len = strlen( str );
 /*
  * remove trailing spaces if any
- */
+
+*/
    for (i = len-1; i > 0 ; i-- )
       if (isspace(str[i])) --len;
 /*
  * accept only '1' or '0'
- */
+
+*/
    for (i = 0; i < len ; i++ )
       {
       if ((str[i] == '0')||(str[i] == '1'))
@@ -1396,8 +1659,17 @@ int bufr_str_is_binary( const char *str )
    return 1;
    }
 
-/*
- * name: bufr_binary_to_int
+/**
+ * bufr_binary_to_int
+ * @english
+ * convert a binary value to int
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_binary_to_int
  *
  * author:  Vanh Souvanlasy
  *
@@ -1406,6 +1678,7 @@ int bufr_str_is_binary( const char *str )
  * parametres:
  *
  *   str  : input string
+
  */
 int64_t bufr_binary_to_int( const char *str )
    {
@@ -1434,8 +1707,17 @@ int64_t bufr_binary_to_int( const char *str )
    }
 
 
-/*
- * name: bufr_print_binary
+/**
+ * bufr_print_binary
+ * @english
+ * print a value in binary form
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup bufr_value.c
+  * name: bufr_print_binary
  *
  * author:  Vanh Souvanlasy
  *
@@ -1446,6 +1728,7 @@ int64_t bufr_binary_to_int( const char *str )
  *   str  : output string
  *   ival : value to print
  *   nbit : number of bits
+
  */
 void bufr_print_binary ( char *outstr, int64_t  ival, int nbit )
    {
