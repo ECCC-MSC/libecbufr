@@ -89,26 +89,17 @@ static int   bufr_seek_msg_start( bufr_read_callback readcb, void *cd, char **ta
 static int   bufr_wr_header_string ( bufr_write_callback writecb, void *cd, BUFR_Message *bufr );
 
 /**
- * bufr_write_octet
  * @english
  * internal function to write a single octet to a BUFR "sink"
+ * @param     writecb   : write callback
+ * @param     cd : write client data
+ * @param     b : octet to write
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup bufr_io.c
-  * nom: bufr_write_octet
- *
- * auteur:  Chris Beauregard
- *
- * fonction: internal function to write a single octet to a BUFR "sink"
- *
- * parametres: 
- *      writecb   : write callback
- *      cd : write client data
- *      b : octet to write
-
+ * @ingroup internal
  */
 static inline int bufr_write_octet(bufr_write_callback writecb,
                                 void *cd, unsigned char b)
@@ -118,28 +109,18 @@ static inline int bufr_write_octet(bufr_write_callback writecb,
 	}
 
 /**
- * bufr_read_octet
  * @english
  * internal function to read a single octet from a BUFR "source"
+ * @param     readcb   : read callback
+ * @param     cd : read client data
+ * @param     octet : buffer to store octet
+ * @return     1 - byte read, 0 - EOF, <0 - other failure
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup bufr_io.c
-  * nom: bufr_read_octet
- *
- * auteur:  Chris Beauregard
- *
- * fonction: internal function to read a single octet from a BUFR "source"
- *
- * parametres: 
- *      readcb   : read callback
- *      cd : read client data
- *      octet : buffer to store octet
- * return:
- *      1 - byte read, 0 - EOF, <0 - othe rfailure
-
+ * @ingroup internal
  */
 static inline int bufr_read_octet(bufr_read_callback readcb, void *cd,
                                   unsigned char* octet)
@@ -148,25 +129,16 @@ static inline int bufr_read_octet(bufr_read_callback readcb, void *cd,
 	}
 
 /**
- * bufr_wr_section0
  * @english
- * ecrire la section 0 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrire la section 0 d'un message BUFR
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_wr_section0
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 0 d'un message BUFR
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_wr_section0(bufr_write_callback writecb,
                                 void *cd, BUFR_Message *bufr)
@@ -188,25 +160,16 @@ static int bufr_wr_section0(bufr_write_callback writecb,
    }
 
 /**
- * bufr_wr_section1
  * @english
- * ecrire la section 1 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrire la section 1 d'un message BUFR
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_wr_section1
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 1 d'un message BUFR
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_wr_section1(bufr_write_callback writecb,
                                 void *cd, BUFR_Message *bufr)
@@ -290,25 +253,16 @@ static int bufr_wr_section1(bufr_write_callback writecb,
    }
 
 /**
- * bufr_wr_section2
  * @english
- * ecrire la section 2 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrire la section 2 d'un message BUFR
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_wr_section2
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 2 d'un message BUFR
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_wr_section2(bufr_write_callback writecb,
                                 void *cd, BUFR_Message *bufr)
@@ -329,23 +283,15 @@ static int bufr_wr_section2(bufr_write_callback writecb,
 /**
  * bufr_wr_section3
  * @english
- * ecrire la section 3 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrire la section 3 d'un message BUFR
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_wr_section3
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 3 d'un message BUFR
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_wr_section3(bufr_write_callback writecb,
                                 void *cd, BUFR_Message *bufr)
@@ -368,25 +314,16 @@ static int bufr_wr_section3(bufr_write_callback writecb,
    }
 
 /**
- * bufr_wr_section4
  * @english
- * ecrire la section 4 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrire la section 4 d'un message BUFR
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_wr_section4
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 4 d'un message BUFR
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_wr_section4(bufr_write_callback writecb,
                                 void *cd, BUFR_Message *bufr)
@@ -405,24 +342,16 @@ static int bufr_wr_section4(bufr_write_callback writecb,
    }
 
 /**
- * bufr_wr_section5
  * @english
- * ecrire la section 5 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrire la section 5 d'un message BUFR
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_wr_section5
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 5 d'un message BUFR
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
+ * @ingroup internal
 
  */
 static int bufr_wr_section5(bufr_write_callback writecb,
@@ -434,16 +363,13 @@ static int bufr_wr_section5(bufr_write_callback writecb,
    }
 
  /*
- * nom: bufr_callback_write_message
+ * @author  Vanh Souvanlasy
  *
- * auteur:  Vanh Souvanlasy
+ * termine l'encodage de message BUFR et l'ecrire
  *
- * fonction: termine l'encodage de message BUFR et l'ecrire
- *
- * parametres: 
- *      writecb   : writer callback
- *      client_data : client data for writer callback
- *      bufr : la structure de donnees BUFR
+ * @param     writecb   : writer callback
+ * @param     client_data : client data for writer callback
+ * @param     bufr : la structure de donnees BUFR
  */
 int bufr_callback_write_message(bufr_write_callback writecb,
                          void* client_data, BUFR_Message *bufr)
@@ -473,30 +399,19 @@ int bufr_callback_write_message(bufr_write_callback writecb,
    }
 
 /**
- * bufr_write_fn
  * @english
  * internal callback to write to a byte-oriented buffer sink
+ *
+ * @param     client_data : handle to output stream
+ * @param     len : number of bytes to write
+ * @param     buffer : data buffer to write from
+ * @return     number of bytes written. Zero or negative means some kind of error.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup bufr_io.c
-  * name: bufr_write_fn
- *
- * author:  Chris Beauregard
- *
- * function: internal callback to write to a byte-oriented buffer sink
- *
- * parameters: 
- *      client_data : handle to output stream
- *      len : number of bytes to write
- *      buffer : data buffer to write from
- *
- * returns:
- *      number of bytes written. Zero or negative means
- *      some kind of error.
-
+ * @ingroup internal
  */
 static ssize_t bufr_write_fn( void *client_data, size_t len, const char *buffer)
 	{
@@ -523,25 +438,16 @@ static ssize_t bufr_write_fn( void *client_data, size_t len, const char *buffer)
 	}
 
 /**
- * bufr_write_message
  * @english
- * termine l'encodage de message BUFR et l'ecrire au fichier
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * termine l'encodage de message BUFR et l'ecrire au fichier
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_write_message
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: termine l'encodage de message BUFR et l'ecrire au fichier
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup message encode
  */
 int bufr_write_message(FILE* fp, BUFR_Message *bufr)
    {
@@ -551,26 +457,17 @@ int bufr_write_message(FILE* fp, BUFR_Message *bufr)
    }
 
 /**
- * bufr_getstring
  * @english
- * ajouter une chaine de caracteres comme donnees
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ajouter une chaine de caracteres comme donnees
+ * @param     bufr : la structure de donnees BUFR
+ * @param     str  : la chaine a ajouter 
+ * @param     len  : longueur de la chaine
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_getstring
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ajouter une chaine de caracteres comme donnees
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
- *      str  : la chaine a ajouter 
- *      len  : longueur de la chaine
-
+ * @ingroup message
  */
 int bufr_getstring( BUFR_Message *bufr, char *str, int len)
    {
@@ -589,27 +486,18 @@ int bufr_getstring( BUFR_Message *bufr, char *str, int len)
    }
 
 /**
- * bufr_getbits
  * @english
- * ajouter des bits comme donnees
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ajouter des bits comme donnees
+ * @param     bufr : la structure de donnees BUFR
+ * @param     val  : la valeur contenue dans un entier
+ * @param     nbbits : nombre de bits (max: 32)
+ * @param     errcode : return error code, less than 0 if error
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_getbits
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ajouter des bits comme donnees
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
- *      val  : la valeur contenue dans un entier
- *      nbbits : nombre de bits (max: 32)
- *      errcode : return error code, less than 0 if error
-
+ * @ingroup internal
  */
 uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
    {
@@ -713,26 +601,17 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
    }
 
 /**
- * bufr_putstring
  * @english
- * ajouter une chaine de caracteres comme donnees
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ajouter une chaine de caracteres comme donnees
+ * @param    bufr : la structure de donnees BUFR
+ * @param    str  : la chaine a ajouter 
+ * @param    len  : longueur de la chaine
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_putstring
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ajouter une chaine de caracteres comme donnees
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
- *      str  : la chaine a ajouter 
- *      len  : longueur de la chaine
-
+ * @ingroup internal
  */
 void bufr_putstring( BUFR_Message *bufr, const char *str, int len)
    {
@@ -747,26 +626,17 @@ void bufr_putstring( BUFR_Message *bufr, const char *str, int len)
    }
 
 /**
- * bufr_putbits
  * @english
- * ajouter des bits comme donnees
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ajouter des bits comme donnees
+ * @param    bufr : la structure de donnees BUFR
+ * @param    val  : la valeur contenue dans un entier
+ * @param    nbbits : nombre de bits (max: 32)
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_putbits
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ajouter des bits comme donnees
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
- *      val  : la valeur contenue dans un entier
- *      nbbits : nombre de bits (max: 32)
-
+ * @ingroup internal
  */
 void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
    {
@@ -852,26 +722,17 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
    }
 
 /**
- * bufr_put_bitstream
  * @english
- * ajouter des bits comme donnees
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ajouter des bits comme donnees
+ * @param    bufr : la structure de donnees BUFR
+ * @param    val  : la valeur contenue dans un entier
+ * @param    nbbits : nombre de bits (max: 32)
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_put_bitstream
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ajouter des bits comme donnees
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
- *      val  : la valeur contenue dans un entier
- *      nbbits : nombre de bits (max: 32)
-
+ * @ingroup internal
  */
 void bufr_put_bitstream ( BUFR_Message *bufr, const unsigned char *str, int nbbits)
    {
@@ -949,24 +810,15 @@ void bufr_put_bitstream ( BUFR_Message *bufr, const unsigned char *str, int nbbi
    }
 
 /**
- * bufr_print_output
  * @english
- * ecrire un message de sortie
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrire un message de sortie
+ * @param   msg :  message a afficher
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_print_output
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction:  ecrire un message de sortie
- *
- * parametres:
- *    msg :  message a afficher
-
+ * @ingroup error debug internal
  */
 void bufr_print_output(const char *msg)
    {
@@ -998,26 +850,6 @@ void bufr_print_output(const char *msg)
    fprintf( stdout, "%s", msg );
    }
 
-/**
- * bufr_ile
- * @english
- * ecrire un message d'erreur
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_ile
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction:  ecrire un message d'erreur
- *
- * parametres:
- *    msg :  message a afficher
-
- */
 /**
  * @english
  * This call will redirect output of the decoder into a file.
@@ -1053,23 +885,15 @@ void bufr_set_output_file(const char *filename)
 
 
 /**
- * bufr_abort
  * @english
- * pour quitter en catastrophe
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * pour quitter en catastrophe
+ * @param   msg :  message a afficher avant de quitter
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_abort
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction:  pour quitter en catastrophe
- *
- * parametres:
- *    msg :  message a afficher avant de quitter
+ * @ingroup error
 
  */
 void bufr_abort(const char *msg)
@@ -1179,50 +1003,32 @@ void bufr_set_debug_file(const char *filename)
    }
 
 /**
- * bufr_set_abort
  * @english
- * definir la routine pour quitter en catastrophe
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * definir la routine pour quitter en catastrophe
+ * @param   uabort : pointeur au routine a appeler 
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_set_abort
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: definir la routine pour quitter en catastrophe
- *
- * parametres:
- *    uabort : pointeur au routine a appeler 
-
+ * @ingroup error
  */
 void bufr_set_abort( void (*uabort)(const char *msg) )
    {
    udf_abort = uabort;
-/**
- * bufr_is_debug
- * @english
- * retourne le code d'erreur du logiciel
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-    tabled_set_abort( uabort ); */
+    /* tabled_set_abort( uabort ); */
    }
 
-/*
- * nom: bufr_is_debug
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne le code d'erreur du logiciel
- *
- * parametres:
-
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * retourne le code d'erreur du logiciel
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup debug internal
+ * @author  Vanh Souvanlasy
  */
 int bufr_is_debug(void) 
    {
@@ -1230,23 +1036,14 @@ int bufr_is_debug(void)
    }
 
 /**
- * bufr_is_verbose
  * @english
- * retourne le code d'erreur du logiciel
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * retourne le code d'erreur du logiciel
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_is_verbose
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne le code d'erreur du logiciel
- *
- * parametres:
-
+ * @ingroup internal
  */
 int bufr_is_verbose(void) 
    {
@@ -1254,23 +1051,14 @@ int bufr_is_verbose(void)
    }
 
 /**
- * bufr_set_debug
  * @english
- * etablit le code d'erreur du logiciel
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * etablit le code d'erreur du logiciel
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_set_debug
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: etablit le code d'erreur du logiciel
- *
- * parametres:
-
+ * @ingroup debug
  */
 void bufr_set_debug(int mode) 
    {
@@ -1290,23 +1078,14 @@ void bufr_set_debug(int mode)
    }
 
 /**
- * bufr_set_verbose
  * @english
- * etablit le code informative du logiciel
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * etablit le code informative du logiciel
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_set_verbose
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: etablit le code informative du logiciel
- *
- * parametres:
-
+ * @ingroup debug
  */
 void bufr_set_verbose(int mode) 
    {
@@ -1327,23 +1106,14 @@ void bufr_set_verbose(int mode)
    }
 
 /**
- * bufr_write_int3b
  * @english
- * ecrit un entier de 3 octets 
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrit un entier de 3 octets 
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_write_int3b
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrit un entier de 3 octets 
- *
- * parametres:
-
+ * @ingroup internal
  */
 static void bufr_write_int3b ( bufr_write_callback writecb,
                                 void *cd, int value )
@@ -1354,22 +1124,14 @@ static void bufr_write_int3b ( bufr_write_callback writecb,
    }
 
 /**
- * bufr_write_int2b
  * @english
- * ecrit un entier de 2 octets 
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * ecrit un entier de 2 octets 
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_write_int2b
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrit un entier de 2 octets 
- *
- * parametres:
+ * @ingroup internal
 
  */
 static void bufr_write_int2b ( bufr_write_callback writecb,
@@ -1380,23 +1142,14 @@ static void bufr_write_int2b ( bufr_write_callback writecb,
    }
 
 /**
- * bufr_read_int3b
  * @english
- * lire un entier de 3 octets 
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * lire un entier de 3 octets 
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_read_int3b
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: lire un entier de 3 octets 
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int bufr_read_int3b ( bufr_read_callback readcb, void *cd )
    {
@@ -1416,23 +1169,14 @@ static int bufr_read_int3b ( bufr_read_callback readcb, void *cd )
    }
 
 /**
- * bufr_read_int2b
  * @english
- * lire un entier de 2 octets 
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * lire un entier de 2 octets 
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_read_int2b
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: lire un entier de 2 octets 
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int bufr_read_int2b ( bufr_read_callback readcb, void *cd )
    {
@@ -1450,24 +1194,15 @@ static int bufr_read_int2b ( bufr_read_callback readcb, void *cd )
 
 
 /**
- * bufr_seek_msg_start
  * @english
  * seek start pos of message in BUFR file
+ * @param     fp   : pointeur au fichier de sortie
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_seek_msg_start
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: seek start pos of message in BUFR file
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
-
+ * @ingroup internal
  */
 static int bufr_seek_msg_start( bufr_read_callback readcb, void *cd, char **tagstr, int *len )
    {
@@ -1540,25 +1275,17 @@ bailout:
    }
 
 /**
- * bufr_callback_read_message
  * @english
  * read a BUFR report from a callback "source"
+ * @param     readcb   : read callback
+ * @param     cd   :     read callback client data
+ * @param     rtrn :     pointer return handle
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_callback_read_message
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: read a BUFR report from a callback "source"
- *
- * parametres: 
- *      readcb   : read callback
- *      cd   :     read callback client data
- *      rtrn :     pointer return handle
+ * @ingroup message
 
  */
 int bufr_callback_read_message( bufr_read_callback readcb, void *cd,
@@ -1625,30 +1352,19 @@ int bufr_callback_read_message( bufr_read_callback readcb, void *cd,
    }
 
 /**
- * bufr_read_fn
  * @english
  * internal callback to read from a byte-oriented buffer sink
+ * @param     client_data : handle to input stream
+ * @param     len : number of bytes to read
+ * @param     buffer : data buffer to read into
+ * @return     number of bytes read. Zero means EOF, negative means
+ *      some kind of error.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup bufr_io.c
-  * name: bufr_read_fn
- *
- * author:  Chris Beauregard
- *
- * function: internal callback to read from a byte-oriented buffer sink
- *
- * parameters: 
- *      client_data : handle to input stream
- *      len : number of bytes to read
- *      buffer : data buffer to read into
- *
- * returns:
- *      number of bytes read. Zero means EOF, negative means
- *      some kind of error.
-
+ * @ingroup internal
  */
 static ssize_t bufr_read_fn( void *client_data, size_t len, char *buffer)
 	{
@@ -1714,26 +1430,17 @@ int bufr_read_message( FILE *fp, BUFR_Message **rtrn )
 	}
 
 /**
- * bufr_rd_section0
  * @english
- * lire la section 0 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * lire la section 0 d'un message BUFR
+ * @param     readcb   : read callback
+ * @param     cd   :     read callback client data
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_rd_section0
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: lire la section 0 d'un message BUFR
- *
- * parametres: 
- *      readcb   : read callback
- *      cd   :     read callback client data
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_rd_section0(bufr_read_callback readcb, void *cd, BUFR_Message *bufr)
    {
@@ -1765,26 +1472,17 @@ static int bufr_rd_section0(bufr_read_callback readcb, void *cd, BUFR_Message *b
    }
 
 /**
- * bufr_rd_section1
  * @english
- * lire la section 1 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * lire la section 1 d'un message BUFR
+ * @param     readcb   : read callback
+ * @param     cd   :     read callback client data
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_rd_section1
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: lire la section 1 d'un message BUFR
- *
- * parametres: 
- *      readcb   : read callback
- *      cd   :     read callback client data
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
                             BUFR_Message *bufr)
@@ -1913,26 +1611,17 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
    }
 
 /**
- * bufr_rd_section2
  * @english
- * ecrire la section 2 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * lire la section 2 d'un message BUFR
+ * @param     readcb   : read callback
+ * @param     cd   :     read callback client data
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_rd_section2
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 2 d'un message BUFR
- *
- * parametres: 
- *      readcb   : read callback
- *      cd   :     read callback client data
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_rd_section2(bufr_read_callback readcb, void *cd,
                             BUFR_Message *bufr)
@@ -1987,24 +1676,16 @@ static int bufr_rd_section2(bufr_read_callback readcb, void *cd,
 /**
  * bufr_rd_section3
  * @english
- * lire la section 3 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * lire la section 3 d'un message BUFR
+ * @param     readcb   : read callback
+ * @param     cd   :     read callback client data
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_rd_section3
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: lire la section 3 d'un message BUFR
- *
- * parametres: 
- *      readcb   : read callback
- *      cd   :     read callback client data
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static int bufr_rd_section3(bufr_read_callback readcb, void *cd,
                             BUFR_Message *bufr)
@@ -2043,24 +1724,16 @@ static int bufr_rd_section3(bufr_read_callback readcb, void *cd,
 /**
  * bufr_rd_section4
  * @english
- * ecrire la section 4 d'un message BUFR
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * lire la section 4 d'un message BUFR
+ * @param     readcb   : read callback
+ * @param     cd   :     read callback client data
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_rd_section4
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 4 d'un message BUFR
- *
- * parametres: 
- *      readcb   : read callback
- *      cd   :     read callback client data
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 static uint64_t bufr_rd_section4(bufr_read_callback readcb, void *cd,
                             BUFR_Message *bufr)
@@ -2085,25 +1758,17 @@ static uint64_t bufr_rd_section4(bufr_read_callback readcb, void *cd,
    }
 
 /**
- * bufr_rd_section5
  * @english
- * ecrire la section 5 d'un message BUFR
  * @endenglish
+ * @todo translate
  * @francais
- * @todo translate to French
+ * ecrire la section 5 d'un message BUFR
+ * @param     readcb   : read callback
+ * @param     cd   :     read callback client data
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_rd_section5
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire la section 5 d'un message BUFR
- *
- * parametres: 
- *      readcb   : read callback
- *      cd   :     read callback client data
-
+ * @ingroup internal
  */
 static int bufr_rd_section5( bufr_read_callback readcb, void *cd )
    {
@@ -2121,24 +1786,15 @@ static int bufr_rd_section5( bufr_read_callback readcb, void *cd )
    }
 
 /**
- * bufr_decode_sect3
  * @english
- * encoder la section 3
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * decoder la section 3
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_decode_sect3
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: encoder la section 3
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 int bufr_decode_sect3(BUFR_Message *bufr)
    {
@@ -2269,6 +1925,7 @@ static ssize_t bufr_memwrite_fn( void* cd, size_t len, const char* buf )
  * @endfrancais
  * @author  Chris Beauregard
  *
+ * @verbatim
  *       bufr_message *msg;
  *       size_t buflen = ...
  *       char *buffer = ...
@@ -2280,6 +1937,7 @@ static ssize_t bufr_memwrite_fn( void* cd, size_t len, const char* buf )
  *
  *       	   ... process msg ...
  *       	}
+ * @endverbatim
  *
  * @ingroup decode message
  */
@@ -2327,26 +1985,18 @@ ssize_t bufr_memwrite_message(char *mem, size_t mem_len, BUFR_Message *bufr)
 void bufr_write_header_of_message( BUFR_Message *msg )
    {
    }
+
 /**
- * bufr_wr_header_string
  * @english
  * write the header string preceding a message
  * @endenglish
  * @francais
- * @todo translate to French
+ * @param     fp   : pointeur au fichier de sortie
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_io.c
-  * nom: bufr_wr_header_string
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: write the header string preceding a message
- *
- * parametres: 
- *      fp   : pointeur au fichier de sortie
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
+ * @todo bidirectional translation
  */
 static int bufr_wr_header_string(bufr_write_callback writecb,
                                 void *cd, BUFR_Message *bufr)

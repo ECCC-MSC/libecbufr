@@ -90,26 +90,15 @@ static int64_t bufr_double_get_significand ( double fvalue, int64_t *exponent, i
 static double  bufr_get_significand_value  ( uint64_t fraction, int nbits, int denormal );
 
 /**
- * bufr_ieee_decode_double
  * @english
  * decode a double IEEE 754 64 bits into a double
+ * @param    lval : bits of double prec. value
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_ieee_decode_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: decode a double IEEE 754 64 bits into a double
- *          
- *
- * parametres:
- * 
- *     lval : bits of double prec. value
-
+ * @ingroup internal
  */
 double bufr_ieee_decode_double( uint64_t lval )
    {
@@ -169,26 +158,15 @@ double bufr_ieee_decode_double( uint64_t lval )
    }
 
 /**
- * bufr_ieee_decode_single
  * @english
  * decode a single IEEE 754 32 bits into a float
+ * @param    ival : bits of single prec. value
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_ieee_decode_single
- *
- * author:  Vanh Souvanlasy
- *
- * function: decode a single IEEE 754 32 bits into a float
- *          
- *
- * parametres:
- * 
- *     ival : bits of single prec. value
-
+ * @ingroup internal
  */
 float bufr_ieee_decode_single( uint32_t ival )
    {
@@ -248,26 +226,15 @@ float bufr_ieee_decode_single( uint32_t ival )
    }
 
 /**
- * bufr_ieee_encode_single
  * @english
  * encode a single into a IEEE 754 32 bits
+ * @param    fvalue : single prec. value
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_ieee_encode_single
- *
- * author:  Vanh Souvanlasy
- *
- * function: encode a single into a IEEE 754 32 bits
- *          
- *
- * parametres:
- * 
- *     fvalue : single prec. value
-
+ * @ingroup internal
  */
 uint32_t bufr_ieee_encode_single ( float fvalue )
    {
@@ -331,7 +298,6 @@ uint32_t bufr_ieee_encode_single ( float fvalue )
 
 
 /**
- * bufr_ieee_encode_double
  * @english
  * encode a double into a IEEE 754 64 bits
  * @endenglish
@@ -339,16 +305,7 @@ uint32_t bufr_ieee_encode_single ( float fvalue )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_ieee_encode_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: encode a double into a IEEE 754 64 bits
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 uint64_t bufr_ieee_encode_double( double fvalue )
    {
@@ -413,7 +370,6 @@ uint64_t bufr_ieee_encode_double( double fvalue )
    }
 
 /**
- * bufr_get_max_float
  * @english
  * return maximum value of a ieee float 32 bits
  * @endenglish
@@ -421,16 +377,7 @@ uint64_t bufr_ieee_encode_double( double fvalue )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_get_max_float
- *
- * author:  Vanh Souvanlasy
- *
- * function: return maximum value of a ieee float 32 bits
- *          
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 float bufr_get_max_float(void)
    {
@@ -441,7 +388,6 @@ float bufr_get_max_float(void)
    }
 
 /**
- * bufr_get_max_double
  * @english
  * return maximum value of a ieee float 64 bits
  * @endenglish
@@ -449,16 +395,7 @@ float bufr_get_max_float(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_get_max_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: return maximum value of a ieee float 64 bits
- *          
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 double bufr_get_max_double(void)
    {
@@ -469,7 +406,6 @@ double bufr_get_max_double(void)
    }
 
 /**
- * init_numbers
  * @english
  * initialize a base 2 fractions table
  * @endenglish
@@ -477,15 +413,7 @@ double bufr_get_max_double(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: init_numbers
- *
- * author:  Vanh Souvanlasy
- *
- * function: initialize a base 2 fractions table
- *
- * parametres:
-
+ * @ingroup internal
  */
 static void init_numbers(void)
    {
@@ -535,7 +463,6 @@ void bufr_init_limits(void)
    }
 
 /**
- * check_match_encoding2decoding
  * @english
  *  
  * @endenglish
@@ -543,15 +470,7 @@ void bufr_init_limits(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: check_match_encoding2decoding
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int check_match_encoding2decoding(void)
    {
@@ -611,15 +530,7 @@ static int check_match_encoding2decoding(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: check_word_size
- *
- * author:  Vanh Souvanlasy
- *
- * function: test if the size of a word correspond to expected size
- *
- * parametres:
-
+ * @ingroup internal
  */
 static void check_word_size(char *string, int size, int expected, int *failed)
    {
@@ -649,24 +560,15 @@ static void check_word_size(char *string, int size, int expected, int *failed)
    }
 
 /**
- * check_type_size
  * @english
  * see if the size of base types  float double uint32_t uinit64_t are those of
+ *           a 32 bits 
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: check_type_size
- *
- * author:  Vanh Souvanlasy
- *
- * function: see if the size of base types  float double uint32_t uinit64_t are those of
- *           a 32 bits 
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int check_type_size(void)
    {
@@ -688,7 +590,6 @@ static int check_type_size(void)
 
 
 /**
- * check_sign_bit
  * @english
  * see if sign bit of float and double are compliant with IEEE 754
  * @endenglish
@@ -696,15 +597,7 @@ static int check_type_size(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: check_sign_bit
- *
- * author:  Vanh Souvanlasy
- *
- * function: see if sign bit of float and double are compliant with IEEE 754
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int check_sign_bit(void)
    {
@@ -753,7 +646,6 @@ static int check_sign_bit(void)
    }
 
 /**
- * bufr_get_significand_value
  * @english
  * return fraction value of a significand
  * @endenglish
@@ -761,15 +653,7 @@ static int check_sign_bit(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_get_significand_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: return fraction value of a significand
- *
- * parametres:
-
+ * @ingroup internal
  */
 static double bufr_get_significand_value(uint64_t fraction, int nbits, int denormal)
    {
@@ -792,7 +676,6 @@ static double bufr_get_significand_value(uint64_t fraction, int nbits, int denor
    }
 
 /**
- * bufr_single_get_significand
  * @english
  * extract significand bits of a single (32 bits)
  * @endenglish
@@ -800,15 +683,7 @@ static double bufr_get_significand_value(uint64_t fraction, int nbits, int denor
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_single_get_significand
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract significand bits of a single (32 bits)
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int32_t bufr_single_get_significand ( float fvalue, int32_t *exponent, int *denormal )
    {
@@ -877,7 +752,6 @@ static int32_t bufr_single_get_significand ( float fvalue, int32_t *exponent, in
 
 
 /**
- * bufr_double_get_significand
  * @english
  * extract significand bits of a double (64 bits)
  * @endenglish
@@ -885,15 +759,7 @@ static int32_t bufr_single_get_significand ( float fvalue, int32_t *exponent, in
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_double_get_significand
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract significand bits of a double (64 bits)
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int64_t bufr_double_get_significand ( double fvalue, int64_t *exponent, int *denormal )
    {
@@ -961,25 +827,15 @@ static int64_t bufr_double_get_significand ( double fvalue, int64_t *exponent, i
    }
 
 /**
- * bufr_use_C_ieee754
  * @english
  * check if C float and double follows IEEE 754, if not, 
+ *           we will need to encode and decode on our own
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: bufr_use_C_ieee754
- *
- * author:  Vanh Souvanlasy
- *
- * function: check if C float and double follows IEEE 754, if not, 
- *           we will need to encode and decode on our own
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 int bufr_use_C_ieee754(int use)
    {
@@ -1001,25 +857,15 @@ int bufr_use_C_ieee754(int use)
 /**********************************************************************************************/
 
 /**
- * check_C_ieee754_compliance
  * @english
  * test a few values to see if float are encoded as IEEE 754 
+ *           by decoding them
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: check_C_ieee754_compliance
- *
- * author:  Vanh Souvanlasy
- *
- * function: test a few values to see if float are encoded as IEEE 754 
- *           by decoding them
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int check_C_ieee754_compliance(void)
    {
@@ -1040,25 +886,15 @@ static int check_C_ieee754_compliance(void)
    }
 
 /**
- * check_single_mem_layout
  * @english
  * test a few values to see if float are encoded as IEEE 754 
+ *           by decoding them
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: check_single_mem_layout
- *
- * author:  Vanh Souvanlasy
- *
- * function: test a few values to see if float are encoded as IEEE 754 
- *           by decoding them
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int check_single_mem_layout(void)
    {
@@ -1078,25 +914,15 @@ static int check_single_mem_layout(void)
    }
 
 /**
- * check_double_mem_layout
  * @english
  * test a few values to see if double are encoded as IEEE 754 
+ *           by decoding them
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: check_double_mem_layout
- *
- * author:  Vanh Souvanlasy
- *
- * function: test a few values to see if double are encoded as IEEE 754 
- *           by decoding them
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int check_double_mem_layout(void)
    {
@@ -1115,25 +941,15 @@ static int check_double_mem_layout(void)
    }
 
 /**
- * test_decoding_double
  * @english
  * test if a value of a double is encoded as IEEE 754 
+ *           by decoding it and compare the values
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: test_decoding_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: test if a value of a double is encoded as IEEE 754 
- *           by decoding it and compare the values
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int test_decoding_double(double dval)
    {
@@ -1166,25 +982,15 @@ static int test_decoding_double(double dval)
    }
 
 /**
- * test_decoding_single
  * @english
  * test if a value of a double is encoded as IEEE 754 
+ *           by decoding it and compare the values
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: test_decoding_single
- *
- * author:  Vanh Souvanlasy
- *
- * function: test if a value of a double is encoded as IEEE 754 
- *           by decoding it and compare the values
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int test_decoding_single(float fval)
    {
@@ -1218,24 +1024,13 @@ static int test_decoding_single(float fval)
    }
 
 /**
- * test_encoding_single
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: test_encoding_single
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int test_encoding_single(float fval)
    {
@@ -1267,24 +1062,13 @@ static int test_encoding_single(float fval)
    }
 
 /**
- * test_encoding_double
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_ieee754.c
-  * name: test_encoding_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *          
- *
- * parametres:
-
+ * @ingroup internal
  */
 static int test_encoding_double(double fval)
    {

@@ -38,7 +38,6 @@ This file is part of libECBUFR.
 
 
 /**
- * bufr_create_value
  * @english
  *  
  * @endenglish
@@ -46,16 +45,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_create_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 BufrValue  *bufr_create_value( ValueType type )
    {
@@ -141,7 +131,6 @@ BufrValue  *bufr_create_value( ValueType type )
    }
 
 /**
- * bufr_duplicate_value
  * @english
  *  
  * @endenglish
@@ -149,16 +138,7 @@ BufrValue  *bufr_create_value( ValueType type )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_duplicate_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 BufrValue  *bufr_duplicate_value( const BufrValue *bv )
    {
@@ -181,24 +161,13 @@ BufrValue  *bufr_duplicate_value( const BufrValue *bv )
    }
 
 /**
- * bufr_free_value
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_free_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 void bufr_free_value( BufrValue *bv )
    {
@@ -238,7 +207,6 @@ void bufr_free_value( BufrValue *bv )
    }
 
 /**
- * bufr_copy_value
  * @english
  *  
  * @endenglish
@@ -246,16 +214,7 @@ void bufr_free_value( BufrValue *bv )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_copy_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 void bufr_copy_value( BufrValue *dest, const BufrValue *src )
    {
@@ -309,7 +268,6 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
    }
 
 /**
- * bufr_value_set_string
  * @english
  *  
  * @endenglish
@@ -317,16 +275,7 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_set_string
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int bufr_value_set_string
    ( BufrValue *bv, const char *str, int len )
@@ -393,7 +342,6 @@ int bufr_value_set_string
    }
 
 /**
- * bufr_value_set_int32
  * @english
  *  
  * @endenglish
@@ -401,16 +349,7 @@ int bufr_value_set_string
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_set_int32
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int bufr_value_set_int32( BufrValue *bv, int value )
    {
@@ -459,7 +398,6 @@ int bufr_value_set_int32( BufrValue *bv, int value )
    }
 
 /**
- * bufr_value_set_int64
  * @english
  *  
  * @endenglish
@@ -467,16 +405,7 @@ int bufr_value_set_int32( BufrValue *bv, int value )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_set_int64
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int bufr_value_set_int64( BufrValue *bv, int64_t value )
    {
@@ -523,24 +452,13 @@ int bufr_value_set_int64( BufrValue *bv, int64_t value )
    }
 
 /**
- * bufr_value_set_float
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_set_float
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int bufr_value_set_float( BufrValue *bv, float value )
    {
@@ -595,7 +513,6 @@ int bufr_value_set_float( BufrValue *bv, float value )
    }
 
 /**
- * bufr_value_set_double
  * @english
  *  
  * @endenglish
@@ -603,16 +520,7 @@ int bufr_value_set_float( BufrValue *bv, float value )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_set_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int bufr_value_set_double( BufrValue *bv, double value )
    {
@@ -667,7 +575,6 @@ int bufr_value_set_double( BufrValue *bv, double value )
    }
 
 /**
- * bufr_value_get_int32
  * @english
  *  
  * @endenglish
@@ -675,16 +582,7 @@ int bufr_value_set_double( BufrValue *bv, double value )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_get_int32
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int32_t bufr_value_get_int32( const BufrValue *bv )
    {
@@ -722,24 +620,13 @@ int32_t bufr_value_get_int32( const BufrValue *bv )
    }
 
 /**
- * bufr_value_get_int64
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_get_int64
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int64_t bufr_value_get_int64( const BufrValue *bv )
    {
@@ -773,24 +660,13 @@ int64_t bufr_value_get_int64( const BufrValue *bv )
    }
 
 /**
- * bufr_value_get_float
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_get_float
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 float bufr_value_get_float( const BufrValue *bv )
    {
@@ -829,24 +705,13 @@ float bufr_value_get_float( const BufrValue *bv )
    }
 
 /**
- * bufr_value_get_double
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_get_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 double bufr_value_get_double( const BufrValue *bv )
    {
@@ -885,24 +750,13 @@ double bufr_value_get_double( const BufrValue *bv )
    }
 
 /**
- * bufr_value_get_string
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_value_get_string
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 const char *bufr_value_get_string( const BufrValue *bv, int *len )
    {
@@ -927,24 +781,15 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
    }
 
 /**
- * bufr_missing_ivalue
  * @english
- * retourne la valeur manquante correspondant au nombre de bits
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * retourne la valeur manquante correspondant au nombre de bits
+ * @param       nbits : nombre de bits
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * nom: bufr_missing_ivalue
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne la valeur manquante correspondant au nombre de bits
- *
- * parametres:
- *        nbits : nombre de bits
-
+ * @ingroup descriptor
  */
 uint64_t bufr_missing_ivalue( int nbits )
    {
@@ -957,24 +802,15 @@ uint64_t bufr_missing_ivalue( int nbits )
    }
 
 /**
- * bufr_cvt_ivalue
  * @english
- * retourne une valeur correspondant au nombre de bits
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * retourne une valeur correspondant au nombre de bits
+ * @param       nbits : nombre de bits
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * nom: bufr_cvt_ivalue
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne une valeur correspondant au nombre de bits
- *
- * parametres:
- *        nbits : nombre de bits
-
+ * @ingroup descriptor
  */
 int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
    {
@@ -993,23 +829,15 @@ int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
    }
 
 /**
- * bufr_negative_ivalue
  * @english
- * retourne une valeur negative correspondant au nombre de bits
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * retourne une valeur negative correspondant au nombre de bits
+ * @param       nbits : nombre de bits
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * nom: bufr_negative_ivalue
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne une valeur negative correspondant au nombre de bits
- *
- * parametres:
- *        nbits : nombre de bits
+ * @ingroup descriptor
 
  */
 uint64_t bufr_negative_ivalue( int64_t value, int nbits )
@@ -1233,23 +1061,13 @@ int bufr_is_missing_float( float f )
    }
 
 /**
- * bufr_is_missing_int
  * @english
- * 
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * nom: bufr_is_missing_int
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : 
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 int bufr_is_missing_int( int i )
    {
@@ -1259,23 +1077,14 @@ int bufr_is_missing_int( int i )
    }
 
 /**
- * bufr_missing_double
  * @english
- * 
+ * @return value representing MISSING in double
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * nom: bufr_missing_double
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : return value representing MISSING in double
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 double bufr_missing_double(void)
    {
@@ -1283,23 +1092,14 @@ double bufr_missing_double(void)
    }
 
 /**
- * bufr_missing_float
  * @english
- * 
+ * @return value representing MISSING in float
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * nom: bufr_missing_float
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : return value representing MISSING in float
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 float bufr_missing_float(void)
    {
@@ -1307,23 +1107,14 @@ float bufr_missing_float(void)
    }
 
 /**
- * bufr_missing_int
  * @english
- * 
+ * @return return value representing MISSING in int
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * nom: bufr_missing_int
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : return value representing MISSING in int
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 int bufr_missing_int(void)
    {
@@ -1372,24 +1163,13 @@ int bufr_value_is_missing( BufrValue* bv )
 	}
 
 /**
- * bufr_compare_value
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_compare_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
    {
@@ -1421,16 +1201,6 @@ int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
          f1 = bufr_value_get_float( bv1 );
          f2 = bufr_value_get_float( bv2 );
          if (fabsf(f1-f2) <= eps) return 0;
-/**
- * bufr_between_values
- * @english
- *  
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
           }
          break;
       case VALTYPE_FLT64 :
@@ -1538,26 +1308,16 @@ int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrVa
    }
 
 /**
- * bufr_print_float
  * @english
  * print a float value with minimal string
+ * @param  str  : output string
+ * @param  fval : value to print
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_print_float
- *
- * author:  Vanh Souvanlasy
- *
- * function: print a float value with minimal string
- *
- * parametres:
- *
- *   str  : output string
- *   fval : value to print
-
+ * @ingroup descriptor
  */
 void bufr_print_float( char *str, float fval )
    {
@@ -1574,27 +1334,17 @@ void bufr_print_float( char *str, float fval )
    }
 
 /**
- * bufr_print_scaled_float
  * @english
  * print a scaled float value with precision matching with scale
+ * @param  str  : output string
+ * @param  fval : value to print
+ * @param  scale : no of decimal digit 
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_print_scaled_float
- *
- * author:  Vanh Souvanlasy
- *
- * function: print a scaled float value with precision matching with scale
- *
- * parametres:
- *
- *   str  : output string
- *   fval : value to print
- *   scale : no of decimal digit 
-
+ * @ingroup descriptor
  */
 void bufr_print_scaled_float( char *str, float fval, int scale )
    {
@@ -1613,25 +1363,15 @@ void bufr_print_scaled_float( char *str, float fval, int scale )
    }
 
 /**
- * bufr_binary_to_int
  * @english
  * check if a string is in binary form
+ * @param  str  : input string
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_binary_to_int
- *
- * author:  Vanh Souvanlasy
- *
- * function: check if a string is in binary form
- *
- * parametres:
- *
- *   str  : input string
-
+ * @ingroup descriptor
  */
 int bufr_str_is_binary( const char *str )
    {
@@ -1660,25 +1400,15 @@ int bufr_str_is_binary( const char *str )
    }
 
 /**
- * bufr_binary_to_int
  * @english
  * convert a binary value to int
+ * @param  str  : input string
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_binary_to_int
- *
- * author:  Vanh Souvanlasy
- *
- * function: convert a binary value to int
- *
- * parametres:
- *
- *   str  : input string
-
+ * @ingroup descriptor
  */
 int64_t bufr_binary_to_int( const char *str )
    {
@@ -1708,27 +1438,17 @@ int64_t bufr_binary_to_int( const char *str )
 
 
 /**
- * bufr_print_binary
  * @english
  * print a value in binary form
+ * @param  str  : output string
+ * @param  ival : value to print
+ * @param  nbit : number of bits
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_value.c
-  * name: bufr_print_binary
- *
- * author:  Vanh Souvanlasy
- *
- * function: print a value in binary form
- *
- * parametres:
- *
- *   str  : output string
- *   ival : value to print
- *   nbit : number of bits
-
+ * @ingroup descriptor debug
  */
 void bufr_print_binary ( char *outstr, int64_t  ival, int nbit )
    {

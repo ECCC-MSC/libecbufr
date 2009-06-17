@@ -38,30 +38,19 @@ This file is part of libECBUFR.
 #include "bufr_message.h"
 
 /**
- * bufr_swrite_fn
  * @english
  * internal callback to write to a byte-oriented buffer sink
+ * @param     client_data : file descriptor to output file or socket stream
+ * @param     len : number of bytes to write
+ * @param     buffer : data buffer to write from
+ * @return     number of bytes written. Zero or negative means
+ *      some kind of error.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup bufr_sio.c
-  * name: bufr_swrite_fn
- *
- * author:  Chris Beauregard
- *
- * function: internal callback to write to a byte-oriented buffer sink
- *
- * parameters: 
- *      client_data : file descriptor to output file or socket stream
- *      len : number of bytes to write
- *      buffer : data buffer to write from
- *
- * returns:
- *      number of bytes written. Zero or negative means
- *      some kind of error.
-
+ * @ingroup internal
  */
 static ssize_t bufr_swrite_fn( void *client_data, size_t len,
                                const char *buffer)
@@ -89,26 +78,17 @@ static ssize_t bufr_swrite_fn( void *client_data, size_t len,
 	}
 
 /**
- * bufr_swrite_message
  * @english
  * write a BUFR message sections into a file descriptor or socket
+ *           stream
+ * @param     fd   : file descriptor opened for writing
+ * @param     bufr : pointer to BUFR data structure
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sio.c
-  * name: bufr_swrite_message
- *
- * author:  Vanh Souvanlasy
- *
- * function: write a BUFR message sections into a file descriptor or socket
- *           stream
- *
- * parameters: 
- *      fd   : file descriptor opened for writing
- *      bufr : pointer to BUFR data structure
-
+ * @ingroup internal
  */
 int bufr_swrite_message(int  fd, BUFR_Message *bufr)
    {
@@ -119,27 +99,17 @@ int bufr_swrite_message(int  fd, BUFR_Message *bufr)
  * bufr_sread_fn
  * @english
  * internal callback to read from a byte-oriented buffer source
+ * @param     client_data : file descriptor to input file or socket stream
+ * @param     len : number of bytes to read
+ * @param     buffer : data buffer to read into
+ * @return     number of bytes read. Zero means end-of-file, negative means
+ *      some kind of error.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup bufr_sio.c
-  * name: bufr_sread_fn
- *
- * author:  Chris Beauregard
- *
- * function: internal callback to read from a byte-oriented buffer source
- *
- * parameters: 
- *      client_data : file descriptor to input file or socket stream
- *      len : number of bytes to read
- *      buffer : data buffer to read into
- *
- * returns:
- *      number of bytes read. Zero means end-of-file, negative means
- *      some kind of error.
-
+ * @ingroup internal
  */
 static ssize_t bufr_sread_fn( void* client_data, size_t len, char* buffer )
 	{
@@ -167,23 +137,15 @@ static ssize_t bufr_sread_fn( void* client_data, size_t len, char* buffer )
 	}
 
 /**
- * bufr_sread_message
  * @english
  * read a BUFR report from a socket
+ * @param     fd   : file descriptor to input file or socket stream
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup bufr_sio.c
-  * name: bufr_sread_message
- *
- * author:  Vanh Souvanlasy
- *
- * function: read a BUFR report from a socket
- *
- * parameters: 
- *      fd   : file descriptor to input file or socket stream
 
  */
 int bufr_sread_message( int fd, BUFR_Message **rtrn )

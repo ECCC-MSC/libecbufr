@@ -548,26 +548,18 @@ int bufr_contains_tables( BUFR_Dataset *dts )
 
 
 /**
- * fill_lines
  * @english
  * copy a string into a fixed length line and fill with blank 
+ * @param     line  : line of string to fill
+ * @param     len   : maxlength of line
+ * @param     str   : string to copy
+ * @param     slen  : length of string
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_local.c
-  * name: fill_lines
- *
- * author:  Vanh Souvanlasy
- *
- * function: copy a string into a fixed length line and fill with blank 
- *
- * parametres: 
- *      line  : line of string to fill
- *      len   : maxlength of line
- *      str   : string to copy
- *      slen  : length of string
+ * @ingroup internal
 
  */
 static void fill_line(char *line, int len, char *str, int slen)
@@ -584,29 +576,20 @@ static void fill_line(char *line, int len, char *str, int slen)
    }
 
 /**
- * split_lines
  * @english
  * cut a string into 2 lines and fill remaining with blank
+ * @param     line1 : string line 1
+ * @param     len1  : length of line1
+ * @param     line2 : string line 2
+ * @param     len2  : length of line2
+ * @param     str   : source string to split
+ * @param     len   : length of str
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_local.c
-  * name: split_lines
- *
- * author:  Vanh Souvanlasy
- *
- * function: cut a string into 2 lines and fill remaining with blank
- *
- * parametres: 
- *      line1 : string line 1
- *      len1  : length of line1
- *      line2 : string line 2
- *      len2  : length of line2
- *      str   : source string to split
- *      len   : length of str
-
+ * @ingroup internal
  */
 static void split_lines
 (char *line1, int len1, char *line2, int len2, char *str, int len)
@@ -631,7 +614,6 @@ static void split_lines
    }
 
 /**
- * bufr_sequence_2TBarray
  * @english
  *  
  * @endenglish
@@ -639,16 +621,7 @@ static void split_lines
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_local.c
-  * name: bufr_sequence_2TBarray
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup internal
  */
 static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Tables *tbls )
    {
@@ -683,24 +656,13 @@ static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Table
    }
 
 /**
- * bufr_sequence_2intarr
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_local.c
-  * name: bufr_sequence_2intarr
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup internal
  */
 static int *bufr_sequence_2intarr( BUFR_Sequence *bsq, int *len )
    {

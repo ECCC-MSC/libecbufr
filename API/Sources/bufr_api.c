@@ -43,7 +43,6 @@ This file is part of libECBUFR.
 
 /**
  * @english
- *    bufr_begin_api()
  * Initialises mathematical constants, calls bufr_init_limits.
  * First function to call for using the BUFR API library
  * @warning Not thread-safe
@@ -73,8 +72,6 @@ void bufr_begin_api(void)
 
 /**
  * @english
- *    bufr_end_api()
- *    void
  * Last function to call for using the BUFR API library.
  * Frees allocated memory used by api etc.
  * This may be a null function matching bufr_begin_api.
@@ -97,22 +94,13 @@ void bufr_end_api(void)
 /**
  * bufr_subset_find_descriptor
  * @english
- * find a code in a datasubset using a descriptor
+ * find the position of a descriptor in a data subset
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_api.c
-  * name: bufr_subset_find_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: find a code in a datasubset using a descriptor
- *
- * parametres:
- *
-
+ * @ingroup descriptor dataset
  */
 int bufr_subset_find_descriptor( DataSubset *dts, int descriptor, int startpos )
    {
@@ -355,16 +343,7 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_api.c
-  * name: bufr_set_key_location
- *
- * author:  Vanh Souvanlasy
- *
- * function: define a key with a value representing time or location to search in datasubset
- *
- * parametres:
- *
-
+ * @ingroup decode descriptor
  */
 void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
    {

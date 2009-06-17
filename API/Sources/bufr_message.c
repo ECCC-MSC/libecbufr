@@ -115,28 +115,6 @@ void  bufr_free_message( BUFR_Message *r )
    }
 
 /**
- * bufr_print_message
- * @english
- * print message header infos
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_message.c
-  * nom: bufr_print_message
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: print message header infos
- *
- * parametres: 
- *      r : la structure a detruire
-
- */
-
-
-/**
  * @english
  * @brief print message header infos
  * This call prints a formatted message describing each section’s
@@ -273,27 +251,6 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
    }
 
 /**
- * bufr_sect2_set_data
- * @english
- * mettre des donnees dans la section 2
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_message.c
-  * nom: bufr_sect2_set_data
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: mettre des donnees dans la section 2
- *
- * parametres: 
- *      r : la structure a detruire
-
- */
-
-/**
  * @english
  * @brief set the contents of the optional and arbitrary BUFR section 2
  *
@@ -341,24 +298,15 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
    }
 
 /**
- * bufr_init_header
  * @english
- * initialiser infos de BUFR_Message
+ * @todo translation
  * @endenglish
  * @francais
- * @todo translate to French
+ * initialiser infos de BUFR_Message
+ * @param     r : la structure a initialiser
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_message.c
-  * nom: bufr_init_header
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: initialiser infos de BUFR_Message
- *
- * parametres: 
- *      r : la structure a initialiser
-
+ * @ingroup internal
  */
 void bufr_init_header(BUFR_Message *bufr, int edition)
    {
@@ -408,24 +356,15 @@ void bufr_init_header(BUFR_Message *bufr, int edition)
    }
 
 /**
- * bufr_init_sect1
  * @english
- * allouer l'espace memoire pour la section 3
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * initialiser l'espace memoire pour la section 1
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_message.c
-  * nom: bufr_init_sect1
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: allouer l'espace memoire pour la section 3
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 void bufr_init_sect1( BufrSection1 *s1 )
    {
@@ -484,21 +423,14 @@ void bufr_copy_sect1( BufrSection1 *dest, BufrSection1 *src )
 /**
  * bufr_alloc_sect3
  * @english
- * allouer l'espace memoire pour la section 3
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * allouer l'espace memoire pour la section 3
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup bufr_message.c
-  * nom: bufr_alloc_sect3
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: allouer l'espace memoire pour la section 3
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
 
  */
 static void bufr_alloc_sect3(BUFR_Message *bufr)
@@ -611,24 +543,15 @@ void bufr_end_message(BUFR_Message *bufr)
    }
 
 /**
- * bufr_encode_sect3
  * @english
- * encoder la section 3
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * encoder la section 3
+ * @param     bufr : la structure de donnees BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_message.c
-  * nom: bufr_encode_sect3
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: encoder la section 3
- *
- * parametres: 
- *      bufr : la structure de donnees BUFR
-
+ * @ingroup internal
  */
 int bufr_encode_sect3(BUFR_Message *bufr)
    {
@@ -659,24 +582,15 @@ int bufr_encode_sect3(BUFR_Message *bufr)
    }
 
 /**
- * bufr_set_gmtime
  * @english
- * initialiser la partie temps a l'heure GMT actuel
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * initialiser la partie temps a l'heure GMT actuel
+ * @param     s1  : pointeur a la section 1
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_message.c
-  * nom: bufr_set_gmtime
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: initialiser la partie temps a l'heure GMT actuel
- *
- * parametres: 
- *      s1  : pointeur a la section 1
-
+ * @ingroup encode
  */
 void bufr_set_gmtime(BufrSection1 *s1)
    {
@@ -688,25 +602,16 @@ void bufr_set_gmtime(BufrSection1 *s1)
    }
 
 /**
- * bufr_set_time_sect1
  * @english
- * initialiser le temps de la section 1
+ * @todo translate
  * @endenglish
  * @francais
- * @todo translate to French
+ * initialiser le temps de la section 1
+ * @param     s1  : pointeur a la section 1
+ * @param     temps : le temps gmt
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_message.c
-  * nom: bufr_set_time_sect1
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: initialiser le temps de la section 1
- *
- * parametres: 
- *      s1  : pointeur a la section 1
- *      gmt : le temps gmt
-
+ * @ingroup encode
  */
 void bufr_set_time_sect1( BufrSection1 *s1, time_t temps )
    {

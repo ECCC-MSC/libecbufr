@@ -38,26 +38,16 @@ static void bufr_copy_af( BufrAF *dest, const BufrAF *src );
 static void bufr_copy_afd( BufrAFD *dest, const BufrAFD *src );
 
 /**
- * bufr_create_af
  * @english
  * creates an instance of the BufrAF structure for Associated Field
+ * @param   blens  array of bits len
+ * @param   count  len of array
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_create_af
- *
- * author:  Vanh Souvanlasy
- *
- * function: creates an instance of the BufrAF structure for Associated Field
- *
- * parametres:
- *
- *    blens  :  array of bits len
- *    count  :  len of array
-
+ * @ingroup encode descriptor
  */
 BufrAF  *bufr_create_af( const int *blens, int count )
    {
@@ -99,26 +89,15 @@ BufrAF  *bufr_create_af( const int *blens, int count )
    }
 
 /**
- * bufr_duplicate_af
  * @english
  * creates an duplicate of an BufrAF structure
+ * @param   dup     pointer to  BufrAF
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_duplicate_af
- *
- * author:  Vanh Souvanlasy
- *
- * function: creates an duplicate of an BufrAF structure
- *
- * parametres:
- *
- *   dup     :  pointer to  BufrAF
- *
-
+ * @ingroup encode descriptor
  */
 BufrAF  *bufr_duplicate_af( const BufrAF *dup )
    {
@@ -142,25 +121,15 @@ BufrAF  *bufr_duplicate_af( const BufrAF *dup )
    }
 
 /**
- * bufr_free_af
  * @english
  * destroy an instance of BufrAF
+ * @param  af    pointer to  BufrAF
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_free_af
- *
- * author:  Vanh Souvanlasy
- *
- * function: destroy an instance of BufrAF
- *
- * parametres:
- *
- *   af    :  pointer to  BufrAF
-
+ * @ingroup encode descriptor
  */
 void bufr_free_af( BufrAF *af )
    {
@@ -175,26 +144,15 @@ void bufr_free_af( BufrAF *af )
    }
 
 /**
- * bufr_print_af
  * @english
- *  
+ * @param  outstr output string
+ * @param  af     pointer to  BufrAF
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_print_af
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
- *   outstr :  output string
- *   af     :  pointer to  BufrAF
-
+ * @ingroup io debug descriptor
  */
 int bufr_print_af ( char *outstr, const BufrAF *af )
    {
@@ -209,26 +167,16 @@ int bufr_print_af ( char *outstr, const BufrAF *af )
 
 
 /**
- * bufr_create_afd
  * @english
  * creates an instance of the BufrAFD structure for Associated Field definition
+ * @param   blens  array of bits len
+ * @param   count  len of array
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_create_afd
- *
- * author:  Vanh Souvanlasy
- *
- * function: creates an instance of the BufrAFD structure for Associated Field definition
- *
- * parametres:
- *
- *    blens  :  array of bits len
- *    count  :  len of array
-
+ * @ingroup encode descriptor
  */
 BufrAFD  *bufr_create_afd( const int *blens, int count )
    {
@@ -266,25 +214,15 @@ BufrAFD  *bufr_create_afd( const int *blens, int count )
    }
 
 /**
- * bufr_duplicate_afd
  * @english
  * creates an duplicate of an BufrAFD structure
+ * @param  dup     pointer to  BufrAFD
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_duplicate_afd
- *
- * author:  Vanh Souvanlasy
- *
- * function: creates an duplicate of an BufrAFD structure
- *
- * parametres:
- *
- *   dup     :  pointer to  BufrAFD
-
+ * @ingroup descriptor
  */
 BufrAFD  *bufr_duplicate_afd( const BufrAFD *dup )
    {
@@ -308,25 +246,14 @@ BufrAFD  *bufr_duplicate_afd( const BufrAFD *dup )
    }
 
 /**
- * bufr_free_afd
  * @english
- *  
+ * @param  afd     pointer to  BufrAFD
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_free_afd
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
- *   afd     :  pointer to  BufrAFD
-
+ * @ingroup descriptor
  */
 void bufr_free_afd( BufrAFD *afd )
    {
@@ -344,22 +271,14 @@ void bufr_free_afd( BufrAFD *afd )
  * bufr_af_get_sig
  * @english
  * obtain the significance some bits at a position of the bits block
+ * @param  af     :  pointer to  BufrAF
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_af_get_sig
+ * @ingroup descriptor
  *
- * author:  Vanh Souvanlasy
- *
- * function: obtain the significance some bits at a position of the bits block
- *
- * parametres:
- *
- *   af     :  pointer to  BufrAF
-
  */
 int bufr_af_get_sig  ( const BufrAF *af, int pos )
    {
@@ -369,25 +288,14 @@ int bufr_af_get_sig  ( const BufrAF *af, int pos )
    }
 
 /**
- * bufr_af_set_sig
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_af_set_sig
+ * @ingroup descriptor
  *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
- */
 void bufr_af_set_sig  ( BufrAF *af, int pos, int val )
    {
    if ((pos < 0)||(pos >= af->count)) return;
@@ -396,7 +304,6 @@ void bufr_af_set_sig  ( BufrAF *af, int pos, int val )
    }
 
 /**
- * bufr_af_get_value
  * @english
  *  
  * @endenglish
@@ -404,16 +311,7 @@ void bufr_af_set_sig  ( BufrAF *af, int pos, int val )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_af_get_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 int bufr_af_get_value  ( const BufrAF *af, int pos )
    {
@@ -438,7 +336,6 @@ int bufr_af_get_value  ( const BufrAF *af, int pos )
    }
 
 /**
- * bufr_af_set_value
  * @english
  *  
  * @endenglish
@@ -446,16 +343,7 @@ int bufr_af_get_value  ( const BufrAF *af, int pos )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_af_set_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 void bufr_af_set_value  ( BufrAF *af, int pos, int val )
    {
@@ -490,16 +378,7 @@ void bufr_af_set_value  ( BufrAF *af, int pos, int val )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_copy_af
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor internal
  */
 static void bufr_copy_af( BufrAF *dest, const BufrAF *src )
    {
@@ -523,7 +402,6 @@ static void bufr_copy_af( BufrAF *dest, const BufrAF *src )
    }
 
 /**
- * bufr_copy_afd
  * @english
  *  
  * @endenglish
@@ -531,16 +409,7 @@ static void bufr_copy_af( BufrAF *dest, const BufrAF *src )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_af.c
-  * name: bufr_copy_afd
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor internal
  */
 static void bufr_copy_afd( BufrAFD *dest, const BufrAFD *src )
    {

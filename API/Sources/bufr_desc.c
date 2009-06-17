@@ -41,26 +41,13 @@ static int bufr_check_class31_set( BufrDescriptor *cb );
 static void print_set_value_error( BufrDescriptor *cb, char *valstr );
 
 /**
- * bufr_print_descriptor
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_print_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
- */
-/**
+ * @ingroup descriptor debug
  * @warning assumes outstr is large enough to represent the code
  */
 void bufr_print_descriptor( char *outstr, BufrDescriptor *cb )
@@ -116,7 +103,6 @@ void bufr_print_descriptor( char *outstr, BufrDescriptor *cb )
    }
 
 /**
- * bufr_create_descriptor
  * @english
  *  
  * @endenglish
@@ -124,16 +110,7 @@ void bufr_print_descriptor( char *outstr, BufrDescriptor *cb )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_create_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
    {
@@ -200,7 +177,6 @@ BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
    }
 
 /**
- * bufr_free_descriptor
  * @english
  *  
  * @endenglish
@@ -208,16 +184,7 @@ BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_free_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 void bufr_free_descriptor( BufrDescriptor *code )
    {
@@ -245,24 +212,13 @@ void bufr_free_descriptor( BufrDescriptor *code )
    }
 
 /**
- * bufr_copy_descriptor
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_copy_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
    {
@@ -302,24 +258,13 @@ void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
    }
 
 /**
- * bufr_mkval_for_descriptor
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_mkval_for_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup descriptor
  */
 BufrValue *bufr_mkval_for_descriptor ( BufrDescriptor *bc )
    {
@@ -394,23 +339,13 @@ void bufr_set_value_af( BufrValue *bv, const BufrDescriptor *bc )
    }
 
 /**
- * bufr_encoding_to_valtype
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_encoding_to_valtype
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
    {
@@ -424,16 +359,6 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
          else
             return VALTYPE_FLT32;
       case TYPE_NUMERIC :
-/**
- * bufr_datatype_to_valtype
- * @english
- *  
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
           if ((be->scale == 0)&&(be->reference == 0)) 
             {
             if (be->nbits <= 8)
@@ -833,7 +758,6 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
    }
 
 /**
- * bufr_check_class31_set
  * @english
  * see if class31 value is already set and expanded
  * @endenglish
@@ -841,15 +765,7 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_check_class31_set
- *
- * author:  Vanh Souvanlasy
- *
- * function: see if class31 value is already set and expanded
- *
- * parametres:
-
+ * @ingroup descriptor internal
  */
 static int bufr_check_class31_set( BufrDescriptor *cb )
    {
@@ -875,7 +791,6 @@ static int bufr_check_class31_set( BufrDescriptor *cb )
    }
 
 /**
- * bufr_descriptor_set_bitsvalue
  * @english
  * turn bits into value according to code type
  * @endenglish
@@ -883,17 +798,7 @@ static int bufr_check_class31_set( BufrDescriptor *cb )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_descriptor_set_bitsvalue
- *
- * author:  Vanh Souvanlasy
- *
- * function: turn bits into value according to code type
- *
- * parametres:
-
- */
-/**
+ * @ingroup descriptor
  * @bug where's bufr_code_get_bitsvalue?
  */
 int bufr_descriptor_set_bitsvalue ( BufrDescriptor *cb , uint64_t ival )
@@ -1019,23 +924,13 @@ int bufr_descriptor_set_svalue ( BufrDescriptor *cb , const char *sval )
    }
 
 /**
- * print_set_value_error
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: print_set_value_error
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
-
+ * @ingroup error internal
  */
 static void print_set_value_error( BufrDescriptor *cb, char *valstr )
    {
@@ -1163,7 +1058,6 @@ char *bufr_descriptor_get_svalue ( BufrDescriptor *cb, int *len )
    }
 
 /**
- * bufr_descriptor_get_location
  * @english
  * return the incremented time associated with this instance of BufrDescriptor
  * @endenglish
@@ -1171,15 +1065,7 @@ char *bufr_descriptor_get_svalue ( BufrDescriptor *cb, int *len )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_descriptor_get_location
- *
- * author:  Vanh Souvanlasy
- *
- * function: return the incremented time associated with this instance of BufrDescriptor
- *
- * parametres:
-
+ * @ingroup descriptor
  */
 float bufr_descriptor_get_location ( BufrDescriptor *cb, int desc )
    {
@@ -1189,26 +1075,13 @@ float bufr_descriptor_get_location ( BufrDescriptor *cb, int desc )
    }
 
 /**
- * bufr_print_dscptr_value
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_desc.c
-  * name: bufr_print_dscptr_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
- */
-/**
+ * @ingroup debug descriptor
  * @warning assumes outstr is large enough to represent the code
  */
 int bufr_print_dscptr_value( char *outstr, BufrDescriptor *cb )

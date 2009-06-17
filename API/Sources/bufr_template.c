@@ -42,24 +42,13 @@ static void bufr_copy_DescValue ( BufrDescValue *dest, BufrDescValue *src );
 static void bufr_free_desc_array( char *list );
 
 /**
- * bufr_free_desc_array
  * @english
- * 
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_free_desc_array
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parametres:
- *
-
+ * @ingroup template internal
  */
 static void bufr_free_desc_array( char *list )
    {
@@ -126,7 +115,6 @@ BUFR_Template *bufr_create_template
    }
 
 /**
- * bufr_template_add_DescValue
  * @english
  *  
  * @endenglish
@@ -134,16 +122,7 @@ BUFR_Template *bufr_create_template
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_template_add_DescValue
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup template
  */
 void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, int nb )
    {
@@ -176,7 +155,6 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, i
    }
 
 /**
- * bufr_copy_DescValue
  * @english
  *  
  * @endenglish
@@ -184,16 +162,7 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, i
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_copy_DescValue
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup template internal
  */
 static void bufr_copy_DescValue
    ( BufrDescValue *dest, BufrDescValue *src )
@@ -246,7 +215,6 @@ void bufr_vfree_DescValue ( BufrDescValue *code )
    }
 
 /**
- * bufr_finalize_template
  * @english
  *  
  * @endenglish
@@ -254,16 +222,7 @@ void bufr_vfree_DescValue ( BufrDescValue *code )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_finalize_template
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup template
  */
 int bufr_finalize_template( BUFR_Template *tmplt )
    {
@@ -323,7 +282,6 @@ int bufr_finalize_template( BUFR_Template *tmplt )
 
 
 /**
- * bufr_free_template
  * @english
  *  
  * @endenglish
@@ -331,16 +289,7 @@ int bufr_finalize_template( BUFR_Template *tmplt )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_free_template
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup template
  */
 void bufr_free_template ( BUFR_Template *tmplt )
    {
@@ -382,23 +331,14 @@ void bufr_free_template ( BUFR_Template *tmplt )
    }
 
 /**
- * bufr_copy_template
  * @english
- *  
+ * @param     filename : input filename
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_copy_template
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      filename : input filename
+ * @ingroup template
 
  */
 BUFR_Template *bufr_copy_template( BUFR_Template *tmplt )
@@ -415,25 +355,6 @@ BUFR_Template *bufr_copy_template( BUFR_Template *tmplt )
    return tmplt2;
    }
 
-/**
- * bufr_load_template
- * @english
- * load a BUFR template description file
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_load_template
- *
- * author:  Vanh Souvanlasy
- *
- * function: load a BUFR template description file
- *
- * parametres:
-
- */
 /**
  * @english
  *    tmplt = bufr_load_template( str_template, tables )
@@ -773,7 +694,6 @@ int bufr_save_template( const char *filename, BUFR_Template *tmplt )
    }
 
 /**
- * bufr_template_count_code
  * @english
  *  
  * @endenglish
@@ -781,16 +701,7 @@ int bufr_save_template( const char *filename, BUFR_Template *tmplt )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_template_count_code
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup template
  */
 int bufr_template_count_code( BUFR_Template *tmplt )
    {
@@ -808,16 +719,7 @@ int bufr_template_count_code( BUFR_Template *tmplt )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_valloc_DescValue
- *
- * author:  Vanh Souvanlasy
- *
- * function: allocate values array
- *
- * parametres:
- *      
-
+ * @ingroup template
  */
 void bufr_valloc_DescValue     ( BufrDescValue *ct, int nb_values )
    {
@@ -831,7 +733,6 @@ void bufr_valloc_DescValue     ( BufrDescValue *ct, int nb_values )
    }
 
 /**
- * bufr_init_DescValue
  * @english
  * initialize BufrDescValue
  * @endenglish
@@ -839,16 +740,7 @@ void bufr_valloc_DescValue     ( BufrDescValue *ct, int nb_values )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_init_DescValue
- *
- * author:  Vanh Souvanlasy
- *
- * function: initialize BufrDescValue
- *
- * parametres:
- *      
-
+ * @ingroup descriptor
  */
 void bufr_init_DescValue     ( BufrDescValue *ct )
    {
@@ -857,26 +749,15 @@ void bufr_init_DescValue     ( BufrDescValue *ct )
    }
 
 /**
- * bufr_compare_template
  * @english
  * compare 2 template to see if the are the same
+ * @param    t1, t2 :   pointers to 2 templates to compare
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_template.c
-  * name: bufr_compare_template
- *
- * author:  Vanh Souvanlasy
- *
- * function: compare 2 template to see if the are the same
- *
- * parametres:
- *
- *     t1, t2 :   pointers to 2 templates to compare
- *      
-
+ * @ingroup template
  */
 int bufr_compare_template( BUFR_Template *t1, BUFR_Template *t2 )
    {

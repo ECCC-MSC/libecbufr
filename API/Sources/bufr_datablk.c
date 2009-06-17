@@ -30,28 +30,20 @@ static int bufr_zip_sect3(BUFR_Tables *tbls, BUFR_Message *bufr );
 static int bufr_tdzip_sect3(BUFR_Tables *, int *zdesc, int *desc, int descnt );
 
 /**
- * bufr_write_datablks
  * @english
- * ecrire dans un fichier DATA les donnees d'une station
+ * @todo translate to English
  * @endenglish
  * @francais
- * @todo translate to French
+ * @param       fp   : pointeur du fichier DATA
+ * @param       bufr : structure de donnees d'un message DATA
+ * @param       blks : les blocs de donnees a ecrire
+ * @param       nblk : le nombre de blocs
+ * @param       x_compress : s'il faut compresser les donnees
+ * ecrire dans un fichier DATA les donnees d'une station
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_datablk.c
-  * nom: bufr_write_datablks
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire dans un fichier DATA les donnees d'une station
- *
- * parametres:  
- *        fp   : pointeur du fichier DATA
- *        bufr : structure de donnees d'un message DATA
- *        blks : les blocs de donnees a ecrire
- *        nblk : le nombre de blocs
- *        x_compress : s'il faut compresser les donnees
-
+ * @warning for local use, for converting BURP to BUFR
+ * @ingroup io message internal
  */
 int bufr_write_datablks
 (FILE *fp, BUFR_Message *bufr, DATA_BLK **blks, int nblk, int x_compress, BUFR_Tables *tbls )
@@ -230,26 +222,16 @@ int bufr_write_datablks
    }
 
 /**
- * bufr_cvt_blk
  * @english
- * convertir les valeurs de pt. floatant en entier en utilisant
+ * @todo translate to English
  * @endenglish
  * @francais
- * @todo translate to French
+ * convertir les valeurs de pt. floatant en entier en utilisant
+ * @param       blk      : bloc de donnees
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_datablk.c
-  * nom: bufr_cvt_blk
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: convertir les valeurs de pt. floatant en entier en utilisant
- *           les tables B chargees localement
- *
- * parametres:  
- *        blk      : bloc de donnees
- *
-
+ * @warning for local use, for converting BURP to BUFR
+ * @ingroup io message internal
  */
 void bufr_cvt_blk( DATA_BLK *blk, BUFR_Tables *tbls )
    {
@@ -367,18 +349,6 @@ int  bufr_add_dlste( int  code, DATA_BLK *blk )
 void bufr_allocdata( DATA_BLK *blk, int  nele, int nval, int nt )
    {
    int max_len, len;
-/**
- * bufr_zip_sect3
- * @english
- * compression a multi-passe de la section 3
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_datablk.c
- ** liberer l'espace memoire de ces elements s'il ne sont pas deja faits
-*/
    DATA_SetNELE(blk, nele );
    DATA_SetNVAL(blk, nval );
    DATA_SetNT(blk, nt );
@@ -666,26 +636,18 @@ static int bufr_zip_sect3(BUFR_Tables *tbls, BUFR_Message *bufr )
    }
 
 /**
- * bufr_tdzip_sect3
  * @english
- * faire 1 passe de compress avec une table D
+ * @todo translate to English
  * @endenglish
  * @francais
- * @todo translate to French
+ * faire 1 passe de compress avec une table D
+ * @param     zdesc  : descripteurs compresses
+ * @param     desc   : descripteurs en entree
+ * @param     descnt : nombre de descripteurs
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_datablk.c
-  * nom: bufr_tdzip_sect3
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: faire 1 passe de compress avec une table D
- *
- * parametres: 
- *      zdesc  : descripteurs compresses
- *      desc   : descripteurs en entree
- *      descnt : nombre de descripteurs
-
+ * @deprecated by bufr_tabled_match_sequence
+ * @ingroup io message internal
  */
 static int bufr_tdzip_sect3(BUFR_Tables *tbls, int *zdesc, int *desc, int descnt )
    {

@@ -58,7 +58,6 @@ static void        bufr_walk_sequence
                         void *client_data  );
 
 /**
- * bufr_free_sequence
  * @english
  *  
  * @endenglish
@@ -66,16 +65,7 @@ static void        bufr_walk_sequence
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_free_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup template internal
  */
 void bufr_free_sequence( BUFR_Sequence *bsq )
    {
@@ -145,24 +135,13 @@ BUFR_Sequence *bufr_create_sequence(LinkedList *list)
    }
 
 /**
- * bufr_add_descriptor_to_sequence
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_add_descriptor_to_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup template descriptor internal
  */
 void bufr_add_descriptor_to_sequence( BUFR_Sequence *bsq, BufrDescriptor *cb )
    {
@@ -178,24 +157,13 @@ void bufr_add_descriptor_to_sequence( BUFR_Sequence *bsq, BufrDescriptor *cb )
    }
 
 /**
- * bufr_expand_sequence
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_expand_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup template internal
  */
 void bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
    {
@@ -205,24 +173,13 @@ void bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
    }
 
 /**
- * bufr_expand_list
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_expand_list
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static void bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls )
    {
@@ -257,7 +214,6 @@ static void bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls )
    }
 
 /**
- * bufr_expand_descriptor
  * @english
  *  
  * @endenglish
@@ -265,16 +221,7 @@ static void bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_expand_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup template internal
  */
 BUFR_Sequence *bufr_expand_descriptor( int desc, int flags, BUFR_Tables *tbls )
    {
@@ -288,24 +235,13 @@ BUFR_Sequence *bufr_expand_descriptor( int desc, int flags, BUFR_Tables *tbls )
    }
 
 /**
- * bufr_expand_desc
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_expand_desc
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
    {
@@ -352,24 +288,13 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
    }
 
 /**
- * bufr_expand_node_descriptor
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_expand_node_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BUFR_Tables *tbls )
    {
@@ -531,24 +456,13 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
    }
 
 /**
- * bufr_repl_descriptors
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_repl_descriptors
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static LinkedList *bufr_repl_descriptors
    ( ListNode *first, int nbdesc, int count, int flags, BUFR_Tables *tbls )
@@ -650,24 +564,13 @@ static LinkedList *bufr_repl_descriptors
    }
 
 /**
- * bufr_assign_descriptors
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_assign_descriptors
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static void bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR_Tables *tbls )
    {
@@ -704,7 +607,6 @@ static void bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR
    }
 
 /**
- * bufr_walk_sequence
  * @english
  *  
  * @endenglish
@@ -712,16 +614,7 @@ static void bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_walk_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static void bufr_walk_sequence
    ( BUFR_Sequence *bsq, void (*proc)(BufrDescriptor *, void * ), 
@@ -737,24 +630,13 @@ static void bufr_walk_sequence
    }
 
 /**
- * bufr_check_sequence
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_check_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup internal
  */
 int bufr_check_sequence 
    ( BUFR_Sequence *bsq, int version, int *flags, BUFR_Tables *tbls, int depth )
@@ -938,7 +820,6 @@ int bufr_check_sequence
    }
 
 /**
- * decrease_repeat_counters
  * @english
  *  
  * @endenglish
@@ -946,16 +827,7 @@ int bufr_check_sequence
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: decrease_repeat_counters
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup internal
  */
 static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *skip1 )
    {
@@ -1043,7 +915,6 @@ static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *ski
    }
 
 /**
- * bufr_sequence_to_array
  * @english
  *  
  * @endenglish
@@ -1051,16 +922,7 @@ static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *ski
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_sequence_to_array
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup internal
  */
 BufrDescriptorArray bufr_sequence_to_array( BUFR_Sequence *codes, int dovalues )
    {
@@ -1137,7 +999,6 @@ BUFR_Sequence *bufr_copy_sequence( BUFR_Sequence *bsq )
    }
 
 /**
- * bufr_free_descriptorNode
  * @english
  *  
  * @endenglish
@@ -1145,16 +1006,7 @@ BUFR_Sequence *bufr_copy_sequence( BUFR_Sequence *bsq )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_free_descriptorNode
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
-
+ * @ingroup internal
  */
 static void bufr_free_descriptorNode(ListNode *node)
    {
@@ -1483,7 +1335,6 @@ BufrDDOp  *bufr_apply_Tables
    }
 
 /**
- * bufr_init_location
  * @english
  *  
  * @endenglish
@@ -1491,16 +1342,7 @@ BufrDDOp  *bufr_apply_Tables
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_init_location
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 int bufr_init_location( BufrDDOp *ddo, BufrDescriptor *cb )
    {
@@ -1519,24 +1361,13 @@ int bufr_init_location( BufrDDOp *ddo, BufrDescriptor *cb )
    }
 
 /**
- * bufr_apply_op_crefval
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_apply_op_crefval
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmplt )
    {
@@ -1613,24 +1444,13 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
             
 
 /**
- * bufr_reassign_table2code
  * @english
- *  
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_reassign_table2code
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static void bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb )
    {
@@ -1670,7 +1490,6 @@ static void bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb
    }
 
 /**
- * bufr_change_af_sig
  * @english
  * change current associated field meaning
  * @endenglish
@@ -1678,16 +1497,7 @@ static void bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_change_af_sig
- *
- * author:  Vanh Souvanlasy
- *
- * function:  change current associated field meaning
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static void bufr_change_af_sig( BufrDDOp *ddo , char *sig )
    {
@@ -1706,7 +1516,6 @@ static void bufr_change_af_sig( BufrDDOp *ddo , char *sig )
    }
 
 /**
- * bufr_solve_replication
  * @english
  * change current associated field meaning
  * @endenglish
@@ -1714,16 +1523,7 @@ static void bufr_change_af_sig( BufrDDOp *ddo , char *sig )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_solve_replication
- *
- * author:  Vanh Souvanlasy
- *
- * function:  change current associated field meaning
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 static int bufr_solve_replication( int value, int y2, int descriptor )
    {
@@ -1762,24 +1562,15 @@ static int bufr_solve_replication( int value, int y2, int descriptor )
    }
 
 /**
- * bufr_index_dpbm
  * @english
  * makes an data only index to access code 
+ * @param  bsq : pointer to a BUFR_Sequence
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_index_dpbm
- *
- * author:  Vanh Souvanlasy
- *
- * function: makes an data only index to access code 
- *
- * parametres:
- *
- *   bsq : pointer to a BUFR_Sequence
+ * @ingroup internal
 
  */
 BufrDPBM *bufr_index_dpbm ( BufrDDOp *ddo, BUFR_Sequence *bsq )
@@ -1879,25 +1670,15 @@ BufrDPBM *bufr_index_dpbm ( BufrDDOp *ddo, BUFR_Sequence *bsq )
    }
 
 /**
- * bufr_is_dd_for_dpbm
  * @english
  * determine if a data descriptor should not a counted for indexing 
+ * of Data Present Bitmap
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_is_dd_for_dpbm
- *
- * author:  Vanh Souvanlasy
- *
- * function: determine if a data descriptor should not a counted for indexing 
- * of Data Present Bitmap
- *
- * parametres:   BufrDescriptor *bcv
- *
-
+ * @ingroup internal
  */
 static int bufr_is_dd_for_dpbm( BufrDescriptor *bcv )
    {
@@ -1929,7 +1710,6 @@ static int bufr_is_dd_for_dpbm( BufrDescriptor *bcv )
    }
 
 /**
- * bufr_apply_dpbm
  * @english
  * 
  * @endenglish
@@ -1937,16 +1717,7 @@ static int bufr_is_dd_for_dpbm( BufrDescriptor *bcv )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_apply_dpbm
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 int bufr_apply_dpbm ( BufrDPBM *dpbm, BUFR_Sequence *bsq, ListNode *svnode )
    {
@@ -2016,7 +1787,6 @@ void bufr_reindex_sequence ( BUFR_Sequence *cl )
    }
 
 /**
- * bufr_reindex_sequence
  * @english
  * 
  * @endenglish
@@ -2024,16 +1794,7 @@ void bufr_reindex_sequence ( BUFR_Sequence *cl )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_sequence.c
-  * name: bufr_reindex_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parametres:
- *
-
+ * @ingroup internal
  */
 ListNode *bufr_getnode_sequence ( BUFR_Sequence *cl, int pos )
    {

@@ -69,7 +69,6 @@ static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts );
 
 
 /**
- * bufr_allocate_datasubset
  * @english
  * instantiate a DataSubset object
  * @endenglish
@@ -77,16 +76,7 @@ static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts );
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_allocate_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: instantiate a DataSubset object
- *
- * parametres:  none
- *      
-
+ * @ingroup dataset
  */
 static DataSubset *bufr_allocate_datasubset(void)
    {
@@ -148,25 +138,15 @@ BUFR_Dataset *bufr_create_dataset  ( BUFR_Template *tmplt )
 
 
 /**
- * bufr_free_dataset
  * @english
  * free memory used by an instance of BUFR_Dataset 
+ * @param     dts : pointer to a BUFR_Dataset
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_free_dataset
- *
- * author:  Vanh Souvanlasy
- *
- * function: free memory used by an instance of BUFR_Dataset 
- *
- * parametres: 
- *      dts : pointer to a BUFR_Dataset
- *      
-
+ * @ingroup dataset
  */
 void bufr_free_dataset ( BUFR_Dataset *dts )
    {
@@ -337,25 +317,15 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
    }
 
 /**
- * bufr_duplicate_datasubset
  * @english
  * makes a copy of the DataSubset 
+ * @param  dss  : pointer to a DataSubset to copy
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_duplicate_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: makes a copy of the DataSubset 
- *
- * parametres:
- *
- *   dss  : pointer to a DataSubset to copy
-
+ * @ingroup dataset
  */
 static DataSubset *bufr_duplicate_datasubset( DataSubset *dss )
    {
@@ -421,28 +391,18 @@ int bufr_add_datasubset( BUFR_Dataset *dts, BUFR_Sequence *bsq, BufrDDOp *ddo )
    }
 
 /**
- * bufr_fill_datasubset
  * @english
  * add a Datasubset to a dataset from a BUFR_Sequence,
+ * this sequence must share the same template as the Dataset
+ * @param   subset :  pointer to a BUFR_Dataset
+ * @param   bsq :  pointer to a BUFR_Sequence to be add, once added, its
+ *                 memory management belongs to the dataset, it should not be freed from outside
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_fill_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: add a Datasubset to a dataset from a BUFR_Sequence,
- *           this sequence must share the same template as the Dataset
- *
- * parametres:
- *
- *    dts :  pointer to a BUFR_Dataset
- *    bsq :  pointer to a BUFR_Sequence to be add, once added, its memory management
- *           belongs to the dataset, it should not be freed from outside
-
+ * @ingroup dataset
  */
 static void bufr_fill_datasubset( DataSubset *subset, BUFR_Sequence *bsq )
    {
@@ -512,26 +472,16 @@ BufrDescriptor *bufr_datasubset_get_descriptor( DataSubset *dts, int pos )
    }
 
 /**
- * bufr_datasubset_next_descriptor
  * @english
- * return a pointer to a next unskipped BufrDescriptor located at the given position
+ * @return a pointer to a next unskipped BufrDescriptor located at the given position
+ * @param   dts :  pointer to a DataSubset
+ * @param   pos :  position from 0 to n-1
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_datasubset_next_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: return a pointer to a next unskipped BufrDescriptor located at the given position
- *
- * parametres:
- *      
- *    dts :  pointer to a DataSubset
- *    pos :  position from 0 to n-1
-
+ * @ingroup descriptor dataset
  */
 BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
    {
@@ -561,31 +511,8 @@ BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
    }
 
 /**
- * bufr_datasubset_count_descriptor
  * @english
- * return the number of BufrDescriptor inside a DataSubset
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_datasubset_count_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: return the number of BufrDescriptor inside a DataSubset
- *           each subset of a Dataset may have a different descriptors count
- *           if there are delayed replications of different count in each subset
- *
- * parametres:
- *      
- *    dts :  pointer to a DataSubset
-
- */
-/**
- * @english
- * return the number of BufrDescriptor inside a DataSubset.
+ * @return the number of BufrDescriptor inside a DataSubset.
  * Each subset of a Dataset may have a different descriptors count.
  * If there are delayed replications of different count in each subset.
  * For each data subset there will be a counter of the number of elements
@@ -610,25 +537,15 @@ int bufr_datasubset_count_descriptor ( DataSubset *dts )
    }
 
 /**
- * bufr_free_datasubsets
  * @english
  * free all DataSubset stored in a Dataset
+ * @param   dts :  pointer to a BUFR_Dataset
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_free_datasubsets
- *
- * author:  Vanh Souvanlasy
- *
- * function: free all DataSubset stored in a Dataset
- *
- * parametres:
- *      
- *    dts :  pointer to a BUFR_Dataset
-
+ * @ingroup dataset
  */
 static void bufr_free_datasubsets( BUFR_Dataset *dts )
    {
@@ -643,25 +560,15 @@ static void bufr_free_datasubsets( BUFR_Dataset *dts )
    }
 
 /**
- * bufr_empty_datasubsets
  * @english
  * free all DataSubset stored in a Dataset
+ * @param   dts :  pointer to a BUFR_Dataset
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_empty_datasubsets
- *
- * author:  Vanh Souvanlasy
- *
- * function: free all DataSubset stored in a Dataset
- *
- * parametres:
- *      
- *    dts :  pointer to a BUFR_Dataset
-
+ * @ingroup dataset
  */
 static void bufr_empty_datasubsets( BUFR_Dataset *dts )
    {
@@ -687,25 +594,15 @@ static void bufr_empty_datasubsets( BUFR_Dataset *dts )
    }
 
 /**
- * bufr_free_datasubset
  * @english
  * free a DataSubset
+ * @param  dts :  pointer to a DataSubset
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_free_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: free a DataSubset
- *
- * parametres:
- *      
- *    dts :  pointer to a DataSubset
-
+ * @ingroup dataset
  */
 static void bufr_free_datasubset( DataSubset *subset )
    {
@@ -744,26 +641,6 @@ static void bufr_free_datasubset( DataSubset *subset )
    free( subset );
    }
 
-/**
- * bufr_encode_message
- * @english
- * encoding data of a Dataset and store it in a new BUFR_Message
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_encode_message
- *
- * author:  Vanh Souvanlasy
- *
- * function: encoding data of a Dataset and store it in a new BUFR_Message
- *
- * parametres:
- *      
-
- */
 /**
  * @english
  * Takes values defined within the dataset and applies the Table C defined
@@ -989,29 +866,18 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
    }
 
 /**
- * bufr_put_numeric_compressed
  * @english
  * store a numeric of every subset in a dataset with compression
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  bcv : BurCode of the numeric to be stored
+ * @param  j   : position of bcv within each subset.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_put_numeric_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store a numeric of every subset in a dataset with compression
- *
- * parametres:
- *
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   bcv : BurCode of the numeric to be stored
- *   j   : position of bcv within each subset.
- *      
-
+ * @ingroup message encode dataset internal
  */
 static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDescriptor *bcv, int j )
    {
@@ -1103,24 +969,15 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
  * bufr_put_ieeefp_compressed
  * @english
  * store an ieeefp of every subset of a Dataset
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  j   : position of bcv within each subset.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_put_ieeefp_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store an ieeefp of every subset of a Dataset
- *
- * parametres:
- *      
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   j   : position of bcv within each subset.
-
+ * @ingroup internal
  */
 static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, int j )
    {
@@ -1245,26 +1102,17 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
  * bufr_put_af_compressed
  * @english
  * store the associated field of a BufrDescriptor of every subset in a 
+ *           dataset with compression
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  bcv : BurCode of the numeric to be stored
+ * @param  j   : position of bcv within each subset.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_put_af_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store the associated field of a BufrDescriptor of every subset in a 
- *           dataset with compression
- *
- * parametres:
- *      
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   bcv : BurCode of the numeric to be stored
- *   j   : position of bcv within each subset.
-
+ * @ingroup internal
  */
 static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDescriptor *bcv, int j )
    {
@@ -1334,24 +1182,15 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
  * bufr_put_ccitt_compressed
  * @english
  * store a string of all subset in a dataset with compression
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  j   : position of bcv within each subset.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_put_ccitt_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store a string of all subset in a dataset with compression
- *
- * parametres:
- *
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   j   : position of bcv within each subset.
-
+ * @ingroup internal
  */
 static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int j )
    {
@@ -1473,26 +1312,15 @@ DataSubset *bufr_get_datasubset( BUFR_Dataset *dts, int pos )
    }
 
 /**
- * bufr_value2bits
  * @english
  * encode a numerical value into bits for storage into output bitsream
+ * @param  bd : pointer to BufrDescriptor containing value to encode
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_value2bits
- *
- * author:  Vanh Souvanlasy
- *
- * function: encode a numerical value into bits for storage into output bitsream
- *
- * parametres:
- *
- *   bd : pointer to BufrDescriptor containing value to encode
- * 
-
+ * @ingroup internal
  */
 static uint64_t bufr_value2bits( BufrDescriptor *bd )
    {
@@ -1574,27 +1402,16 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
    }
 
 /**
- * bufr_put_desc_value
  * @english
  * store value of a BufrDescriptor into the Message bitstream
+ * @param   bufr  :  pointer to output Message 
+ * @param   bd    :  pointer to descriptor container with value
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_put_desc_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: store value of a BufrDescriptor into the Message bitstream
- *
- * parametres:
- *
- *    bufr  :  pointer to output Message 
- *    bd    :  pointer to descriptor container with value
- * 
-
+ * @ingroup internal
  */
 static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    {
@@ -1711,16 +1528,6 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                ival = bufr_value_get_int32( bd->value );
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
                   {
-/**
- * bufr_get_desc_value
- * @english
- * extract a value of a code from a BUFR Message
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
                    ival = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), (float)ival );
                   }
                if (isdebug)
@@ -2022,26 +1829,16 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    }
 
 /**
- * bufr_get_desc_ccittia5
  * @english
  * extract a string of a code from BUFR Message
+ * @param   bufr  :  pointer to output Message 
+ * @param   bd    :  pointer to descriptor container with value
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_get_desc_ccittia5
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a string of a code from BUFR Message
- *
- * parametres:
- *      
- *    bufr  :  pointer to output Message 
- *    bd    :  pointer to descriptor container with value
-
+ * @ingroup internal
  */
 static int bufr_get_desc_ccittia5( BUFR_Message *bufr, BufrDescriptor *bd )
    {
@@ -2063,26 +1860,16 @@ static int bufr_get_desc_ccittia5( BUFR_Message *bufr, BufrDescriptor *bd )
    }
 
 /**
- * bufr_get_desc_ieeefp
  * @english
  * extract an ieee fp value of a descriptor from BUFR Message
+ * @param   bufr  :  pointer to output Message 
+ * @param   bd    :  pointer to descriptor container of value
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_get_desc_ieeefp
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract an ieee fp value of a descriptor from BUFR Message
- *
- * parametres:
- *      
- *    bufr  :  pointer to output Message 
- *    bd    :  pointer to descriptor container of value
-
+ * @ingroup internal
  */
 static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
    {
@@ -2481,30 +2268,19 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    }
 
 /**
- * bufr_get_ccitt_compressed
  * @english
  * extract a block of compressed string elements of all subsets of a message
+ * @param  cb    : pointer to BufrDescriptor
+ * @param  bseq  : array of codelist of every subset
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  j        : position of the current code in the subset.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_get_ccitt_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a block of compressed string elements of all subsets of a message
- *
- * parametres:
- *
- *   cb    : pointer to BufrDescriptor
- *   bseq  : array of codelist of every subset
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   j        : position of the current code in the subset.
- *      
-
+ * @ingroup internal
  */
 static int bufr_get_ccitt_compressed
    ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
@@ -2563,28 +2339,18 @@ static int bufr_get_ccitt_compressed
    }
 
 /**
- * bufr_get_ieeefp_compressed
  * @english
  * extract a block of compressed values of ieee fp
+ * @param  cb       : pointer to BufrDescriptor
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  nodes    : list of current node for eah subset
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_get_ieeefp_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function:  extract a block of compressed values of ieee fp
- *
- * parametres:
- *      
- *   cb       : pointer to BufrDescriptor
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   nodes    : list of current node for eah subset
-
+ * @ingroup internal
  */
 static int bufr_get_ieeefp_compressed
    ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
@@ -2642,29 +2408,19 @@ static int bufr_get_ieeefp_compressed
    }
 
 /**
- * bufr_get_numeric_compressed
  * @english
  * extract a block of compressed numeric
+ * @param  cb    : pointer to BufrDescriptor
+ * @param  bseq  : array of codelist of every subset
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  j        : position of the current code in the subset.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_get_numeric_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a block of compressed numeric
- *
- * parametres:
- *      
- *   cb    : pointer to BufrDescriptor
- *   bseq  : array of codelist of every subset
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   j        : position of the current code in the subset.
-
+ * @ingroup internal
  */
 static int bufr_get_numeric_compressed
    ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
@@ -2746,28 +2502,19 @@ static int bufr_get_numeric_compressed
    }
 
 /**
- * bufr_get_af_compressed
  * @english
  * extract a block of compressed associated fields
+ * @param  cb    : pointer to BufrDescriptor
+ * @param  bseq  : array of codelist of every subset
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  j        : position of the current code in the subset.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_get_af_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a block of compressed associated fields
- *
- * parametres:
- *      
- *   cb    : pointer to BufrDescriptor
- *   bseq  : array of codelist of every subset
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   j        : position of the current code in the subset.
+ * @ingroup descriptor internal
 
  */
 static int bufr_get_af_compressed
@@ -3085,28 +2832,17 @@ int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
    }
 
 /**
- * bufr_load_datasubsets
  * @english
  * load data stored in a file into a Dataset
+ * @param   fp       :  file pointer containing data to load
+ * @param   dts      :  destination Dataset
+ * @param   ligne    :  string buffer for reading a line of string from the file
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_load_datasubsets
- *
- * author:  Vanh Souvanlasy
- *
- * function: load data stored in a file into a Dataset
- *
- * parametres:
- *
- *    fp       :  file pointer containing data to load
- *    dts      :  destination Dataset
- *    ligne    :  string buffer for reading a line of string from the file
- *      
-
+ * @ingroup io dataset internal
  */
 static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
    {
@@ -3345,28 +3081,17 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
    }
 
 /**
- * bufr_load_header
  * @english
  * load the header part of the data stored in a file into a Dataset
+ * @param   fp       :  file pointer containing data to load
+ * @param   dts      :  destination Dataset
+ * @param   ligne    :  string buffer for reading a line of string from the file
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_load_header
- *
- * author:  Vanh Souvanlasy
- *
- * function: load the header part of the data stored in a file into a Dataset
- *
- * parametres:
- *
- *    fp       :  file pointer containing data to load
- *    dts      :  destination Dataset
- *    ligne    :  string buffer for reading a line of string from the file
- *      
-
+ * @ingroup io dataset internal
  */
 static int bufr_load_header( FILE *fp, BUFR_Dataset *dts )
    {
@@ -3660,26 +3385,16 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
    }
 
 /**
- * bufr_create_dataset_from_sequence
  * @english
  * instantiate a BUFR_Dataset object
+ *           from a BUFR_Sequence
+ * @param    tmplt  :  pointer to a BUFR_Template
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_create_dataset_from_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function: instantiate a BUFR_Dataset object
- *           from a BUFR_Sequence
- *
- * parametres:  
- *     tmplt  :  pointer to a BUFR_Template
- *      
-
+ * @ingroup template dataset
  */
 BUFR_Dataset *bufr_create_dataset_from_sequence 
    ( BUFR_Sequence *cl, BUFR_Tables *tbls, int edition )
@@ -3756,28 +3471,6 @@ BUFR_Dataset *bufr_create_dataset_from_sequence
  * @author Vanh Souvanlasy
  * @ingroup io template encode
  */
-/**
- * bufr_genmsgs_from_dump
- * @english
- * convert bufr messages stored in a dump text file into BUFR format file
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup bufr_dataset.c
-  * name: bufr_genmsgs_from_dump
- *
- * author:  Vanh Souvanlasy
- *
- * function: convert bufr messages stored in a dump text file into BUFR format file
- *
- * parametres:
- *
- *    infile   :  filename containing data to load, the data should match
- *                the template
- *      
-
  */
 int bufr_genmsgs_from_dump
    ( BUFR_Template *tmplt, const char *infile, const char *outfile, int do_compress )
