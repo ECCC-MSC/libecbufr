@@ -31,7 +31,7 @@ installed very quickly and easily using ?.deb? files. It is simple to
 use and requires moderate knowledge of BUFR to use it for decoding and
 encoding BUFR message.
 
-@section Overall Architecture
+@section architecture Overall Architecture
 A general architecture is given in the diagram below as to the layers of
 functions within the library. It ranges from ?low-level? worker-bee
 routines that are generally not directly accessible to the developers to
@@ -42,7 +42,9 @@ functionality; General-purpose, Decoding, Encoding, and Debugging.
 @image html LibraryCodeStructure.jpg
 @image rtf LibraryCodeStructure.jpg
 
-@section glossary Glossary
+@section data BUFR Data Structure
+
+@subsection glossary Glossary
 We have the defined the following terms that are frequently used in the
 documentation that we should not assume to be self-evident:
 
@@ -66,6 +68,13 @@ data ? land, etc.).
 descriptors.
 - Definition File ? template files constructed from Table B manually via a
 text editor using a standard format (example below from NC-AWOS):
+
+@subsection diagram BUFR Data Structure Diagram
+
+@image html "BUFR Data Structure.jpg"
+@image rtf "BUFR Data Structure.jpg"
+
+@subsection template Sample Template
 
 @verbatim
 #LOCAL_TABLEB=
