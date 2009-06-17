@@ -119,6 +119,7 @@ void bufr_free_sequence( BUFR_Sequence *bsq )
  * @endfrancais
  * @see bufr_free_sequence
  * @author Vanh Souvanlasy
+ * @ingroup template internal
  */
 BUFR_Sequence *bufr_create_sequence(LinkedList *list)
    {
@@ -961,9 +962,9 @@ static void cumulate_code2CodeArray( BufrDescriptor *cb, void *client_data )
  * @english
  *    bsq2 = bufr_copy_sequence( bsq )
  *    (BUFR_Sequence *)
- * This creates a duplicate of the code list (see
- * bufr_create_sequencebelow). This would be created in turn for each data
- * code subset.
+ * This creates a duplicate of the sequence (see
+ * bufr_create_sequence below). This would be created in turn for each data
+ * subset.
  * @warning An example will be added or referred to in a later version.
  * @return BUFR_Sequence
  * @endenglish
@@ -971,6 +972,7 @@ static void cumulate_code2CodeArray( BufrDescriptor *cb, void *client_data )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup template internal
  */
 BUFR_Sequence *bufr_copy_sequence( BUFR_Sequence *bsq )
    {
@@ -1017,8 +1019,8 @@ static void bufr_free_descriptorNode(ListNode *node)
  *    bufr_apply_Tables( NULL, bsq,  dts->tmplte, NULL, &errcode )
  *    (BufrDDOp *ddo, BUFR_Sequence *bsq, BUFR_Template *tmplt, ListNode *)
  * This is a call to apply Table C operators on each code value that is in
- * the code list. It may be used sequentially for processing the whole code
- * list by a single call. The current “ListNode” structure parameters
+ * the sequence. It may be used sequentially for processing the whole sequence
+ * by a single call. The current “ListNode” structure parameters
  * should be known at the time of the call. When the first parameter
  * (BufrDDOp) is NULL, an internal structure (that will allow processing of
  * elements one at a time) will be created and returned which should be
@@ -1031,6 +1033,7 @@ static void bufr_free_descriptorNode(ListNode *node)
  * @endfrancais
  * @author Vanh Souvanlasy
  * @bug shouldn't it be bufr_apply_tables()?
+ * @ingroup template internal
  */
 
 BufrDDOp  *bufr_apply_Tables
@@ -1743,7 +1746,7 @@ int bufr_apply_dpbm ( BufrDPBM *dpbm, BUFR_Sequence *bsq, ListNode *svnode )
  * @english
  *    bufr_reindex_sequence(bsq)
  *    (BUFR_Sequence *)
- * Regenerates and index that refers to each node in the list after
+ * Regenerates an index that refers to each node in the list after
  * insertion, changes, and removal of items that have occurred since the
  * original call of bufr_create_sequence.
  * @return Void
@@ -1752,6 +1755,7 @@ int bufr_apply_dpbm ( BufrDPBM *dpbm, BUFR_Sequence *bsq, ListNode *svnode )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup template internal
  */
 void bufr_reindex_sequence ( BUFR_Sequence *cl )
    {

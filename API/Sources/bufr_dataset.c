@@ -104,6 +104,7 @@ static DataSubset *bufr_allocate_datasubset(void)
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup dataset
  */
 BUFR_Dataset *bufr_create_dataset  ( BUFR_Template *tmplt )
    {
@@ -178,6 +179,7 @@ void bufr_free_dataset ( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup dataset template
  */
 BUFR_Template *bufr_get_dataset_template   ( BUFR_Dataset *dts )
    {
@@ -200,6 +202,7 @@ BUFR_Template *bufr_get_dataset_template   ( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_create_datasubset( BUFR_Dataset *dts )
    {
@@ -271,6 +274,7 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
    {
@@ -359,6 +363,7 @@ static DataSubset *bufr_duplicate_datasubset( DataSubset *dss )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_add_datasubset( BUFR_Dataset *dts, BUFR_Sequence *bsq, BufrDDOp *ddo )
    {
@@ -425,6 +430,7 @@ static void bufr_fill_datasubset( DataSubset *subset, BUFR_Sequence *bsq )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_count_datasubset( BUFR_Dataset *dts )
    {
@@ -450,6 +456,7 @@ int bufr_count_datasubset( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset descriptor
  */
 BufrDescriptor *bufr_datasubset_get_descriptor( DataSubset *dts, int pos )
    {
@@ -528,6 +535,7 @@ BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset descriptor
  */
 int bufr_datasubset_count_descriptor ( DataSubset *dts )
    {
@@ -668,6 +676,7 @@ static void bufr_free_datasubset( DataSubset *subset )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup message encode
  */
 BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
    {
@@ -1299,6 +1308,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 DataSubset *bufr_get_datasubset( BUFR_Dataset *dts, int pos )
    {
@@ -1918,6 +1928,7 @@ static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup message decode
  */
 BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    {
@@ -2593,6 +2604,7 @@ static int bufr_get_af_compressed
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset encode
  */
 int  bufr_dataset_compressible( BUFR_Dataset *dts )
    {
@@ -2689,6 +2701,7 @@ int  bufr_dataset_compressible( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup encode dataset
  */
 int bufr_merge_dataset ( BUFR_Dataset *dest, int dest_pos, BUFR_Dataset *src,  int src_pos, int nb )
    {
@@ -2757,6 +2770,7 @@ int bufr_merge_dataset ( BUFR_Dataset *dest, int dest_pos, BUFR_Dataset *src,  i
  * @endfrancais
  * @deprecated by bufr_read_dataset_dump
  * @author Vanh Souvanlasy
+ * @ingroup io encode dataset
  */
 int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
    {
@@ -2799,6 +2813,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io encode dataset
  */
 int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
    {
@@ -3256,6 +3271,7 @@ static int bufr_load_header( FILE *fp, BUFR_Dataset *dts )
  * @endfrancais
  * @deprecated by bufr_fdump_dataset
  * @author Vanh Souvanlasy
+ * @ingroup io decode dataset
  */
 int bufr_dump_dataset( BUFR_Dataset *dts, const char *filename )
    {
@@ -3287,6 +3303,7 @@ int bufr_dump_dataset( BUFR_Dataset *dts, const char *filename )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io decode dataset
  */
 int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
    {
@@ -3449,6 +3466,7 @@ BUFR_Dataset *bufr_create_dataset_from_sequence
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io template encode
  */
 /*
  * name: bufr_genmsgs_from_dump

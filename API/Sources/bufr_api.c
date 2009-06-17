@@ -53,6 +53,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup api
  */
 void bufr_begin_api(void)
    {
@@ -85,6 +86,7 @@ void bufr_begin_api(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup api
  */
 void bufr_end_api(void)
    {
@@ -144,6 +146,7 @@ int bufr_subset_find_descriptor( DataSubset *dts, int descriptor, int startpos )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int startpos )
    {
@@ -248,6 +251,7 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 void bufr_set_key_string( BufrDescValue *cv, int descriptor, const char **values, int nbval )
    {
@@ -281,6 +285,7 @@ void bufr_set_key_string( BufrDescValue *cv, int descriptor, const char **values
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 void bufr_set_key_int32( BufrDescValue *cv, int descriptor, int *values, int nbval )
    {
@@ -314,6 +319,7 @@ void bufr_set_key_int32( BufrDescValue *cv, int descriptor, int *values, int nbv
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int nbval  )
    {

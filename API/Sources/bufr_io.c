@@ -850,6 +850,7 @@ void bufr_print_output(const char *msg)
  * @param msg message a afficher
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io debug
  */
 void bufr_set_output_file(const char *filename)
    {
@@ -914,6 +915,7 @@ void bufr_abort(const char *msg)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io debug
  */
 void bufr_print_debug(const char *msg)
    {
@@ -961,6 +963,7 @@ void bufr_print_debug(const char *msg)
  * @param msg message a afficher
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io debug
  */
 void bufr_set_debug_file(const char *filename)
    {
@@ -1376,6 +1379,7 @@ static ssize_t bufr_read_fn( void *client_data, size_t len, char *buffer)
  * @param fp   pointeur au fichier de sortie
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io decode message
  */
 int bufr_read_message( FILE *fp, BUFR_Message **rtrn )
    {
@@ -1802,6 +1806,7 @@ int bufr_decode_sect3(BUFR_Message *bufr)
  * @param len longueur en octets
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 void bufr_alloc_sect4(BUFR_Message *bufr, unsigned int len)
    {
@@ -1889,6 +1894,7 @@ static ssize_t bufr_memwrite_fn( void* cd, size_t len, const char* buf )
  *       	   ... process msg ...
  *       	}
  *
+ * @ingroup decode message
  */
 ssize_t bufr_memread_message( const char *mem, size_t mem_len,
                              BUFR_Message **rtrn )
@@ -1917,6 +1923,7 @@ ssize_t bufr_memread_message( const char *mem, size_t mem_len,
  * @todo translate to French
  * @endfrancais
  * @author  Chris Beauregard
+ * @ingroup encode message
  */
 ssize_t bufr_memwrite_message(char *mem, size_t mem_len, BUFR_Message *bufr)
    {

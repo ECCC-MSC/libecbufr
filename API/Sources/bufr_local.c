@@ -62,6 +62,7 @@ static void             split_lines            ( char *line1,int ,char *line2,in
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io tables
  */
 int bufr_store_tables
 ( FILE *fp, BUFR_Dataset *dts )
@@ -306,6 +307,7 @@ int bufr_store_tables
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset tables
  */
 BUFR_Tables *bufr_extract_tables( BUFR_Dataset *dts )
    {
@@ -530,6 +532,7 @@ BUFR_Tables *bufr_extract_tables( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset tables
  */
 int bufr_contains_tables( BUFR_Dataset *dts )
    {

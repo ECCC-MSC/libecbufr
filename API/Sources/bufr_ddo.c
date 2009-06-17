@@ -167,6 +167,7 @@ void bufr_init_dpbm( BufrDPBM *dpbm, ListNode *node )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 BufrDDOp *bufr_create_BufrDDOp( void )
    {
@@ -209,6 +210,7 @@ BufrDDOp *bufr_create_BufrDDOp( void )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 void bufr_free_BufrDDOp( BufrDDOp *ddo )
    {

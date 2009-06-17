@@ -55,6 +55,7 @@ static void  bufr_alloc_sect3  ( BUFR_Message *bufr );
  * @brief constructeur de la structure BUFR_Message
  * @todo translate to French
  * @endfrancais
+ * @ingroup message
  */
 BUFR_Message *bufr_create_message(int edition)
    {
@@ -93,6 +94,7 @@ BUFR_Message *bufr_create_message(int edition)
  * @todo translate to French
  * @param r la structure a detruire
  * @endfrancais
+ * @ingroup message
  */
 void  bufr_free_message( BUFR_Message *r )
    {
@@ -136,6 +138,7 @@ void  bufr_free_message( BUFR_Message *r )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup debug io message
  */
 void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
    {
@@ -286,6 +289,7 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup encode message
  */
 void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
    {
@@ -415,6 +419,7 @@ void bufr_init_sect1( BufrSection1 *s1 )
  * @brief transferer une copie des infos de la section 1
  * @todo translate to French
  * @endfrancais
+ * @ingroup internal
  */
 void bufr_copy_sect1( BufrSection1 *dest, BufrSection1 *src )
    {
@@ -480,6 +485,7 @@ static void bufr_alloc_sect3(BUFR_Message *bufr)
  * @todo translate to French
  * @param bufr la structure de donnees BUFR
  * @endfrancais
+ * @ingroup internal encode
  */
 void bufr_begin_message(BUFR_Message *bufr)
    {
@@ -504,6 +510,7 @@ void bufr_begin_message(BUFR_Message *bufr)
  * @param fp pointeur au fichier de sortie
  * @param bufr la structure de donnees BUFR
  * @endfrancais
+ * @ingroup internal encode
  */
 void bufr_end_message(BUFR_Message *bufr)
    {

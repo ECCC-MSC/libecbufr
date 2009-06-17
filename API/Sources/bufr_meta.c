@@ -196,6 +196,7 @@ void bufr_print_rtmd_repl( char *outstr, BufrRTMD *bm )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io meta debug
  */
 void bufr_print_rtmd_data( char *outstr, BufrRTMD *bm )
    {
@@ -233,6 +234,7 @@ void bufr_print_rtmd_data( char *outstr, BufrRTMD *bm )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io meta debug
  */
 void bufr_print_rtmd_location( char *outstr, int desc, BufrRTMD *bm )
    {

@@ -69,9 +69,9 @@ static void bufr_free_desc_array( char *list )
  * @english
  *    tmplt = bufr_create_template( codes, 1, tables, edition )
  *    (BufrDescValue *, int nb, BUFR_Tables *, int edition)
- * Receive a list of codes along with the BUFR tables and returns a
- * template. This is different from bufr_load_templateis that it can be
- * created from a list of elements at run time and it doesn’t require a
+ * Receive a list of descriptors along with the BUFR tables and returns a
+ * template. This is different from bufr_load_template in that it can be
+ * created from a list of elements at run time and it doesn't require a
  * template definition file. This would be used if you decoded a message
  * and wished to create a similar BUFR message out of Section 3 of the
  * other message.
@@ -80,6 +80,7 @@ static void bufr_free_desc_array( char *list )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup template
  */
 BUFR_Template *bufr_create_template  
    ( BufrDescValue *codes, int nb, BUFR_Tables *tbls, int edition )
@@ -185,13 +186,14 @@ static void bufr_copy_DescValue
  * @english
  *    bufr_vfree_DescValue(cv)
  *    (BufrDescValue *code)
- * Frees the allocation for values set inside the code value structure.
+ * Frees the allocation for values set inside the descriptor structure.
  * @warning Not thread-safe
  * @return void
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup descriptor internal
  */
 void bufr_vfree_DescValue ( BufrDescValue *code )
    {
@@ -380,6 +382,7 @@ BUFR_Template *bufr_copy_template( BUFR_Template *tmplt )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup io template
  */
 BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
    {
@@ -651,6 +654,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup io template
  */
 int bufr_save_template( const char *filename, BUFR_Template *tmplt )
    {

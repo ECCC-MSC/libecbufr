@@ -878,6 +878,7 @@ uint64_t bufr_negative_ivalue( int64_t value, int nbits )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup descriptor io debug
  */
 int bufr_print_value( char *outstr, const BufrValue *bv )
    {
@@ -898,6 +899,7 @@ int bufr_print_value( char *outstr, const BufrValue *bv )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup descriptor io debug
  */
 int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
    {
@@ -1027,6 +1029,7 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup descriptor
  */
 int bufr_is_missing_double( double d )
    {
@@ -1047,6 +1050,7 @@ int bufr_is_missing_double( double d )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup descriptor
  */
 int bufr_is_missing_float( float f )
    {
@@ -1128,6 +1132,7 @@ int bufr_missing_int(void)
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup descriptor
  */
 int bufr_value_is_missing( BufrValue* bv )
 	{

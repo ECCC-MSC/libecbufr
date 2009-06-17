@@ -444,6 +444,7 @@ static void init_numbers(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 void bufr_init_limits(void)
    {

@@ -161,6 +161,7 @@ BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
  *
  * @see bufr_free_descriptor
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
    {
@@ -314,6 +315,7 @@ BufrValue *bufr_mkval_for_descriptor ( BufrDescriptor *bc )
  * @endfrancais
  * @warning this function is really meant to be used internally
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 void bufr_set_value_af( BufrValue *bv, const BufrDescriptor *bc )
    {
@@ -464,6 +466,7 @@ ValueType bufr_datatype_to_valtype( BufrDataType type, int nbits, int scale )
  * @endfrancais
  * @author Vanh Souvanlasy
  * @bug should check if min or max are NULL
+ * @ingroup descriptor
  */                                                                             
 int bufr_descriptor_get_range ( BufrDescriptor *cb, double *min, double *max )
    {
@@ -532,6 +535,7 @@ int bufr_descriptor_get_range ( BufrDescriptor *cb, double *min, double *max )
  * bufr_descriptor_get_dvalue, bufr_descriptor_get_ivalue, bufr_descriptor_get_svalue,
  * bufr_descriptor_get_fvalue
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int bufr_descriptor_set_fvalue ( BufrDescriptor *cb , float fval )
    {
@@ -620,6 +624,7 @@ int bufr_descriptor_set_fvalue ( BufrDescriptor *cb , float fval )
  * bufr_descriptor_get_dvalue, bufr_descriptor_get_ivalue, bufr_descriptor_get_svalue,
  * bufr_descriptor_get_fvalue
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int bufr_descriptor_set_dvalue ( BufrDescriptor *cb , double dval )
    {
@@ -699,6 +704,7 @@ int bufr_descriptor_set_dvalue ( BufrDescriptor *cb , double dval )
  * bufr_descriptor_get_dvalue, bufr_descriptor_get_ivalue, bufr_descriptor_get_svalue,
  * bufr_descriptor_get_fvalue
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
    {
@@ -885,6 +891,7 @@ int bufr_descriptor_set_bitsvalue ( BufrDescriptor *cb , uint64_t ival )
  * bufr_descriptor_get_fvalue
  * @bug should be "const char *"
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int bufr_descriptor_set_svalue ( BufrDescriptor *cb , const char *sval )
    {
@@ -955,6 +962,7 @@ static void print_set_value_error( BufrDescriptor *cb, char *valstr )
  * bufr_descriptor_get_dvalue, bufr_descriptor_get_ivalue, bufr_descriptor_get_svalue,
  * bufr_descriptor_get_fvalue
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 float bufr_descriptor_get_fvalue ( BufrDescriptor *cb )
    {
@@ -985,6 +993,7 @@ float bufr_descriptor_get_fvalue ( BufrDescriptor *cb )
  * bufr_descriptor_get_dvalue, bufr_descriptor_get_ivalue, bufr_descriptor_get_svalue,
  * bufr_descriptor_get_fvalue
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 double bufr_descriptor_get_dvalue ( BufrDescriptor *cb )
    {
@@ -1012,6 +1021,7 @@ double bufr_descriptor_get_dvalue ( BufrDescriptor *cb )
  * bufr_descriptor_get_fvalue
  * @bug A missing value of -1 can be also a legitimate value
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int32_t bufr_descriptor_get_ivalue ( BufrDescriptor *cb )
    {
@@ -1037,6 +1047,7 @@ int32_t bufr_descriptor_get_ivalue ( BufrDescriptor *cb )
  * bufr_descriptor_get_fvalue
  * @bug should probably return "const char*"
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 char *bufr_descriptor_get_svalue ( BufrDescriptor *cb, int *len )
    {
