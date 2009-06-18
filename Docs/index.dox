@@ -42,6 +42,12 @@ functionality; General-purpose, Decoding, Encoding, and Debugging.
 @image html LibraryCodeStructure.jpg
 @image rtf LibraryCodeStructure.jpg
 
+@subsection tags API Categories
+
+See <a href="modules.html">modules</a> for details.
+@image html "libecbufr_tags.png"
+@image rtf "libecbufr_tags.png"
+
 @section data BUFR Data Structure
 
 @subsection glossary Glossary
@@ -162,6 +168,8 @@ Compressing BUFR Messages
 @todo Main page should be translated
 @endfrancais
 
+
+@todo translate module/group names
 @defgroup api High-level stuff
 @defgroup encode Encoding
 @defgroup decode Decoding
@@ -175,6 +183,7 @@ Compressing BUFR Messages
 @defgroup descriptor Getting/setting values
 @defgroup meta Meta-data handling
 @defgroup data_structures Linked list/array interfaces
+@defgroup advanced Low-level expert/advanced functions
 @defgroup internal Don't touch, don't ask
 */
 
