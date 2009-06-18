@@ -3,6 +3,17 @@
 @english
 Multiple BUFR messages in a file where multiple messages are in a
 dataset (a message contains more than one data subset)
+
+@todo need an example of a multi-dataset, multi-message product. Preferably something which
+isn't just the same message concatenated together.
+
+@verbatim
+BUFR_TABLES=../Tables/ ./decode_multi_dataset ../Test/BUFR/iusd40_okli.bufr 
+@endverbatim
+
+This generates multiple OUTPUT-n.TXT files, each file for a separate BUFR message as found in
+Test/BUFR/iusd40_okli.bufr.
+
 @endenglish
 @francais
 @todo decode_multi_dataset.c description should be translated
