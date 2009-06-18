@@ -3471,7 +3471,6 @@ BUFR_Dataset *bufr_create_dataset_from_sequence
  * @author Vanh Souvanlasy
  * @ingroup io template encode
  */
- */
 int bufr_genmsgs_from_dump
    ( BUFR_Template *tmplt, const char *infile, const char *outfile, int do_compress )
    {

@@ -32,7 +32,6 @@ This file is part of libECBUFR.
  *
  */
 
-/*
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

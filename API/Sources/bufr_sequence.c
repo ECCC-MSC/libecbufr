@@ -396,7 +396,6 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
       {
       if (x == 31)
          cb->flags |= FLAG_CLASS31;
-/*
       }
 
    if (skip < 0)
@@ -423,9 +422,8 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
          {
          ListNode   *prev;
       /* 
-       * insert new items before expand code 
-
-*/
+       * insert new items before expand code
+		 */
          prev = lst_prevnode(node);
          if (lst_count( sublist ) > 0)
             {
@@ -528,13 +526,11 @@ static LinkedList *bufr_repl_descriptors
 */
          desc->flags |= extraflags;
 #if 0
-/*
          if (cb->meta == NULL)
             cb->meta = bufr_create_rtmd( 1 );
 #endif
 /*
  * establish replication nesting position
-
 */
 
          if (desc->meta)
