@@ -111,9 +111,12 @@ Modules/Grouping
 
 LibECBUFR uses explicit doxygen grouping. Groups are defined using
 a @defgroup tag in Docs/index.dox, and individual functions assigned
-to those groups through the @ingroup tag. @ingroup supposedly supports multiple
-groups, but apparently that's not working. Define the "most important" group last
-in the list.  For example:
+to those groups through the @ingroup tag. @ingroup doesn't presently
+support functions being in multiple groups and uses the last defined
+group. We're currently using multiple groups in hopes that this will
+change sometime.
+
+For example:
 
 	/**
 	* @english
