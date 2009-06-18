@@ -2,6 +2,13 @@
 @example dump_template.c
 @english
 Dumping a Template file from Section 3 to a text file
+
+@verbatim
+BUFR_TABLES=../Tables/ ./dump_template <BUFR_file>
+@endverbatim
+
+Generates a dump of the section 3 template in OUTPUT.template
+
 @endenglish
 @francais
 @todo dump_template.c description should be translated
