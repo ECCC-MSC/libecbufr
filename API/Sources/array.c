@@ -32,6 +32,7 @@ This file is part of libECBUFR.
  *
  */
 
+/*
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -48,28 +49,21 @@ This file is part of libECBUFR.
 
  static  void   arr_allocate( Array *arr, int len );
 
+
 
 /*
- *
- *  module    :  ARR_ADD
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               char *elem;
- *               int   count;
- *               count = arr_add( array, elem );
- *
- *  object    :  THIS MODULE ADDS A NEW ELEMENT TO THE DYNAMIC ARRAY
- *
-
-*/
+ * @english
+ *    add a new element to the dynamic array
+ * @param char *array : pointer to array
+ * @param char *elem  : pointer to element to add
+ * @return   int :  new array size (current)
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 
  int
  arr_add( ArrayPtr obj, const void *elem )
@@ -98,31 +92,20 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_ALLOCATE
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               int   len;
- *               arr_allocate( array, len );
- *
- *  object    :  THIS MODULE ALLOCATES OR REALLOCATES THE MEMORY
- *               OF THE DYNAMIC ARRAY
- *
-
-*/
-
+ * @english
+ *    allocates or reallocates the memory of the dynamic array
+ * @param   char *array  :  pointer to array
+ * @param   int   len    :  new array size
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  static void
  arr_allocate( Array *arr, int len )
     {
-
     if( arr->eles == NULL )
       arr->eles = (char *)malloc((arr->size)*len);
     else
@@ -139,27 +122,17 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_COUNT
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               int   count;
- *               count = arr_count( array );
- *
- *  object    :  THIS MODULE RETURNS THE NUMBER OF ELEMENTS INTO
- *               THE DYNAMIC ARRAY
- *
-
-*/
-
+ * @english
+ *   return the number of elements inside the dynamic array
+ * @param   char *array  :  pointer to array
+ * @return  int  : array size
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  int
  arr_count( ArrayPtr obj )
     {
@@ -169,26 +142,19 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_CREATE
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               int   len,size,grow;
- *               array = arr_create( len,size,grow );
- *
- *  object    :  THIS MODULE CREATES A DYNAMIC ARRAY.
- *
-
-*/
-
+ * @english
+ *    create a dynamic array
+ * @param   int   len   :  initial size of the array
+ * @param   int   size  :  size of each element
+ * @param   int   grow  :  size increment when resizing
+ * @return  char *array  :  pointer to array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  ArrayPtr
  arr_create(int len, int size, int grow)
     {
@@ -225,27 +191,18 @@ This file is part of libECBUFR.
   }
 
 /*
- *
- *  module    :  ARR_DEL
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               int   n;
- *               int   count;
- *               count = arr_del( array, n );
- *
- *  object    :  THIS MODULE DELETES THE LAST N ELEMENTS OF A DYNAMIC ARRAY
- *
-
-*/
-
+ * @english
+ *    delete the last n elements of a dynamic array
+ * @param   int   nele   :  number of element to remove from array
+ * @param   char *array  :  pointer to array
+ * @return  int  : array size
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  int
  arr_del( ArrayPtr obj, int nele )
     {
@@ -263,25 +220,16 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_FREE
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               arr_free( &array );
- *
- *  object    :  THIS MODULE FREES A DYNAMIC ARRAY.
- *
-
-*/
-
+ * @english
+ *   free a dynamic array
+ * @param   char *array  :  pointer to array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  void
  arr_free( ArrayPtr *obj )
     {
@@ -301,28 +249,18 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_GET
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               char *elem;
- *               int   pos;
- *               elem = arr_get( array, pos );
- *
- *  object    :  THIS MODULE GETS INTO A DYNAMIC ARRAY THE ADDRESS
- *               OF THE ELEMENT AT POSITION pos
- *
-
-*/
-
+ * @english
+ *     gets into a dynamic array the address of the element at position pos
+ * @param   char *array  :  pointer to array
+ * @param   int   pos    :  position of element to return >= 0, < n
+ * @return  ArrayItemPtr :  a pointer to the address of the element
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  ArrayItemPtr
  arr_get( ArrayPtr obj, int pos )
     {
@@ -337,28 +275,19 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_INC
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               int   n;
- *               int   count;
- *               count = arr_inc( array, n );
- *
- *  object    :  THIS MODULE INCREMENT THE COUNT AND SIZE OF AN ARRAY
- *               BY nele UNIT
- *
-
-*/
-
+ * @english
+ *    increment the count and size of an array by NELE 
+ * @param   ArrayPtr array  :  pointer to array
+ * @param   int   nele      :  number of new element slot to allocate
+ * @return  int             :  the new size of array
+ * @warning  this does not add any new element, their value remain uninitialized
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  int
  arr_inc( ArrayPtr obj, int nele )
     {
@@ -382,26 +311,17 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_REDUCE
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               arr_reduce( &array );
- *
- *  object    :  THIS MODULE REDUCE A DYNAMIC ARRAY TO THE EXACT
- *               NUMBER OF ELEMENTS IT CONTAINS
- *
-
-*/
-
+ * @english
+ *    reduce a dynamic array to the exact number of elements it contains
+ *    to free unused memory
+ * @param   ArrayPtr array  :  pointer to array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  extern void
  arr_reduce( ArrayPtr obj )
     {
@@ -414,24 +334,18 @@ This file is part of libECBUFR.
     }
 
 /*
- *
- *  module    :  ARR_SHARE
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               newarray = arr_share( array );
- *
- *  object    :  
- *
-
-*/
+ * @english
+ *    create a shared copy of an existing array without actually allocating it.
+ *    for use with array allocated within shared memory
+ * @param   ArrayPtr array  :  pointer to array
+ * @return  ArrayPtr
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 
  ArrayPtr
  arr_share( ArrayPtr obj )
@@ -453,30 +367,22 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_SEARCH
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  void *array;
- *               void *vaddr;
- *               int (*compar)(void *, void *);
- *               arr_search( array, vaddr, compar );
- *
- *  object    :  THIS MODULE SEARCH AN ELEMENTS IN THE DYNAMIC ARRAY
- *               AND RETURN THE ADDRESS OF THE ELEMENT IF IT'S FOUND
- *               COMPAR RETURNS -1, 0, 1 DEPENDING IF ITS FIRST ARGUMENT
- *               IS SMALLER, EQUAL TO OR BIGGER THAN ITS SECOND.
- *
-
-*/
-
+ * @english
+ *  search an elements in the dynamic array
+ *  and return the address of the element if it's found
+ *  compar returns -1, 0, 1 depending if its first argument
+ *  is smaller, equal to or bigger than its second.
+ * @param   ArrayPtr array  :  pointer to array
+ * @param  void *vaddr
+ * @param  int (*compar)(void *, void *)
+ * @return  ArrayItemPtr
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  ArrayItemPtr
  arr_search( ArrayPtr obj, const void *vaddr, int (*compar)( const void *, const void * ) )
     {
@@ -491,25 +397,19 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_SET
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  void *array;
- *               void *elem;
- *               int   count;
- *               count = arr_add( array, elem );
- *
- *  object    :  THIS MODULE SET A NEW ELEMENT TO THE DYNAMIC ARRAY
- *
-
-*/
-
+ * @english
+ *     set the value of an element to the dynamic array
+ * @param   ArrayPtr array  :  pointer to array
+ * @param   int  pos        :  position of element in the array
+ * @param  void *elem       :  pointer to element
+ * @return  int  : position of the element added
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  int
  arr_set( ArrayPtr obj, int pos, const void *elem )
     {
@@ -532,26 +432,17 @@ This file is part of libECBUFR.
 
 /*
  *
- *  module    :  ARR_SIZE
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               int   count;
- *               count = arr_count( array );
- *
- *  object    :  THIS MODULE RETURNS THE NUMBER OF ELEMENTS INTO
- *               THE DYNAMIC ARRAY
- *
-
-*/
-
+ * @english
+ *     return the elements container's size of the dynamic array
+ * @param   ArrayPtr array  :  pointer to array
+ * @return  int  : size of container
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
  int
  arr_size( ArrayPtr obj )
     {
@@ -560,27 +451,19 @@ This file is part of libECBUFR.
 
 
 /*
- *
- *  module    :  ARR_SORT
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  call      :  char *array;
- *               int (*compar)(void *, void *);
- *               arr_sort( array, compar );
- *
- *  object    :  THIS MODULE SORTS THE ELEMENTS IN THE DYNAMIC ARRAY
- *               COMPAR RETURNS -1, 0, 1 DEPENDING IF ITS FIRST ARGUMENT
- *               IS SMALLER, EQUAL TO OR BIGGER THAN ITS SECOND.
- *
-
-*/
+ * @english
+ *    sorts the elements in the dynamic array
+ *    compar returns -1, 0, 1 depending if its first argument
+ *    is smaller, equal to or bigger than its second
+ * @param   ArrayPtr array  :  pointer to array
+ * @param   int (*compar)(void *, void *) : compare function 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 
  void
  arr_sort( ArrayPtr obj, int (*compar)( const void *, const void * ) )
@@ -595,24 +478,16 @@ This file is part of libECBUFR.
 
 
 /*
- ****************************************************************************
- ***NAME: arr_free_string
- *
- *AUTHOR: Souvanlasy Viengsavanh 18/10/2000
- *
- *PURPOSE: free an array of string
- *
- *LANGAGE:  C
- *
- *NOTES:
- *
- *PARAMETERS:
- *
- *  parray : array of string
- **
- *---------------------------------------------------------------------------
-
-*/
+ * @english
+ *    free an array of string
+ * @param   ArrayPtr array  :  pointer to array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 void arr_free_string(ArrayPtr *parray)
 {
     char **ps;
@@ -633,6 +508,19 @@ void arr_free_string(ArrayPtr *parray)
     arr_free( parray );
 }
 
+/*
+ * @english
+ *    return the position of the matching string in the array
+ * @param   ArrayPtr array  :  pointer to array
+ * @param   const char *string : string to look for
+ * @return  int   :  position in the array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 int arr_find_string( ArrayPtr array, const char *string  )
    {
    int i, cnt;
@@ -648,14 +536,27 @@ int arr_find_string( ArrayPtr array, const char *string  )
          if (cstring )
             {
             if (strcmp( string , cstring  ) == 0 )
-               return 1;
+               return i;
             }
          }
       }
-   return 0;
+   return -1;
    }
 
 
+/*
+ * @english
+ *    add a new string to the array
+ * @param   ArrayPtr array  :  pointer to array
+ * @param   const char *string : new string to add (copied)
+ * @return  int   :  position in the array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 void  arr_add_string( ArrayPtr array, const char *string )
    {
    char *str;
@@ -668,6 +569,19 @@ void  arr_add_string( ArrayPtr array, const char *string )
 
 
 
+/*
+ * @english
+ *    compare function  for (float) array 
+ * @param   const void *c1  :  first pointer to element to compare
+ * @param   const void *c2  :  second pointer to element to compare
+ * @return  int   :    -1, 0, 1
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 int arr_floatcmp(const void *c1, const void *c2)
     {
     float *f1 = (float *)c1;
@@ -678,6 +592,19 @@ int arr_floatcmp(const void *c1, const void *c2)
     return 0;
     }
 
+/*
+ * @english
+ *    compare function  for (float) array (reversed order)
+ * @param   const void *c1  :  first pointer to element to compare
+ * @param   const void *c2  :  second pointer to element to compare
+ * @return  int   :    -1, 0, 1
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 int arr_floatdcmp(const void *c1, const void *c2)
     {
     float *f1 = (float *)c1;
@@ -688,6 +615,19 @@ int arr_floatdcmp(const void *c1, const void *c2)
     return 0;
     }
 
+/*
+ * @english
+ *    compare function  for (int) array
+ * @param   const void *c1  :  first pointer to element to compare
+ * @param   const void *c2  :  second pointer to element to compare
+ * @return  int   :    -1, 0, 1
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 int arr_intcmp(const void *c1, const void *c2)
     {
     int *f1 = (int *)c1;
@@ -698,6 +638,19 @@ int arr_intcmp(const void *c1, const void *c2)
     return 0;
     }
 
+/*
+ * @english
+ *    compare function  for (int) array (reversed order)
+ * @param   const void *c1  :  first pointer to element to compare
+ * @param   const void *c2  :  second pointer to element to compare
+ * @return  int   :    -1, 0, 1
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ */
 int arr_intDescCmp
    (const void *c1, const void *c2)
    {
