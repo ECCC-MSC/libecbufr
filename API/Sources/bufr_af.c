@@ -296,6 +296,7 @@ int bufr_af_get_sig  ( const BufrAF *af, int pos )
  * @author Vanh Souvanlasy
  * @ingroup descriptor
  *
+ */
 void bufr_af_set_sig  ( BufrAF *af, int pos, int val )
    {
    if ((pos < 0)||(pos >= af->count)) return;
