@@ -49,7 +49,7 @@ static int          bufr_minimum_nbits=0;
 static int             bufr_load_tableB       ( BUFR_Tables *, BufrTablesSet *tbls, const char *filename, int local );
 static int             bufr_load_tableD       ( BUFR_Tables *, BufrTablesSet *tbls, const char *filename );
 
-static EntryTableD    *bufr_tabled_fetch_entry( EntryTableDArray addr_tabled, int code);
+static EntryTableD    *bufr_tabled_fetch_entry( EntryTableDArray addr_tabled, int desc);
 
 static EntryTableBArray        bufr_tableb_read       ( EntryTableBArray addr_tableb, const char *filename, int local,
                                                 char *desc, int *cat, int *version );
@@ -61,13 +61,13 @@ static int             compare_tableb         ( const void *p1, const void *p2);
 static int             compare_tabled         ( const void *p1, const void *p2);
 static int             compare_tabled_seq     (const void *p1, const void *p2);
 
-static int             bufr_check_code_tableD ( BUFR_Tables *tbls, int code , char *array );
+static int             bufr_check_desc_tableD ( BUFR_Tables *tbls, int desc , char *array );
 static int             bufr_check_loop_tableD ( BUFR_Tables *tbls, BufrTablesSet *tbl );
 static void            bufr_merge_tableB      ( EntryTableBArray table1, EntryTableBArray table2 );
 static void            bufr_merge_tableD      ( EntryTableDArray table1, EntryTableDArray table2 );
 static void            bufr_copy_EntryTableD  ( EntryTableD *r, const char *desc, int desclen,
-                                                int *codes, int count);
-static int             bufr_is_table_b        ( int code );
+                                                int *descriptors, int count);
+static int             bufr_is_table_b        ( int desc );
 static void            bufr_merge_TablesSet   ( BufrTablesSet *tbls1, BufrTablesSet *tbls2 );
 static int             strtlen                (char *Str);
 
@@ -346,7 +346,7 @@ int bufr_load_l_tableB( BUFR_Tables *tbls, const char *filename )
  * load a table B file
  * @param       tbls      : the Set of tables to load into
  * @param       filename : string refering to table B
- * @param       local    : if local codes should be included
+ * @param       local    : if local descriptors should be included
  * @endenglish
  * @francais
  * @todo translate to French
@@ -576,7 +576,7 @@ static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
       etd = p_etd[0];
       for (i = 0; i < etd->count ; i++ )
          {
-         if (bufr_check_code_tableD( tbls, etd->descriptors[i], array ) < 0)
+         if (bufr_check_desc_tableD( tbls, etd->descriptors[i], array ) < 0)
             {
             has_error = -1;
             }
@@ -597,7 +597,7 @@ static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
+static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
    {
    int  f, x, y;
    EntryTableD  *etd;
@@ -606,7 +606,7 @@ static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
    int  *pival, ival;
    char  errmsg[256];
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   bufr_descriptor_to_fxy( desc, &f, &x, &y );
    if (f == 3)
       {
       count = arr_count( array );
@@ -616,26 +616,26 @@ static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
          if (pival)
             {
             ival = *pival;
-            if (ival == code)
+            if (ival == desc)
                {
-               sprintf( errmsg, "Warning: Table D code : %d is in a circular loop\n", code );
+               sprintf( errmsg, "Warning: Table D descriptor : %d is in a circular loop\n", desc );
                bufr_print_debug( errmsg );
                return -1;
                }
             }
          }
-      arr_add( array, (char *)&code );
+      arr_add( array, (char *)&desc );
 
-      etd = bufr_fetch_tableD( tbls, code );
+      etd = bufr_fetch_tableD( tbls, desc );
       if (etd == NULL)
          {
-         sprintf( errmsg, "Warning: invalid Table D code : %d\n", code );
+         sprintf( errmsg, "Warning: invalid Table D descriptor : %d\n", desc );
          bufr_print_debug( errmsg );
          return -1;
          }
       for (i = 0; i < etd->count ; i++ )
          {
-         if (bufr_check_code_tableD( tbls, etd->descriptors[i], array ) < 0) return -1;
+         if (bufr_check_desc_tableD( tbls, etd->descriptors[i], array ) < 0) return -1;
          }
 
       arr_del( array, 1 );
@@ -645,23 +645,24 @@ static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
 
 /**
  * @english
- * @todo translate
+ * find and return a table B entry
+ * @param  desc: descriptor to be found
  * @endenglish
  * @francais
- * chercher et retourner une entree de la table B d'un code
- * @param       code : code a chercher
+ * chercher et retourner une entree de la table B
+ * @param       desc : descripteur a chercher
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup tables
  */
-EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int code)
+EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
    {
    int          f, x, y;
    EntryTableB *e;
 
 	if( tbls == NULL ) return errno=EINVAL, NULL;
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   bufr_descriptor_to_fxy( desc, &f, &x, &y );
    switch( f )
       {
       case 1 :
@@ -675,14 +676,14 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int code)
    e=NULL;
 
    if (tbls->local.tableB)
-      e = bufr_tableb_fetch_entry( tbls->local.tableB, code );
+      e = bufr_tableb_fetch_entry( tbls->local.tableB, desc );
    if (e == NULL)
-      e = bufr_tableb_fetch_entry( tbls->master.tableB, code );
+      e = bufr_tableb_fetch_entry( tbls->master.tableB, desc );
    if (e == NULL)
       {
       char buf[128];
       bufr_errcode = BUFR_TB_NOTFOUND;
-      sprintf( buf, "Warning: Code BUFR unknown: %d\n", code );
+      sprintf( buf, "Warning: Unknown element descriptor: %d\n", desc );
       bufr_print_debug( buf );
       }
    return e;
@@ -690,23 +691,24 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int code)
 
 /**
  * @english
- * @todo translate
+ * find and return a Table D entry
+ * @param  desc : descriptor to be found
  * @endenglish
  * @francais
- * chercher et retourner une entree de la table D d'un code
- * @param       code : code a chercher
+ * chercher et retourner une entree de la table D
+ * @param       desc : descripteur a chercher
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup tables
  */
-EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int code)
+EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int desc)
    {
    EntryTableD *e=NULL;
    int   f, x, y;
 
 	if( tbls == NULL ) return errno=EINVAL, NULL;
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   bufr_descriptor_to_fxy( desc, &f, &x, &y );
    switch( f )
       {
       case 3 :
@@ -718,13 +720,13 @@ EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int code)
       }
 
    if (tbls->local.tableD)
-      e = bufr_tabled_fetch_entry( tbls->local.tableD, code );
+      e = bufr_tabled_fetch_entry( tbls->local.tableD, desc );
    if (e == NULL)
-      e = bufr_tabled_fetch_entry( tbls->master.tableD, code );
+      e = bufr_tabled_fetch_entry( tbls->master.tableD, desc );
    if (e == NULL)
       {
       char buf[128];
-      sprintf( buf, "Warning: Table D Code unknown: %d\n", code );
+      sprintf( buf, "Warning: Table D Code unknown: %d\n", desc );
       bufr_print_debug( buf );
       }
    return e;
@@ -809,7 +811,7 @@ static EntryTableBArray bufr_tableb_read
    char          buf[256] ;
    EntryTableB  *etb;
    int           column[7], count;
-   int           code;
+   int           desc;
    int           desclen, len;
    int           ver = -1;
    char          errmsg[256];
@@ -879,9 +881,9 @@ static EntryTableBArray bufr_tableb_read
       if ( ligne[0] != '0' ) continue ; /* for table B, F=0  */
 
 
-      code = atoi ( &ligne[0] ) ;
+      desc = atoi ( &ligne[0] ) ;
 
-      if (!bufr_is_table_b( code )) continue;
+      if (!bufr_is_table_b( desc )) continue;
 
       if (local == 1)
          {
@@ -889,7 +891,7 @@ static EntryTableBArray bufr_tableb_read
          }
       else
          {
-         if (bufr_is_local_descriptor( code )) continue;
+         if (bufr_is_local_descriptor( desc )) continue;
          }
 
       /*Supprimer les espaces a la fin du descripteur*/
@@ -930,21 +932,23 @@ static EntryTableBArray bufr_tableb_read
 
 /**
  * @english
- * @todo translate
+ * search for a Table B entry
+ * @param addr : an instance of Table
+ * @param desc : the descriptor to be found 
  * @endenglish
  * @francais
  * rechercher une entree dans la table B
- * @param     addr_tabled  : une table B
- * @param     code : le code recherche
+ * @param     addr  : une table B
+ * @param     desc : le descripteur recherche
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup tables
  */
-EntryTableB *bufr_tableb_fetch_entry(EntryTableBArray addr, int code)
+EntryTableB *bufr_tableb_fetch_entry(EntryTableBArray addr, int desc)
    {
    EntryTableB *ptr1, tb, **ptr;
 
-   tb.descriptor = code;
+   tb.descriptor = desc;
    ptr1 = &tb;
    ptr = (EntryTableB **)arr_search( addr, (char *)&ptr1, compare_tableb );
    if ( ptr != NULL)
@@ -1134,7 +1138,9 @@ void bufr_tableb_free(EntryTableBArray tableb)
 
 /**
  * @english
- * @todo translate
+ * read Table D from a file
+ * @param   filename : file containing table D
+ * @param   addr_tabled : table D to be incremented (if relevant)
  * @endenglish
  * @francais
  * lire une table D d'un fichier
@@ -1151,7 +1157,7 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
    char ligne[4096] ;
    EntryTableD  *etb;
    int  count;
-   int  codes[1024];
+   int  descriptors[1024];
    char *tok;
    int  column[20];
 
@@ -1201,12 +1207,12 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
       count = 0;
       while ( tok )
          {
-         codes[count++] = atoi(tok);
+         descriptors[count++] = atoi(tok);
          tok = strtok( NULL, " \t\n" );
          }
       if (count > 1)
          {
-         etb = bufr_new_EntryTableD( codes[0], ligne, desclen, codes+1, count-1 );
+         etb = bufr_new_EntryTableD( descriptors[0], ligne, desclen, descriptors+1, count-1 );
          arr_add( addr_tabled, (char *)&etb );
          }
       }
