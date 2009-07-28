@@ -15,22 +15,7 @@ This file is part of libECBUFR.
 
     You should have received a copy of the Lesser GNU General Public
     License along with libECBUFR.  If not, see <http://www.gnu.org/licenses/>.
-
- *
- *  file      :  ARRAY.C
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  object    :  THIS FILE CONTAINS ALL THE MODULES
- *               MANAGING DYNAMIC ARRAYS
- *
- */
+***/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -665,22 +650,8 @@ int arr_intDescCmp
 #ifdef TEST
 
 /*
- *
- *  module    :  TEST_ARRAY
- *
- *  author    :  Souvanlasy Viengsvanh
- *
- *  revision  :  V0.1   Michel Grenier
- *
- *  status    :  DEVELOPMENT
- *
- *  language  :  C
- *
- *  object    :  THE FOLLOWING MODULES ARE USED FOR TESTING PURPOSES ONLY
- *
-
-*/
-
+ * THE FOLLOWING MODULES ARE USED FOR TESTING PURPOSES ONLY
+ */
  typedef struct { int pos;
                   float  v;
                 } dummy;
