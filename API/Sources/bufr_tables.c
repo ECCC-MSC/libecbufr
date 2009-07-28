@@ -790,7 +790,7 @@ static int strtlen(char *Str)
  * @param     addr_tableb : already allocated table b array to load in or merge with
  * @param     local       : if loading should restrict range to local descriptors only 
  *                    x=[1,47] y=[1,192]
- * @param     desc        returned string describing the local table in the file
+ * @param     ltds        returned string describing the local table in the file
  * @param     cat         returned local table category description in the file
  * @param     version     returned version of table B
  * @return     EntryTableBArray : A Table B array
@@ -804,7 +804,7 @@ static int strtlen(char *Str)
  */
 static EntryTableBArray bufr_tableb_read
    (EntryTableBArray addr_tableb, const char *filename, int local, 
-    char *desc, int *cat, int *version)
+    char *ltds, int *cat, int *version)
    {
    FILE         *fp ;
    char          ligne[256] ;
@@ -868,8 +868,8 @@ static EntryTableBArray bufr_tableb_read
             }
          if (len > 64) len = 64;
          if (len > 0)
-            strncpy ( desc,   &ligne[17],  len ) ;
-         desc[len] = '\0';
+            strncpy ( ltds,   &ligne[17],  len ) ;
+         ltds[len] = '\0';
          continue;
          }
 
