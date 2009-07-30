@@ -12,8 +12,10 @@ libtoolize --force
 #         autoconf, autoheader,  aclocal, automake, libtoolize ...
 #
 echo "*** Running autoreconf"
+rm -f configure
 autoreconf --force
-if [ $? == 0 ]
-then
+if [ -f configure ]; then
    echo "*** Done. You may now run configure"
 fi
+
+exit 0
