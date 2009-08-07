@@ -172,6 +172,7 @@ int main(int argc, char *argv[])
 
    tables = bufr_create_tables();
    bufr_load_cmc_tables( tables );  
+   bufr_load_l_tableB( tables, "./local_table_b" );
 
 	bufr_set_abort( my_abort );
 	bufr_set_debug_file( "test_mem.DEBUG" );

@@ -1,0 +1,44 @@
+* THIS TABLE B CONTAINS LOCAL DESCRIPTORS NEEDED FOR DECODE AND ENCODE OF
+* BUFR FILES USED IN THE TESTS HERE INCLUDED
+*
+*         1         2         3         4         5         6         7         8
+*234567890123456789012345678901234567890123456789012345678901234567890123456789012345
+*         
+*
+001194  STNID, PART 3/3, 3 RIGHTMOST CHARACTERS     CCITT IA5    0          0    24
+001195  OBS REPORT TYPE                             CODE TABLE   0          0     4
+001196  EXTENDED OBS REPORT TYPE                    CODE TABLE   0          0    12
+001204  IDENTIFICATIF DE STATION, OBSERV. HORAIRE   CCITT IA5    0          0    32
+001192  STNID, PART 1/3, 3 LEFTMOST CHARACTERS      CCITT IA5    0          0    24
+001193  STNID, PART 2/3, 3 CENTRAL CHARACTERS       CCITT IA5    0          0    24
+002196  HOURLY OBS AUTO/SUPPLEMENTARY TYPE (SA)     CODE TABLE   0          0     5
+002207  BATTERY VOLTAGE                             VOLT         1          0    10
+002214  AWOS SENSOR, EQUIPMENT TYPE                 CODE TABLE   0          0     6
+002215  AWOS SENSOR, EQUIPMENT SLOT NUMBER          NUMERIC      0          0     8
+002216  AWOS SENSOR, EQUIPMENT DIAGNOSTIC CODE      CODE TABLE   0          0     9
+002217  AWOS SENSOR TOTAL NUBMER EVENTS, UNDET. PD  NUMERIC      0          0     6
+008197  DATA QUALIFIER (SA|METAR)                   CODE TABLE   0          0     5
+010197  BAROMETER AS READ                           PA          -1          0    14
+e11212  WIND GUST/SQUALL CHARACTER (SA)             CODE TABLE   0          0     3
+012192  DEW POINT DEPRESSION                        K            1          0     9
+010194  GEOPOTENTIAL HEIGHT                         GPM          0       -400    17
+012199  DRY TEMPERATURE, 12H AGO (SA)               K            1          0    12
+013218  PRECIPITATION WEIGHING GAUGE WEIGHT         KG/M**2      1         -1    14
+014207  HRLY GLBL ACCUM HI PREC SOLAR RAD           J/M**2      -1    -524288    20
+020193  OPACITY OF CLOUD LAYER (SA)                 TENTH        0          0     4 M
+020194  TOTAL OPACITY (SA)                          TENTH        0          0     4
+020196  TYPE OF CEILING (SA)                        CODE TABLE   0          0     3
+020197  OBSCURING PHENOMENA (SA/METAR)              CODE TABLE   0          0     5 M
+020200  HEIGHT OF LOW LEVEL CLOUDS (SYNOP)          M           -1        -40    11
+020215  TOTAL AMOUNT (SA)                           TENTH        0          0     4
+020216  RVR RUNWAY NUMBER                           NUMERIC      0          0     8
+020206  SKY CONDITION, PIREP|SA|METAR               CODE TABLE   0          0     5
+020210  PRESENT WEATHER                             CODE TABLE   0          0    16 M
+020217  RVR RUNWAY DESIGNATOR                       CODE TABLE   0          0     3
+020218  RVR TENDENCY                                CODE TABLE   0          0     3
+020232  MAXIMUM VISIBILITY, TEN MINUTE PERIOD       M           -1          0    13
+020233  MINIMUM VISIBILITY, TEN MINUTE PERIOD       M           -1          0    13
+057200  ETA LEVEL OF MODELS AS DEFINED AT CMC       NUMERIC      4      -2000    14
+060001  TABLE ID (SENSOR ARRAY IDENTIFIER)          NUMERIC      0          0    10
+060004  PANEL TEMPERATURE                           K            1          0    12
+060005  PROGRAM SIGNATURE CHECKSUM                  NUMERIC      0          0    10

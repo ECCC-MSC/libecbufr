@@ -19,7 +19,7 @@ do
 	BUFR=Dump/${BASE}.bufr
 	TMPBUFR=Dump/${BASE}.bufr.tmp
 
-	${ENCODER} -nolocal -template ${TMPL} -datafile ${DUMP} \
+	${ENCODER} -nolocal -template ${TMPL} -datafile ${DUMP} -ltableb ./local_table_b \
 				-outbufr ${TMPBUFR}
 	if [ -f ${BUFR} ]; then
 		if /usr/bin/diff -qb ${BUFR} ${TMPBUFR} >/dev/null; then
