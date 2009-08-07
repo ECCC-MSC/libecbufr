@@ -274,7 +274,9 @@ static void run_tests(void)
 
       if (dts == NULL) 
          {
-         bufr_print_debug( "Error: can't decode messages\n" );
+         strcpy( buf, "Error: can't decode messages\n" );
+         bufr_print_output( buf );
+         bufr_print_debug( buf );
          continue;
          }
 /*
