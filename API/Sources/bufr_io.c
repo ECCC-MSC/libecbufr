@@ -536,6 +536,8 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
 		   {
          sprintf( errmsg, "Warning: bufr_getbits( %d ), out of bounds!\n", nbbits);
          bufr_print_debug( errmsg );
+         *errcode = -1;
+         return 0;
 		   }
       else
          {

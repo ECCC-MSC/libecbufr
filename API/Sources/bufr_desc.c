@@ -117,28 +117,28 @@ void bufr_print_descriptor( char *outstr, BufrDescriptor *cb )
  */
 BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
    {
-   BufrDescriptor     *code;
+   BufrDescriptor     *d;
 
-   code = (BufrDescriptor *)malloc(sizeof(BufrDescriptor));
-   code->descriptor         = desc;
-   code->s_descriptor       = 0;
-   code->encoding.type      = TYPE_UNDEFINED;
-   code->encoding.reference = 0;
-   code->encoding.scale     = 0;
-   code->encoding.nbits     = -1;
-   code->encoding.af_nbits  = 0;
-   code->afd                = NULL;
-   code->value              = NULL;
-   code->flags              = 0;
-   code->meta               = NULL;
+   d = (BufrDescriptor *)malloc(sizeof(BufrDescriptor));
+   d->descriptor         = desc;
+   d->s_descriptor       = 0;
+   d->encoding.type      = TYPE_UNDEFINED;
+   d->encoding.reference = 0;
+   d->encoding.scale     = 0;
+   d->encoding.nbits     = -1;
+   d->encoding.af_nbits  = 0;
+   d->afd                = NULL;
+   d->value              = NULL;
+   d->flags              = 0;
+   d->meta               = NULL;
 
    if (tbls != NULL)
       {
       int           len;
 
-      code->encoding.type = bufr_descriptor_to_datatype   ( tbls, NULL, desc, &len );
+      d->encoding.type = bufr_descriptor_to_datatype   ( tbls, NULL, desc, &len );
       }
-   return code;
+   return d;
    }
 
 /**

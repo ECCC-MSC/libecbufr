@@ -85,6 +85,33 @@ BUFR_Template *bufr_create_template
    ( BufrDescValue *codes, int nb, BUFR_Tables *tbls, int edition )
    {
    BUFR_Template   *tmplt;
+   EntryTableB     *e;
+   int              i;
+   char            errmsg[256];
+   int             has_error=0;
+/*
+ * first make sure that all descriptor exist in BUFR table
+ */
+   for ( i = 0; i < nb ; i++ )
+      {
+      if (bufr_is_table_b( codes[i].descriptor ))
+         {
+         e = bufr_fetch_tableB( tbls, codes[i].descriptor );
+         if (e == NULL) 
+            {
+            has_error = 1;
+            sprintf( errmsg, "Error: unknown descriptor %d\n", codes[i].descriptor );
+            bufr_print_debug( errmsg );
+            }
+         }
+      }
+   
+   if (has_error)
+      {
+      bufr_print_debug( "Error: Template definition contains error(s)\n" );
+      bufr_print_debug( "Error: Unable to create Template\n" );
+      return NULL;
+      }
 
    tmplt               = (BUFR_Template *)malloc(sizeof(BUFR_Template));
    tmplt->gabarit      = NULL;
@@ -228,6 +255,7 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    BUFR_Sequence    *gabarit;
    int              i, count;
    int              flags;
+   EntryTableB     *e;
 
 	if( NULL == tmplt ) return errno=EINVAL, -1;
 
@@ -239,8 +267,17 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    for (i = 0; i < count ; i++)
       {
       code = (BufrDescValue *)arr_get( tmplt->codets, i );
+      if (bufr_is_table_b( code->descriptor ))
+         {
+         e = bufr_fetch_tableB( tmplt->tables, code->descriptor );
+         if (e == NULL)
+            {
+            bufr_print_debug( "Error: template contains errors\n" );
+            bufr_free_sequence( gabarit );
+            return -1;
+            }
+         }
       bc = bufr_create_descriptor ( tmplt->tables, code->descriptor );
-
       if ( code->values )
          bc->value = bufr_duplicate_value( code->values[0] );
       else
@@ -401,6 +438,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
    char        *kptr = NULL, *ptr;
    int          debug;
    char         errmsg[256];
+   int          error=0;
 
    if (filename == NULL) return NULL;
 
@@ -533,7 +571,17 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
       code.descriptor = icode ;
       code.values = NULL;
       code.nbval = 0;
-      e = bufr_fetch_tableB( tbls, icode );
+      if (bufr_is_table_b( icode ))
+         {
+         e = bufr_fetch_tableB( tbls, icode );
+         if (e == NULL)
+            {
+            sprintf( errmsg, "Error: unknown descriptor %d, abort\n", icode );
+            bufr_print_debug( errmsg );
+            error = 1;
+            break;
+            }
+         }
       tok = strtok_r( NULL, " \t\n,=", &ptr );
       if (tok)
          {
@@ -601,7 +649,6 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
          }
 
       arr_add( codelist, (char *)&code );
-
       }
 
    fclose ( fp ) ;
@@ -611,7 +658,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
 
    tmplt = bufr_create_template( NULL, 0, tbls, edition );
    tmplt->codets = codelist;
-   if (bufr_finalize_template( tmplt ) < 0)
+   if ((bufr_finalize_template( tmplt ) < 0)|| error)
       {
       sprintf( errmsg, "Error: Template file %s contains error(s)\n", filename );
       bufr_print_debug( errmsg );

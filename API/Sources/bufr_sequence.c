@@ -43,9 +43,10 @@ static int         bufr_is_dd_for_dpbm( BufrDescriptor *bcv );
 static void        bufr_change_af_sig( BufrDDOp *ddo , char *sig );
 static void        bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb );
 static void        bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR_Tables * );
-static void        bufr_expand_list( LinkedList *lst, int, BUFR_Tables * );
+static LinkedList *bufr_expand_list( LinkedList *lst, int, BUFR_Tables * );
 static LinkedList *bufr_expand_desc( int desc, int, BUFR_Tables * );
 static void        bufr_free_descriptorNode(ListNode *node);
+static void        bufr_free_descriptorList(LinkedList *list);
 static LinkedList *bufr_repl_descriptors    ( ListNode *first, int nbdesc, int count, int, BUFR_Tables *);
 static void        cumulate_code2CodeArray( BufrDescriptor *cb, void *client_data );
 static void        cumulate_code2CodeArrayValues( BufrDescriptor *cb, void *client_data );
@@ -70,25 +71,13 @@ static void        bufr_walk_sequence
 void bufr_free_sequence( BUFR_Sequence *bsq )
    {
    ListNode *node;
-   BufrDescriptor *code;
    LinkedList *list;
 
    if (bsq == NULL) return;
 
    if ( bsq->list )
       {
-      list = bsq->list;
-      node = lst_rmfirst( list );
-      while ( node )
-         {
-         code = (BufrDescriptor *)node->data;
-         bufr_free_descriptor ( code );
-         node->data = NULL;
-         lst_delnode( node );
-         node = lst_rmfirst( list );
-         }
-      lst_dellist( list );
-      list = NULL;
+      bufr_free_descriptorList( bsq->list );
       bsq->list = NULL;
       }
 
@@ -170,7 +159,7 @@ void bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
    {
    if (bsq == NULL) return;
 
-   bufr_expand_list( bsq->list, flags, tbls );
+   bsq->list = bufr_expand_list( bsq->list, flags, tbls );
    }
 
 /*
@@ -183,7 +172,7 @@ void bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
  * parametres:
  *
  */
-static void bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls )
+static LinkedList *bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls )
    {
    ListNode *node;
    int       skip;
@@ -191,7 +180,7 @@ static void bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls )
    node = lst_firstnode( lst );
    while ( node )
       {
-      skip = bufr_expand_node_descriptor( lst, node, flags, tbls );
+      lst = bufr_expand_node_descriptor( lst, node, flags, tbls, &skip );
       if (skip > 0)
          {
          node = lst_skipnodes( node, skip );
@@ -213,6 +202,7 @@ static void bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls )
          node = lst_nextnode( node );
          }
       }
+   return lst;
    }
 
 /*
@@ -280,13 +270,21 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
             if (tb)
                bcd->encoding = tb->encoding;
             else 
-               bcd->encoding.nbits = 0;
+               {
+               char errmsg[256];
+               bufr_free_descriptorList( lst );
+
+               sprintf( errmsg, "Error: unknown descriptor in bufr_expand_desc %d\n" , 
+                     code );
+               bufr_print_debug( errmsg );
+               return NULL;
+               }
             }
          }
       lst_addlast( lst, lst_newnode( bcd ) );
       }
 
-   bufr_expand_list( lst, flags, tbls );
+   lst = bufr_expand_list( lst, flags, tbls );
    return lst;
    }
 
@@ -300,19 +298,18 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
  * parametres:
  *
  */
-int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BUFR_Tables *tbls )
+LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BUFR_Tables *tbls, int *skip )
    {
-   int         skip;
    int         f, x, y;
    BufrDescriptor   *cb;
    LinkedList *sublist;
 
    cb = (BufrDescriptor *)node->data;
 
-   if (cb->flags & FLAG_SKIPPED) return 0;
-   if (cb->flags & FLAG_EXPANDED) return 0;
+   *skip = 0;
+   if (cb->flags & FLAG_SKIPPED) return list;
+   if (cb->flags & FLAG_EXPANDED) return list;
 
-   skip    = 0;
    sublist = NULL;
 
    bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
@@ -322,7 +319,7 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
          {
          cb->flags |= FLAG_EXPANDED | FLAG_SKIPPED;
          sublist = bufr_repl_descriptors( lst_nextnode( node ), x, y, flags, tbls );
-         skip = -(x + 1);
+         *skip = -(x + 1);
          }
       else
          {
@@ -356,7 +353,7 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
                sublist = bufr_repl_descriptors( lst_nextnode( nnode ), x, rep, flags, tbls );
                nnode = lst_rmnode( list, nnode );
                lst_addfirst( sublist, nnode );
-               skip = -(x + 1);
+               *skip = -(x + 1);
                cb->flags |= FLAG_EXPANDED | FLAG_SKIPPED;
                cb31->flags |= FLAG_EXPANDED;
                }
@@ -364,7 +361,7 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
                {
                bufr_assign_descriptors(  lst_nextnode( nnode ), x, flags, tbls );
                sublist = NULL;
-               skip = x + 2;
+               *skip = x + 2;
                }
             }
          else
@@ -374,7 +371,8 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
             sprintf( errmsg, "Error: delayed replication not followed by class 31 code=%d\n" , 
                      cb31->descriptor );
             bufr_print_debug( errmsg );
-            return -1;
+            *skip = -1;
+            return list;
             }
          }
       }
@@ -385,6 +383,11 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
 
       cb->flags |= FLAG_EXPANDED | FLAG_SKIPPED;
       sublist = bufr_expand_desc( cb->descriptor, flags, tbls );
+      if (sublist == NULL) 
+         {
+         bufr_free_descriptorList( list );
+         return NULL;
+         }
       bsq = bufr_create_sequence( list );
       if ( cb->meta )
          depth = cb->meta->nb_nesting;
@@ -393,31 +396,30 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
       bufr_check_sequence( bsq, 4, &tmpflags, tbls, depth );
       bsq->list = NULL;
       bufr_free_sequence( bsq );
-      skip = -1;
+      *skip = -1;
       }
    else if (f == 0)
       {
       if (x == 31)
          cb->flags |= FLAG_CLASS31;
-/*      cb->flags |= FLAG_EXPANDED; */
       }
 
-   if (skip < 0)
+   if (*skip < 0)
       {
       ListNode   *node1;
       ListNode   *nnode;
 
-      skip += 1;
+      *skip += 1;
       node1 = lst_nextnode( node );
-      while ((skip < 0)&& node1)
+      while ((*skip < 0)&& node1)
          {
          nnode = lst_nextnode( node1 );
          bufr_free_descriptorNode( lst_rmnode( list, node1 ) );
          node1 = nnode;
-         skip += 1;
+         *skip += 1;
          }
       if (flags & OP_RM_XPNDBL_DESC)
-         skip = -1;
+         *skip = -1;
       }
 
    if (sublist)
@@ -439,11 +441,11 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
       /* 
        * insert new items after expand code, then skip over them
        */
-         skip = lst_count( sublist );
-         if (skip > 0)
+         *skip = lst_count( sublist );
+         if (*skip > 0)
             {
             lst_movelist( list, node, sublist );
-            skip += 1;
+            *skip += 1;
             }
          }
       lst_dellist( sublist );
@@ -451,10 +453,10 @@ int bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BU
 
    if (cb->meta)
       {
-      cb->meta->len_expansion = skip;
+      cb->meta->len_expansion = *skip;
       }
 
-   return skip;
+   return list;
    }
 
 /*
@@ -504,11 +506,20 @@ static LinkedList *bufr_repl_descriptors
          cb = (BufrDescriptor *)node->data;
          if (cb->encoding.nbits == -1)
             {
-            EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
-            if (tb)
-               cb->encoding = tb->encoding;
-            else 
-               cb->encoding.nbits = 0;
+            cb->encoding.nbits = 0;
+            if (bufr_is_table_b( cb->descriptor ))
+               {
+               char errmsg[128];
+               EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
+               if (tb)
+                  cb->encoding = tb->encoding;
+               else
+                  {
+                  sprintf( errmsg, "Error: in bufr_repl_descriptors() unknown %d\n" , 
+                     cb->descriptor );
+                  bufr_print_debug( errmsg );
+                  }
+               }
             }
          desc = bufr_dupl_descriptor ( cb );
          if ( desc == NULL )
@@ -557,7 +568,7 @@ static LinkedList *bufr_repl_descriptors
    if (flags & OP_ZDRC_IGNORE)
       flags = flags & ~OP_ZDRC_IGNORE;
 
-   bufr_expand_list( lst, flags, tbls );
+   lst = bufr_expand_list( lst, flags, tbls );
    return lst;
    }
 
@@ -593,11 +604,21 @@ static void bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR
 
       if (!skipped && (cb->encoding.nbits == -1))
          {
-         EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
-         if (tb)
-            cb->encoding = tb->encoding;
-         else
-            cb->encoding.nbits = 0;
+         cb->encoding.nbits = 0;
+         if (bufr_is_table_b( cb->descriptor ))
+            {
+            EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
+            if (tb)
+               cb->encoding = tb->encoding;
+            else
+               {
+               char  errmsg[256];
+
+               sprintf( errmsg, "Error: in bufr_assign_descriptors unknown %d\n" , 
+                     cb->descriptor );
+               bufr_print_debug( errmsg );
+               }
+            }
          }
       node = lst_nextnode( node );
       i++;
@@ -1160,9 +1181,11 @@ BufrDDOp  *bufr_apply_Tables
  */
       otb = NULL;
       if (f == 0)
+         {
          otb = bufr_tableb_fetch_entry( ddo->override_tableb, cb->descriptor );
-      if (otb == NULL)
-         otb = bufr_fetch_tableB( tbls, cb->descriptor );
+         if (otb == NULL)
+            otb = bufr_fetch_tableB( tbls, cb->descriptor );
+         }
 
       bufr_reassign_table2code( cb, f, otb );
 /*
@@ -1396,7 +1419,10 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
                   sprintf( errmsg, "%f ", value );
                   bufr_print_debug( errmsg );
                   }
-               tb2 = bufr_fetch_tableB( tmplt->tables, cb->descriptor );
+               if (bufr_is_table_b( cb->descriptor ))
+                  tb2 = bufr_fetch_tableB( tmplt->tables, cb->descriptor );
+               else 
+                  tb2 = NULL;
                if (tb2)
                   {
                   tb1 = bufr_new_EntryTableB();
@@ -1697,6 +1723,33 @@ static int bufr_is_dd_for_dpbm( BufrDescriptor *bcv )
          break;
       }
    return 0;
+   }
+
+/*
+ * name: bufr_free_descriptorList
+ *
+ * author:  Vanh Souvanlasy
+ *
+ * function: free a list of descriptors
+ *
+ * parametres:   list
+ *
+ */
+static void bufr_free_descriptorList(LinkedList *list)
+   {
+   ListNode *node;
+   BufrDescriptor *code;
+
+   node = lst_rmfirst( list );
+   while ( node )
+      {
+      code = (BufrDescriptor *)node->data;
+      bufr_free_descriptor ( code );
+      node->data = NULL;
+      lst_delnode( node );
+      node = lst_rmfirst( list );
+      }
+   lst_dellist( list );
    }
 
 /*

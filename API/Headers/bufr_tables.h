@@ -150,6 +150,7 @@ extern BufrDataType   bufr_unit_to_datatype       ( const char *unit );
 extern BufrDataType   bufr_descriptor_to_datatype ( BUFR_Tables *, EntryTableB *e, int desc, int *len );
 extern int            bufr_parse_columns          ( const char *ligne, int *column, int limit );
 extern int            bufr_is_local_descriptor    ( int desc );
+extern int            bufr_is_table_b             ( int code );
 
 extern void           bufr_descriptor_to_fxy      ( int desc, int *f, int *x, int *y );
 extern int            bufr_fxy_to_descriptor      ( int f, int x, int y );

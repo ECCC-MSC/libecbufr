@@ -67,7 +67,6 @@ static void            bufr_merge_tableB      ( EntryTableBArray table1, EntryTa
 static void            bufr_merge_tableD      ( EntryTableDArray table1, EntryTableDArray table2 );
 static void            bufr_copy_EntryTableD  ( EntryTableD *r, const char *desc, int desclen,
                                                 int *codes, int count);
-static int             bufr_is_table_b        ( int code );
 static void            bufr_merge_TablesSet   ( BufrTablesSet *tbls1, BufrTablesSet *tbls2 );
 static int             strtlen                (char *Str);
 
@@ -639,25 +638,31 @@ static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
  *
  * author:  Vanh Souvanlasy
  *
- * function: chercher et retourner une entree de la table B d'un code
+ * function: search a Table B descriptor int the loaded Table
  *
  * parameters:
- *        code : code a chercher
+ *        desc : descriptor to look for
  */
-EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int code)
+EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
    {
    int          f, x, y;
    EntryTableB *e;
 
 	if( tbls == NULL ) return errno=EINVAL, NULL;
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   bufr_descriptor_to_fxy( desc, &f, &x, &y );
    switch( f )
       {
       case 1 :
       case 2 :
       case 3 :
+         {
+         char buf[128];
+         sprintf( buf, "Warning: Not table B descriptor %d\n", desc );
+         bufr_print_output( buf );
+         bufr_print_debug( buf );
          return NULL;
+         }
       default :
          break;
       }
@@ -665,14 +670,15 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int code)
    e=NULL;
 
    if (tbls->local.tableB)
-      e = bufr_tableb_fetch_entry( tbls->local.tableB, code );
+      e = bufr_tableb_fetch_entry( tbls->local.tableB, desc );
    if (e == NULL)
-      e = bufr_tableb_fetch_entry( tbls->master.tableB, code );
+      e = bufr_tableb_fetch_entry( tbls->master.tableB, desc );
    if (e == NULL)
       {
       char buf[128];
       bufr_errcode = BUFR_TB_NOTFOUND;
-      sprintf( buf, "Warning: Code BUFR unknown: %d\n", code );
+      sprintf( buf, "Warning: Unknown BUFR descriptor: %d\n", desc );
+      bufr_print_output( buf );
       bufr_print_debug( buf );
       }
    return e;
@@ -1773,17 +1779,7 @@ BufrDataType bufr_descriptor_to_datatype   ( BUFR_Tables *tbls, EntryTableB *e, 
    {
    int f, x, y;
       
-   if (e == NULL) 
-      e = bufr_fetch_tableB( tbls, code );
-
    *len = 0;
-   if (e)
-      {
-      if (e->encoding.type == TYPE_CCITT_IA5)
-         *len = (e->encoding.nbits / 8);
-      return e->encoding.type;
-      }
-
    bufr_descriptor_to_fxy( code, &f, &x, &y );
 
    switch( f )
@@ -1799,6 +1795,18 @@ BufrDataType bufr_descriptor_to_datatype   ( BUFR_Tables *tbls, EntryTableB *e, 
              }
          return TYPE_OPERATOR;
       break;
+      case 0 :
+         if (e == NULL) 
+            e = bufr_fetch_tableB( tbls, code );
+         if (e)
+            {
+            if (e->encoding.type == TYPE_CCITT_IA5)
+               *len = (e->encoding.nbits / 8);
+            return e->encoding.type;
+            }
+         return TYPE_UNDEFINED;
+      break;
+      case 1 :
       default :
          return TYPE_UNDEFINED;
       break;
@@ -1915,13 +1923,12 @@ int bufr_fxy_to_descriptor( int f, int x, int y )
  *
  * parameters:
  */
-static int bufr_is_table_b( int code )
+int bufr_is_table_b( int code )
    {
-   int f, x, y;
+   int f;
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   f = code / 100000;
    if (f == 0) return 1;
-
    return 0;
    }
 

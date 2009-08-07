@@ -1959,7 +1959,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          bufr_print_debug( errmsg );
          }
       }
-   else if (msg->s1.master_table_version != tables->master.version )
+   else if ((msg->s1.master_table_version != tables->master.version )&&
+            (msg->s1.master_table_version > 13))
       {
       sprintf( errmsg, "Warning: master Table B version: %d differs message's: %d\n", 
             tables->master.version, msg->s1.master_table_version );
@@ -1985,6 +1986,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
  * create a template using only codes from message section 3
  */
    template = bufr_create_template( codets, count, tables, msg->edition );
+   if (template == NULL)
+      {
+      free( codets );
+      return NULL;
+      }
+
    if (bufr_finalize_template( template ) < 0) 
       {
       bufr_free_template ( template );
@@ -1993,6 +2000,13 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       }
 
    dts = bufr_create_dataset( template );
+   if (dts == NULL)
+      {
+      bufr_free_template ( template );
+      free( codets );
+      return NULL;
+      }
+
    if ( msg->header_string )
       {
       if ( dts->header_string ) free( dts->header_string );
@@ -2074,6 +2088,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                if ((f2 == 0)&&(x2 == 31))
                   {
                   int ival;
+                  int  errcode;
 
                   if (bufr_get_desc_value( msg, cb31 ) < 0)
                      {
@@ -2082,7 +2097,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                      continue;
                      }
                   ival = bufr_descriptor_get_ivalue( cb31 );
-                  bufr_expand_node_descriptor( bsq2->list, node, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables );
+                  bsq2->list = bufr_expand_node_descriptor( bsq2->list, node, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
                   node = lst_nextnode( node ); /* skip over class 31 code */
                   }
                }
@@ -2196,10 +2211,11 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             has_delayed_replication = 0;
             if ((f == 0)&&(x == 31))
                {
+               int errcode;
                for (i = 0; i < nbsubset ; i++)
                   {
                   node2 = nodes[i]->prev;
-                  bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables );
+                  bseq[i]->list = bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
                   ddos[i]->current = node2;
                   }
                }
@@ -3029,9 +3045,10 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          {
          ListNode  *nnode;
          BufrDescriptor  *cb2;
+         int errcode;
 
-         bufr_expand_node_descriptor( bsq2->list, lst_prevnode( node ), 
-               OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tbls );
+         bsq2->list = bufr_expand_node_descriptor( bsq2->list, lst_prevnode( node ), 
+               OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tbls, &errcode );
 
          nnode = lst_nextnode( node );
          }
