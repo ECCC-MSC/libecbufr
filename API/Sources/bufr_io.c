@@ -1932,9 +1932,6 @@ ssize_t bufr_memwrite_message(char *mem, size_t mem_len, BUFR_Message *bufr)
 	return cd.pos;
    }
 
-void bufr_write_header_of_message( BUFR_Message *msg )
-   {
-   }
 /*
  * nom: bufr_wr_header_string
  *
