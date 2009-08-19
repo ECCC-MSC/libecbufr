@@ -19,7 +19,7 @@
 002217  AWOS SENSOR TOTAL NUBMER EVENTS, UNDET. PD  NUMERIC      0          0     6
 008197  DATA QUALIFIER (SA|METAR)                   CODE TABLE   0          0     5
 010197  BAROMETER AS READ                           PA          -1          0    14
-e11212  WIND GUST/SQUALL CHARACTER (SA)             CODE TABLE   0          0     3
+011212  WIND GUST/SQUALL CHARACTER (SA)             CODE TABLE   0          0     3
 012192  DEW POINT DEPRESSION                        K            1          0     9
 010194  GEOPOTENTIAL HEIGHT                         GPM          0       -400    17
 012199  DRY TEMPERATURE, 12H AGO (SA)               K            1          0    12
