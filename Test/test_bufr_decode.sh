@@ -9,7 +9,7 @@ do
 	echo -n "$i ..."
 	OUT=BUFR/${BASE}.out
 	TMPOUT=BUFR/${BASE}.out.tmp
-	${DECODER} -inbufr $i -ltableb local_table_b > ${TMPOUT} 2>&1
+	${DECODER} -inbufr $i -ltableb local_table_b -no_format > ${TMPOUT} 2>&1
 	if [ -f ${OUT} ]; then
 		if /usr/bin/diff -q ${OUT} ${TMPOUT} >/dev/null; then
 			echo " (passed)"
