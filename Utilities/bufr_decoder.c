@@ -47,7 +47,7 @@ static int   show_unitdesc=0;
 static int   show_loctime=0;
 static int   show_meta=1;
 static int   show_locdesc=0;
-
+static int   format_ouput=1;
 /*
  * data structures
  */
@@ -56,6 +56,7 @@ static void abort_usage(char *pgrmname);
 static void cleanup(void);
 static int  read_cmdline( int argc, char *argv[] );
 static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables * );
+static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables * );
 
 static void run_tests(void);
 
@@ -86,6 +87,7 @@ static void abort_usage(char *pgrmname)
    fprintf( stderr, "          [-describe]                 show description and unit\n" );
    fprintf( stderr, "          [-location]                 show implicit location or time\n" );
    fprintf( stderr, "          [-locdesc    <descriptor>]  show RTMD of the location descriptors\n" );
+   fprintf( stderr, "          [-no_format]                disable formatting\n" );
    fprintf( stderr, "          [-verbose]                  send more messages\n" );
    fprintf( stderr, "          [-local]                    save the local table B\n" );
    fprintf( stderr, "          [-stop       <nb_messages>] stops decoding after the specified number of messages\n" );
@@ -139,6 +141,8 @@ static int read_cmdline( int argc, char *argv[] )
        show_loctime = 1;
      } else if (strcmp(argv[i],"-nometa")==0) {
        show_meta = 0;
+     } else if (strcmp(argv[i],"-no_format")==0) {
+       format_ouput = 0;
      } else if (strcmp(argv[i],"-locdesc")==0) {
        ++i; if (i >= argc) abort_usage(argv[0]);
        show_locdesc = atoi(argv[i]);
@@ -308,6 +312,8 @@ static void run_tests(void)
             }
          bufr_fdump_dataset( dts, fp );
          }
+      else if (format_ouput)
+         bufr_show_dataset_formatted( dts, file_tables );
       else
          bufr_show_dataset( dts, file_tables );
 
@@ -469,6 +475,213 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                      sprintf( buf, "(%s){%s}", tb->unit, tb->description );
                      bufr_print_output( buf );
                      }
+                  }
+               }
+            }
+         bufr_print_output( "\n" );
+         }
+      bufr_print_output( "\n" );
+      }
+   }
+
+static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables )
+   {
+   DataSubset     *subset;
+   int             sscount, cvcount;
+   int             i, j;
+   char            buf[256];
+   char            buf2[300];
+   char            fmt[64];
+   BufrDescriptor *bcv;
+   int             maxlen, len;
+
+   sscount = bufr_count_datasubset( dts );
+   for (i = 0; i < sscount ; i++)
+      {
+      subset = bufr_get_datasubset( dts, i );
+      cvcount = bufr_datasubset_count_descriptor( subset );
+
+      sprintf( buf, "## Subset %d : %d descriptors\n", i+1, cvcount );
+      bufr_print_output( buf );
+/*
+ * precalculates how long RTMD string will be
+ */
+      maxlen = 0;
+      for (j = 0; j < cvcount ; j++)
+         {
+         bcv = bufr_datasubset_get_descriptor( subset, j );
+         if ( bcv->meta && show_meta )
+            {
+            buf[0] = '\0';
+            if (show_locdesc)
+               {
+               bufr_print_rtmd_repl( buf, bcv->meta );
+               bufr_print_rtmd_location( buf, show_locdesc, bcv->meta );
+               }
+            else if (show_loctime)
+               bufr_print_rtmd_data( buf, bcv->meta );
+            else
+               bufr_print_rtmd_repl( buf, bcv->meta );
+            len = strlen(buf);
+            if (len > maxlen) maxlen = len;
+            }
+         }
+      fmt[0] = '%';
+      fmt[1] = '-';
+      sprintf( fmt+2, "%ds ", maxlen );
+
+      for (j = 0; j < cvcount ; j++)
+         {
+         bcv = bufr_datasubset_get_descriptor( subset, j );
+         if (bcv->flags & FLAG_SKIPPED)
+            {
+            sprintf( buf, "# %.6d ", bcv->descriptor );
+            sprintf( buf2, "%-18s", buf );
+            bufr_print_output( buf2 );
+            if ( bcv->meta && show_meta )
+               {
+               if (show_locdesc)
+                  {
+                  bufr_print_rtmd_repl( buf, bcv->meta );
+                  bufr_print_rtmd_location( buf, show_locdesc, bcv->meta );
+                  }
+               else if (show_loctime)
+                  bufr_print_rtmd_data( buf, bcv->meta );
+               else
+                  bufr_print_rtmd_repl( buf, bcv->meta );
+               sprintf( buf2, fmt, buf );
+               bufr_print_output( buf2 );
+               }
+            }
+         else
+            {
+            int desc;
+            EntryTableB *tb;
+
+            if ( bcv->s_descriptor != 0 )
+               {
+               sprintf( buf, "  %.6d {%.6d}", 
+                     bcv->descriptor, bcv->s_descriptor );
+               desc = bcv->s_descriptor;
+               }
+            else
+               {
+               sprintf( buf, "  %.6d", bcv->descriptor );
+               desc = bcv->descriptor;
+               }
+
+            sprintf( buf2, "%-18s", buf );
+            bufr_print_output( buf2 );
+
+            if ( show_meta )
+               {
+               if ( bcv->meta )
+                  {
+                  if (show_locdesc)
+                     {
+                     bufr_print_rtmd_repl( buf, bcv->meta );
+                     bufr_print_rtmd_location( buf, show_locdesc, bcv->meta );
+                     }
+                  else if (show_loctime)
+                     bufr_print_rtmd_data( buf, bcv->meta );
+                  else
+                     bufr_print_rtmd_repl( buf, bcv->meta );
+                  sprintf( buf2, fmt, buf );
+                  bufr_print_output( buf2 );
+                  }
+               else
+                  {
+                  sprintf( buf2, fmt, " " );
+                  bufr_print_output( buf2 );
+                  }
+               }
+
+            if (bufr_is_table_b( desc ))
+               {
+               tb = bufr_fetch_tableB( tables, desc );
+               if ( tb )
+                  {  /* according to descriptor 13+14=>64 15=>24 */
+                  sprintf( buf, "%-64s %-24s", tb->description, tb->unit );
+                  bufr_print_output( buf );
+                  }
+               else
+                  {
+                  sprintf( buf, "Error: descriptor not found in table B {%d}", desc );
+                  bufr_print_output( buf );
+                  }
+               }
+
+            if (bcv->value) /* If this descriptor has a value */
+               {
+               if (bcv->value->af)  /* If there are Associated Fields */
+                  {
+                  BufrAF *af = bcv->value->af;
+                  sprintf( buf, "(0x%llx:%d bits)", af->bits, af->nbits );
+                  bufr_print_output( buf );
+                  }
+
+               if (bcv->value->type == VALTYPE_INT32)
+                  {
+                  int32_t value = bufr_descriptor_get_ivalue( bcv );
+                  if ( value == -1 )
+                     bufr_print_output( "MSNG" );
+                  else
+                     {
+                     if (bcv->encoding.type == TYPE_FLAGTABLE)
+                        {
+                        char str[256];
+                        bufr_print_binary( str, value, bcv->encoding.nbits );
+                        sprintf( buf, "%-35s ", str );
+                        }
+                     else
+                        {
+                        sprintf( buf, "%d ", value );
+                        }
+                     bufr_print_output( buf );
+                     }
+                  }
+               else if (bcv->value->type == VALTYPE_INT64)
+                  {
+                  int64_t value = bufr_descriptor_get_ivalue( bcv );
+                  if ( value == -1 )
+                     bufr_print_output( "MSNG" );
+                  else
+                     {
+                     sprintf( buf, "%lld ", value );
+                     bufr_print_output( buf );
+                     }
+                  }
+               else if (bcv->value->type == VALTYPE_FLT32)
+                  {
+                  float value = bufr_descriptor_get_fvalue( bcv );
+
+                  if (bufr_is_missing_float( value ))
+                     bufr_print_output( "MSNG" );
+                  else
+                     {
+                     bufr_print_dscptr_value( buf, bcv );
+                     bufr_print_output( buf );
+                     }
+                  }
+               else if (bcv->value->type == VALTYPE_FLT64)
+                  {
+                  double value = bufr_descriptor_get_dvalue( bcv );
+
+                  if (bufr_is_missing_double( value ))
+                     bufr_print_output( "MSNG" );
+                  else
+                     {
+                     bufr_print_dscptr_value( buf, bcv );
+                     bufr_print_output( buf );
+                     }
+                  }
+               else if (bcv->value->type == VALTYPE_STRING)
+                  {
+                  int   len;
+
+                  char *str = bufr_descriptor_get_svalue( bcv, &len );
+                  sprintf( buf, "%s", str );
+                  bufr_print_output( buf );
                   }
                }
             }
