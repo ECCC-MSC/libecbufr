@@ -45,6 +45,7 @@ char *strimdup ( char *dest, const char *src, int maxlen )
    int   k, len;
 
    if (src == NULL) return NULL;
+   if (maxlen <= 0) return NULL;
 
    len = strlen( src );
    for (k = len-1; k >= 0; k-- )
