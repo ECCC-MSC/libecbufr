@@ -56,7 +56,7 @@ TOPDIR=`pwd`
 #
 # no -fPIC       : for static library
 #CFLAGS="$CFLAGS -I${PWD}/API/Headers -std=gnu99 -g -D_REENTRANT"
-CFLAGS="$CFLAGS -I${PWD}/API/Headers -std=gnu99 -D_REENTRANT -fPIC"
+CFLAGS="$CFLAGS -I${PWD}/API/Headers -I${PWD}/API/Sources -std=gnu99 -D_REENTRANT -fPIC"
 LDFLAGS="$LDFLAGS -L${PWD}/API/Sources"
 
 # Checks for programs.
@@ -127,4 +127,5 @@ AC_OUTPUT(Makefile \
       Docs/Makefile \
       Test/BUFR/Makefile \
       Test/Dump/Makefile \
+      Test/Unit_Tests/Makefile \
       Examples/Makefile )

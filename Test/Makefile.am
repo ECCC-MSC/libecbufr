@@ -1,4 +1,4 @@
-SUBDIRS = BUFR Dump
+SUBDIRS = BUFR Dump Unit_Tests
 
 EXTRA_DIST = README
 
