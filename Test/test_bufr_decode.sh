@@ -3,7 +3,7 @@
 DECODER=../Utilities/bufr_decoder
 export BUFR_TABLES=../Tables/
 
-function test1file 
+test1file ()
 {
 	if [ -f ${OUT} ]; then
 		if /usr/bin/diff -q ${OUT} ${TMPOUT} >/dev/null; then
