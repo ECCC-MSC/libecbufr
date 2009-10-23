@@ -43,7 +43,6 @@ This file is part of libECBUFR.
 
 /**
  * @english
- *    bufr_begin_api()
  * Initialises mathematical constants, calls bufr_init_limits.
  * First function to call for using the BUFR API library
  * @warning Not thread-safe
@@ -53,6 +52,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup api
  */
 void bufr_begin_api(void)
    {
@@ -72,8 +72,6 @@ void bufr_begin_api(void)
 
 /**
  * @english
- *    bufr_end_api()
- *    void
  * Last function to call for using the BUFR API library.
  * Frees allocated memory used by api etc.
  * This may be a null function matching bufr_begin_api.
@@ -85,6 +83,7 @@ void bufr_begin_api(void)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup api
  */
 void bufr_end_api(void)
    {
@@ -92,15 +91,16 @@ void bufr_end_api(void)
    bufr_print_output( NULL );
    }
 
-/*
- * name: bufr_subset_find_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: find a code in a datasubset using a descriptor
- *
- * parametres:
- *
+/**
+ * bufr_subset_find_descriptor
+ * @english
+ * find the position of a descriptor in a data subset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor dataset
  */
 int bufr_subset_find_descriptor( DataSubset *dts, int descriptor, int startpos )
    {
@@ -144,6 +144,7 @@ int bufr_subset_find_descriptor( DataSubset *dts, int descriptor, int startpos )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int startpos )
    {
@@ -248,6 +249,7 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 void bufr_set_key_string( BufrDescValue *cv, int descriptor, const char **values, int nbval )
    {
@@ -281,6 +283,7 @@ void bufr_set_key_string( BufrDescValue *cv, int descriptor, const char **values
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 void bufr_set_key_int32( BufrDescValue *cv, int descriptor, int *values, int nbval )
    {
@@ -314,6 +317,7 @@ void bufr_set_key_int32( BufrDescValue *cv, int descriptor, int *values, int nbv
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int nbval  )
    {
@@ -330,15 +334,16 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
       }
    }
 
-/*
- * name: bufr_set_key_location
- *
- * author:  Vanh Souvanlasy
- *
- * function: define a key with a value representing time or location to search in datasubset
- *
- * parametres:
- *
+/**
+ * bufr_set_key_location
+ * @english
+ * define a key with a value representing time or location to search in datasubset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup decode descriptor
  */
 void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
    {

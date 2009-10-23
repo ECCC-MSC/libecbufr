@@ -22,7 +22,8 @@ This file is part of libECBUFR.
  *
  * function: 
  *
- */
+
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -49,6 +50,7 @@ This file is part of libECBUFR.
  * @author  Vanh Souvanlasy
  * @see ValueType, bufr_duplicate_value
  * @bug should be checking the results of malloc() calls
+ * @ingroup descriptor
  */
 BufrValue  *bufr_create_value( ValueType type )
    {
@@ -146,6 +148,7 @@ BufrValue  *bufr_create_value( ValueType type )
  * @author  Vanh Souvanlasy
  * @see ValueType, bufr_create_value
  * @bug failure to check results of bufr_create_value
+ * @ingroup descriptor
  */
 BufrValue  *bufr_duplicate_value( const BufrValue *bv )
    {
@@ -178,6 +181,7 @@ BufrValue  *bufr_duplicate_value( const BufrValue *bv )
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @see ValueType, bufr_create_value, bufr_duplicate_value
+ * @ingroup descriptor
  */
 void bufr_free_value( BufrValue *bv )
    {
@@ -236,6 +240,7 @@ void bufr_free_value( BufrValue *bv )
  * value type?)
  * @bug should somehow generate an error when assigning incompatible values
  * (i.e. out-of-range 64-bit vals assigned to 32 or 8-bit integers)
+ * @ingroup descriptor
  */
 void bufr_copy_value( BufrValue *dest, const BufrValue *src )
    {
@@ -307,6 +312,7 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
  * @author  Vanh Souvanlasy
  * @see bufr_value_get_string
  * @bug unchecked malloc
+ * @ingroup descriptor
  */
 int bufr_value_set_string
    ( BufrValue *bv, const char *str, int len )
@@ -390,6 +396,7 @@ int bufr_value_set_string
  * @see bufr_value_get_int32
  * @bug should we be range checking to make sure the value fits?
  * @todo 1 and -1 are non-standard return codes
+ * @ingroup descriptor
  */
 int bufr_value_set_int32( BufrValue *bv, int value )
    {
@@ -455,6 +462,7 @@ int bufr_value_set_int32( BufrValue *bv, int value )
  * @see bufr_value_get_int64
  * @bug should we be range checking to make sure the value fits?
  * @todo 1 and -1 are non-standard return codes
+ * @ingroup descriptor
  */
 int bufr_value_set_int64( BufrValue *bv, int64_t value )
    {
@@ -518,6 +526,7 @@ int bufr_value_set_int64( BufrValue *bv, int64_t value )
  * @see bufr_value_get_float
  * @bug should we be range checking to make sure the value fits?
  * @todo 1 and -1 are non-standard return codes
+ * @ingroup descriptor
  */
 int bufr_value_set_float( BufrValue *bv, float value )
    {
@@ -589,6 +598,7 @@ int bufr_value_set_float( BufrValue *bv, float value )
  * @see bufr_value_get_double
  * @bug should we be range checking to make sure the value fits?
  * @todo 1 and -1 are non-standard return codes
+ * @ingroup descriptor
  */
 int bufr_value_set_double( BufrValue *bv, double value )
    {
@@ -661,6 +671,7 @@ int bufr_value_set_double( BufrValue *bv, double value )
  * into 32 bits? And should we differentiate between a real missing value
  * and a range error? Should we use errno?
  * @bug should explicitly return bufr_missing_int() rather than -1.
+ * @ingroup descriptor
  */
 int32_t bufr_value_get_int32( const BufrValue *bv )
    {
@@ -716,6 +727,7 @@ int32_t bufr_value_get_int32( const BufrValue *bv )
  * to an integer? And should we differentiate between a real missing value
  * and a range error? Should we use errno?
  * @bug should explicitly return bufr_missing_int() rather than -1.
+ * @ingroup descriptor
  */
 int64_t bufr_value_get_int64( const BufrValue *bv )
    {
@@ -769,6 +781,7 @@ int64_t bufr_value_get_int64( const BufrValue *bv )
  * @bug should be checking integers against bufr_missing_int() rather than -1
  * @bug missing double value needs to be converted to missing max_float.
  * @bug should be using bufr_missing_float() rather than bufr_max_float().
+ * @ingroup descriptor
  */
 float bufr_value_get_float( const BufrValue *bv )
    {
@@ -825,6 +838,7 @@ float bufr_value_get_float( const BufrValue *bv )
  * @bug should be checking integers against bufr_missing_int() rather than -1
  * @bug missing float value needs to be converted to missing max double.
  * @bug should be using bufr_missing_double() rather than bufr_max_float().
+ * @ingroup descriptor
  */
 double bufr_value_get_double( const BufrValue *bv )
    {
@@ -882,6 +896,7 @@ double bufr_value_get_double( const BufrValue *bv )
  * @bug should be using errno
  * @bug doesn't test for len==NULL
  * @bug should len be a size_t rather than int?
+ * @ingroup descriptor
  */
 const char *bufr_value_get_string( const BufrValue *bv, int *len )
    {
@@ -919,6 +934,7 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @bug should be using errno (ERANGE, in particular)
+ * @ingroup descriptor
  */
 uint64_t bufr_missing_ivalue( int nbits )
    {
@@ -946,6 +962,7 @@ uint64_t bufr_missing_ivalue( int nbits )
  * @bug should be using errno (ERANGE?)
  * @todo Vanh, this one isn't clear...
  * @author  Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
    {
@@ -980,6 +997,7 @@ int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
  * @bug silently cuts max number of bits to 64
  * @todo Vanh, this one isn't clear...
  * @author  Vanh Souvanlasy
+ * @ingroup descriptor
  */
 uint64_t bufr_negative_ivalue( int64_t value, int nbits )
    {
@@ -1021,6 +1039,7 @@ uint64_t bufr_negative_ivalue( int64_t value, int nbits )
  * @endcode
  * @bug caller should be able to pass a max length of outstr
  * @bug don't really need a temporary variable, do we?
+ * @ingroup descriptor io debug
  */
 int bufr_print_value( char *outstr, const BufrValue *bv )
    {
@@ -1043,6 +1062,7 @@ int bufr_print_value( char *outstr, const BufrValue *bv )
  * bufr_print_scaled_value( errmsg, bcv->value, scale );
  * @endcode
  * @bug caller should be able to pass a max length of outstr
+ * @ingroup descriptor io debug
  */
 int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
    {
@@ -1171,6 +1191,7 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int bufr_is_missing_double( double d )
    {
@@ -1191,6 +1212,7 @@ int bufr_is_missing_double( double d )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int bufr_is_missing_float( float f )
    {
@@ -1212,6 +1234,7 @@ int bufr_is_missing_float( float f )
  * @author  Vanh Souvanlasy
  * @see bufr_missing_int();
  * @bug should be testing against bufr_missing_int()
+ * @ingroup descriptor
  */
 int bufr_is_missing_int( int i )
    {
@@ -1230,6 +1253,7 @@ int bufr_is_missing_int( int i )
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @see bufr_is_missing_double()
+ * @ingroup descriptor
  */
 double bufr_missing_double(void)
    {
@@ -1246,6 +1270,7 @@ double bufr_missing_double(void)
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @see bufr_is_missing_float()
+ * @ingroup descriptor
  */
 float bufr_missing_float(void)
    {
@@ -1263,6 +1288,7 @@ float bufr_missing_float(void)
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @see bufr_is_missing_int()
+ * @ingroup descriptor
  */
 int bufr_missing_int(void)
    {
@@ -1287,6 +1313,7 @@ int bufr_missing_int(void)
  * @endcode
  * @bug also returns "missing" if the type of BUFR value isn't handled,
  * which should really be an error (i.e. set errno).
+ * @ingroup descriptor
  */
 int bufr_value_is_missing( BufrValue* bv )
 	{
@@ -1332,6 +1359,7 @@ int bufr_value_is_missing( BufrValue* bv )
  * @bug not checking for NULL when handling strings... strncmp() will core
  * @bug no checking for missing value; can two "missing" values be
  * considered equal?
+ * @ingroup descriptor
  */
 int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
    {
@@ -1363,8 +1391,7 @@ int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
          f1 = bufr_value_get_float( bv1 );
          f2 = bufr_value_get_float( bv2 );
          if (fabsf(f1-f2) <= eps) return 0;
-/*         if (f1 == f2) return 0; */
-         }
+          }
          break;
       case VALTYPE_FLT64 :
          {
@@ -1497,6 +1524,7 @@ int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrVa
  * @bug should be checking str for NULL
  * @bug should take a max buffer length and use snprintf
  * @bug sprintf("%hg",fval) would be equivalent
+ * @ingroup descriptor
  */
 void bufr_print_float( char *str, float fval )
    {
@@ -1528,6 +1556,7 @@ void bufr_print_float( char *str, float fval )
  * @bug should take a max buffer length and use snprintf
  * @bug sprintf("%.*hg",scale,fval) would be equivalent where scale>=0,
  * rather than dynamically building the format string
+ * @ingroup descriptor
  */
 void bufr_print_scaled_float( char *str, float fval, int scale )
    {
@@ -1559,6 +1588,7 @@ void bufr_print_scaled_float( char *str, float fval, int scale )
  * @bug should be checking str for NULL
  * @bug equivalent: n = strspn(str,"01"); return n>0 && str[n+strspn(str," ")]==0;
  * or could also be replaced with strtoll(str,&end,2)...
+ * @ingroup descriptor
  */
 int bufr_str_is_binary( const char *str )
    {
@@ -1567,12 +1597,14 @@ int bufr_str_is_binary( const char *str )
    len = strlen( str );
 /*
  * remove trailing spaces if any
- */
+
+*/
    for (i = len-1; i > 0 ; i-- )
       if (isspace(str[i])) --len;
 /*
  * accept only '1' or '0'
- */
+
+*/
    for (i = 0; i < len ; i++ )
       {
       if ((str[i] == '0')||(str[i] == '1'))
@@ -1597,6 +1629,7 @@ int bufr_str_is_binary( const char *str )
  * @author  Vanh Souvanlasy
  * @bug should be checking str for NULL
  * @bug could be replaced with strtoll(str,&end,2)...
+ * @ingroup descriptor
  */
 int64_t bufr_binary_to_int( const char *str )
    {
@@ -1639,6 +1672,7 @@ int64_t bufr_binary_to_int( const char *str )
  * @author  Vanh Souvanlasy
  * @bug should be checking outstr for NULL
  * @bug should range check nbit
+ * @ingroup descriptor debug
  */
 void bufr_print_binary ( char *outstr, int64_t  ival, int nbit )
    {

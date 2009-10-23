@@ -1,16 +1,17 @@
-DOXFILES = index.dox LibraryCodeStructure.jpg
-EXTRA_DIST = libecbufr-dox-en.conf libecbufr-dox-fr.conf README $(DOXFILES)
+DOXFILES = index.dox LibraryCodeStructure.jpg BUFR\ Data\ Structure.jpg
+EXTRA_DIST = libecbufr-dox-en.conf libecbufr-dox-fr.conf libecbufr-dox.conf \
+	README $(DOXFILES)
 
 docdir=@datadir@/doc/@PACKAGE@
 
 DOXOPTS = echo -e "PROJECT_NAME=@PACKAGE@\nPROJECT_NUMBER=@PACKAGE_VERSION@\n"
 
-DOCDIRS = rtf-en rtf-fr html-en html-fr
+DOCDIRS = rtf-en rtf-fr html-en html-fr rtf html
 
 all: $(DOCDIRS)
 
 clean:
-	rm -rf $(DOCDIRS) libecbufr-dox-fr.conf
+	rm -rf $(DOCDIRS) libecbufr-dox-fr.conf libecbufr-dox.conf
 
 install-data-local: $(DOCDIRS)
 	$(mkinstalldirs) $(DESTDIR)$(docdir)
@@ -22,7 +23,15 @@ rtf-en html-en: libecbufr-dox-en.conf $(DOXFILES)
 rtf-fr html-fr: libecbufr-dox-fr.conf $(DOXFILES)
 	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
 
+rtf html: libecbufr-dox.conf $(DOXFILES)
+	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
+
 # rather than trying to keep two configs in sync, derive the French from
 # the English.
 libecbufr-dox-fr.conf: libecbufr-dox-en.conf
 	sed -e 's/= English/= French/' -e 's/-en/-fr/' < $< > $@
+
+# rather than trying to keep multiple configs in sync, derive from
+# the English.
+libecbufr-dox.conf: libecbufr-dox-en.conf
+	sed -e 's/ENABLED_SECTIONS       = English/ENABLED_SECTIONS       = English French/' -e 's/-en//' < $< > $@
