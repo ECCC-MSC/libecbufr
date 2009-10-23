@@ -36,6 +36,12 @@ This file is part of libECBUFR.
 
 /**
  * @english
+ *
+ * Constructor for the BufrRTMD (BUFR runtime meta data) object.
+ * @warning This is an internal function, normal usage should never need to call this function directly. 
+ *
+ * @param  count number of nesting level
+ * @return (BufrRTMD *)
  * @endenglish
  * @francais
  * @todo translate to French
@@ -65,6 +71,12 @@ BufrRTMD  *bufr_create_rtmd( int count )
 
 /**
  * @english
+ *
+ * Make a duplicate of an BufrRTMD object
+ *
+ * @warning This is an internal function, normal usage should never need to call this function directly. 
+ * @param  dup  the original of the object to duplicate
+ * @return (BufrRTMD *)
  * @endenglish
  * @francais
  * @todo translate to French
@@ -89,6 +101,12 @@ BufrRTMD  *bufr_duplicate_rtmd( BufrRTMD *dup )
 
 /**
  * @english
+ *
+ * Copy the content of a BufrRTMD object to another
+ *
+ * @param src  input
+ * @param desc output
+ * @return void
  * @endenglish
  * @francais
  * @todo translate to French
@@ -123,6 +141,11 @@ void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
 
 /**
  * @english
+ *
+ * Destructor for the BufrRTMD object.
+ *
+ * @param bm input
+ * @return void
  * @endenglish
  * @francais
  * @todo translate to French
@@ -130,27 +153,33 @@ void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-void bufr_free_rtmd( BufrRTMD *bm )
+void bufr_free_rtmd( BufrRTMD *rtmd )
    {
-   if (bm->nesting)
+   if (rtmd->nesting)
       {
-      free( bm->nesting );
-      bm->nesting = NULL;
+      free( rtmd->nesting );
+      rtmd->nesting = NULL;
       }
-   bm->nb_nesting = 0;
-   if (bm->tlc)
+   rtmd->nb_nesting = 0;
+   if (rtmd->tlc)
       {
-      free( bm->tlc );
-      bm->tlc = NULL;
+      free( rtmd->tlc );
+      rtmd->tlc = NULL;
       }
-   bm->nb_tlc = 0;
+   rtmd->nb_tlc = 0;
 
-   free( bm );
+   free( rtmd );
    }
 
 /**
  * @english
  *  
+ * Print out the replication count of an BufrRTMD object into a string buffer
+ * @warning  Make sure that output string buffer size is big enough to hold the entire printout. A 4k string should be enough for most RTMD.
+ *
+ * @return void
+ * @param outstr  output string buffer (need at least 4k)
+ * @param rtmd pointer to an BufrRTMD
  * @endenglish
  * @francais
  * @todo translate to French
@@ -158,22 +187,22 @@ void bufr_free_rtmd( BufrRTMD *bm )
  * @author Vanh Souvanlasy
  * @ingroup debug
  */
-void bufr_print_rtmd_repl( char *outstr, BufrRTMD *bm )
+void bufr_print_rtmd_repl( char *outstr, BufrRTMD *rtmd )
    {
    int i;
    char buf[128];
 
-   if (bm == NULL) return;
+   if (rtmd == NULL) return;
 
    outstr[0] = '\0';
    strcat( outstr, "{" );
-   if (bm->nesting)
+   if (rtmd->nesting)
       {
       strcat( outstr, "R=" );
-      for (i = 0; i < bm->nb_nesting ; i++ )
+      for (i = 0; i < rtmd->nb_nesting ; i++ )
          {
          if (i >= 1) strcat( outstr, "." );
-         sprintf( buf, "%d", bm->nesting[i] );
+         sprintf( buf, "%d", rtmd->nesting[i] );
          strcat( outstr, buf );
          }
       }
@@ -182,11 +211,13 @@ void bufr_print_rtmd_repl( char *outstr, BufrRTMD *bm )
 
 /**
  * @english
- * This call prints out metadata which includes replication values, heights
- * of sensors, time allocation, values that define the loops (need
- * example), (not first-order statistics, or qualifiers). field “buf”
- * is a string long enough to hold 256 bytes.
+ *
+ * This call prints out all metadata which includes replication values, heights
+ * of sensors, time allocation, values that define the loops.
+ * 
  * @return void
+ * @param outstr  output string buffer (need at least 4k)
+ * @param rtmd pointer to an BufrRTMD
  * @endenglish
  * @francais
  * @todo translate to French
@@ -194,24 +225,24 @@ void bufr_print_rtmd_repl( char *outstr, BufrRTMD *bm )
  * @author Vanh Souvanlasy
  * @ingroup io meta debug
  */
-void bufr_print_rtmd_data( char *outstr, BufrRTMD *bm )
+void bufr_print_rtmd_data( char *outstr, BufrRTMD *rtmd )
    {
    int i;
    char buf[128];
    char buf1[128];
 
-   if (bm == NULL) return;
+   if (rtmd == NULL) return;
 
-   bufr_print_rtmd_repl(  outstr, bm );
+   bufr_print_rtmd_repl(  outstr, rtmd );
 
-   if (bm->nb_tlc)
+   if (rtmd->nb_tlc)
       {
       strcat( outstr, "{" );
-      for (i = 0; i < bm->nb_tlc ; i++ )
+      for (i = 0; i < rtmd->nb_tlc ; i++ )
          {
          if (i >= 1) strcat( outstr, "," );
-         bufr_print_float( buf1, bm->tlc[i].value );
-         sprintf( buf, "%d=%s", bm->tlc[i].descriptor, buf1 );
+         bufr_print_float( buf1, rtmd->tlc[i].value );
+         sprintf( buf, "%d=%s", rtmd->tlc[i].descriptor, buf1 );
          strcat( outstr, buf );
          }
       strcat( outstr, "}" );
@@ -220,10 +251,12 @@ void bufr_print_rtmd_data( char *outstr, BufrRTMD *bm )
 
 /**
  * @english
- * This call prints out metadata of a descriptor which includes replication values, heights
- * of sensors, time allocation, values that define the loops (need
- * example), (not first-order statistics, or qualifiers). field “buf”
- * is a string long enough to hold 256 bytes.
+ *
+ * Prints out the runtime metadata of a descriptor 
+ *
+ * @param outstr  output string buffer (need at least 4k)
+ * @param desc  the descriptor to look for
+ * @param rtmd pointer to an BufrRTMD
  * @return void
  * @endenglish
  * @francais
@@ -232,23 +265,23 @@ void bufr_print_rtmd_data( char *outstr, BufrRTMD *bm )
  * @author Vanh Souvanlasy
  * @ingroup io meta debug
  */
-void bufr_print_rtmd_location( char *outstr, int desc, BufrRTMD *bm )
+void bufr_print_rtmd_location( char *outstr, int desc, BufrRTMD *rtmd )
    {
    int i;
    char buf[128];
    char buf1[128];
 
-   if (bm == NULL) return;
+   if (rtmd == NULL) return;
 
-   if (bm->nb_tlc)
+   if (rtmd->nb_tlc)
       {
-      for (i = 0; i < bm->nb_tlc ; i++ )
+      for (i = 0; i < rtmd->nb_tlc ; i++ )
          {
-         if (bm->tlc[i].descriptor == desc )
+         if (rtmd->tlc[i].descriptor == desc )
             {
             strcat( outstr, "{" );
-            bufr_print_float( buf1, bm->tlc[i].value );
-            sprintf( buf, "%d=%s", bm->tlc[i].descriptor, buf1 );
+            bufr_print_float( buf1, rtmd->tlc[i].value );
+            sprintf( buf, "%d=%s", rtmd->tlc[i].descriptor, buf1 );
             strcat( outstr, buf );
             strcat( outstr, "}" );
             return;
@@ -259,6 +292,12 @@ void bufr_print_rtmd_location( char *outstr, int desc, BufrRTMD *bm )
 
 /**
  * @english
+ *
+ * Fetch the value of a descriptor's runtime metadata
+ *
+ * @param desc  the descriptor to look for
+ * @param rtmd pointer to an BufrRTMD
+ * @return float value of metadata
  * @endenglish
  * @francais
  * @todo translate to French
@@ -266,19 +305,19 @@ void bufr_print_rtmd_location( char *outstr, int desc, BufrRTMD *bm )
  * @author Vanh Souvanlasy
  * @ingroup decode descriptor
  */
-float bufr_fetch_rtmd_location( int descriptor, BufrRTMD *bm )
+float bufr_fetch_rtmd_location( int descriptor, BufrRTMD *rtmd )
    {
    int i;
 
-   if (bm == NULL) 
+   if (rtmd == NULL) 
       return bufr_missing_float();
 
-   if (bm->nb_tlc)
+   if (rtmd->nb_tlc)
       {
-      for (i = 0; i < bm->nb_tlc ; i++ )
+      for (i = 0; i < rtmd->nb_tlc ; i++ )
          {
-         if (bm->tlc[i].descriptor == descriptor)
-            return bm->tlc[i].value;
+         if (rtmd->tlc[i].descriptor == descriptor)
+            return rtmd->tlc[i].value;
          }
       }
    return bufr_missing_float();
