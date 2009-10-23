@@ -67,22 +67,29 @@ static void bufr_free_desc_array( char *list )
 
 /**
  * @english
- *    tmplt = bufr_create_template( codes, 1, tables, edition )
- *    (BufrDescValue *, int nb, BUFR_Tables *, int edition)
- * Receive a list of codes along with the BUFR tables and returns a
- * template. This is different from bufr_load_templateis that it can be
- * created from a list of elements at run time and it doesn’t require a
- * template definition file. This would be used if you decoded a message
- * and wished to create a similar BUFR message out of Section 3 of the
- * other message.
- * @return BUFR_Template, Will return NULL if not valid (future coding).
+ *
+ * Constructor of new template object from a list of descriptors. 
+ * Each of the descriptor will be validated using the BUFR tables given.
+ *
+ * @param descs  an array of descriptors of type BufrDescValue
+ * @param nb     size of descs
+ * @param tables pointer to BUFR_Tables that will be used
+ * @param edition  version number of BUFR used
+ * @see bufr_load_template()
+ * @see bufr_finalize_template()
+ * @see bufr_copy_template()
+ * @see bufr_free_template()
+ * @see bufr_finalize_template()
+ * @see bufr_compare_template()
+ * @see bufr_template_add_DescValue()
+ * @return BUFR_Template, Will return NULL if errors are found
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  */
 BUFR_Template *bufr_create_template  
-   ( BufrDescValue *codes, int nb, BUFR_Tables *tbls, int edition )
+   ( BufrDescValue *descs, int nb, BUFR_Tables *tbls, int edition )
    {
    BUFR_Template   *tmplt;
    EntryTableB     *e;
@@ -94,13 +101,13 @@ BUFR_Template *bufr_create_template
  */
    for ( i = 0; i < nb ; i++ )
       {
-      if (bufr_is_table_b( codes[i].descriptor ))
+      if (bufr_is_table_b( descs[i].descriptor ))
          {
-         e = bufr_fetch_tableB( tbls, codes[i].descriptor );
+         e = bufr_fetch_tableB( tbls, descs[i].descriptor );
          if (e == NULL) 
             {
             has_error = 1;
-            sprintf( errmsg, "Error: unknown descriptor %d\n", codes[i].descriptor );
+            sprintf( errmsg, "Error: unknown descriptor %d\n", descs[i].descriptor );
             bufr_print_debug( errmsg );
             }
          }
@@ -125,10 +132,10 @@ BUFR_Template *bufr_create_template
    bufr_set_tables_category( tmplt->tables, 
          tbls->data_cat, tbls->data_cat_desc );
 
-   if ((codes == NULL)||(nb <= 0))
+   if ((descs == NULL)||(nb <= 0))
       return tmplt;
 
-   bufr_template_add_DescValue( tmplt, codes, nb );
+   bufr_template_add_DescValue( tmplt, descs, nb );
 
    if (bufr_finalize_template( tmplt ) < 0)
       {
@@ -141,17 +148,30 @@ BUFR_Template *bufr_create_template
    return tmplt;
    }
 
-/*
- * name: bufr_template_add_DescValue
+/**
+ * @english
  *
- * author:  Vanh Souvanlasy
+ * Add descriptor(s) to a template, the new descriptor(s) will append at 
+ * end of existing list.
  *
- * function: 
- *
- * parametres:
- *      
+ * @param  tmplt  pointer to a BUFR_Template where to add
+ * @param  descs  new descriptors to be added
+ * @param  nb     size of descs
+ * @warning After been added to, the template will need to be (re)finalized before uses.
+ * @see bufr_finalize_template()
+ * @see bufr_create_template()
+ * @see bufr_load_template()
+ * @see bufr_copy_template()
+ * @see bufr_free_template()
+ * @see bufr_finalize_template()
+ * @see bufr_compare_template()
+ * @return void
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
  */
-void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, int nb )
+void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *descs, int nb )
    {
    int  i;
    BufrDescValue  code;
@@ -173,7 +193,7 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *codes, i
  */
    for (i = 0; i < nb ; i++)
       {
-      bufr_copy_DescValue( &code, &(codes[i]) );
+      bufr_copy_DescValue( &code, &(descs[i]) );
       arr_add( tmplt->codets, (char *)&code );
       bufr_init_DescValue( &code );
       }
@@ -212,41 +232,49 @@ static void bufr_copy_DescValue
  * @english
  *    bufr_vfree_DescValue(cv)
  *    (BufrDescValue *code)
- * Frees the allocation for values set inside the code value structure.
- * @warning Not thread-safe
+ * Free all allocations for values set inside the descriptor value object
+ *
+ * @param   desc  pointer to object of type BufrDescValue 
+ * @see bufr_init_DescValue()
+ * @see bufr_valloc_DescValue()
  * @return void
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  */
-void bufr_vfree_DescValue ( BufrDescValue *code )
+void bufr_vfree_DescValue ( BufrDescValue *desc )
    {
    int  i;
    
-   if ( code == NULL ) return;
+   if ( desc == NULL ) return;
    
-   if (code->values)
+   if (desc->values)
       {
-      for ( i = 0; i < code->nbval ; i++ )
+      for ( i = 0; i < desc->nbval ; i++ )
          {
-         bufr_free_value ( code->values[i] );
+         bufr_free_value ( desc->values[i] );
          }
-      free( code->values );
-      code->values = NULL;
+      free( desc->values );
+      desc->values = NULL;
       }
-   code->nbval = 0;
+   desc->nbval = 0;
    }
 
-/*
- * name: bufr_finalize_template
+/**
+ * @english
  *
- * author:  Vanh Souvanlasy
+ * Finalize a newly created template object and makes it
+ * ready for use. If a finalized template is altered, it has to be processed
+ * again by this function. Which will generates internal data needed for
+ * creating new BUFR messages for encoding and decoding.
  *
- * function: 
- *
- * parametres:
- *      
+ * @param  tmplt  pointer to a BUFR_Template 
+ * @return 1 if no problem found or  -1 in case there is an error
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
  */
 int bufr_finalize_template( BUFR_Template *tmplt )
    {
@@ -313,16 +341,19 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    return 1;
    }
 
-
-/*
- * name: bufr_free_template
+/**
+ * @english
  *
- * author:  Vanh Souvanlasy
+ * Destructor of an template object. This will free all allocations used
+ * by the BUFR_Template object.
  *
- * function: 
- *
- * parametres:
- *      
+ * @param  tmplt  pointer to a BUFR_Template 
+ * @return void
+ * @warning Do not destroy an object that is still in use.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
  */
 void bufr_free_template ( BUFR_Template *tmplt )
    {
@@ -376,13 +407,13 @@ void bufr_free_template ( BUFR_Template *tmplt )
 BUFR_Template *bufr_copy_template( BUFR_Template *tmplt )
    {
    BUFR_Template *tmplt2;
-   BufrDescValue  *codes;
+   BufrDescValue  *descs;
    int            count;
    
-   codes = (BufrDescValue *)arr_get( tmplt->codets, 0 );
+   descs = (BufrDescValue *)arr_get( tmplt->codets, 0 );
    count = arr_count( tmplt->codets );
 
-   tmplt2 = bufr_create_template( codes, count, tmplt->tables, tmplt->edition );
+   tmplt2 = bufr_create_template( descs, count, tmplt->tables, tmplt->edition );
 
    return tmplt2;
    }
@@ -674,7 +705,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
       int count;
       bufr_print_debug   ( "### Finished loading template file\n" );
       count = arr_count( tmplt->codets );
-      sprintf( errmsg, "### Template contains %d codes\n", count  );
+      sprintf( errmsg, "### Template contains %d descriptors\n", count  );
       bufr_print_debug( errmsg );
       bufr_print_debug   ( NULL );
       }
