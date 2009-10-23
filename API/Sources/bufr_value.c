@@ -16,7 +16,7 @@ This file is part of libECBUFR.
     You should have received a copy of the Lesser GNU General Public
     License along with libECBUFR.  If not, see <http://www.gnu.org/licenses/>.
 
- * fichier : bufr_valuedata.c
+ * fichier : bufr_value.c
  *
  * author:  Vanh Souvanlasy 
  *
@@ -36,16 +36,19 @@ This file is part of libECBUFR.
 #include "private/bufr_priv_value.h"
 
 
-/*
- * name: bufr_create_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
- */
+/**
+ * @english
+ * @brief create a new BufrValue structure
+ * 
+ * @param type the kind of value to create (see ValueType enum)
+ * @return pointer to newly allocated BufrValue or NULL on failure
+ * @author  Vanh Souvanlasy
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @see ValueType
+*/
 BufrValue  *bufr_create_value( ValueType type )
    {
    BufrValue     *bv = NULL;
