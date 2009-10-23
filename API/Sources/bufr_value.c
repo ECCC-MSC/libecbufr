@@ -933,6 +933,7 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @see bufr_value_is_missing
  * @bug should be using errno (ERANGE, in particular)
  * @ingroup descriptor
  */
@@ -1191,6 +1192,7 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @see bufr_value_is_missing
  * @ingroup descriptor
  */
 int bufr_is_missing_double( double d )
@@ -1212,6 +1214,7 @@ int bufr_is_missing_double( double d )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @see bufr_value_is_missing
  * @ingroup descriptor
  */
 int bufr_is_missing_float( float f )
@@ -1232,7 +1235,7 @@ int bufr_is_missing_float( float f )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
- * @see bufr_missing_int();
+ * @see bufr_missing_int, bufr_value_is_missing
  * @bug should be testing against bufr_missing_int()
  * @ingroup descriptor
  */
@@ -1252,7 +1255,7 @@ int bufr_is_missing_int( int i )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
- * @see bufr_is_missing_double()
+ * @see bufr_is_missing_double, bufr_value_is_missing
  * @ingroup descriptor
  */
 double bufr_missing_double(void)
@@ -1269,7 +1272,7 @@ double bufr_missing_double(void)
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
- * @see bufr_is_missing_float()
+ * @see bufr_is_missing_float, bufr_value_is_missing
  * @ingroup descriptor
  */
 float bufr_missing_float(void)
@@ -1287,7 +1290,7 @@ float bufr_missing_float(void)
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
- * @see bufr_is_missing_int()
+ * @see bufr_is_missing_int, bufr_value_is_missing
  * @ingroup descriptor
  */
 int bufr_missing_int(void)
@@ -1442,6 +1445,7 @@ int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
  * for strcmp(s1,s) <= strcmp(s,s2) ?
  * @bug no checking for missing value; does it mean anything to compare
  * against a missing value
+ * @ingroup descriptor
  */
 int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrValue *bv2 )
    {
