@@ -43,6 +43,8 @@ static void bufr_free_desc_array( char *list );
 
 /**
  * @english
+ * Deallocate an array of descriptors
+ * @param  list  array to free
  * @endenglish
  * @francais
  * @todo translate to French
@@ -74,13 +76,6 @@ static void bufr_free_desc_array( char *list )
  * @param nb     size of descs
  * @param tables pointer to BUFR_Tables that will be used
  * @param edition  version number of BUFR used
- * @see bufr_load_template()
- * @see bufr_finalize_template()
- * @see bufr_copy_template()
- * @see bufr_free_template()
- * @see bufr_finalize_template()
- * @see bufr_compare_template()
- * @see bufr_template_add_DescValue()
  * @return BUFR_Template, Will return NULL if errors are found
  * @endenglish
  * @francais
@@ -93,6 +88,15 @@ static void bufr_free_desc_array( char *list )
  * message.
  * @endfrancais
  * @ingroup template
+ * @author Vanh Souvanlasy
+ * @see bufr_load_template()
+ * @see bufr_finalize_template()
+ * @see bufr_copy_template()
+ * @see bufr_free_template()
+ * @see bufr_save_template()
+ * @see bufr_finalize_template()
+ * @see bufr_compare_template()
+ * @see bufr_template_add_DescValue()
  */
 BUFR_Template *bufr_create_template  
    ( BufrDescValue *descs, int nb, BUFR_Tables *tbls, int edition )
@@ -164,6 +168,12 @@ BUFR_Template *bufr_create_template
  * @param  descs  new descriptors to be added
  * @param  nb     size of descs
  * @warning After been added to, the template will need to be (re)finalized before uses.
+ * @return void
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
  * @see bufr_finalize_template()
  * @see bufr_create_template()
  * @see bufr_load_template()
@@ -171,12 +181,6 @@ BUFR_Template *bufr_create_template
  * @see bufr_free_template()
  * @see bufr_finalize_template()
  * @see bufr_compare_template()
- * @return void
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
  * @ingroup template
  */
 void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *descs, int nb )
@@ -211,7 +215,9 @@ void bufr_template_add_DescValue ( BUFR_Template *tmplt, BufrDescValue *descs, i
 
 /**
  * @english
- *  
+ * Copy the value of an DescValue 
+ * @param  dest output 
+ * @param  src input
  * @endenglish
  * @francais
  * @todo translate to French
@@ -243,14 +249,14 @@ static void bufr_copy_DescValue
  * Free all allocations for values set inside the descriptor value object
  *
  * @param   desc  pointer to object of type BufrDescValue 
- * @see bufr_init_DescValue()
- * @see bufr_valloc_DescValue()
  * @return void
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @ingroup descriptor internal
+ * @see bufr_init_DescValue()
+ * @see bufr_valloc_DescValue()
  */
 void bufr_vfree_DescValue ( BufrDescValue *desc )
    {
@@ -361,7 +367,7 @@ int bufr_finalize_template( BUFR_Template *tmplt )
  *
  * @param  tmplt  pointer to a BUFR_Template 
  * @return void
- * @warning Do not destroy an object that is still in use.
+ * @warning Beware not destroy an object that is still in use.
  * @endenglish
  * @francais
  * @todo translate to French
@@ -410,8 +416,10 @@ void bufr_free_template ( BUFR_Template *tmplt )
 
 /**
  * @english
- * @param     filename : input filename
+ * Make a copy of a template object (BUFR_Template)
+ * @param  tmplt  pointer to a BUFR_Template 
  * @endenglish
+ * @return BUFR_Template, Will return NULL if errors are found
  * @francais
  * @todo translate to French
  * @endfrancais
@@ -435,34 +443,33 @@ BUFR_Template *bufr_copy_template( BUFR_Template *tmplt )
 
 /**
  * @english
- *    tmplt = bufr_load_template( str_template, tables )
- *    (char *filename, BUFR_Tables *mtbls)
- * This function loads a BUFR template definition file (need example) and
- * returns it into a template structure.
- * @warning It does internal checking to validate the template by checking
- * the replication structure as to whether it resolves properly. (we need
- * to talk about practice of inserting local table elements into the first
- * message of a BUFR dataset as table updates) â€“ Table C â€“ 206010
- * defines that the next element is 10 bits long so that a decoder may skip
- * it as it is a local element.
+ *
+ * Create a template object and loads a BUFR template definition file 
+ * into it. Its content are check for validity.
+ *
  * @param     filename input filename
- * @param     mtbls    pointer to a master BUFR_Tables 
- *                 (optional if template definition file already refers to master tables)
+ * @param     mtbls pointer to a master BUFR_Tables 
+ *            (optional if template definition file already refers to master tables)
  * @return BUFR_Template, If the definition file is invalid, then it will
  * return NULL.
  * @endenglish
  * @francais
- *    (char *filename, BUFR_Tables *mtbls)
- * Cette fonction charge un fichier de gabarit BUFR et le retourne
- * dans une structure de gabarit.
- * @warning Elle fait une vérification interne pour valider le gabarit
- * en vérifiant que la structure de réplication est résolue correctement.
- * @param     filename input filename
- * @param     mtbls    pointeur à BUFR_Tables (table maîtresse) 
- *                 (optionnel si le fichier de définition de gabarit réfère déjà à la table maîtresse)
- * @return BUFR_Template, si le fichier de définition est invalide,
- * alors on retourne NULL.
+ * Cette fonction creer une structure pour contenir un gabarit et charge 
+ * le contenu d'un fichier de gabarit BUFR. Une vérification interne pour valider 
+ * le gabarit afin de vérifier que la structure de réplication peut-etre 
+ * résolue correctement.
+ * @param     filename fichier d'entree
+ * @param     mtbls pointeur à BUFR_Tables (table maîtresse) 
+ *            (optionnel si le fichier de définition de gabarit réfère déjà à la table maîtresse)
+ * @return BUFR_Template, si le fichier de définition est invalide on retourne NULL.
  * @endfrancais
+ * @author Vanh Souvanlasy
+ * @see bufr_finalize_template()
+ * @see bufr_create_template()
+ * @see bufr_copy_template()
+ * @see bufr_free_template()
+ * @see bufr_finalize_template()
+ * @see bufr_compare_template()
  * @ingroup io template
  */
 BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
@@ -733,18 +740,24 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
  * @english
  *    bufr_save_template( str_template, bufr_get_dataset_template(dts)  
  *    (char *filename, BUFR_Template *tmplt)
- * The output from this call can be used by the encoders. This is stored in
- * a file (name pointed to by â€œstr_templateâ€).
- * @warning This will not save reference to local table file names. This
- * was requested by Dan Shea (PAS) whereas one reads a template from a
- * message and then re-encodes back from this template.We donâ€™t know why
- * this is needed â€“ must call Dan Shea. He is interested in changing the
- * data, not the template. This appears to be a testing tool.
- * @return void
+ * Save a template object to a template definition file. Which can be
+ * reloaded by encoders to create new BUFR message object.
+ * @param filename  output filename
+ * @param tmplt pointer to a BUFR_Template 
+ * @return -1 if there is an error, otherwise return 0
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @see bufr_load_template()
+ * @see bufr_finalize_template()
+ * @see bufr_copy_template()
+ * @see bufr_free_template()
+ * @see bufr_create_template()
+ * @see bufr_finalize_template()
+ * @see bufr_compare_template()
+ * @see bufr_template_add_DescValue()
+ * @author Vanh Souvanlasy
  * @ingroup io template
  */
 int bufr_save_template( const char *filename, BUFR_Template *tmplt )
@@ -808,52 +821,69 @@ int bufr_template_count_code( BUFR_Template *tmplt )
    }
 
 /**
- * bufr_valloc_DescValue
  * @english
- * allocate values array
+ * Allocate an array of values for descriptor
+ * @param bdv pointer to BufrDescValue object
+ * @param nb_values  values count inside bdv
+ * @return void
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @see bufr_init_DescValue()
+ * @see bufr_vfree_DescValue()
  * @ingroup template
  */
-void bufr_valloc_DescValue     ( BufrDescValue *ct, int nb_values )
+void bufr_valloc_DescValue     ( BufrDescValue *bdv, int nb_values )
    {
    int i;
 
-   ct->values = (BufrValue **)malloc( sizeof(BufrValue *) * nb_values );
-   ct->nbval  = nb_values;
+   bdv->values = (BufrValue **)malloc( sizeof(BufrValue *) * nb_values );
+   bdv->nbval  = nb_values;
 
    for (i = 0; i < nb_values ; i++)
-      ct->values[i] = NULL;
+      bdv->values[i] = NULL;
    }
 
 /**
  * @english
- * initialize BufrDescValue
+ *   initialize the BufrDescValue structure
+ * @param bdv pointer to BufrDescValue object
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @see bufr_valloc_DescValue()
+ * @see bufr_vfree_DescValue()
  * @ingroup descriptor
  */
-void bufr_init_DescValue     ( BufrDescValue *ct )
+void bufr_init_DescValue ( BufrDescValue *bdv )
    {
-   ct->values = NULL;
-   ct->nbval  = 0;
+   bdv->values = NULL;
+   bdv->nbval  = 0;
    }
 
 /**
  * @english
- * compare 2 template to see if the are the same
- * @param    t1, t2 :   pointers to 2 templates to compare
+ * Compare 2 template to see if they are the same
+ * @param t1 : pointers to first template to compare
+ * @param t2 : pointers to second template to compare
+ * @return  0 if both are same, otherwise return -1
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @see bufr_load_template()
+ * @see bufr_finalize_template()
+ * @see bufr_copy_template()
+ * @see bufr_free_template()
+ * @see bufr_save_template()
+ * @see bufr_finalize_template()
+ * @see bufr_create_template()
+ * @see bufr_template_add_DescValue()
  * @ingroup template
  */
 int bufr_compare_template( BUFR_Template *t1, BUFR_Template *t2 )
