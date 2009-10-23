@@ -47,8 +47,9 @@ This file is part of libECBUFR.
  * @francais
  * @todo translate to French
  * @endfrancais
- * @see ValueType
-*/
+ * @see ValueType, bufr_duplicate_value
+ * @bug should be checking the results of malloc() calls
+ */
 BufrValue  *bufr_create_value( ValueType type )
    {
    BufrValue     *bv = NULL;
@@ -132,15 +133,19 @@ BufrValue  *bufr_create_value( ValueType type )
    return bv;
    }
 
-/*
- * name: bufr_duplicate_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief duplicate a BufrValue structure
+ * 
+ * @param bv pointer to BufrValue structure to copy
+ * @return pointer to newly allocated BufrValue or NULL on failure
+ * @author  Vanh Souvanlasy
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @see ValueType, bufr_create_value
+ * @bug failure to check results of bufr_create_value
  */
 BufrValue  *bufr_duplicate_value( const BufrValue *bv )
    {
@@ -162,15 +167,17 @@ BufrValue  *bufr_duplicate_value( const BufrValue *bv )
    return dup;
    }
 
-/*
- * name: bufr_free_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief free a BufrValue structure
+ * 
+ * @param bv pointer to BufrValue structure to free
+ * @author  Vanh Souvanlasy
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @see ValueType, bufr_create_value, bufr_duplicate_value
  */
 void bufr_free_value( BufrValue *bv )
    {
@@ -209,15 +216,26 @@ void bufr_free_value( BufrValue *bv )
    free( bv );
    }
 
-/*
- * name: bufr_copy_value
+/**
+ * @english
+ * @brief copy the contents of one BufrValue to another
  *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+ * Note that this copy may be lossy depending on the source and destination
+ * types. Assigning a 64-bit floating point to an 8-bit integer, for
+ * example, is usually a bad idea.
+ * 
+ * @param dest destination of copy
+ * @param src source of copy
+ * @author  Vanh Souvanlasy
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @see ValueType, bufr_create_value
+ * @bug no return value in case copy fails (NULL dest/src, or an UNDEFINED
+ * value type?)
+ * @bug should somehow generate an error when assigning incompatible values
+ * (i.e. out-of-range 64 bit vals assigned to 32/8 bit integers)
  */
 void bufr_copy_value( BufrValue *dest, const BufrValue *src )
    {
@@ -270,15 +288,25 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
       }
    }
 
-/*
- * name: bufr_value_set_string
+/**
+ * @english
+ * @brief assign a character string to a BufrValue
  *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+ * This assignment will fail if bv->type is not VALTYPE_STRING.
+ * 
+ * @param bv pointer to BufrValue structure to change
+ * @param str character string to assign. If NULL, the existing string will
+ * be padded/truncated to len.
+ * @param len maximum number of bytes from str to copy. If less than len
+ * bytes are available in str, the set string will be padded with spaces.
+ * @return zero on success, non-zero on failure
+ * @author  Vanh Souvanlasy
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @see ValueType, bufr_create_value
+ * @bug unchecked malloc
  */
 int bufr_value_set_string
    ( BufrValue *bv, const char *str, int len )
