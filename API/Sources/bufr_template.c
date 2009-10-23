@@ -805,23 +805,6 @@ int bufr_save_template( const char *filename, BUFR_Template *tmplt )
 
 /**
  * @english
- *  
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup template
- */
-int bufr_template_count_code( BUFR_Template *tmplt )
-   {
-   if (tmplt == NULL) return 0;
-
-   return arr_count( tmplt->gabarit );
-   }
-
-/**
- * @english
  * Allocate an array of values for descriptor
  * @param bdv pointer to BufrDescValue object
  * @param nb_values  values count inside bdv
