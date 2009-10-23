@@ -1482,17 +1482,21 @@ int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrVa
    return 0;
    }
 
-/*
- * name: bufr_print_float
+/**
+ * @english
+ * format a float value as compactly as possible (i.e. with trailing zeros
+ * removed).
  *
- * author:  Vanh Souvanlasy
- *
- * function: print a float value with minimal string
- *
- * parametres:
- *
- *   str  : output string
- *   fval : value to print
+ * @param str output string
+ * @param fval value to print
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be checking str for NULL
+ * @bug should take a max buffer length and use snprintf
+ * @bug sprintf("%hg",fval) would be equivalent
  */
 void bufr_print_float( char *str, float fval )
    {
@@ -1508,18 +1512,22 @@ void bufr_print_float( char *str, float fval )
       str[len+1] = '\0';
    }
 
-/*
- * name: bufr_print_scaled_float
+/**
+ * @english
+ * format a float value with precision matching with scale
  *
- * author:  Vanh Souvanlasy
- *
- * function: print a scaled float value with precision matching with scale
- *
- * parametres:
- *
- *   str  : output string
- *   fval : value to print
- *   scale : no of decimal digit 
+ * @param str output string
+ * @param fval value to print
+ * @param scale number of decimal digits
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be checking str for NULL
+ * @bug should take a max buffer length and use snprintf
+ * @bug sprintf("%.*hg",scale,fval) would be equivalent where scale>=0,
+ * rather than dynamically building the format string
  */
 void bufr_print_scaled_float( char *str, float fval, int scale )
    {
@@ -1537,16 +1545,20 @@ void bufr_print_scaled_float( char *str, float fval, int scale )
    sprintf( str, format, fval );
    }
 
-/*
- * name: bufr_binary_to_int
+/**
+ * @english
+ * check if a string is in binary form
  *
- * author:  Vanh Souvanlasy
- *
- * function: check if a string is in binary form
- *
- * parametres:
- *
- *   str  : input string
+ * @param str input string
+ * @return nonzero if the string is a binary number
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be checking str for NULL
+ * @bug equivalent: n = strspn(str,"01"); return n>0 && str[n+strspn(str," ")]==0;
+ * or could also be replaced with strtoll(str,&end,2)...
  */
 int bufr_str_is_binary( const char *str )
    {
@@ -1572,16 +1584,19 @@ int bufr_str_is_binary( const char *str )
    return 1;
    }
 
-/*
- * name: bufr_binary_to_int
+/**
+ * @english
+ * convert a binary value to int
  *
- * author:  Vanh Souvanlasy
- *
- * function: convert a binary value to int
- *
- * parametres:
- *
- *   str  : input string
+ * @param str input string
+ * @return integer value corresponding to the binary input
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be checking str for NULL
+ * @bug could be replaced with strtoll(str,&end,2)...
  */
 int64_t bufr_binary_to_int( const char *str )
    {
@@ -1610,18 +1625,20 @@ int64_t bufr_binary_to_int( const char *str )
    }
 
 
-/*
- * name: bufr_print_binary
+/**
+ * @english
+ * format a value in binary
  *
- * author:  Vanh Souvanlasy
- *
- * function: print a value in binary form
- *
- * parametres:
- *
- *   str  : output string
- *   ival : value to print
- *   nbit : number of bits
+ * @param outstr output string
+ * @param ival value to format
+ * @param nbit number of bits to format
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be checking outstr for NULL
+ * @bug should range check nbit
  */
 void bufr_print_binary ( char *outstr, int64_t  ival, int nbit )
    {
