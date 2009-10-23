@@ -4,32 +4,36 @@
 
 @section history History
 
-Part of this library was created in 1996 at CMC during its participation
+Early parts of this library were created in 1996 at CMC during its participation
 in the GEWEX Research Project (Global Energy Water Cycle Experiment).
 The BUFR format was used as the medium for data exchange. A BUFR encoder
 was needed for the conversion of MOLTS Data points (Model Output Local
 Time Series) into BUFR messages. After the completion and release of the
 encoder, no further work was done to complete the library, and only the
 encoding part of the library was implemented. 
+
 This was the case until summer 2007, when the project for conversion of
-SCRIBE matrices to BUFR was started. Since there are no freely available
-BUFR library that meet the requirements, decoding and template support
-functions were added to the encoder library which was also updated with
-latest updates of BUFR specifications.
+SCRIBE matrices to BUFR was started. Since there were no freely available
+BUFR library that meet the requirements for the  project, decoding and 
+template support functions were added to the encoder library which was
+also updated to meet the specifications of BUFR Editions 3 and 4.
 
 @section overview Overview
-This BUFR API library created for SCRIBE was written with the Open
-Source model in mind, it is being developed using GNU tools for
-packaging and uses a structure that follows the standard for release
-under GPL. It is a general-purpose, template-oriented BUFR
-encoding/decoding library that supports BUFR editions 2, 3, 4, and the
-upcoming version 5. It supports most of the defined Table C operators,
-and comes with example applications for encoding and decoding BUFR
-datasets using templates (see accompanying Code Examples document).. 
+
+LibECBUFR is a general-purpose, template-oriented BUFR encoding/decoding
+library that supports BUFR editions 2, 3 and 4. It supports most of the
+existing Table C operators, and comes with example applications for
+encoding and decoding BUFR datasets using templates.
+
 It is written in C and has no dependency on any other library. It can be
 installed very quickly and easily using ?.deb? files. It is simple to
 use and requires moderate knowledge of BUFR to use it for decoding and
 encoding BUFR message.
+
+This BUFR API library was written with the Free Software model in mind.
+It is being developed using GNU tools for development and packaging.
+Packaging follows a standard structure commonly used for software
+releases under the GPL.
 
 @section architecture Overall Architecture
 A general architecture is given in the diagram below as to the layers of
@@ -57,22 +61,24 @@ documentation that we should not assume to be self-evident:
 - BUFR Message ? A BUFR format message between ?BUFR? and ?7777? in its
 un-decoded form. This may be either as files or in sockets or pipes.
 - Dataset ? The data payload of the BUFR message contained in section 4.
-- Template ? A format of BUFR data elements meant to describe a common
-sequence of events i.e. a synoptic observation or a vertical profile.
+- Template ? A sequence of BUFR descriptors meant to describe a data product, such as
+a synoptic observation or readings from a space-borne instrument.
 - Data Subset ? Instance of data specified by the Section 3 template. A Dataset may contain
 multiple data subsets.
-- Code Descriptor ? (F,X,Y) set which is a number which identifies a
-single element.
-- Code List ? List of code descriptors.
+- Element Descriptor ? (F,X,Y) set, listed in Table B (WMO or local), which conveys a
+single concept to which a value (numerical or otherwise) may be attached. Examples of such
+concepts include temperature, height, station name, data qualifiers, instrumentation,
+etc. See section 94.5.3 of the BUFR regulations and WMO Table B for complete details.
+- Sequence ? List of descriptors that can be interpreted as a semantic unit. For instance:
+station name, latitude, longitude, station height.
 - Table A ? Contains the definition of the data type (e.g. Radar, surface
 data ? land, etc.).
-- Table B ? Contains the low-level single-element descriptors.
-- Table C ? Contains the data description operators where F = 2 (from
-(F,X,Y) e.g. 2 05 signify character that defines a field length.
-- Table D ? Contains sequences of lower-level descriptors from B or from
-- Tables C and D. In fact, a template can be defined as a Table D
-descriptors.
-- Definition File ? template files constructed from Table B manually via a
+- Table B ? Lists and defines Element Descriptors.
+- Table C ? Lists and defines the data description operators (F = 2) which can be used to
+alter the characteritics of descriptors in sequences, to create special data structures, or
+to provide special meta-data about the sequence itself.
+- Table D ? Contains standardized sequences of descriptors 
+- Definition File ? template file constructed from Table B manually via a
 text editor using a standard format (example below from NC-AWOS):
 
 @subsection diagram BUFR Data Structure Diagram
