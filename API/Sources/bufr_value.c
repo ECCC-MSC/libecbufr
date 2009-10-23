@@ -1314,15 +1314,24 @@ int bufr_value_is_missing( BufrValue* bv )
 	return 1;
 	}
 
-/*
- * name: bufr_compare_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * Determine if two BufrValue structures are equal
+ * @param bv1 first value to compare
+ * @param bv2 second value to compare
+ * @param eps floating point values closer than this value are considered equal
+ * @return zero if values are equal, allowing for some type conversions
+ * @warn results may be odd if values are of incompatible types
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug string values use strncmp, but numeric values only ever return 0 or -1
+ * @bug no enforcing that values are compatible types
+ * @bug not checking for NULL when handling strings... strncmp() will core
+ * @bug no checking for missing value; can two "missing" values be
+ * considered equal?
  */
 int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
    {
@@ -1384,15 +1393,28 @@ int bufr_compare_value( const BufrValue *bv1, const BufrValue *bv2, double eps )
    return -1;
    }
 
-/*
- * name: bufr_between_values
+/**
+ * @english
+ * Determine if a BufrValue falls in between two others.
  *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+ * Note that a value is considered in between if it equals either value.
+ * @param bv1 first value to compare
+ * @param bv value to test for betweeness
+ * @param bv2 second value to compare
+ * @return negative on error, 1 if bv1 <= bv <= bv2.
+ * @warn values must be of compatible types
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug string values use strncmp, but numeric values only ever return 0 or -1
+ * @bug no enforcing that values are compatible types
+ * @bug not checking for NULL when handling strings... strcmp() will core
+ * @bug string comparison seems incorrect. It probably should be testing
+ * for strcmp(s1,s) <= strcmp(s,s2) ?
+ * @bug no checking for missing value; does it mean anything to compare
+ * against a missing value
  */
 int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrValue *bv2 )
    {
