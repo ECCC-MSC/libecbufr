@@ -42,11 +42,11 @@ This file is part of libECBUFR.
  * 
  * @param type the kind of value to create (see ValueType enum)
  * @return pointer to newly allocated BufrValue or NULL on failure
- * @author  Vanh Souvanlasy
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @author  Vanh Souvanlasy
  * @see ValueType, bufr_duplicate_value
  * @bug should be checking the results of malloc() calls
  */
@@ -139,11 +139,11 @@ BufrValue  *bufr_create_value( ValueType type )
  * 
  * @param bv pointer to BufrValue structure to copy
  * @return pointer to newly allocated BufrValue or NULL on failure
- * @author  Vanh Souvanlasy
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @author  Vanh Souvanlasy
  * @see ValueType, bufr_create_value
  * @bug failure to check results of bufr_create_value
  */
@@ -172,11 +172,11 @@ BufrValue  *bufr_duplicate_value( const BufrValue *bv )
  * @brief free a BufrValue structure
  * 
  * @param bv pointer to BufrValue structure to free
- * @author  Vanh Souvanlasy
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @author  Vanh Souvanlasy
  * @see ValueType, bufr_create_value, bufr_duplicate_value
  */
 void bufr_free_value( BufrValue *bv )
@@ -226,16 +226,16 @@ void bufr_free_value( BufrValue *bv )
  * 
  * @param dest destination of copy
  * @param src source of copy
- * @author  Vanh Souvanlasy
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @author  Vanh Souvanlasy
  * @see ValueType, bufr_create_value
  * @bug no return value in case copy fails (NULL dest/src, or an UNDEFINED
  * value type?)
  * @bug should somehow generate an error when assigning incompatible values
- * (i.e. out-of-range 64 bit vals assigned to 32/8 bit integers)
+ * (i.e. out-of-range 64-bit vals assigned to 32 or 8-bit integers)
  */
 void bufr_copy_value( BufrValue *dest, const BufrValue *src )
    {
@@ -300,12 +300,12 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
  * @param len maximum number of bytes from str to copy. If less than len
  * bytes are available in str, the set string will be padded with spaces.
  * @return zero on success, non-zero on failure
- * @author  Vanh Souvanlasy
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
- * @see ValueType, bufr_create_value
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_get_string
  * @bug unchecked malloc
  */
 int bufr_value_set_string
@@ -372,15 +372,24 @@ int bufr_value_set_string
    return rtrn;
    }
 
-/*
- * name: bufr_value_set_int32
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief assign a 32-bit integer to a BufrValue
+ * 
+ * This assignment will not work for some types of BufrValue, and may
+ * be lossy depending on ranges.
+ * 
+ * @param bv pointer to BufrValue structure to change
+ * @param value 32-bit integer value to assign
+ * @return 1 on success, -1 on failure
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_get_int32
+ * @bug should we be range checking to make sure the value fits?
+ * @todo 1 and -1 are non-standard return codes
  */
 int bufr_value_set_int32( BufrValue *bv, int value )
    {
@@ -428,15 +437,24 @@ int bufr_value_set_int32( BufrValue *bv, int value )
    return 1;
    }
 
-/*
- * name: bufr_value_set_int64
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief assign a 64-bit integer to a BufrValue
+ * 
+ * This assignment will not work for some types of BufrValue, and may
+ * be lossy depending on ranges or types.
+ * 
+ * @param bv pointer to BufrValue structure to change
+ * @param value 64-bit integer value to assign
+ * @return 1 on success, -1 on failure
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_get_int64
+ * @bug should we be range checking to make sure the value fits?
+ * @todo 1 and -1 are non-standard return codes
  */
 int bufr_value_set_int64( BufrValue *bv, int64_t value )
    {
@@ -482,15 +500,24 @@ int bufr_value_set_int64( BufrValue *bv, int64_t value )
    return rtrn;
    }
 
-/*
- * name: bufr_value_set_float
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief assign a 32-bit float to a BufrValue
+ * 
+ * This assignment will not work for some types of BufrValue, and may
+ * be lossy depending on ranges or types.
+ * 
+ * @param bv pointer to BufrValue structure to change
+ * @param value 32-bit float value to assign
+ * @return 1 on success, -1 on failure
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_get_float
+ * @bug should we be range checking to make sure the value fits?
+ * @todo 1 and -1 are non-standard return codes
  */
 int bufr_value_set_float( BufrValue *bv, float value )
    {
@@ -544,15 +571,24 @@ int bufr_value_set_float( BufrValue *bv, float value )
    return rtrn;
    }
 
-/*
- * name: bufr_value_set_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief assign a 64-bit floating point to a BufrValue
+ * 
+ * This assignment will not work for some types of BufrValue, and may
+ * be lossy depending on ranges or types.
+ * 
+ * @param bv pointer to BufrValue structure to change
+ * @param value floating point-bit value to assign
+ * @return 1 on success, -1 on failure
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_get_double
+ * @bug should we be range checking to make sure the value fits?
+ * @todo 1 and -1 are non-standard return codes
  */
 int bufr_value_set_double( BufrValue *bv, double value )
    {
@@ -606,15 +642,25 @@ int bufr_value_set_double( BufrValue *bv, double value )
    return rtrn;
    }
 
-/*
- * name: bufr_value_get_int32
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief get a 32-bit integer from a BufrValue
+ * 
+ * This function will not work for some types of BufrValue, and may
+ * be lossy depending on ranges or types.
+ * 
+ * @param bv pointer to BufrValue structure to query
+ * @return -1 on failure, otherwise the integer value.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_set_int32
+ * @bug should we be range checking to make sure the returned value fits
+ * into 32 bits? And should we differentiate between a real missing value
+ * and a range error? Should we use errno?
+ * @bug should explicitly return bufr_missing_int() rather than -1.
  */
 int32_t bufr_value_get_int32( const BufrValue *bv )
    {
@@ -651,15 +697,25 @@ int32_t bufr_value_get_int32( const BufrValue *bv )
    return -1;
    }
 
-/*
- * name: bufr_value_get_int64
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief get a 64-bit integer from a BufrValue
+ * 
+ * This function will not work for some types of BufrValue, and may
+ * be lossy depending on ranges or types.
+ * 
+ * @param bv pointer to BufrValue structure to query
+ * @return -1 on failure, otherwise the integer value.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_set_int64
+ * @bug should we be range checking to make sure the returned value converts
+ * to an integer? And should we differentiate between a real missing value
+ * and a range error? Should we use errno?
+ * @bug should explicitly return bufr_missing_int() rather than -1.
  */
 int64_t bufr_value_get_int64( const BufrValue *bv )
    {
@@ -692,15 +748,27 @@ int64_t bufr_value_get_int64( const BufrValue *bv )
    return -1;
    }
 
-/*
- * name: bufr_value_get_float
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief get a 32-bit float from a BufrValue
+ * 
+ * This function will not work for some types of BufrValue, and may
+ * be lossy depending on ranges or types.
+ * 
+ * @param bv pointer to BufrValue structure to query
+ * @return max float on failure, otherwise the floating point value.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_get_max_float, bufr_value_set_float
+ * @bug should we be range checking to make sure the returned value fits
+ * into a float? And should we differentiate between a real missing value
+ * and a range error? Should we use errno?
+ * @bug should be checking integers against bufr_missing_int() rather than -1
+ * @bug missing double value needs to be converted to missing max_float.
+ * @bug should be using bufr_missing_float() rather than bufr_max_float().
  */
 float bufr_value_get_float( const BufrValue *bv )
    {
@@ -738,15 +806,25 @@ float bufr_value_get_float( const BufrValue *bv )
    return bufr_get_max_float();
    }
 
-/*
- * name: bufr_value_get_double
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief get a double from a BufrValue
+ * 
+ * This function will not work for some types of BufrValue (i.e. strings).
+ * 
+ * @param bv pointer to BufrValue structure to query
+ * @return max double on failure, otherwise the floating point value.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_get_max_double, bufr_value_set_double
+ * @bug should we differentiate between a real missing value
+ * and a range error? Should we use errno?
+ * @bug should be checking integers against bufr_missing_int() rather than -1
+ * @bug missing float value needs to be converted to missing max double.
+ * @bug should be using bufr_missing_double() rather than bufr_max_float().
  */
 double bufr_value_get_double( const BufrValue *bv )
    {
@@ -784,15 +862,26 @@ double bufr_value_get_double( const BufrValue *bv )
    return bufr_get_max_double();
    }
 
-/*
- * name: bufr_value_get_string
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *
+/**
+ * @english
+ * @brief get a string from a BufrValue
+ * 
+ * This function will only work for string types of BufrValue. Note that
+ * this returns a pointer to the internal string value, which may change or
+ * become invalidated due to changes elsewhere.
+ * 
+ * @param bv pointer to BufrValue structure to query
+ * @param len pointer into which to return the length of the string
+ * @return NULL on failure, otherwise a pointer to the string.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_set_string
+ * @bug should be using errno
+ * @bug doesn't test for len==NULL
+ * @bug should len be a size_t rather than int?
  */
 const char *bufr_value_get_string( const BufrValue *bv, int *len )
    {
@@ -816,15 +905,20 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
    return NULL;
    }
 
-/*
- * nom: bufr_missing_ivalue
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne la valeur manquante correspondant au nombre de bits
- *
- * parametres:
- *        nbits : nombre de bits
+/**
+ * @english
+ * @brief determine the "missing" integer value for a specific bit length
+ * 
+ * @param nbits missing value for the number of bits
+ * @return appropriate missing value
+ * @endenglish
+ * @francais
+ * @brief retourne la valeur manquante correspondant au nombre de bits
+ * @param nbits nombre de bits
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be using errno (ERANGE, in particular)
  */
 uint64_t bufr_missing_ivalue( int nbits )
    {
@@ -836,15 +930,22 @@ uint64_t bufr_missing_ivalue( int nbits )
    return v;
    }
 
-/*
- * nom: bufr_cvt_ivalue
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne une valeur correspondant au nombre de bits
- *
- * parametres:
- *        nbits : nombre de bits
+/**
+ * @english
+ * 
+ * @param nbits value for the number of bits
+ * @return ?
+ * @todo translate to English
+ * @endenglish
+ * @francais
+ * @brief retourne une valeur correspondant au nombre de bits
+ * @param nbits nombre de bits
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be using errno (ERANGE?)
+ * @todo Vanh, this one isn't clear...
+ * @author  Vanh Souvanlasy
  */
 int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
    {
@@ -862,15 +963,23 @@ int64_t bufr_cvt_ivalue( uint64_t value, int nbits )
    return value;
    }
 
-/*
- * nom: bufr_negative_ivalue
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: retourne une valeur negative correspondant au nombre de bits
- *
- * parametres:
- *        nbits : nombre de bits
+/**
+ * @english
+ * 
+ * @param nbits value for the number of bits
+ * @return ?
+ * @todo translate to English
+ * @endenglish
+ * @francais
+ * @brief retourne une valeur negative correspondant au nombre de bits
+ * @param nbits nombre de bits
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be using errno (ERANGE?)
+ * @bug silently cuts max number of bits to 64
+ * @todo Vanh, this one isn't clear...
+ * @author  Vanh Souvanlasy
  */
 uint64_t bufr_negative_ivalue( int64_t value, int nbits )
    {
@@ -900,15 +1009,18 @@ uint64_t bufr_negative_ivalue( int64_t value, int nbits )
 
 /**
  * @english
- *    bufr_print_value( errmsg, bcv->value )
- *    (char *str, BufrValue *)
- * This call prints the “BufrValue” structure and prints a formatted
+ * This call prints the BufrValue structure as a formatted
  * value into the string passed as a parameter.
  * @return Int, if 0 there is no value, if 1, there was something to print.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @code
+ * bufr_print_value( errmsg, bcv->value )
+ * @endcode
+ * @bug caller should be able to pass a max length of outstr
+ * @bug don't really need a temporary variable, do we?
  */
 int bufr_print_value( char *outstr, const BufrValue *bv )
    {
@@ -920,15 +1032,17 @@ int bufr_print_value( char *outstr, const BufrValue *bv )
 
 /**
  * @english
- *    bufr_print_scaled_value( errmsg, bcv->value, scale )
- *    (char *str, BufrValue *, int scale)
- * This call prints the “BufrValue” structure and prints a formatted
+ * This call prints the BufrValue structure as a formatted
  * value into the string passed as a parameter using scale from Table B
- * @return Int, if 0 there is no value, if 1, there was something to print.
+ * @return 0 if no value, 1 if there was something to print.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @code
+ * bufr_print_scaled_value( errmsg, bcv->value, scale );
+ * @endcode
+ * @bug caller should be able to pass a max length of outstr
  */
 int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
    {
@@ -1049,15 +1163,14 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
 
 /**
  * @english
- *    bufr_is_missing_double( value )
- *    Idouble)
- * This call compares the values only if maximum double value allowed.
- * There is a similar routine as for floating point.
- * @return Int, TRUE=1, FALSE=0
+ * tests a double value to determine if it represents a missing BUFR value
+ * @return non-zero if it's the missing value
+ * @warn will also return non-zero if the double is NaN.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @author  Vanh Souvanlasy
  */
 int bufr_is_missing_double( double d )
    {
@@ -1070,14 +1183,14 @@ int bufr_is_missing_double( double d )
 
 /**
  * @english
- *    bufr_is_missing_float( value )
- *    (float)
- * This is the same as bufr_is_missing_double regular floating-point.
- * @return int, TRUE=1, FALSE=0
+ * tests a float value to determine if it represents a missing BUFR value
+ * @return non-zero if it's the missing value
+ * @warn will also return non-zero if the float is NaN.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @author  Vanh Souvanlasy
  */
 int bufr_is_missing_float( float f )
    {
@@ -1088,14 +1201,17 @@ int bufr_is_missing_float( float f )
    return 0;
    }
 
-/*
- * nom: bufr_is_missing_int
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : 
- *
- * parametres:
+/**
+ * @english
+ * tests an integer value to see if it represents the "missing" value
+ * @return non-zero if it's the missing value
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_missing_int();
+ * @bug should be testing against bufr_missing_int()
  */
 int bufr_is_missing_int( int i )
    {
@@ -1104,42 +1220,49 @@ int bufr_is_missing_int( int i )
    return 0;
    }
 
-/*
- * nom: bufr_missing_double
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : return value representing MISSING in double
- *
- * parametres:
+/**
+ * @english
+ * Determine the representation of a missing double
+ * @return value representing MISSING in double
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_is_missing_double()
  */
 double bufr_missing_double(void)
    {
    return bufr_get_max_double();
    }
 
-/*
- * nom: bufr_missing_float
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : return value representing MISSING in float
- *
- * parametres:
+/**
+ * @english
+ * Determine the representation of a missing float
+ * @return value representing MISSING in float
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_is_missing_float()
  */
 float bufr_missing_float(void)
    {
    return bufr_get_max_float();
    }
 
-/*
- * nom: bufr_missing_int
- *
- * auteur:  Vanh Souvanlasy
- *
- * purpose : return value representing MISSING in int
- *
- * parametres:
+/**
+ * @english
+ * Determine the representation of a missing integer. This value is
+ * identical for all sizes of integers.
+ * @return value representing MISSING in integer
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_is_missing_int()
  */
 int bufr_missing_int(void)
    {
@@ -1148,8 +1271,6 @@ int bufr_missing_int(void)
 
 /**
  * @english
- *    BufrValue* bv;
- *    if( bufr_value_is_missing( bv ) ) continue;
  *
  * This call checks any type of value to see if it contains a "missing"
  * BUFR value appropriate for that type.
@@ -1159,6 +1280,13 @@ int bufr_missing_int(void)
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @code
+ * BufrValue* bv;
+ * ...
+ * if( bufr_value_is_missing( bv ) ) continue;
+ * @endcode
+ * @bug also returns "missing" if the type of BUFR value isn't handled,
+ * which should really be an error (i.e. set errno).
  */
 int bufr_value_is_missing( BufrValue* bv )
 	{
