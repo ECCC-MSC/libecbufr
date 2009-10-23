@@ -201,9 +201,11 @@ DATASUBSET 1 : 575 descriptors
 006015 0.44860
 011061 3.9
 011062 7.0
-
 @endverbatim
+
 @subsection template Sample Template File
+
+@verbatim
 # Format notes:
 # This is simply a list of one or more descriptors, as required for Section 3
 # of the message to be encoded.
@@ -212,8 +214,6 @@ BUFR_EDITION=4
 309051
 #
 @endverbatim
-
-@verbatim
 
 @section installation Installation
 
