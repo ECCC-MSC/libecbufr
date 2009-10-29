@@ -266,7 +266,11 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
             EntryTableB *tb = bufr_fetch_tableB( tbls, code );
             if (tb)
                bcd->encoding = tb->encoding;
-            else 
+            else if ((i > 0)&& bufr_is_sig_datawidth( etblD->descriptors[i-1] ))
+               {
+               /* known size from Table C operator 206 */
+               }
+            else
                {
                char errmsg[256];
                bufr_free_descriptorList( lst );
@@ -471,7 +475,7 @@ static LinkedList *bufr_repl_descriptors
    int  i, j;
    LinkedList   *lst;
    BufrDescriptor *cb, *desc;
-   ListNode *node;
+   ListNode *node, *prev;
    int       n;
    int       extraflags=0;
 
@@ -490,6 +494,7 @@ static LinkedList *bufr_repl_descriptors
       }
 
    lst = lst_newlist();
+   prev = NULL;
    for (j = 0 ; j < count ; j++ )
       {
       node = first;
@@ -510,12 +515,6 @@ static LinkedList *bufr_repl_descriptors
                EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
                if (tb)
                   cb->encoding = tb->encoding;
-               else
-                  {
-                  sprintf( errmsg, "Error: in bufr_repl_descriptors() unknown %d\n" , 
-                     cb->descriptor );
-                  bufr_print_debug( errmsg );
-                  }
                }
             }
          desc = bufr_dupl_descriptor ( cb );
@@ -557,6 +556,7 @@ static LinkedList *bufr_repl_descriptors
                }
             }
          lst_addlast( lst, lst_newnode( desc ) );
+         prev = node;
          node = lst_nextnode( node );
          }
       }
@@ -608,14 +608,6 @@ static void bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR
             EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
             if (tb)
                cb->encoding = tb->encoding;
-            else
-               {
-               char  errmsg[256];
-
-               sprintf( errmsg, "Error: in bufr_assign_descriptors unknown %d\n" , 
-                     cb->descriptor );
-               bufr_print_debug( errmsg );
-               }
             }
          }
       node = lst_nextnode( node );

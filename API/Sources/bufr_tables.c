@@ -686,11 +686,15 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
       e = bufr_tableb_fetch_entry( tbls->master.tableB, desc );
    if (e == NULL)
       {
-      char buf[128];
       bufr_errcode = BUFR_TB_NOTFOUND;
-      sprintf( buf, "Warning: Unknown BUFR descriptor: %d\n", desc );
-      bufr_print_output( buf );
-      bufr_print_debug( buf );
+      if (bufr_is_debug())
+         {
+         char buf[128];
+
+         sprintf( buf, "Warning: Unknown BUFR descriptor: %d\n", desc );
+         bufr_print_output( buf );
+         bufr_print_debug( buf );
+         }
       }
    return e;
    }

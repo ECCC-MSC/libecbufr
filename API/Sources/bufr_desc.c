@@ -35,6 +35,7 @@ This file is part of libECBUFR.
 #include "bufr_tables.h"
 #include "bufr_linklist.h"
 #include "bufr_array.h"
+#include "bufr_value.h"
 
 
 static int bufr_check_class31_set( BufrDescriptor *cb );

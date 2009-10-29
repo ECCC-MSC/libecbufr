@@ -950,3 +950,19 @@ int bufr_is_marker_dpbm(int descriptor)
    return  0;
    }
 
+/**
+ * @english
+ * check if descriptor is a signify data width operator 
+ * @param  descriptor  : data data descriptor
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+int bufr_is_sig_datawidth(int descriptor)
+   {
+   int op = descriptor / 1000;
+   return (op == 206);
+   }

@@ -116,9 +116,24 @@ BUFR_Template *bufr_create_template
          e = bufr_fetch_tableB( tbls, descs[i].descriptor );
          if (e == NULL) 
             {
-            has_error = 1;
-            sprintf( errmsg, "Error: unknown descriptor %d\n", descs[i].descriptor );
+            if ((i > 0) && bufr_is_sig_datawidth(descs[i-1].descriptor))
+               { 
+               /* known bit width, acceptable  */
+               if (bufr_is_debug())
+                  {
+                  sprintf( errmsg, "Descriptor %d has sig data width %d\n", 
+                        descs[i].descriptor, descs[i-1].descriptor );
+                  bufr_print_debug( errmsg );
+                  }
+               }
+            else
+               {
+            sprintf( errmsg, "Descriptor %d ??\n", descs[i].descriptor );
             bufr_print_debug( errmsg );
+               has_error = 1;
+               sprintf( errmsg, "Error: unknown descriptor %d\n", descs[i].descriptor );
+               bufr_print_debug( errmsg );
+               }
             }
          }
       }
@@ -317,9 +332,26 @@ int bufr_finalize_template( BUFR_Template *tmplt )
          e = bufr_fetch_tableB( tmplt->tables, code->descriptor );
          if (e == NULL)
             {
-            bufr_print_debug( "Error: template contains errors\n" );
-            bufr_free_sequence( gabarit );
-            return -1;
+            BufrDescValue    *pcode;
+            char             errmsg[256];
+
+            pcode = (BufrDescValue *)arr_get( tmplt->codets, i-1 );
+            if ((i > 0) && bufr_is_sig_datawidth( pcode->descriptor ))
+               { 
+               /* known bit width, acceptable  */
+               if (bufr_is_debug())
+                  {
+                  sprintf( errmsg, "Descriptor %d has sig data width %d\n", 
+                        code->descriptor, pcode->descriptor );
+                  bufr_print_debug( errmsg );
+                  }
+               }
+            else
+               {
+               bufr_print_debug( "Error: template contains errors\n" );
+               bufr_free_sequence( gabarit );
+               return -1;
+               }
             }
          }
       bc = bufr_create_descriptor ( tmplt->tables, code->descriptor );
@@ -625,17 +657,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
       code.descriptor = icode ;
       code.values = NULL;
       code.nbval = 0;
-      if (bufr_is_table_b( icode ))
-         {
-         e = bufr_fetch_tableB( tbls, icode );
-         if (e == NULL)
-            {
-            sprintf( errmsg, "Error: unknown descriptor %d, abort\n", icode );
-            bufr_print_debug( errmsg );
-            error = 1;
-            break;
-            }
-         }
+
       tok = strtok_r( NULL, " \t\n,=", &ptr );
       if (tok)
          {

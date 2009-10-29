@@ -41,7 +41,7 @@ i=BUFR/is_winide_BLDU.bufr
 BASE=`basename $i .bufr`
 OUT=BUFR/${BASE}.no_ltb.out
 TMPOUT=BUFR/${BASE}.out.tmp
-${DECODER} -inbufr $i -no_format > ${TMPOUT} 2>&1
+${DECODER} -debug -inbufr $i -no_format > ${TMPOUT} 2>&1
 test1file
 
 exit 0

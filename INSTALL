@@ -11,6 +11,14 @@ the generated Makefile that is causing the problem:
 
   "DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)"
 
+Requirements
+============
+
+The following tools (packages) are required in order to compile this library:
+   
+   autotools
+   doxygen
+   libtool
 
 Basic Installation
 ==================

@@ -96,6 +96,7 @@ extern int            bufr_resolve_tableC_v5        ( BufrDescriptor *, BufrDDOp
 extern void           bufr_set_descriptor_afd       ( BufrDescriptor *, LinkedList * );
 extern int            bufr_is_start_dpbm            ( int descriptor  );
 extern int            bufr_is_marker_dpbm           ( int descriptor );
+extern int            bufr_is_sig_datawidth         ( int descriptor );
 
 extern void           bufr_keep_location            ( BufrDDOp *ddo, int desc,  float );
 extern int            bufr_is_location              ( int desc );
