@@ -111,7 +111,15 @@ BUFR_Template *bufr_create_template
  */
    for ( i = 0; i < nb ; i++ )
       {
-      if (bufr_is_table_b( descs[i].descriptor ))
+      if (!bufr_is_descriptor( descs[i].descriptor ) )
+         {
+         has_error = 1;
+         sprintf( errmsg, "Error: not a valid descriptor %d\n", 
+               descs[i].descriptor );
+         bufr_print_debug( errmsg );
+         fprintf( stderr, "%s", errmsg );
+         }
+      else if (bufr_is_table_b( descs[i].descriptor ))
          {
          e = bufr_fetch_tableB( tbls, descs[i].descriptor );
          if (e == NULL) 
@@ -128,8 +136,8 @@ BUFR_Template *bufr_create_template
                }
             else
                {
-            sprintf( errmsg, "Descriptor %d ??\n", descs[i].descriptor );
-            bufr_print_debug( errmsg );
+               sprintf( errmsg, "Descriptor %d ??\n", descs[i].descriptor );
+               bufr_print_debug( errmsg );
                has_error = 1;
                sprintf( errmsg, "Error: unknown descriptor %d\n", descs[i].descriptor );
                bufr_print_debug( errmsg );
@@ -316,6 +324,7 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    int              i, count;
    int              flags;
    EntryTableB     *e;
+   char             errmsg[256];
 
 	if( NULL == tmplt ) return errno=EINVAL, -1;
 
@@ -327,7 +336,16 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    for (i = 0; i < count ; i++)
       {
       code = (BufrDescValue *)arr_get( tmplt->codets, i );
-      if (bufr_is_table_b( code->descriptor ))
+      if (!bufr_is_descriptor( code->descriptor ) )
+         {
+         sprintf( errmsg, "Error: not a valid descriptor %d\n", 
+               code->descriptor );
+         bufr_print_debug( errmsg );
+         fprintf( stderr, "%s", errmsg );
+         bufr_free_sequence( gabarit );
+         return -1;
+         }
+      else if (bufr_is_table_b( code->descriptor ))
          {
          e = bufr_fetch_tableB( tmplt->tables, code->descriptor );
          if (e == NULL)

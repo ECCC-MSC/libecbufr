@@ -1871,7 +1871,7 @@ int bufr_is_local_descriptor( int code )
    int f, x, y;
 
    bufr_descriptor_to_fxy( code, &f, &x, &y );
-   if ( ( x > 47 ) || ( y > 191 ) ) return 1;
+   if ( ( x > 47 ) || (( y > 191 )&&( y <= 255)) ) return 1;
 
    return 0;
    }
@@ -1982,6 +1982,40 @@ int bufr_is_table_b( int code )
    f = code / 100000;
    if (f == 0) return 1;
    return 0;
+   }
+
+/**
+ * @english
+ *   check if a given descriptor is a valid 
+ *   within acceptable defined parameters
+ *   of FXXYYY
+ * @param desc
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+int bufr_is_descriptor( int desc )
+   {
+   int f, x, y;
+
+   bufr_descriptor_to_fxy ( desc, &f, &x, &y );
+   switch( f )
+      {
+      case 0 :
+      case 1 :
+      case 2 :
+      case 3 :
+      break;
+      default :
+         return 0;
+      break;
+      }
+   if ( y >= 256 ) return 0;
+
+   return 1;
    }
 
 #if DEBUG
