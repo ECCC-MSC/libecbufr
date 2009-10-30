@@ -559,6 +559,8 @@ int bufr_encode_sect3(BUFR_Message *bufr)
    int            i, count;
    unsigned char *ptr;
    int           *e1;
+   int            debug=bufr_is_debug();
+   char          errmsg[256];
 
    bufr_alloc_sect3( bufr );
    count = arr_count(bufr->s3.desc_list);
@@ -567,6 +569,11 @@ int bufr_encode_sect3(BUFR_Message *bufr)
    for ( i = 0 ; i < count ; i++ ) 
       {
       code = bufr_descriptor_i32_to_i16( e1[i] );
+      if (debug)
+         {
+         sprintf( errmsg, "#%.3d: %.6d --> %d\n", i+1,e1[i], code );
+         bufr_print_debug( errmsg );
+         }
       *ptr++ = code >> 8;
       *ptr++ = code % 256;
       }
