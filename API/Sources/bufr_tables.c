@@ -825,6 +825,8 @@ static EntryTableBArray bufr_tableb_read
    int           desclen, len;
    int           ver = -1;
    char          errmsg[256];
+   int           isdebug=bufr_is_debug();
+   int           lineno=0;
 
    if (filename == NULL) return NULL;
 /*
@@ -842,7 +844,7 @@ static EntryTableBArray bufr_tableb_read
 
    if (addr_tableb == NULL)
       addr_tableb = (EntryTableBArray)arr_create( 100, sizeof(EntryTableB *), 100 );
-
+/*
    if ( fgets(ligne,256,fp) == NULL ) return NULL;
    count = bufr_parse_columns(ligne, column, 7);
    if (count < 6)
@@ -851,15 +853,33 @@ static EntryTableBArray bufr_tableb_read
       column[3] = 63; column[4] = 66; column[5] = 78;
       count = 6;
       }
-
+*/
    memset( ligne, (int)' ', 256 );
 /**
  * on ne lit que les lignes ayant un descripteur commencant par 0
  * et ce, jusqu'au premier element local ou la fin du fichier.
  **/
-   desclen = column[2] - column[1];
+   lineno = 0;
    while ( fgets(ligne,256,fp) != NULL )
       {
+      ++lineno;
+      if ( lineno==1 )
+         {
+         count = bufr_parse_columns(ligne, column, 7);
+         if (count < 6)
+            {
+            column[0] = 0; column[1] = 8; column[2] = 52;
+            column[3] = 63; column[4] = 66; column[5] = 78;
+            count = 6;
+            desclen = column[2] - column[1];
+            }
+         else
+            {
+            desclen = column[2] - column[1];
+            continue;
+            }
+         }
+
       if ( strncmp( ligne, "DATA_CATEGORY=", 14 ) == 0) 
          /* for local tables only */
          {
@@ -893,7 +913,17 @@ static EntryTableBArray bufr_tableb_read
 
       desc = atoi ( &ligne[0] ) ;
 
-      if (!bufr_is_table_b( desc )) continue;
+      if (!bufr_is_table_b( desc )) 
+         {
+#if DEBUG
+         if (isdebug)
+            {
+            sprintf( buf, "Skipped invalid descriptor: %s\n", ligne );
+            bufr_print_debug( buf );
+            }
+#endif
+         continue;
+         }
 
       if (local == 1)
          {
@@ -901,7 +931,17 @@ static EntryTableBArray bufr_tableb_read
          }
       else
          {
-         if (bufr_is_local_descriptor( desc )) continue;
+         if (bufr_is_local_descriptor( desc )) 
+            {
+#if DEBUG
+            if (isdebug)
+               {
+               sprintf( buf, "Skipped local descriptor: %s\n", ligne );
+               bufr_print_debug( buf );
+               }
+#endif
+            continue;
+            }
          }
 
       /*Supprimer les espaces a la fin du descripteur*/
@@ -931,7 +971,13 @@ static EntryTableBArray bufr_tableb_read
                 etb->descriptor, etb->unit );
          bufr_print_debug( errmsg );
          }
-
+#if DEBUG
+      if (isdebug)
+         {
+         sprintf( buf, "Loaded descriptor: %s\n", ligne );
+         bufr_print_debug( buf );
+         }
+#endif
       arr_add( addr_tableb, (char *)&etb );
       }
    fclose ( fp ) ;
