@@ -243,7 +243,9 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
 */
    if (tmplt->flags & HAS_DELAYED_REPLICATION)
       {
-      bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, tmplt->tables ); 
+      if (bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, 
+               tmplt->tables ) < 0)
+         return -1;
       }
 /*
  * applying Table C
@@ -297,7 +299,12 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
       {
       bufr_add_descriptor_to_sequence( bsq, pbcd[i] );
       }
-   bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, dts->tmplte->tables ); 
+   if (bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, 
+            dts->tmplte->tables ) < 0 )
+      {
+      bufr_free_sequence( bsq );
+      return -1;
+      }
    ddo = bufr_apply_Tables( NULL, bsq, dts->tmplte, NULL, &errcode ); 
    bufr_free_BufrDDOp( ddo );
 
@@ -1704,6 +1711,13 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
       return 0;
       }
 
+   if (isdebug)
+      {
+      sprintf( errmsg, "AFD: (%d bits) ", 
+            bd->encoding.af_nbits );
+      bufr_print_debug( errmsg );
+      }
+
    if ((bd->encoding.af_nbits > 0)&&(bd->value->af != NULL))
       {
       bd->value->af->bits = bufr_getbits( bufr, bd->value->af->nbits, &errcode );
@@ -1944,6 +1958,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    DataSubset     *subset;
    BufrDDOp       *ddo;
    int             errcode;
+   LinkedList     *tmplist;
 
    if (debug)
       bufr_print_debug( "### Converting BUFR Message into Dataset\n" );
@@ -2105,7 +2120,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                      continue;
                      }
                   ival = bufr_descriptor_get_ivalue( cb31 );
-                  bsq2->list = bufr_expand_node_descriptor( bsq2->list, node, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  tmplist = bufr_expand_node_descriptor( bsq2->list, node, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  if (tmplist == NULL)
+                     {
+                     return NULL;
+                     }
+                  bsq2->list = tmplist;
                   node = lst_nextnode( node ); /* skip over class 31 code */
                   }
                }
@@ -2225,7 +2245,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                for (i = 0; i < nbsubset ; i++)
                   {
                   node2 = nodes[i]->prev;
-                  bseq[i]->list = bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  tmplist = bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  if (tmplist == NULL)
+                     {
+                     return NULL;
+                     }
+                  bseq[i]->list = tmplist;
                   ddos[i]->current = node2;
                   }
                }
@@ -2797,6 +2822,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
    {
    FILE          *fp;
    char           errmsg[256];
+   int            status;
 
    if (infile == NULL) return -1;
 
@@ -2809,10 +2835,13 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
       }
 
    if (bufr_load_header( fp, dts ) > 0)
-      bufr_load_datasubsets( fp, dts );
+      status = bufr_load_datasubsets( fp, dts );
 
    fclose ( fp ) ;
-   return bufr_count_datasubset( dts );
+   if (status >= 0)
+      return bufr_count_datasubset( dts );
+   else
+      return status;
    }
 
 /**
@@ -2881,6 +2910,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
    int            f, x, y;
    int            i, len;
    int            errcode;
+   LinkedList    *tmplist;
 
    count = arr_count( dts->tmplte->gabarit );
    bsq = bufr_create_sequence(NULL);
@@ -3066,8 +3096,13 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          BufrDescriptor  *cb2;
          int errcode;
 
-         bsq2->list = bufr_expand_node_descriptor( bsq2->list, lst_prevnode( node ), 
+         tmplist = bufr_expand_node_descriptor( bsq2->list, lst_prevnode( node ), 
                OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tbls, &errcode );
+         if (tmplist == NULL)
+            {
+            return -1;
+            }
+         bsq2->list = tmplist;
 
          nnode = lst_nextnode( node );
          }

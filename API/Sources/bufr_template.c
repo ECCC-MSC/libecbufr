@@ -393,7 +393,12 @@ int bufr_finalize_template( BUFR_Template *tmplt )
       return -1;
       }
 
-   bufr_expand_sequence( gabarit, 0, tmplt->tables ); /* do not expand delayed replication yet */
+   /* do not expand delayed replication yet */
+   if ( bufr_expand_sequence( gabarit, 0, tmplt->tables ) < 0 )
+      {
+      bufr_free_sequence( gabarit );
+      return -1;
+      }
 
    tmplt->flags |= flags;
    if ( tmplt->gabarit )

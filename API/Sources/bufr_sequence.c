@@ -154,11 +154,20 @@ void bufr_add_descriptor_to_sequence( BUFR_Sequence *bsq, BufrDescriptor *cb )
  * @author Vanh Souvanlasy
  * @ingroup template internal
  */
-void bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
+int bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
    {
-   if (bsq == NULL) return;
+   LinkedList *lst1;
 
-   bsq->list = bufr_expand_list( bsq->list, flags, tbls );
+   if (bsq == NULL) return 0;
+
+   lst1 = bufr_expand_list( bsq->list, flags, tbls );
+   if (lst1 == NULL)
+      {
+      bufr_free_descriptorList( bsq->list );
+      bufr_print_debug( "Error: cannot expand template sequence\n" );
+      }
+   bsq->list = lst1;
+   return (lst1 == NULL) ? -1 : 1;
    }
 
 /**
@@ -174,11 +183,14 @@ static LinkedList *bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tb
    {
    ListNode *node;
    int       skip;
+   LinkedList *lst1;
 
    node = lst_firstnode( lst );
    while ( node )
       {
-      lst = bufr_expand_node_descriptor( lst, node, flags, tbls, &skip );
+      lst1 = bufr_expand_node_descriptor( lst, node, flags, tbls, &skip );
+      if (lst1 == NULL) return NULL;
+      lst = lst1;
       if (skip > 0)
          {
          node = lst_skipnodes( node, skip );
@@ -236,7 +248,7 @@ BUFR_Sequence *bufr_expand_descriptor( int desc, int flags, BUFR_Tables *tbls )
 static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
    {
    EntryTableD   *etblD;
-   LinkedList    *lst;
+   LinkedList    *lst, *lst1;
    int           i, count;
    int           code;
    BufrDescriptor  *bcd;
@@ -285,8 +297,10 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
       lst_addlast( lst, lst_newnode( bcd ) );
       }
 
-   lst = bufr_expand_list( lst, flags, tbls );
-   return lst;
+   lst1 = bufr_expand_list( lst, flags, tbls );
+   if (lst1 == NULL)
+      bufr_free_descriptorList( lst );
+   return lst1;
    }
 
 /**
@@ -303,6 +317,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
    int         f, x, y;
    BufrDescriptor   *cb;
    LinkedList *sublist;
+   int   err;
 
    cb = (BufrDescriptor *)node->data;
 
@@ -386,7 +401,6 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
       sublist = bufr_expand_desc( cb->descriptor, flags, tbls );
       if (sublist == NULL) 
          {
-         bufr_free_descriptorList( list );
          return NULL;
          }
       bsq = bufr_create_sequence( list );
@@ -394,10 +408,11 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
          depth = cb->meta->nb_nesting;
       else
          depth = 0;
-      bufr_check_sequence( bsq, 4, &tmpflags, tbls, depth );
+      err = bufr_check_sequence( bsq, 4, &tmpflags, tbls, depth );
       bsq->list = NULL;
       bufr_free_sequence( bsq );
       *skip = -1;
+      if (err < 0) return NULL;
       }
    else if (f == 0)
       {
@@ -473,7 +488,7 @@ static LinkedList *bufr_repl_descriptors
    ( ListNode *first, int nbdesc, int count, int flags, BUFR_Tables *tbls )
    {
    int  i, j;
-   LinkedList   *lst;
+   LinkedList   *lst, *lst1;
    BufrDescriptor *cb, *desc;
    ListNode *node, *prev;
    int       n;
@@ -567,8 +582,10 @@ static LinkedList *bufr_repl_descriptors
    if (flags & OP_ZDRC_IGNORE)
       flags = flags & ~OP_ZDRC_IGNORE;
 
-   lst = bufr_expand_list( lst, flags, tbls );
-   return lst;
+   lst1 = bufr_expand_list( lst, flags, tbls );
+   if (lst1 == NULL)
+      bufr_free_descriptorList( lst );
+   return lst1;
    }
 
 /**
@@ -848,8 +865,7 @@ static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *ski
    int       isdebug=bufr_is_debug();
    char      errmsg[128];
 
-/*
-   isdebug=0;
+#ifdef DEBUG
    if (isdebug) 
       {
       sprintf( errmsg,"### Checking #Code Replication >> %.6d : {", descriptor );
@@ -883,10 +899,10 @@ static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *ski
          }
       bufr_print_debug( "}\n" );
       }
+#endif
 /*
  * decrease by 1 every replication (embedded) counters
-
-*/
+ */
    node = lst_firstnode( stack );
    if (node == NULL) return 0;
    while (node)

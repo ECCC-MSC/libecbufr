@@ -124,21 +124,18 @@ int bufr_store_tables
    category = tbls->data_cat;
 /*
  * BUFR tables, complete replacement or update 
-
-*/
+ */
    BUFR_SET_MSGDTYPE( bufr, MSGDTYPE_TABLES_REPLACE_UPDATE );  
 /*
  * other data, non-compressed 
-
-*/
+ */
    BUFR_SET_UNCOMPRESSED( bufr );
    BUFR_SET_OTHER_DATA( bufr );
    bufr_begin_message( bufr );
    bufr_alloc_sect4( bufr, 8192 );
 /*
  * construire la liste descripteurs de la section 3
-
-*/
+ */
    desc_list = bufr->s3.desc_list;
    clist = NULL;
    BUFR_SET_NB_DATASET(bufr, 1);
@@ -182,6 +179,13 @@ int bufr_store_tables
       descriptor = 300004;
       arr_add( desc_list, (char *)&descriptor );
       sequence = bufr_expand_descriptor( descriptor, OP_RM_XPNDBL_DESC, tbls );
+      if (sequence == NULL)
+         {
+         sprintf( errmsg, "Error expanding descriptor: %d\n", descriptor );
+         bufr_print_debug( errmsg );
+         return -1;
+         }
+
       clist = bufr_sequence_2TBarray( sequence, tbls );
       if (debug)
          {
