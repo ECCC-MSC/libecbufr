@@ -37,6 +37,7 @@ This file is part of libECBUFR.
 #include "bufr_io.h"
 #include "bufr_template.h"
 
+#define DEBUG         0
 #define TESTINDEX     0
 
 static int         bufr_is_dd_for_dpbm( BufrDescriptor *bcv );
@@ -496,8 +497,7 @@ static LinkedList *bufr_repl_descriptors
 
 /*
  * add this flag for processing of Data Present Bitmap of Table C Operator 2 22 000
-
-*/
+ */
    if (nbdesc == 1)
       {
       int  f2, x2, y2;
@@ -865,7 +865,7 @@ static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *ski
    int       isdebug=bufr_is_debug();
    char      errmsg[128];
 
-#ifdef DEBUG
+#if DEBUG
    if (isdebug) 
       {
       sprintf( errmsg,"### Checking #Code Replication >> %.6d : {", descriptor );
@@ -1007,7 +1007,7 @@ static void cumulate_code2CodeArray( BufrDescriptor *cb, void *client_data )
 BUFR_Sequence *bufr_copy_sequence( BUFR_Sequence *bsq )
    {
    BUFR_Sequence *list;
-   BufrDescriptor *cb;
+   BufrDescriptor *cb, *cb1;
    ListNode *node;
 
    list = bufr_create_sequence( NULL );
@@ -1017,8 +1017,11 @@ BUFR_Sequence *bufr_copy_sequence( BUFR_Sequence *bsq )
       {
       cb = (BufrDescriptor *)node->data;
 
-      if (cb) cb = bufr_dupl_descriptor( cb );
-      bufr_add_descriptor_to_sequence( list, cb );
+      if (cb) 
+         cb1 = bufr_dupl_descriptor( cb );
+      else
+         cb1 = NULL;
+      bufr_add_descriptor_to_sequence( list, cb1 );
       node = lst_nextnode( node );
       }
    return list;
@@ -1149,6 +1152,9 @@ BufrDDOp  *bufr_apply_Tables
          int        ndx;
          int        idx;
          int idp = cb->meta->nesting[cb->meta->nb_nesting-1];
+
+         if (ddo->dpbm == NULL)
+            ddo->dpbm = bufr_index_dpbm( ddo, bsq );
          idx = ddo->dpbm->dp[idp-1];
          if (idx >= 0)
             {
@@ -1171,12 +1177,16 @@ BufrDDOp  *bufr_apply_Tables
             }
          if (ddo->remain_dpi == 0)
             {
+            if (ddo->dpbm == NULL)
+               ddo->dpbm = bufr_index_dpbm( ddo, bsq );
             bufr_init_dpbm( ddo->dpbm, ddo->start_dpi );
             ddo->remain_dpi = -1;
             }
          }
       else if (ddoi && (ddo->flags & DDO_BIT_MAP_FOLLOW) && (cb->descriptor != 31031))
          {
+         if (ddo->dpbm == NULL)
+            ddo->dpbm = bufr_index_dpbm( ddo, bsq );
          if ((ddo->remain_dpi > 0)&&(ddo->remain_dpi < ddo->dpbm->nb_codes))
             {
             sprintf( errmsg, "Warning: bitmap size %d != %d data present descriptors\n",
