@@ -310,7 +310,7 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
 
    arr_free( &(dss->data) );
    dss->data = bufr_sequence_to_array( bsq, 1 );
-   if (dss->dpbm == NULL)
+   if (dss->dpbm != NULL)
       {
       bufr_free_BufrDPBM( dss->dpbm );
       dss->dpbm = NULL;
@@ -1965,25 +1965,25 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 
    if (tables->master.version <= 13)
       {
-      if (msg->s1.master_table_version > tables->master.version )
+      if (msg->s1.master_table_version > tables->master.version)
          {
-         sprintf( errmsg, "Warning: master Table B version: %d less than message: %d\n", 
-               tables->master.version, msg->s1.master_table_version );
-         bufr_print_debug( errmsg );
-         }
-      else if (debug)
-         {
-         sprintf( errmsg, "Warning: master Table B version: %d compatible with message's: %d\n", 
-               tables->master.version, msg->s1.master_table_version );
-         bufr_print_debug( errmsg );
+         if (debug)
+            {
+            sprintf( errmsg, "Warning: master Table B version: %d less than message: %d\n", 
+                  tables->master.version, msg->s1.master_table_version );
+            bufr_print_debug( errmsg );
+            }
          }
       }
    else if ((msg->s1.master_table_version != tables->master.version )&&
             (msg->s1.master_table_version > 13))
       {
-      sprintf( errmsg, "Warning: master Table B version: %d differs message's: %d\n", 
-            tables->master.version, msg->s1.master_table_version );
-      bufr_print_debug( errmsg );
+      if (debug)
+         {
+         sprintf( errmsg, "Warning: master Table B version: %d differs message's: %d\n", 
+               tables->master.version, msg->s1.master_table_version );
+         bufr_print_debug( errmsg );
+         }
       }
 
    count = arr_count( msg->s3.desc_list );
