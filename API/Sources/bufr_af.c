@@ -239,7 +239,6 @@ BufrAFD  *bufr_duplicate_afd( const BufrAFD *dup )
    for (i = 0; i < dup->count ; i++)
       blens[i] = dup->defs[i].nbits;
 
-   afd = (BufrAFD *)malloc(sizeof(BufrAFD));
    afd = bufr_create_afd( blens, dup->count );
    bufr_copy_afd( afd, dup );
    return afd;
