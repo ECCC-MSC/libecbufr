@@ -3055,7 +3055,20 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          switch( cb->value->type )
             {
             case VALTYPE_STRING :
-               bufr_descriptor_set_svalue( cb, tok );
+               if (strcmp( tok, "MSNG" ) != 0)
+                  {
+                  bufr_descriptor_set_svalue( cb, tok );
+                  }
+               else
+                  {
+                  int len=cb->encoding.nbits/8;
+                  char *tmpbuf;
+
+                  tmpbuf = (char *)malloc( (len+1)*sizeof(char) );
+                  bufr_missing_string( tmpbuf, len );
+                  bufr_descriptor_set_svalue( cb, tmpbuf );
+                  free( tmpbuf );
+                  }
                break;
             case VALTYPE_INT32 :
                if (strcmp( tok, "MSNG" ) != 0)
