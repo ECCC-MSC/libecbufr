@@ -88,9 +88,11 @@ extern int            bufr_value_is_missing     ( BufrValue *bv );
 extern int            bufr_is_missing_float     ( float );
 extern int            bufr_is_missing_double    ( double );
 extern int            bufr_is_missing_int       ( int i );
+extern int            bufr_is_missing_string    ( char *, int );
 extern double         bufr_missing_double       ( void );
 extern float          bufr_missing_float        ( void );
 extern int            bufr_missing_int          ( void );
+extern void           bufr_missing_string       ( char *, int );
 
 
 extern double         bufr_get_max_double       ( void );

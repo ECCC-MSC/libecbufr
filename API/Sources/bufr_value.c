@@ -910,6 +910,7 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
       case VALTYPE_STRING :
          {
          const ValueSTRING *strval = (ValueSTRING *)bv;
+
          *len = strval->len;
          return strval->value;
          }
@@ -1248,7 +1249,34 @@ int bufr_is_missing_int( int i )
 
 /**
  * @english
- * Determine the representation of a missing double
+ * tests a string value to determine if it represents a missing BUFR value
+ * @return non-zero if it's the missing value
+ * @warn will also return non-zero if the double is NaN.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_value_is_missing
+ * @ingroup descriptor
+ */
+int bufr_is_missing_string( char *str, int len )
+   {
+   int  i;
+   unsigned char c;
+
+   for (i = 0; i < len ; i++)
+      {
+      c = (unsigned char)str[i];
+      if (c != 255) return 0;
+      }
+
+   return 1;
+   }
+
+/**
+ * @english
+ * return the representation of a missing double
  * @return value representing MISSING in double
  * @endenglish
  * @francais
@@ -1265,7 +1293,7 @@ double bufr_missing_double(void)
 
 /**
  * @english
- * Determine the representation of a missing float
+ * return the representation of a missing float
  * @return value representing MISSING in float
  * @endenglish
  * @francais
@@ -1282,7 +1310,7 @@ float bufr_missing_float(void)
 
 /**
  * @english
- * Determine the representation of a missing integer. This value is
+ * return the representation of a missing integer. This value is
  * identical for all sizes of integers.
  * @return value representing MISSING in integer
  * @endenglish
@@ -1298,6 +1326,28 @@ int bufr_missing_int(void)
    return -1;
    }
 
+/**
+ * @english
+ * set the representation of a missing string. This value is
+ * set as  -1 in every characters of a string
+ * @return none
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @see bufr_is_missing_int, bufr_value_is_missing
+ * @ingroup descriptor
+ */
+void bufr_missing_string(char *str, int len)
+   {
+   int i;
+   char cmsng;
+
+   cmsng = (char)255;
+   for (i = 0; i < len ; i++)
+      str[i] = cmsng;
+   }
 /**
  * @english
  *
@@ -1334,7 +1384,7 @@ int bufr_value_is_missing( BufrValue* bv )
 		case VALTYPE_STRING:
 			{
 			int l = 0;
-			return NULL==bufr_value_get_string( bv, &l );
+         return bufr_is_missing_string( bufr_value_get_string( bv, &l ), l ); 
 			}
 		default:
 			break;
