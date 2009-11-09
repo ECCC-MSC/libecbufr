@@ -138,7 +138,10 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                   int   len;
 
                   char *str = bufr_descriptor_get_svalue( bcv, &len );
-                  sprintf( buf, "VALUE=%s", str );
+                  if (str && !bufr_is_missing_string( str, len ) )
+                     sprintf( buf, "VALUE=%s", str );
+                  else
+                     strcpy( buf, "VALUE=MSNG" );
                   bufr_print_output( buf );
                   }
 					}
