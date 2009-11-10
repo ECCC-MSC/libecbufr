@@ -1099,7 +1099,6 @@ int bufr_print_dscptr_value( char *outstr, BufrDescriptor *cb )
          bufr_print_scaled_value( outstr, cb->value, cb->encoding.scale );
          break;
       case TYPE_FLAGTABLE :
-
          ival = bufr_value_get_int32( cb->value );
          if (ival < 0)
             {

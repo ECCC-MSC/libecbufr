@@ -1081,11 +1081,6 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
 
    outstr[0] = '\0';
 
-   if (bv->af)
-      {
-      bufr_print_af( outstr, bv->af );
-      }
-
    switch (bv->type)
       {
       case VALTYPE_STRING :
@@ -1383,8 +1378,11 @@ int bufr_value_is_missing( BufrValue* bv )
 			return bufr_is_missing_double( bufr_value_get_double(bv) );
 		case VALTYPE_STRING:
 			{
-			int l = 0;
-         return bufr_is_missing_string( bufr_value_get_string( bv, &l ), l ); 
+			int l;
+         char  *str;
+
+         str = bufr_value_get_string( bv, &l ); 
+         return  bufr_is_missing_string( str, l );
 			}
 		default:
 			break;
