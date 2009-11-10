@@ -2911,7 +2911,9 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
    int            i, len;
    int            errcode;
    LinkedList    *tmplist;
+   int            debug;
 
+   debug = bufr_is_debug();
    count = arr_count( dts->tmplte->gabarit );
    bsq = bufr_create_sequence(NULL);
    pbcd = (BufrDescriptor **)arr_get( dts->tmplte->gabarit, 0 );
@@ -2970,8 +2972,14 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
       if (tok == NULL) continue;
       icode = atoi(tok);
 
+      if (debug)
+         {
+         sprintf( errmsg, "*** Input for: %d\n", icode );
+         bufr_print_debug( errmsg );
+         }
+
       while ( node )
-      	 {
+      	{
          cb = (BufrDescriptor *)node->data;
          if ((icode != cb->descriptor)&&(cb->flags & FLAG_SKIPPED))
             node = lst_nextnode( node );
@@ -2992,7 +3000,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          }
       if (icode != cb->descriptor)
          {
-         sprintf( errmsg, "Error: data codes %d mismatch with template code %d\n", 
+         sprintf( errmsg, "Error: data descriptor %d mismatch with template %d\n", 
                   icode, cb->descriptor );
          bufr_print_debug( errmsg );
          return -1;
@@ -3005,10 +3013,59 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
 
       if (cb->value == NULL)
          cb->value = bufr_mkval_for_descriptor( cb );
+/*
+ * remove spaces
+ */
+      len = strlen( ptr );
+      i = len-1;
+      while (isspace(ptr[i]) && (i >= 0)) 
+         {
+         ptr[i--] = '\0';
+         }
 
       i = 0;
       len = strlen( ptr );
       while (isspace(ptr[i]) && (i < len)) ++i;
+
+      if (ptr[i] == '{')  /* Skip Meta Info */
+         {
+         int j = len-1;
+         if (debug)
+            {
+            sprintf( errmsg, "   *** skipping comment: '%s'", ptr );
+            bufr_print_debug( errmsg );
+            }
+         while ((ptr[j] != '}') && (j >= i)) --j;
+         i = j;
+         ptr = ptr+i+1;
+
+         i = 0;
+         len = strlen( ptr );
+         while (isspace(ptr[i]) && (i < len)) ++i;
+
+         if (debug)
+            {
+            sprintf( errmsg, "-> '%s'\n", ptr+i );
+            bufr_print_debug( errmsg );
+            }
+         }
+
+      if (ptr[i] == '(')  /* AF bits */
+         {
+         uint64_t  afbits;
+
+         tok = strtok_r( NULL, " \t\n\r():", &ptr );
+         sscanf( tok, "%llx", &afbits );
+         if (debug)
+            {
+            sprintf( errmsg, "   *** has AF: %s -> %llx\n", tok, afbits );
+            bufr_print_debug( errmsg );
+            }
+         cb->value->af->bits = afbits;
+         tok = strtok_r( NULL, " \t\n\r():", &ptr ); /* skip comment nbits */
+         tok = strtok_r( NULL, " \t\n\r,=", &ptr );
+         }
+
       if (ptr[i] == '"') /* QUOTED STRING */
          {
          ptr = ptr+i+1; 
@@ -3022,24 +3079,6 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                i = 0;
                }
             }
-         }
-      else if (ptr[i] == '(')  /* AF bits */
-         {
-         uint64_t  afbits;
-
-         tok = strtok_r( NULL, " \t\n\r():", &ptr );
-         sscanf( tok, "%llx", &afbits );
-         cb->value->af->bits = afbits;
-         tok = strtok_r( NULL, " \t\n\r():", &ptr ); /* skip comment nbits */
-         tok = strtok_r( NULL, " \t\n\r,=", &ptr );
-         }
-      else if (ptr[i] == '{')  /* Skip Meta Info */
-         {
-         int j = len-1;
-         while ((ptr[j] != '}') && (j >= i)) --j;
-         i = j;
-         ptr = ptr+i+1;
-         tok = strtok_r( NULL, " \t\n\r", &ptr );
          }
       else
          tok = strtok_r( NULL, " \t\n\r,=", &ptr );
@@ -3069,6 +3108,13 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                   bufr_descriptor_set_svalue( cb, tmpbuf );
                   free( tmpbuf );
                   }
+               if (debug)
+                  {
+                  int l;
+                  sprintf( errmsg, "   *** has value: '%s' -> '%s'\n", 
+                        tok, bufr_descriptor_get_svalue( cb, &l ) );
+                  bufr_print_debug( errmsg );
+                  }
                break;
             case VALTYPE_INT32 :
                if (strcmp( tok, "MSNG" ) != 0)
@@ -3081,6 +3127,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                else
                   ival32 = -1;
                bufr_descriptor_set_ivalue( cb, ival32 );
+               if (debug)
+                  {
+                  sprintf( errmsg, "   *** has value: %s -> %d\n", tok, ival32 );
+                  bufr_print_debug( errmsg );
+                  }
                break;
             case VALTYPE_FLT64  :
                if (strcmp( tok, "MSNG" ) != 0)
@@ -3088,6 +3139,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                   dval = strtof( tok, NULL );
                   if (!bufr_is_missing_double( dval ))
                      bufr_descriptor_set_dvalue( cb, dval );
+                  if (debug)
+                     {
+                     sprintf( errmsg, "   *** has value: %s -> %f\n", tok, dval );
+                     bufr_print_debug( errmsg );
+                     }
                   }
                break;
             case VALTYPE_FLT32  :
@@ -3096,6 +3152,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                   fval = strtof( tok, NULL );
                   if (!bufr_is_missing_float( fval ))
                      bufr_descriptor_set_fvalue( cb, fval );
+                  if (debug)
+                     {
+                     sprintf( errmsg, "   *** has value: %s -> %f\n", tok, fval );
+                     bufr_print_debug( errmsg );
+                     }
                   }
                break;
             default :
@@ -3379,7 +3440,7 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
    int            sscount, cvcount;
    int            i, j;
    BufrDescriptor      *bcv;
-   char           buf[256];
+   char           buf[2048];
    int            compressed;
 
    fprintf( fp, "BUFR_EDITION=%d\n", dts->tmplte->edition );
@@ -3438,6 +3499,12 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
 
             if (bcv->value)
                {
+               if (bcv->value->af)
+                  {
+                  bufr_print_af( buf, bcv->value->af );
+                  fprintf( fp, "%s", buf );
+                  }
+
                if (bufr_print_dscptr_value( buf, bcv ))
                   fprintf( fp, "%s", buf );
                }
