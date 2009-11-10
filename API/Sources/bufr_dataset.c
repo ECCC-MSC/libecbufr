@@ -3053,6 +3053,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
       if (ptr[i] == '(')  /* AF bits */
          {
          uint64_t  afbits;
+         int j;
 
          tok = strtok_r( NULL, " \t\n\r():", &ptr );
          sscanf( tok, "%llx", &afbits );
@@ -3062,8 +3063,16 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
             bufr_print_debug( errmsg );
             }
          cb->value->af->bits = afbits;
-         tok = strtok_r( NULL, " \t\n\r():", &ptr ); /* skip comment nbits */
-         tok = strtok_r( NULL, " \t\n\r,=", &ptr );
+         len = strlen( ptr );
+         while ((ptr[i] != ')') && (i < len)) ++i;
+         if (ptr[i] == ')') i += 1;
+         while (isspace(ptr[i]) && (i < len)) ++i;
+
+         if (debug)
+            {
+            sprintf( errmsg, "   *** found value: '%s'\n", ptr+i );
+            bufr_print_debug( errmsg );
+            }
          }
 
       if (ptr[i] == '"') /* QUOTED STRING */
@@ -3081,7 +3090,10 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
             }
          }
       else
+         {
+         ptr = ptr+i; 
          tok = strtok_r( NULL, " \t\n\r,=", &ptr );
+         }
 
       if (tok == NULL) 
          {
