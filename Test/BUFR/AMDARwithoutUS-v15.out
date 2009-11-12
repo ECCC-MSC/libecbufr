@@ -1,0 +1,122 @@
+### Message version           : 4
+###          length           : 126
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 22
+###      BUFR master table    : 0
+###      originating center   : 89
+###      sub center           : 0
+###      update sequence      : 0
+###      Data category        : 4
+###      Inter. sub category  : 0
+###      Local sub category   : 0
+###      master table version : 15
+###      local table version  : 0
+###      Year                 : 2009
+###      Month                : 3
+###      Day                  : 21
+###      Hour                 : 10
+###      Min                  : 10
+###      Sec                  : 5
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 9
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 83
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 84 descriptors
+#  311010 
+   001008 VALUE=EU3042  
+   001023 VALUE=2 
+   001006 VALUE=LH4410  
+   001110 VALUE=MSNG
+   001111 VALUE=AAA
+   001112 VALUE=BBB
+   204002 
+   031021 VALUE=8 
+#  301011 
+   004001 (0x0:2 bits)VALUE=2009 
+   004002 (0x0:2 bits)VALUE=3 
+   004003 (0x0:2 bits)VALUE=21 
+#  301013 
+   004004 (0x0:2 bits)VALUE=10 
+   004005 (0x0:2 bits)VALUE=10 
+   004006 (0x0:2 bits)VALUE=5 
+#  301021 
+   005001 (0x0:2 bits)VALUE=42.25500
+   006001 (0x0:2 bits)VALUE=-2.04167
+   007004 (0x0:2 bits)VALUE=20320.0
+   010053 (0x0:2 bits)VALUE=11282
+   008009 (0x3:2 bits)VALUE=0 
+   011001 (0x0:2 bits)VALUE=233 
+   011002 (0x0:2 bits)VALUE=31.9
+   002064 (0x3:2 bits)VALUE=0 
+   011100 (0x3:2 bits)VALUE=212.0
+   011101 (0x3:2 bits)MSNG
+   011102 (0x3:2 bits)MSNG
+   011103 (0x3:2 bits)MSNG
+   011104 (0x3:2 bits)VALUE=15 
+   012101 (0x0:2 bits)VALUE=221.25
+   013002 (0x1:2 bits)VALUE=0.00000
+   013003 (0x0:2 bits)VALUE=4 
+#  101000 {R=0}
+   031000 {R=0} VALUE=1 
+   012103 {R=1} (0x0:2 bits)VALUE=197.75
+   033026 (0x3:2 bits)VALUE=7 
+#  101000 {R=0}
+   031000 {R=0} VALUE=1 
+   020042 {R=1} (0x0:2 bits)VALUE=0 
+   103000 {R=0} 
+   031000 {R=0} VALUE=0 
+#  020043 {R=0}
+#  020044 {R=0}
+#  020045 {R=0}
+#  101000 {R=0}
+   031000 {R=0} VALUE=1 
+   033025 {R=1} (0x3:2 bits)VALUE=3 
+#  103000 {R=0}
+   031001 {R=0} VALUE=1 
+   011075 {R=1} (0x3:2 bits)VALUE=0.30
+   011076 {R=1} (0x3:2 bits)VALUE=0.70
+   011039 {R=1} (0x3:2 bits)VALUE=7 
+#  102000 {R=0}
+   031000 {R=0} VALUE=1 
+   011037 {R=1} (0x0:2 bits)VALUE=18 
+   011077 {R=1} (0x3:2 bits)VALUE=1200 
+   103000 {R=0} 
+   031000 {R=0} VALUE=0 
+#  011034 {R=0}
+#  011035 {R=0}
+#  011036 {R=0}
+   204000 
+   118000 {R=0} 
+   031001 {R=0} VALUE=0 
+#  301021 {R=0}
+#  007007 {R=0}
+#  301013 {R=0}
+#  011105 {R=0}
+#  204007 {R=0}
+#  031021 {R=0}
+#  011076 {R=0}
+#  011075 {R=0}
+#  204000 {R=0}
+#  011106 {R=0}
+#  011107 {R=0}
+#  011108 {R=0}
+#  011109 {R=0}
+#  012101 {R=0}
+#  011001 {R=0}
+#  201130 {R=0}
+#  011084 {R=0}
+#  201000 {R=0}
+

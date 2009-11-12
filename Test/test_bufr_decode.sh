@@ -31,7 +31,7 @@ do
 	echo -n "$i ..."
 	OUT=BUFR/${BASE}.out
 	TMPOUT=BUFR/${BASE}.out.tmp
-	${DECODER} -inbufr $i -ltableb local_table_b -no_format > ${TMPOUT} 2>&1
+	${DECODER} -inbufr $i -ltableb local_table_b -ltabled local_table_d -no_format > ${TMPOUT} 2>&1
    test1file
 done
 

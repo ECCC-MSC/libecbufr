@@ -42,3 +42,18 @@
 060001  TABLE ID (SENSOR ARRAY IDENTIFIER)          NUMERIC      0          0    10
 060004  PANEL TEMPERATURE                           K            1          0    12
 060005  PROGRAM SIGNATURE CHECKSUM                  NUMERIC      0          0    10
+011100  True aircraft speed                         ms-1         1          0    12
+011101  Aircraft velocity u-component               ms-1         1      -4096    13
+011102  Aircraft velocity v-component               ms-1         1      -4096    13
+011103  Aircraft velocity w-component               ms-1         1       -512    10
+011104  Aircraft true heading                       Deg true     0          0     9
+010053  Global Nav Satellite System Altde           m            0      -1000    17
+001110  Aircraft tail number                        CCITT IA5    0          0    48
+001111  Origination airport                         CCITT IA5    0          0    24
+001112  Destination airport                         CCITT IA5    0          0    24
+011105  EDR algorithm version                       numeric      0          0     6
+011106  Running minimum confidence                  numeric      1          0     4
+011107  Maximum number bad inputs                   numeric      0          0     5
+011108  Peak Location                               numeric      1          0     4
+011109  Number of good EDR                          numeric      0          0     4
+011084  WIND SPEED                                  KNOT         0          0     8
