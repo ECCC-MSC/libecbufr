@@ -3,7 +3,8 @@ exampledir = @datadir@/doc/${PACKAGE}/examples/
 example_DATA=$(SOURCES) decode_sqlite.c
 example_PROGRAMS = \
 	bufr_merge decode_multi_dataset decode_multi_message decode_net \
-	decode_random decode_simple dump_template encode_bogus encode_dumpfile
+	decode_random decode_simple dump_template encode_bogus encode_dumpfile \
+	decode_cmc_table
 
 EXTRA_DIST = $(SOURCES)
 INCLUDES = -I../API/Headers -I/usr/include/@PACKAGE@@VERSION_MAJOR@
