@@ -82,7 +82,7 @@ static int cmp_best_cmc(const struct dirent **a, const struct dirent **b) {
 		if( alv >= cmp_local_vers ) {
 			if( blv >= cmp_local_vers ) {
 				/* both at least what we want, use the "closest" */
-				return alv - blv;
+				return abs(alv - cmp_local_vers) - abs(blv - cmp_local_vers);
 			} else {
 				/* a is "better" */
 				return -1;
@@ -98,10 +98,20 @@ static int cmp_best_cmc(const struct dirent **a, const struct dirent **b) {
 		return blv - alv;
 	}
 
-	/* Not an exact match, which means we're probably looking for "latest",
-	 * so the higher version number is "better"
-	 */
-	return bmv - amv;
+	/* Not an exact match */
+	
+	if( cmp_master_vers > 255 ) {
+		/* we're looking for "latest", so the higher version number is "better" */
+		return bmv - amv;
+	} else if( amv < cmp_master_vers || bmv < cmp_master_vers ) {
+		/* at least one is below the desired version, so whichever is greater
+		 * is "better"
+		 */
+		return bmv - amv;
+	} else {
+		/* both are greater, so closer is better */
+		return abs(amv - cmp_master_vers) - abs(bmv - cmp_master_vers);
+	}
 }
 
 /*
