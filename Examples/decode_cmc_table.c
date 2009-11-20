@@ -60,29 +60,22 @@ static int cmp_master_vers = 256;
 static int cmp_local_vers = 256;
 
 /*
- * Given some filenames, we want them sorted in descending order of
- * proximity to the desired master and local versions.
- * In qsort terms, this function returns -1 if a is "better" than b so
- * we're sorting in descending order of "best".
+ * Given our files, we want them sorted in descending order of
+ * "best" for the desired master and local versions, while trying to
+ * enforce our constraints.
+ * For qsort purposes, this function returns <0 where a is "better" than b,
+ * ==0 when the same "goodness", and >0 where b is "better" than a.
  */
 static int cmp_best_cmc(const struct dirent **a, const struct dirent **b) {
 	const char* as = (*a)->d_name;
 	const char* bs = (*b)->d_name;
 	int amv = 0, bmv = 0;
 	int alv = 0, blv = 0;
-	int ad, bd;
 
 	sscanf( as, "TAB%*c%d.%d", &amv, &alv );
 	sscanf( bs, "TAB%*c%d.%d", &bmv, &blv );
 
-	/* strictly speaking, abs() isn't needed here because of how the
-	 * filters are supposed to work. But it makes more sense to me.
-	 */
-
-	ad = abs(cmp_master_vers - amv);
-	bd = abs(cmp_master_vers - bmv);
-
-	if( ad == bd ) {
+	if( amv == bmv ) {
 		/* master tables match... as mentioned previously, we want to prefer
 		 * at least the desired version but settle for something lesser.
 		 */
@@ -108,7 +101,7 @@ static int cmp_best_cmc(const struct dirent **a, const struct dirent **b) {
 	/* Not an exact match, which means we're probably looking for "latest",
 	 * so the higher version number is "better"
 	 */
-	return bd - ad;
+	return bmv - amv;
 }
 
 /*
