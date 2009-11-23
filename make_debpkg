@@ -14,8 +14,18 @@ esac
 export HOSTARCH=$HOSTTYPE
 export HOSTARCH=i386
 
+DISTRO=''
+if [ -f /etc/lsb-release ]; then
+	. /etc/lsb-release
+	DISTRO=${DISTRIB_CODENAME}
+elif [ -f /etc/debian_version ]; then
+	DEB_VERS=`cat /etc/debian_version|tr -c -d '[.A-Za-z0-9]'`
+	DISTRO="debian${DEB_VERS}"
+fi
+export DISTRO
+
 TARGET=`pwd`
-TARGET_FN=${NAME}_${TARGET_VERNO}_${HOSTARCH}
+TARGET_FN=${NAME}_${TARGET_VERNO}_${DISTRO}_${HOSTARCH}
 PKGDIR=$TARGET/debpackage/${TARGET_FN}
 
 # cleanup old stuff
