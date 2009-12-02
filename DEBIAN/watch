@@ -1,0 +1,8 @@
+# For automatically scan ftp or http sites for newly availabel updates of the package.
+# This is something TODO in the future
+# for more details, see site:
+# http://dehs.alioth.debian.org/uscan.html  
+
+# format version number, currently 3; this line is compulsory!
+version=3
+
