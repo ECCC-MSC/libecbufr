@@ -33,7 +33,7 @@ rm -rf ${PKGDIR}
 
 # copying content to package
 make DESTDIR=${PKGDIR} install
-#cp -r $TARGET/DEBIAN ${PKGDIR};
+cp -r $TARGET/DEBIAN ${PKGDIR};
 
 #If other maintainers, add them in "Uploaders:"
 # Distribution (see debian/changelog):  stable, unstable, testing, frozen, experimental
@@ -49,11 +49,11 @@ make DESTDIR=${PKGDIR} install
 #
 # "Essential" must be "yes" when the package contains "shared libraries"
 
-mkdir ${PKGDIR}/DEBIAN/
+#mkdir ${PKGDIR}/DEBIAN/
 cat >> ${PKGDIR}/DEBIAN/control << EOF
 Section: non-free/science
 Priority: optional
-Maintainer: Vanh Souvanlasy <Vanh.Souvanlasy@ec.gc.ca>
+Maintainer: libecbufr-dev
 Package: $NAME
 Version: ${TARGET_VERNO}
 Architecture: ${HOSTARCH}
