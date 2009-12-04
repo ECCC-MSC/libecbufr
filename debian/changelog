@@ -1,0 +1,18 @@
+libecbufr (0.8.2) unstable; urgency=low
+
+  * Pre-release containing 6 bugs fix and 1 blueprint
+  * Bug 389027, 374191, 479447, 480232, 480271, 388663
+
+ -- Vanh Souvanlasy <afsmvan@ibsb-01.cmc.ec.gc.ca>  Fri,  4 Dec 2009 11:07:54 -0500
+
+libecbufr (0.8.1) unstable; urgency=low
+
+  * Fixed bug 373856: decoder/encoder omit orig sub centre
+
+ -- Vanh Souvanlasy <libecbufr-dev>  Tue, 15 May 2009 13:15:45 -0500
+
+libecbufr (0.8.0) unstable; urgency=low
+
+  * Initial Alpha Release.
+
+ -- Vanh Souvanlasy <libecbufr-dev>  Tue, 5 May 2009 15:33:36 -0500
