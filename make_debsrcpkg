@@ -1,0 +1,65 @@
+#!/bin/sh
+
+if [ $# -ne 2 ]
+then
+   echo "Usage: $0 pkg_name version"
+   exit
+fi
+
+# package name must be of lower case (a-z), digits (0-9) and (+-.)
+NAME=$1
+TARGET_VERNO=$2
+
+mtype=`uname -m`
+stype=`uname -s`
+case  $stype  in
+Linux  ) rel=`cat /proc/version | awk '{split($3,a,"."); b=a[1]a[2]; print b; }'`;
+         export HOSTTYPE="linux$rel-$mtype" ;
+         ;;
+esac
+export HOSTARCH=$HOSTTYPE
+export HOSTARCH=i386
+
+TARGET=`pwd`
+
+SRCTARGET=${NAME}-${TARGET_VERNO}
+PKGDIR=${TARGET}/debpackage
+SRCPKGDIR=${PKGDIR}/${SRCTARGET}
+TARGET_FN=${SRCTARGET}_i386.deb
+
+# cleanup old stuff
+rm -rf ${PKGDIR}
+mkdir ${PKGDIR}
+
+# export source into package
+bzr export ${SRCPKGDIR}
+#
+# create the Debian Source Package
+#
+cat >> ${SRCPKGDIR}/debian/control << EOFDEB
+Source: libecbufr
+Section: libs
+Priority: optional
+Maintainer: libecbufr-dev
+Standards-Version: ${TARGET_VERNO}
+
+Package: libecbufr
+Architecture: any
+Provides: libecbufr
+Conflicts: libecbufr
+Replaces: libecbufr
+Description: Environment Canada BUFR Library
+EOFDEB
+
+cd ${PKGDIR}
+
+fakeroot dpkg-source -b ${SRCTARGET}
+
+if [ $? -eq 0 ]; then
+   rm -rf ${SRCPKGDIR}
+	echo "Created Debian Source package in ${PKGDIR}"
+	exit 0
+fi
+
+echo "Debian source package creation failed!"
+exit 1
