@@ -17,11 +17,11 @@ build:
 	make
 
 # Build architecture-dependent files here.
-binary-arch: build install
+binary-arch:
 # We have nothing to do by default.
 
 # Build architecture-independent files here.
-binary-indep: build install
+binary-indep: install
 	dh_testdir
 	dh_testroot
 	dh_installdirs
