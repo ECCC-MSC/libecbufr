@@ -13,7 +13,7 @@ build:
 	libtoolize --force
 	rm -f configure
 	autoreconf --force --install
-	configure
+	./configure
 	make
 
 # Build architecture-dependent files here.
