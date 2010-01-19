@@ -49,7 +49,7 @@ static int          bufr_minimum_nbits=0;
 static int             bufr_load_tableB       ( BUFR_Tables *, BufrTablesSet *tbls, const char *filename, int local );
 static int             bufr_load_tableD       ( BUFR_Tables *, BufrTablesSet *tbls, const char *filename );
 
-static EntryTableD    *bufr_tabled_fetch_entry( EntryTableDArray addr_tabled, int code);
+static EntryTableD    *bufr_tabled_fetch_entry( EntryTableDArray addr_tabled, int desc);
 
 static EntryTableBArray        bufr_tableb_read       ( EntryTableBArray addr_tableb, const char *filename, int local,
                                                 char *desc, int *cat, int *version );
@@ -61,12 +61,12 @@ static int             compare_tableb         ( const void *p1, const void *p2);
 static int             compare_tabled         ( const void *p1, const void *p2);
 static int             compare_tabled_seq     (const void *p1, const void *p2);
 
-static int             bufr_check_code_tableD ( BUFR_Tables *tbls, int code , char *array );
+static int             bufr_check_desc_tableD ( BUFR_Tables *tbls, int desc , char *array );
 static int             bufr_check_loop_tableD ( BUFR_Tables *tbls, BufrTablesSet *tbl );
 static void            bufr_merge_tableB      ( EntryTableBArray table1, EntryTableBArray table2 );
 static void            bufr_merge_tableD      ( EntryTableDArray table1, EntryTableDArray table2 );
 static void            bufr_copy_EntryTableD  ( EntryTableD *r, const char *desc, int desclen,
-                                                int *codes, int count);
+                                                int *descriptors, int count);
 static void            bufr_merge_TablesSet   ( BufrTablesSet *tbls1, BufrTablesSet *tbls2 );
 static int             strtlen                (char *Str);
 
@@ -93,6 +93,7 @@ static void test_print_tableD( char *tabled );
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 BUFR_Tables *bufr_create_tables(void)
    {
@@ -128,6 +129,7 @@ BUFR_Tables *bufr_create_tables(void)
  * @todo translate to French
  * @param r a structure a detruire
  * @endfrancais
+ * @ingroup tables
  */
 void  bufr_free_tables( BUFR_Tables *tbls )
    {
@@ -164,18 +166,18 @@ void  bufr_free_tables( BUFR_Tables *tbls )
    free( tbls );
    }
 
-/*
- * name: bufr_set_tables_category
- *
- * author:  Vanh Souvanlasy
- *
- * function: set Tables category description
- *
- * parameters:
- *
- *      tbls   : pointer to BUFR tables structure
- *      cat    : category number
- *      desc   : string describing the category (max 64 char.)
+/**
+ * @english
+ * set Tables category description
+ * @param     tbls   : pointer to BUFR tables structure
+ * @param     cat    : category number
+ * @param     desc   : string describing the category (max 64 char.)
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup encode tables
  */
 void bufr_set_tables_category( BUFR_Tables *tbls, int cat, const char *desc )
    {
@@ -221,6 +223,7 @@ void bufr_set_tables_category( BUFR_Tables *tbls, int cat, const char *desc )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 void bufr_merge_tables( BUFR_Tables *tbls1, BUFR_Tables *tbls2 )
    {
@@ -228,7 +231,8 @@ void bufr_merge_tables( BUFR_Tables *tbls1, BUFR_Tables *tbls2 )
    if ( tbls2 == NULL ) return;
 /*
  * master tables are never copied on merged, only referenced
- */
+
+*/
    if (tbls2->master.tableB)
       {
       if (tbls1->master.tableBtype == TYPE_ALLOCATED)
@@ -247,29 +251,30 @@ void bufr_merge_tables( BUFR_Tables *tbls1, BUFR_Tables *tbls2 )
       }
 /*
  * only local tables are merged and copied
- */
+
+*/
    bufr_merge_TablesSet( &(tbls1->local), &(tbls2->local) );
    }
 
-/*
- * name: bufr_merge_TablesSet
- *
- * author:  Vanh Souvanlasy
- *
- * function: copy bufr tables from tbls2 into tbls1, merging and overwriting
+/**
+ * @english
+ * copy bufr tables from tbls2 into tbls1, merging and overwriting
  *           duplicates
- *
- * parameters:
- *
- *      tbls1  : pointer to dest BufrTablesSet structure
- *      tbls2  : pointer to src  BufrTablesSet structure
- *
+ * @param     tbls1  : pointer to dest BufrTablesSet structure
+ * @param     tbls2  : pointer to src  BufrTablesSet structure
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void bufr_merge_TablesSet( BufrTablesSet *tbls1, BufrTablesSet *tbls2 )
    {
 /*
  * merged tables are always allocated
- */
+
+*/
    if (tbls1->tableBtype == TYPE_REFERENCED)
       tbls1->tableB = NULL;
 
@@ -307,6 +312,7 @@ static void bufr_merge_TablesSet( BufrTablesSet *tbls1, BufrTablesSet *tbls2 )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup io tables
  */
 int bufr_load_m_tableB( BUFR_Tables *tbls, const char *filename )
    {
@@ -327,24 +333,25 @@ int bufr_load_m_tableB( BUFR_Tables *tbls, const char *filename )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 int bufr_load_l_tableB( BUFR_Tables *tbls, const char *filename )
    {
    return bufr_load_tableB ( tbls, &(tbls->local), filename, 1 );
    }
 
-/*
- * name: bufr_load_tableB
- *
- * author:  Vanh Souvanlasy
- *
- * function: load a table B file
- *
- * parameters:
- *
- *        tbls      : the Set of tables to load into
- *        filename : string refering to table B
- *        local    : if local codes should be included
+/**
+ * @english
+ * load a table B file
+ * @param       tbls      : the Set of tables to load into
+ * @param       filename : string refering to table B
+ * @param       local    : if local descriptors should be included
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables internal
  */
 static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const char *filename, int local )
    {
@@ -395,6 +402,7 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 int bufr_load_m_tableD( BUFR_Tables *tbls, const char *filename )
    {
@@ -415,24 +423,25 @@ int bufr_load_m_tableD( BUFR_Tables *tbls, const char *filename )
  * @francais
  * @todo translate to French
  * @endfrancais
+ * @ingroup tables
  */
 int bufr_load_l_tableD( BUFR_Tables *tbls, const char *filename )
    {
    return bufr_load_tableD ( tbls, &(tbls->local), filename );
    }
 
-/*
- * name: bufr_load_tableD
- *
- * author:  Vanh Souvanlasy
- *
- * function: load table D from a file
- *
- * parameters:
- *
- *        tbls     : pointer to BUFR_Tables structure containing tables
- *        tbl      : the Set of tables to load into
- *        filename : string refering to table D
+/**
+ * @english
+ * load table D from a file
+ * @param       tbls     : pointer to BUFR_Tables structure containing tables
+ * @param       tbl      : the Set of tables to load into
+ * @param       filename : string refering to table D
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int bufr_load_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl, const char *filename )
    {
@@ -456,21 +465,21 @@ static int bufr_load_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl, const char *
 #endif
 /*
  * check for any circular loop in table D
- */
+
+*/
    rtrn = bufr_check_loop_tableD( tbls, tbl );
 
    return rtrn;
    }
 
-/*
- * name: bufr_merge_tableD
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
- *
+/**
+ * @english
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void bufr_merge_tableD ( EntryTableDArray table1, EntryTableDArray table2 )
    {
@@ -501,15 +510,15 @@ static void bufr_merge_tableD ( EntryTableDArray table1, EntryTableDArray table2
       }
    }
 
-/*
- * name: bufr_merge_tableB
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
- *
+/**
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void bufr_merge_tableB ( EntryTableBArray table1, EntryTableBArray table2 )
    {
@@ -539,15 +548,15 @@ static void bufr_merge_tableB ( EntryTableBArray table1, EntryTableBArray table2
       }
    }
 
-/*
- * name: bufr_check_loop_tableD
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
- *
+/**
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
    {
@@ -566,7 +575,7 @@ static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
       etd = p_etd[0];
       for (i = 0; i < etd->count ; i++ )
          {
-         if (bufr_check_code_tableD( tbls, etd->descriptors[i], array ) < 0)
+         if (bufr_check_desc_tableD( tbls, etd->descriptors[i], array ) < 0)
             {
             has_error = -1;
             }
@@ -577,17 +586,17 @@ static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
    return has_error;
    }
 
-/*
- * name: bufr_check_code_tableD
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
- *
+/**
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
-static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
+static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
    {
    int  f, x, y;
    EntryTableD  *etd;
@@ -596,7 +605,7 @@ static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
    int  *pival, ival;
    char  errmsg[256];
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   bufr_descriptor_to_fxy( desc, &f, &x, &y );
    if (f == 3)
       {
       count = arr_count( array );
@@ -606,26 +615,26 @@ static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
          if (pival)
             {
             ival = *pival;
-            if (ival == code)
+            if (ival == desc)
                {
-               sprintf( errmsg, "Warning: Table D code : %d is in a circular loop\n", code );
+               sprintf( errmsg, "Warning: Table D descriptor : %d is in a circular loop\n", desc );
                bufr_print_debug( errmsg );
                return -1;
                }
             }
          }
-      arr_add( array, (char *)&code );
+      arr_add( array, (char *)&desc );
 
-      etd = bufr_fetch_tableD( tbls, code );
+      etd = bufr_fetch_tableD( tbls, desc );
       if (etd == NULL)
          {
-         sprintf( errmsg, "Warning: invalid Table D code : %d\n", code );
+         sprintf( errmsg, "Warning: invalid Table D descriptor : %d\n", desc );
          bufr_print_debug( errmsg );
          return -1;
          }
       for (i = 0; i < etd->count ; i++ )
          {
-         if (bufr_check_code_tableD( tbls, etd->descriptors[i], array ) < 0) return -1;
+         if (bufr_check_desc_tableD( tbls, etd->descriptors[i], array ) < 0) return -1;
          }
 
       arr_del( array, 1 );
@@ -633,15 +642,17 @@ static int bufr_check_code_tableD( BUFR_Tables *tbls, int code , char *array )
    return 1;
    }
 
-/*
- * name: bufr_fetch_tableB
- *
- * author:  Vanh Souvanlasy
- *
- * function: search a Table B descriptor int the loaded Table
- *
- * parameters:
- *        desc : descriptor to look for
+/**
+ * @english
+ * find and return a table B entry
+ * @param  desc: descriptor to be found
+ * @endenglish
+ * @francais
+ * chercher et retourner une entree de la table B
+ * @param       desc : descripteur a chercher
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
    {
@@ -675,33 +686,39 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
       e = bufr_tableb_fetch_entry( tbls->master.tableB, desc );
    if (e == NULL)
       {
-      char buf[128];
       bufr_errcode = BUFR_TB_NOTFOUND;
-      sprintf( buf, "Warning: Unknown BUFR descriptor: %d\n", desc );
-      bufr_print_output( buf );
-      bufr_print_debug( buf );
+      if (bufr_is_debug())
+         {
+         char buf[128];
+
+         sprintf( buf, "Warning: Unknown BUFR descriptor: %d\n", desc );
+         bufr_print_output( buf );
+         bufr_print_debug( buf );
+         }
       }
    return e;
    }
 
-/*
- * name: bufr_fetch_tableD
- *
- * author:  Vanh Souvanlasy
- *
- * function: chercher et retourner une entree de la table D d'un code
- *
- * parameters:
- *        code : code a chercher
+/**
+ * @english
+ * find and return a Table D entry
+ * @param  desc : descriptor to be found
+ * @endenglish
+ * @francais
+ * chercher et retourner une entree de la table D
+ * @param       desc : descripteur a chercher
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
-EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int code)
+EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int desc)
    {
    EntryTableD *e=NULL;
    int   f, x, y;
 
 	if( tbls == NULL ) return errno=EINVAL, NULL;
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   bufr_descriptor_to_fxy( desc, &f, &x, &y );
    switch( f )
       {
       case 3 :
@@ -713,13 +730,13 @@ EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int code)
       }
 
    if (tbls->local.tableD)
-      e = bufr_tabled_fetch_entry( tbls->local.tableD, code );
+      e = bufr_tabled_fetch_entry( tbls->local.tableD, desc );
    if (e == NULL)
-      e = bufr_tabled_fetch_entry( tbls->master.tableD, code );
+      e = bufr_tabled_fetch_entry( tbls->master.tableD, desc );
    if (e == NULL)
       {
       char buf[128];
-      sprintf( buf, "Warning: Table D Code unknown: %d\n", code );
+      sprintf( buf, "Warning: Table D Code unknown: %d\n", desc );
       bufr_print_debug( buf );
       }
    return e;
@@ -737,6 +754,7 @@ EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int code)
  * @todo translate to French
  * @endfrancais
  * @author Christophe Beauregard
+ * @ingroup tables
  */
 EntryTableD *bufr_match_tableD_sequence  ( BUFR_Tables * tbls,
                                            int ndesc, int desc[] )
@@ -755,15 +773,16 @@ EntryTableD *bufr_match_tableD_sequence  ( BUFR_Tables * tbls,
    return e;
    }
 
-/*
- * name: strtlen
- *
- * author:  Jean-Philippe Gauthier
- *
- * function: find the length of a string without trailing white space
- *
- * parameters:
- *        Str : the string to evaluate
+/**
+ * @english
+ * find the length of a string without trailing white space
+ * @param       Str : the string to evaluate
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Jean-Philippe Gauthier
+ * @ingroup internal
  */
 static int strtlen(char *Str)
    {
@@ -773,46 +792,47 @@ static int strtlen(char *Str)
       return(len);
    }
 
-/*
- * name: bufr_tableb_read
- *
- * author:  Vanh Souvanlasy
- *
- * changes:  
- *
- *    11/04/08 :  Jean-Pierre G. - truncate trailing white space from description
- *
- * function: read Table B from an ASCII file
- *
- * parameters:
- *      filename    : Table B file 
- *      addr_tableb : already allocated table b array to load in or merge with
- *      local       : if loading should restrict range to local descriptors only 
+/**
+ * bufr_tableb_read
+ * @english
+ * read Table B from an ASCII file
+ * @param     filename    : Table B file 
+ * @param     addr_tableb : already allocated table b array to load in or merge with
+ * @param     local       : if loading should restrict range to local descriptors only 
  *                    x=[1,47] y=[1,192]
- * return:
- *      desc        : string describing the local table in the file
- *      cat         : local table category description in the file
- *      version     : version of table B
- *      EntryTableBArray : A Table B array
+ * @param     ltds        returned string describing the local table in the file
+ * @param     cat         returned local table category description in the file
+ * @param     version     returned version of table B
+ * @return     EntryTableBArray : A Table B array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ *
  */
 static EntryTableBArray bufr_tableb_read
    (EntryTableBArray addr_tableb, const char *filename, int local, 
-    char *desc, int *cat, int *version)
+    char *ltds, int *cat, int *version)
    {
    FILE         *fp ;
    char          ligne[256] ;
    char          buf[256] ;
    EntryTableB  *etb;
    int           column[7], count;
-   int           code;
+   int           desc;
    int           desclen, len;
    int           ver = -1;
    char          errmsg[256];
+   int           isdebug=bufr_is_debug();
+   int           lineno=0;
 
    if (filename == NULL) return NULL;
 /*
  * on va lire la premiere ligne, car elle ne fait pas partie du fichier
- */
+
+*/
 
    fp = fopen ( filename, "r" ) ;
    if (fp == NULL)
@@ -824,7 +844,7 @@ static EntryTableBArray bufr_tableb_read
 
    if (addr_tableb == NULL)
       addr_tableb = (EntryTableBArray)arr_create( 100, sizeof(EntryTableB *), 100 );
-
+/*
    if ( fgets(ligne,256,fp) == NULL ) return NULL;
    count = bufr_parse_columns(ligne, column, 7);
    if (count < 6)
@@ -833,15 +853,33 @@ static EntryTableBArray bufr_tableb_read
       column[3] = 63; column[4] = 66; column[5] = 78;
       count = 6;
       }
-
+*/
    memset( ligne, (int)' ', 256 );
 /**
  * on ne lit que les lignes ayant un descripteur commencant par 0
  * et ce, jusqu'au premier element local ou la fin du fichier.
  **/
-   desclen = column[2] - column[1];
+   lineno = 0;
    while ( fgets(ligne,256,fp) != NULL )
       {
+      ++lineno;
+      if ( lineno==1 )
+         {
+         count = bufr_parse_columns(ligne, column, 7);
+         if (count < 6)
+            {
+            column[0] = 0; column[1] = 8; column[2] = 52;
+            column[3] = 63; column[4] = 66; column[5] = 78;
+            count = 6;
+            desclen = column[2] - column[1];
+            }
+         else
+            {
+            desclen = column[2] - column[1];
+            continue;
+            }
+         }
+
       if ( strncmp( ligne, "DATA_CATEGORY=", 14 ) == 0) 
          /* for local tables only */
          {
@@ -860,8 +898,8 @@ static EntryTableBArray bufr_tableb_read
             }
          if (len > 64) len = 64;
          if (len > 0)
-            strncpy ( desc,   &ligne[17],  len ) ;
-         desc[len] = '\0';
+            strncpy ( ltds,   &ligne[17],  len ) ;
+         ltds[len] = '\0';
          continue;
          }
 
@@ -873,9 +911,19 @@ static EntryTableBArray bufr_tableb_read
       if ( ligne[0] != '0' ) continue ; /* for table B, F=0  */
 
 
-      code = atoi ( &ligne[0] ) ;
+      desc = atoi ( &ligne[0] ) ;
 
-      if (!bufr_is_table_b( code )) continue;
+      if (!bufr_is_table_b( desc )) 
+         {
+#if DEBUG
+         if (isdebug)
+            {
+            sprintf( buf, "Skipped invalid descriptor: %s\n", ligne );
+            bufr_print_debug( buf );
+            }
+#endif
+         continue;
+         }
 
       if (local == 1)
          {
@@ -883,7 +931,17 @@ static EntryTableBArray bufr_tableb_read
          }
       else
          {
-         if (bufr_is_local_descriptor( code )) continue;
+         if (bufr_is_local_descriptor( desc )) 
+            {
+#if DEBUG
+            if (isdebug)
+               {
+               sprintf( buf, "Skipped local descriptor: %s\n", ligne );
+               bufr_print_debug( buf );
+               }
+#endif
+            continue;
+            }
          }
 
       /*Supprimer les espaces a la fin du descripteur*/
@@ -913,7 +971,13 @@ static EntryTableBArray bufr_tableb_read
                 etb->descriptor, etb->unit );
          bufr_print_debug( errmsg );
          }
-
+#if DEBUG
+      if (isdebug)
+         {
+         sprintf( buf, "Loaded descriptor: %s\n", ligne );
+         bufr_print_debug( buf );
+         }
+#endif
       arr_add( addr_tableb, (char *)&etb );
       }
    fclose ( fp ) ;
@@ -922,22 +986,25 @@ static EntryTableBArray bufr_tableb_read
    return addr_tableb;
    }
 
-/*
- * name: bufr_tableb_fetch_entry
- *
- * author:  Vanh Souvanlasy
- *
- * function: rechercher une entree dans la table B
- *
- * parameters:
- *      addr_tabled  : une table B
- *      code : le code recherche
+/**
+ * @english
+ * search for a Table B entry
+ * @param addr : an instance of Table
+ * @param desc : the descriptor to be found 
+ * @endenglish
+ * @francais
+ * rechercher une entree dans la table B
+ * @param     addr  : une table B
+ * @param     desc : le descripteur recherche
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
-EntryTableB *bufr_tableb_fetch_entry(EntryTableBArray addr, int code)
+EntryTableB *bufr_tableb_fetch_entry(EntryTableBArray addr, int desc)
    {
    EntryTableB *ptr1, tb, **ptr;
 
-   tb.descriptor = code;
+   tb.descriptor = desc;
    ptr1 = &tb;
    ptr = (EntryTableB **)arr_search( addr, (char *)&ptr1, compare_tableb );
    if ( ptr != NULL)
@@ -946,15 +1013,16 @@ EntryTableB *bufr_tableb_fetch_entry(EntryTableBArray addr, int code)
       return NULL;
    }
 
-/*
- * name: compare_tableb
- *
- * author:  Vanh Souvanlasy
- *
- * function: comparaison d'ordre des entrees de table B
- *
- * parameters:
- *      p1, p2 : l'addresse des 2 entrees
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * comparaison d'ordre des entrees de table B
+ * @param     p1, p2 : l'addresse des 2 entrees
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int compare_tableb(const void *p1, const void *p2)
    {
@@ -966,16 +1034,18 @@ static int compare_tableb(const void *p1, const void *p2)
    return 0;
    }
 
-/*
- * name: bufr_tableb_fetch_entry_desc
- *
- * author:  Jean-Philippe Gauthier
- *
- * function: chercher et retourner une entree de la table B d'une description
- *
- * parameters:
- *        addr_tabled  : une table B
- *        desc : Description a chercher
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * chercher et retourner une entree de la table B d'une description
+ * @param       addr_tabled  : une table B
+ * @param       desc : Description a chercher
+ * @endfrancais
+ * @author Jean-Philippe Gauthier
+ * @ingroup tables
+
  */
 EntryTableB *bufr_tableb_fetch_entry_desc( EntryTableBArray addr, const char *desc )
    {
@@ -1000,14 +1070,15 @@ EntryTableB *bufr_tableb_fetch_entry_desc( EntryTableBArray addr, const char *de
    return (NULL);
    }
 
-/*
- * name: bufr_new_EntryTableB
- *
- * author:  Vanh Souvanlasy
- *
- * function: creer une nouvelle entree de table B
- *
- * parameters:
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * creer une nouvelle entree de table B
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 EntryTableB *bufr_new_EntryTableB(void)
    {
@@ -1025,14 +1096,15 @@ EntryTableB *bufr_new_EntryTableB(void)
    return r;
    }
 
-/*
- * name: bufr_free_EntryTableB
- *
- * author:  Vanh Souvanlasy
- *
- * function: liberer une entree de table B
- *
- * parameters:
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * liberer une entree de table B
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 void bufr_free_EntryTableB( EntryTableB *r )
    {
@@ -1046,14 +1118,15 @@ void bufr_free_EntryTableB( EntryTableB *r )
       }
    }
 
-/*
- * name: bufr_copy_EntryTableB
- *
- * author:  Vanh Souvanlasy
- *
- * function: creer une nouvelle entree de table B
- *
- * parameters:
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * creer une nouvelle entree de table B
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 void  bufr_copy_EntryTableB( EntryTableB *e1, EntryTableB *e2 )
    {
@@ -1088,15 +1161,16 @@ void  bufr_copy_EntryTableB( EntryTableB *e1, EntryTableB *e2 )
       }
    }
 
-/*
- * name: bufr_tableb_free
- *
- * author:  Vanh Souvanlasy
- *
- * function: detruire une table B
- *
- * parameters:
- *      tableb : la table a detruire
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * detruire une table B
+ * @param     tableb : la table a detruire
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 void bufr_tableb_free(EntryTableBArray tableb)
    {
@@ -1118,16 +1192,19 @@ void bufr_tableb_free(EntryTableBArray tableb)
    arr_free( &tableb );
    }
 
-/*
- * name: bufr_tabled_read
- *
- * author:  Vanh Souvanlasy
- *
- * function: lire une table D d'un fichier
- *
- * parameters:
- *      filename : nom du fichier
- *      addr_tabled  : une table D a incrementer (s'il y a lieu)
+/**
+ * @english
+ * read Table D from a file
+ * @param   filename : file containing table D
+ * @param   addr_tabled : table D to be incremented (if relevant)
+ * @endenglish
+ * @francais
+ * lire une table D d'un fichier
+ * @param     filename : nom du fichier
+ * @param     addr_tabled  : une table D a incrementer (s'il y a lieu)
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const char *filename)
    {
@@ -1136,7 +1213,7 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
    char ligne[4096] ;
    EntryTableD  *etb;
    int  count;
-   int  codes[1024];
+   int  descriptors[1024];
    char *tok;
    int  column[20];
 
@@ -1186,12 +1263,12 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
       count = 0;
       while ( tok )
          {
-         codes[count++] = atoi(tok);
+         descriptors[count++] = atoi(tok);
          tok = strtok( NULL, " \t\n" );
          }
       if (count > 1)
          {
-         etb = bufr_new_EntryTableD( codes[0], ligne, desclen, codes+1, count-1 );
+         etb = bufr_new_EntryTableD( descriptors[0], ligne, desclen, descriptors+1, count-1 );
          arr_add( addr_tabled, (char *)&etb );
          }
       }
@@ -1200,16 +1277,17 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
    return addr_tabled;
    }
 
-/*
- * name: bufr_tabled_fetch_entry
- *
- * author:  Vanh Souvanlasy
- *
- * function: rechercher une entree dans la table D
- *
- * parameters:
- *      addr_tabled  : une table D
- *      code : le code recherche
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * rechercher une entree dans la table D
+ * @param     addr_tabled  : une table D
+ * @param     code : le code recherche
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 static EntryTableD *bufr_tabled_fetch_entry(EntryTableDArray addr_tabled, int desc)
    {
@@ -1225,15 +1303,17 @@ static EntryTableD *bufr_tabled_fetch_entry(EntryTableDArray addr_tabled, int de
       return NULL;
    }
 
-/*
- * name: compare_tabled_seq
- *
- * author: Christophe Beauregard
- *
- * function: compare the sequence of descriptors in two table D entries
- *
- * parameters:
- *      p1, p2 : l'addresse des 2 entrees
+/**
+ * @english
+ * compare the sequence of descriptors in two table D entries
+ * @param     p1, p2 : l'addresse des 2 entrees
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Christophe Beauregard
+ * @ingroup tables
+ * @todo translate both
  */
 static int compare_tabled_seq(const void *p1, const void *p2)
    {
@@ -1266,6 +1346,7 @@ static int compare_tabled_seq(const void *p1, const void *p2)
  * @todo translate to French
  * @endfrancais
  * @author Christophe Beauregard
+ * @ingroup tables
  */
 EntryTableD   *bufr_tabled_match_sequence  ( EntryTableDArray tabled,
                                              int ndesc, int desc[] )
@@ -1298,15 +1379,16 @@ EntryTableD   *bufr_tabled_match_sequence  ( EntryTableDArray tabled,
 	return NULL;
    }
 
-/*
- * name: compare_tabled
- *
- * author:  Vanh Souvanlasy
- *
- * function: comparaison d'ordre des entrees de table D
- *
- * parameters:
- *      p1, p2 : l'addresse des 2 entrees
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * comparaison d'ordre des entrees de table D
+ * @param     p1, p2 : l'addresse des 2 entrees
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 static int compare_tabled(const void *p1, const void *p2)
    {
@@ -1318,16 +1400,17 @@ static int compare_tabled(const void *p1, const void *p2)
    return 0;
    }
 
-/*
- * name: bufr_new_EntryTableD
- *
- * author:  Vanh Souvanlasy
- *
- * function: creer une nouvelle entree de table D
- *
- * parameters:
- *      codes : les codes a placer dans l'entree
- *      count : compte des codes
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * creer une nouvelle entree de table D
+ * @param     codes : les codes a placer dans l'entree
+ * @param     count : compte des codes
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 EntryTableD *bufr_new_EntryTableD(int descriptor, const char *dsc, int dsclen, int *descriptors, int count)
    {
@@ -1342,15 +1425,15 @@ EntryTableD *bufr_new_EntryTableD(int descriptor, const char *dsc, int dsclen, i
    return r;
    }
 
-/*
- * name: bufr_copy_EntryTableD
- *
- * author:  Vanh Souvanlasy
- *
- * function: detruire une table D
- *
- * parameters:
- *
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * detruire une table D
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 static void bufr_copy_EntryTableD
    ( EntryTableD *r, const char *desc, int desclen, int *descriptors, int count)
@@ -1392,15 +1475,16 @@ static void bufr_copy_EntryTableD
       }
    }
 
-/*
- * name: bufr_tabled_free
- *
- * author:  Vanh Souvanlasy
- *
- * function: detruire une table D
- *
- * parameters:
- *      tabled : la table a detruire
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * detruire une table D
+ * @param     tabled : la table a detruire
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 static void bufr_tabled_free(EntryTableDArray tabled)
    {
@@ -1422,14 +1506,14 @@ static void bufr_tabled_free(EntryTableDArray tabled)
    arr_free( &tabled );
    }
 
-/*
- * name: bufr_parse_columns
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
+/**
+ * @english
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables internal
  */
 int bufr_parse_columns(const char *ligne, int *column, int limit)
    {
@@ -1456,15 +1540,16 @@ int bufr_parse_columns(const char *ligne, int *column, int limit)
    return count;
    }
 
-/*
- * name: bufr_value_nbits
- *
- * author:  Vanh Souvanlasy
- *
- * function: identifie le nombre de bits minimum pour contenir une value
- *
- * parameters:
- *        ival : la valeur
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * identifie le nombre de bits minimum pour contenir une value
+ * @param       ival : la valeur
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 int bufr_value_nbits(int64_t val)
    {
@@ -1498,15 +1583,16 @@ int bufr_value_nbits(int64_t val)
    return i;
    }
 
-/*
- * name: bufr_leftest_bit
- *
- * author:  Vanh Souvanlasy
- *
- * function: identifie le bit le plus a gauche dans un mot
- *
- * parameters:
- *        ival : la valeur
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * identifie le bit le plus a gauche dans un mot
+ * @param       ival : la valeur
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 int bufr_leftest_bit(uint64_t val)
    {
@@ -1520,18 +1606,18 @@ int bufr_leftest_bit(uint64_t val)
    return i;
    }
 
-/*
- * name: bufr_cvt_fval_to_i32
- *
- * author:  Vanh Souvanlasy
- *
- * function: convertir une valeur reel en entier avec l'entree
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * convertir une valeur reel en entier avec l'entree
  *           de la table B
- *
- * parameters:
- *        e      : une entree de la table B
- *        fval   : la valeur a convertir
- *
+ * @param       e      : une entree de la table B
+ * @param       fval   : la valeur a convertir
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 int32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
    {
@@ -1578,18 +1664,18 @@ int32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
    return ival;
    }
 
-/*
- * name: bufr_cvt_i64_to_dval
- *
- * author:  Vanh Souvanlasy
- *
- * function: convertir un entier en valeur reel avec l'entree
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * convertir un entier en valeur reel avec l'entree
  *           de la table B
- *
- * parameters:
- *        e      : une entree de la table B
- *        ival   : la valeur a convertir
- *
+ * @param       e      : une entree de la table B
+ * @param       ival   : la valeur a convertir
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 double bufr_cvt_i64_to_dval(BufrValueEncoding *be, int64_t ival)
    {
@@ -1605,18 +1691,18 @@ double bufr_cvt_i64_to_dval(BufrValueEncoding *be, int64_t ival)
    return fval;
    }
 
-/*
- * name: bufr_cvt_i32_to_fval
- *
- * author:  Vanh Souvanlasy
- *
- * function: convertir un entier en valeur reel avec l'entree
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * convertir un entier en valeur reel avec l'entree
  *           de la table B
- *
- * parameters:
- *        e      : une entree de la table B
- *        ival   : la valeur a convertir
- *
+ * @param       e      : une entree de la table B
+ * @param       ival   : la valeur a convertir
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 float bufr_cvt_i32_to_fval(BufrValueEncoding *be, int32_t ival)
    {
@@ -1632,18 +1718,18 @@ float bufr_cvt_i32_to_fval(BufrValueEncoding *be, int32_t ival)
    return fval;
    }
 
-/*
- * name: bufr_cvt_dval_to_i64
- *
- * author:  Vanh Souvanlasy
- *
- * function: convertir une valeur reel en entier avec l'entree
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * convertir une valeur reel en entier avec l'entree
  *           de la table B
- *
- * parameters:  
- *        e      : une entree de la table B
- *        fval   : la valeur a convertir
- *
+ * @param       e      : une entree de la table B
+ * @param       fval   : la valeur a convertir
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 int64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double dval)
    {
@@ -1688,14 +1774,15 @@ int64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double dval)
    return ival;
    }
 
-/*
- * name: bufr_get_tberror
- *
- * author:  Vanh Souvanlasy
- *
- * function: retourne les conditions d'erreur de table B
- *
- * parameters:
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * retourne les conditions d'erreur de table B
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables error
  */
 int bufr_get_tberror(BufrValueEncoding *be, int *reference, int *nbits)
    {
@@ -1706,29 +1793,31 @@ int bufr_get_tberror(BufrValueEncoding *be, int *reference, int *nbits)
    return bad_descriptor;
    }
 
-/*
- * name: bufr_errtype
- *
- * author:  Vanh Souvanlasy
- *
- * function: retourne le code d'erreur du logiciel
- *
- * parameters:
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * retourne le code d'erreur du logiciel
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup error
  */
 int bufr_errtype(void)
    {
    return bufr_errcode;
    }
 
-/*
- * name: bufr_unit_to_datatype
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
- *
+/**
+ * bufr_unit_to_datatype
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 BufrDataType bufr_unit_to_datatype ( const char *unit )
    {
@@ -1766,14 +1855,15 @@ BufrDataType bufr_unit_to_datatype ( const char *unit )
    return type;
    }
 
-/*
- * name: bufr_descriptor_to_datatype
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
+/**
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 BufrDataType bufr_descriptor_to_datatype   ( BUFR_Tables *tbls, EntryTableB *e, int code, int *len )
    {
@@ -1813,36 +1903,37 @@ BufrDataType bufr_descriptor_to_datatype   ( BUFR_Tables *tbls, EntryTableB *e, 
       }
    }
 
-/*
- * name: bufr_is_local_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
+/**
+ * @english
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor tables
  */
 int bufr_is_local_descriptor( int code )
    {
    int f, x, y;
 
    bufr_descriptor_to_fxy( code, &f, &x, &y );
-   if ( ( x > 47 ) || ( y > 191 ) ) return 1;
+   if ( ( x > 47 ) || (( y > 191 )&&( y <= 255)) ) return 1;
 
    return 0;
    }
 
-/*
- * name: bufr_fxy_to_descriptor_i16
- *
- * author:  Vanh Souvanlasy
- *
- * function: encode F X Y into 16 bits code
- *
- * parameters:
- *      f : partie f du code
- *      x : partie x du code
- *      y : partie y du code
+/**
+ * @english
+ * encode F X Y into 16 bits code
+ * @param     f : partie f du code
+ * @param     x : partie x du code
+ * @param     y : partie y du code
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
  */
 uint16_t bufr_fxy_to_descriptor_i16(int f,int x,int y)
    {
@@ -1852,15 +1943,17 @@ uint16_t bufr_fxy_to_descriptor_i16(int f,int x,int y)
    return code;
    }
 
-/*
- * name: bufr_descriptor_i32_to_i16
- *
- * author:  Vanh Souvanlasy
- *
- * function: encoder code descripteur entiere en 2 octets
- *
- * parameters:
- *      dcode : code en entier
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * encoder code descripteur entiere en 2 octets
+ * @param     dcode : code en entier
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
+ * @todo codectomy
  */
 uint16_t bufr_descriptor_i32_to_i16(int dcode)
    {
@@ -1874,18 +1967,20 @@ uint16_t bufr_descriptor_i32_to_i16(int dcode)
    return code;
    }
 
-/*
- * name: bufr_descriptor_to_fxy
- *
- * author:  Vanh Souvanlasy
- *
- * function: decoder code descripteur en F X Y
- *
- * parameters:
- *      code : code en entier
- *      f    : partie f du code
- *      x    : partie x du code
- *      y    : partie y du code
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * decoder code descripteur en F X Y
+ * @param     code : code en entier
+ * @param     f    : partie f du code
+ * @param     x    : partie x du code
+ * @param     y    : partie y du code
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
+ * @todo codectomy
  */
 void bufr_descriptor_to_fxy(int code, int *f, int *x, int *y)
    {
@@ -1894,17 +1989,19 @@ void bufr_descriptor_to_fxy(int code, int *f, int *x, int *y)
    *y = code % 1000;
    }
 
-/*
- * name: bufr_fxy_to_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: encoder F X Y en code 2 octets
- *
- * parameters:
- *      f : partie f du code
- *      x : partie x du code
- *      y : partie y du code
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * encoder F X Y en code 2 octets
+ * @param     f : partie f du code
+ * @param     x : partie x du code
+ * @param     y : partie y du code
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
+ * @todo codectomy
  */
 int bufr_fxy_to_descriptor( int f, int x, int y )
    {
@@ -1914,14 +2011,15 @@ int bufr_fxy_to_descriptor( int f, int x, int y )
    return code;
    }
 
-/*
- * name: bufr_is_table_b
- *
- * author:  Vanh Souvanlasy
- *
- * function:
- *
- * parameters:
+/**
+ * @english
+ * 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
  */
 int bufr_is_table_b( int code )
    {
@@ -1930,6 +2028,40 @@ int bufr_is_table_b( int code )
    f = code / 100000;
    if (f == 0) return 1;
    return 0;
+   }
+
+/**
+ * @english
+ *   check if a given descriptor is a valid 
+ *   within acceptable defined parameters
+ *   of FXXYYY
+ * @param desc
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+int bufr_is_descriptor( int desc )
+   {
+   int f, x, y;
+
+   bufr_descriptor_to_fxy ( desc, &f, &x, &y );
+   switch( f )
+      {
+      case 0 :
+      case 1 :
+      case 2 :
+      case 3 :
+      break;
+      default :
+         return 0;
+      break;
+      }
+   if ( y >= 256 ) return 0;
+
+   return 1;
    }
 
 #if DEBUG

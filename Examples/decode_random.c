@@ -3,6 +3,13 @@
 @english
 Non-sequential decode of a set BUFR messages (e.g. to decode some
 elements)
+
+@verbatim
+BUFR_TABLES=../Tables ./decode_random ../Test/BUFR/iusd40_okli.bufr
+@endverbatim
+
+@todo need a BUFR example with the 33045 sequence actually being used
+
 @endenglish
 @francais
 @todo decode_random.c description should be translated
@@ -36,6 +43,7 @@ int main(int argc, char *argv[])
    float          fvalues[5];
    int            ivalues[5];
    float          fval;
+   double         dval;
    int            ival;
    int            startpos;
 
@@ -94,9 +102,17 @@ int main(int argc, char *argv[])
       if ( pos >= 0)
          {
          bcv = bufr_datasubset_get_descriptor( subset, pos );
-         fval = bufr_descriptor_get_fvalue( bcv );
-         fprintf( stdout, "wind speed=%f\n", fval );
-         }
+			if( bufr_value_is_missing( bcv->value ) )
+				{
+				fprintf( stdout, "wind speed=(missing)\n" );
+				}
+			else
+				{
+				dval = bufr_descriptor_get_dvalue( bcv );
+				fprintf( stdout, "wind speed=%g\n", dval );
+				}
+			}
+
    /*
     * now we look for PROBABILITY OF FOLLOWING EVENT (33045)
     * which is a sequence of codes with particular values set
@@ -128,8 +144,15 @@ int main(int argc, char *argv[])
          EntryTableB *tb;
          bcv = bufr_datasubset_get_descriptor( subset, pos );
          ival = bufr_descriptor_get_ivalue( bcv );
-         tb = bufr_fetch_tableB( tables, bcv->descriptor );
-         fprintf( stdout, "probability = %d %s\n", ival, tb->unit );
+			if( bufr_value_is_missing( bcv->value) )
+				{
+				fprintf( stdout, "probability = (missing)\n");
+				}
+			else
+				{
+				tb = bufr_fetch_tableB( tables, bcv->descriptor );
+				fprintf( stdout, "probability = %d %s\n", ival, tb->unit );
+				}
          }
    
    /*

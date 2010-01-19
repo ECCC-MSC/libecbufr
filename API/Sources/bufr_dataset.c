@@ -68,15 +68,15 @@ static int         bufr_load_header( FILE *fp, BUFR_Dataset *dts );
 static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts );
 
 
-/*
- * name: bufr_allocate_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: instantiate a DataSubset object
- *
- * parametres:  none
- *      
+/**
+ * @english
+ * instantiate a DataSubset object
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 static DataSubset *bufr_allocate_datasubset(void)
    {
@@ -104,6 +104,7 @@ static DataSubset *bufr_allocate_datasubset(void)
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup dataset
  */
 BUFR_Dataset *bufr_create_dataset  ( BUFR_Template *tmplt )
    {
@@ -136,16 +137,16 @@ BUFR_Dataset *bufr_create_dataset  ( BUFR_Template *tmplt )
    }
 
 
-/*
- * name: bufr_free_dataset
- *
- * author:  Vanh Souvanlasy
- *
- * function: free memory used by an instance of BUFR_Dataset 
- *
- * parametres: 
- *      dts : pointer to a BUFR_Dataset
- *      
+/**
+ * @english
+ * free memory used by an instance of BUFR_Dataset 
+ * @param     dts : pointer to a BUFR_Dataset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 void bufr_free_dataset ( BUFR_Dataset *dts )
    {
@@ -178,6 +179,7 @@ void bufr_free_dataset ( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup dataset template
  */
 BUFR_Template *bufr_get_dataset_template   ( BUFR_Dataset *dts )
    {
@@ -200,6 +202,7 @@ BUFR_Template *bufr_get_dataset_template   ( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_create_datasubset( BUFR_Dataset *dts )
    {
@@ -232,18 +235,22 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
       bufr_add_descriptor_to_sequence( bsq, bd );
       }
 
-/* 
+/*
  * what is in gabarit is already expanded but,
  * delayed replications are not, all delayed field of the template "gabarit"
  * should be filled prior to this  
- */
+
+*/
    if (tmplt->flags & HAS_DELAYED_REPLICATION)
       {
-      bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, tmplt->tables ); 
+      if (bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, 
+               tmplt->tables ) < 0)
+         return -1;
       }
 /*
  * applying Table C
- */
+
+*/
    ddo = bufr_apply_Tables( NULL, bsq, tmplt, NULL, &errcode ); 
    bufr_free_BufrDDOp( ddo );
    pos = bufr_add_datasubset( dts, bsq, NULL );
@@ -271,6 +278,7 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
    {
@@ -291,13 +299,18 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
       {
       bufr_add_descriptor_to_sequence( bsq, pbcd[i] );
       }
-   bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, dts->tmplte->tables ); 
+   if (bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, 
+            dts->tmplte->tables ) < 0 )
+      {
+      bufr_free_sequence( bsq );
+      return -1;
+      }
    ddo = bufr_apply_Tables( NULL, bsq, dts->tmplte, NULL, &errcode ); 
    bufr_free_BufrDDOp( ddo );
 
    arr_free( &(dss->data) );
    dss->data = bufr_sequence_to_array( bsq, 1 );
-   if (dss->dpbm == NULL)
+   if (dss->dpbm != NULL)
       {
       bufr_free_BufrDPBM( dss->dpbm );
       dss->dpbm = NULL;
@@ -310,16 +323,16 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
    return bufr_datasubset_count_descriptor( dss );
    }
 
-/*
- * name: bufr_duplicate_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: makes a copy of the DataSubset 
- *
- * parametres:
- *
- *   dss  : pointer to a DataSubset to copy
+/**
+ * @english
+ * makes a copy of the DataSubset 
+ * @param  dss  : pointer to a DataSubset to copy
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 static DataSubset *bufr_duplicate_datasubset( DataSubset *dss )
    {
@@ -359,6 +372,7 @@ static DataSubset *bufr_duplicate_datasubset( DataSubset *dss )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_add_datasubset( BUFR_Dataset *dts, BUFR_Sequence *bsq, BufrDDOp *ddo )
    {
@@ -383,27 +397,28 @@ int bufr_add_datasubset( BUFR_Dataset *dts, BUFR_Sequence *bsq, BufrDDOp *ddo )
    return pos;
    }
 
-/*
- * name: bufr_fill_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: add a Datasubset to a dataset from a BUFR_Sequence,
- *           this sequence must share the same template as the Dataset
- *
- * parametres:
- *
- *    dts :  pointer to a BUFR_Dataset
- *    bsq :  pointer to a BUFR_Sequence to be add, once added, its memory management
- *           belongs to the dataset, it should not be freed from outside
+/**
+ * @english
+ * add a Datasubset to a dataset from a BUFR_Sequence,
+ * this sequence must share the same template as the Dataset
+ * @param   subset :  pointer to a BUFR_Dataset
+ * @param   bsq :  pointer to a BUFR_Sequence to be add, once added, its
+ *                 memory management belongs to the dataset, it should not be freed from outside
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 static void bufr_fill_datasubset( DataSubset *subset, BUFR_Sequence *bsq )
    {
    subset->data =  bufr_sequence_to_array( bsq, 1 );
-/* 
+/*
  * all items already transfered to datasubset array
  * so just free the list
- */
+
+*/
    lst_dellist( bsq->list );
    bsq->list = NULL;
    bufr_free_sequence( bsq );
@@ -425,6 +440,7 @@ static void bufr_fill_datasubset( DataSubset *subset, BUFR_Sequence *bsq )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 int bufr_count_datasubset( BUFR_Dataset *dts )
    {
@@ -450,6 +466,7 @@ int bufr_count_datasubset( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset descriptor
  */
 BufrDescriptor *bufr_datasubset_get_descriptor( DataSubset *dts, int pos )
    {
@@ -461,17 +478,17 @@ BufrDescriptor *bufr_datasubset_get_descriptor( DataSubset *dts, int pos )
    return (pcb ? *pcb : NULL);
    }
 
-/*
- * name: bufr_datasubset_next_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: return a pointer to a next unskipped BufrDescriptor located at the given position
- *
- * parametres:
- *      
- *    dts :  pointer to a DataSubset
- *    pos :  position from 0 to n-1
+/**
+ * @english
+ * @return a pointer to a next unskipped BufrDescriptor located at the given position
+ * @param   dts :  pointer to a DataSubset
+ * @param   pos :  position from 0 to n-1
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor dataset
  */
 BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
    {
@@ -500,22 +517,9 @@ BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
    return NULL;
    }
 
-/*
- * name: bufr_datasubset_count_descriptor
- *
- * author:  Vanh Souvanlasy
- *
- * function: return the number of BufrDescriptor inside a DataSubset
- *           each subset of a Dataset may have a different descriptors count
- *           if there are delayed replications of different count in each subset
- *
- * parametres:
- *      
- *    dts :  pointer to a DataSubset
- */
 /**
  * @english
- * return the number of BufrDescriptor inside a DataSubset.
+ * @return the number of BufrDescriptor inside a DataSubset.
  * Each subset of a Dataset may have a different descriptors count.
  * If there are delayed replications of different count in each subset.
  * For each data subset there will be a counter of the number of elements
@@ -528,6 +532,7 @@ BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset descriptor
  */
 int bufr_datasubset_count_descriptor ( DataSubset *dts )
    {
@@ -538,16 +543,16 @@ int bufr_datasubset_count_descriptor ( DataSubset *dts )
    return count;
    }
 
-/*
- * name: bufr_free_datasubsets
- *
- * author:  Vanh Souvanlasy
- *
- * function: free all DataSubset stored in a Dataset
- *
- * parametres:
- *      
- *    dts :  pointer to a BUFR_Dataset
+/**
+ * @english
+ * free all DataSubset stored in a Dataset
+ * @param   dts :  pointer to a BUFR_Dataset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 static void bufr_free_datasubsets( BUFR_Dataset *dts )
    {
@@ -561,16 +566,16 @@ static void bufr_free_datasubsets( BUFR_Dataset *dts )
       }
    }
 
-/*
- * name: bufr_empty_datasubsets
- *
- * author:  Vanh Souvanlasy
- *
- * function: free all DataSubset stored in a Dataset
- *
- * parametres:
- *      
- *    dts :  pointer to a BUFR_Dataset
+/**
+ * @english
+ * free all DataSubset stored in a Dataset
+ * @param   dts :  pointer to a BUFR_Dataset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 static void bufr_empty_datasubsets( BUFR_Dataset *dts )
    {
@@ -595,16 +600,16 @@ static void bufr_empty_datasubsets( BUFR_Dataset *dts )
       }
    }
 
-/*
- * name: bufr_free_datasubset
- *
- * author:  Vanh Souvanlasy
- *
- * function: free a DataSubset
- *
- * parametres:
- *      
- *    dts :  pointer to a DataSubset
+/**
+ * @english
+ * free a DataSubset
+ * @param  dts :  pointer to a DataSubset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 static void bufr_free_datasubset( DataSubset *subset )
    {
@@ -643,16 +648,6 @@ static void bufr_free_datasubset( DataSubset *subset )
    free( subset );
    }
 
-/*
- * name: bufr_encode_message
- *
- * author:  Vanh Souvanlasy
- *
- * function: encoding data of a Dataset and store it in a new BUFR_Message
- *
- * parametres:
- *      
- */
 /**
  * @english
  * Takes values defined within the dataset and applies the Table C defined
@@ -668,6 +663,7 @@ static void bufr_free_datasubset( DataSubset *subset )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup message encode
  */
 BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
    {
@@ -735,11 +731,13 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
       }
 /*
  * empty all
- */
+
+*/
    bufr_begin_message( msg );
 /*
  * construire la liste descripteurs de la section 3
- */
+
+*/
    nb_subsets = bufr_count_datasubset( dts );
    BUFR_SET_NB_DATASET(msg, nb_subsets);
 
@@ -755,7 +753,8 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
 
 /*
  * calculer la longueur maximum de la section4 (non-compressee)
- */
+
+*/
    blen = 0;
    nbits = 0;
    for (i = 0; i < nb_subsets ; i++)
@@ -777,7 +776,8 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
 
 /*
  * encoder les donnees de la section 4
- */
+
+*/
    if (!BUFR_IS_COMPRESSED(msg))  /* sans compress */
       {
       for (i = 0; i < nb_subsets ; i++)
@@ -799,9 +799,10 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
       }
    else 
       { 
-/* 
+/*
  * all datasubset must have the same descriptor values count for compression, checked above 
- */
+
+*/
       subset = bufr_get_datasubset( dts, 0 );
       count = bufr_datasubset_count_descriptor( subset );
       if (debug)
@@ -871,20 +872,19 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
    return msg;
    }
 
-/*
- * name: bufr_put_numeric_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store a numeric of every subset in a dataset with compression
- *
- * parametres:
- *
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   bcv : BurCode of the numeric to be stored
- *   j   : position of bcv within each subset.
- *      
+/**
+ * @english
+ * store a numeric of every subset in a dataset with compression
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  bcv : BurCode of the numeric to be stored
+ * @param  j   : position of bcv within each subset.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup message encode dataset internal
  */
 static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDescriptor *bcv, int j )
    {
@@ -903,7 +903,8 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
 
 /*
  * find 1st valid min and max , not missing
- */
+
+*/
    imin = imax = bufr_value2bits( bcv );
    for (i = 0; i < nb_subsets ; i++)
       {
@@ -971,18 +972,19 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
       }
    }
 
-/*
- * name: bufr_put_ieeefp_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store an ieeefp of every subset of a Dataset
- *
- * parametres:
- *      
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   j   : position of bcv within each subset.
+/**
+ * bufr_put_ieeefp_compressed
+ * @english
+ * store an ieeefp of every subset of a Dataset
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  j   : position of bcv within each subset.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, int j )
    {
@@ -1103,20 +1105,21 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
       }
    }
 
-/*
- * name: bufr_put_af_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store the associated field of a BufrDescriptor of every subset in a 
+/**
+ * bufr_put_af_compressed
+ * @english
+ * store the associated field of a BufrDescriptor of every subset in a 
  *           dataset with compression
- *
- * parametres:
- *      
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   bcv : BurCode of the numeric to be stored
- *   j   : position of bcv within each subset.
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  bcv : BurCode of the numeric to be stored
+ * @param  j   : position of bcv within each subset.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDescriptor *bcv, int j )
    {
@@ -1182,18 +1185,19 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
       }
    }
 
-/*
- * name: bufr_put_ccitt_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: store a string of all subset in a dataset with compression
- *
- * parametres:
- *
- *   msg : pointer to BUFR_Message where data are stored
- *   dts : pointer to BUFR_Dataset containing data to be stored
- *   j   : position of bcv within each subset.
+/**
+ * bufr_put_ccitt_compressed
+ * @english
+ * store a string of all subset in a dataset with compression
+ * @param  msg : pointer to BUFR_Message where data are stored
+ * @param  dts : pointer to BUFR_Dataset containing data to be stored
+ * @param  j   : position of bcv within each subset.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int j )
    {
@@ -1210,7 +1214,8 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
    debug = bufr_is_debug();
 /*
  * see if all string are the same
- */
+
+*/
    nb_subsets = bufr_count_datasubset( dts );
    subset = bufr_get_datasubset( dts, 0 );
    bcv = bufr_datasubset_get_descriptor( subset, j );
@@ -1229,7 +1234,8 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
 /*
  * compression of CCITT_IA5 increase by 1 element + 6
  * writing R0 REF VALUE, this or a blank 
- */
+
+*/
    subset = bufr_get_datasubset( dts, 0 );
    bcv = bufr_datasubset_get_descriptor( subset, j );
    strval = bufr_value_get_string( bcv->value, &blen );
@@ -1299,6 +1305,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset
  */
 DataSubset *bufr_get_datasubset( BUFR_Dataset *dts, int pos )
    {
@@ -1311,17 +1318,16 @@ DataSubset *bufr_get_datasubset( BUFR_Dataset *dts, int pos )
       return (DataSubset *)NULL;
    }
 
-/*
- * name: bufr_value2bits
- *
- * author:  Vanh Souvanlasy
- *
- * function: encode a numerical value into bits for storage into output bitsream
- *
- * parametres:
- *
- *   bd : pointer to BufrDescriptor containing value to encode
- * 
+/**
+ * @english
+ * encode a numerical value into bits for storage into output bitsream
+ * @param  bd : pointer to BufrDescriptor containing value to encode
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static uint64_t bufr_value2bits( BufrDescriptor *bd )
    {
@@ -1338,9 +1344,10 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
             if (bd->value->type == VALTYPE_INT32)
                {
                ival = bufr_value_get_int32( bd->value );
-/* 
+/*
  * FAILSAFE: INT type may have reference or scale 
- */
+
+*/
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
                   ival = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), (float)ival );
                }
@@ -1355,9 +1362,10 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
             if (bd->value->type == VALTYPE_INT64)
                {
                ival = bufr_value_get_int64( bd->value );
-/* 
+/*
  * FAILSAFE: INT type may have reference or scale 
- */
+
+*/
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
                   ival = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), (double)ival );
                }
@@ -1400,18 +1408,17 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
    return ival;
    }
 
-/*
- * name: bufr_put_desc_value
- *
- * author:  Vanh Souvanlasy
- *
- * function: store value of a BufrDescriptor into the Message bitstream
- *
- * parametres:
- *
- *    bufr  :  pointer to output Message 
- *    bd    :  pointer to descriptor container with value
- * 
+/**
+ * @english
+ * store value of a BufrDescriptor into the Message bitstream
+ * @param   bufr  :  pointer to output Message 
+ * @param   bd    :  pointer to descriptor container with value
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    {
@@ -1528,8 +1535,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                ival = bufr_value_get_int32( bd->value );
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
                   {
-/* FAILSAFE: INT type may have reference or scale */
-                  ival = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), (float)ival );
+                   ival = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), (float)ival );
                   }
                if (isdebug)
                   {
@@ -1661,6 +1667,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
  * 
  *    bufr  :  pointer to output Message 
  *    bd    :  pointer to descriptor container with value
+
  */
 static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    {
@@ -1697,10 +1704,18 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
       bd->value = bufr_mkval_for_descriptor( bd );
 /*
  * this bd has no value
- */
+
+*/
    if ( bd->value == NULL ) 
       {
       return 0;
+      }
+
+   if (isdebug)
+      {
+      sprintf( errmsg, "AFD: (%d bits) ", 
+            bd->encoding.af_nbits );
+      bufr_print_debug( errmsg );
       }
 
    if ((bd->encoding.af_nbits > 0)&&(bd->value->af != NULL))
@@ -1733,7 +1748,8 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             {
 /*
  * special case with 31000 that 1 in nbits=1 equal 1 not  -1
- */
+
+*/
             if ((bd->descriptor == 31000)&&(bd->encoding.nbits == 1))
                ival = 1;
             else
@@ -1743,9 +1759,10 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             {
             if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
                {
-/* 
+/*
  * FAILSAFE: INT type may have reference or scale 
- */
+
+*/
                ival = bufr_cvt_i32_to_fval( &(bd->encoding), ival );
                }
             bufr_value_set_int32( bd->value, ival );
@@ -1825,17 +1842,17 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    return 1;
    }
 
-/*
- * name: bufr_get_desc_ccittia5
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a string of a code from BUFR Message
- *
- * parametres:
- *      
- *    bufr  :  pointer to output Message 
- *    bd    :  pointer to descriptor container with value
+/**
+ * @english
+ * extract a string of a code from BUFR Message
+ * @param   bufr  :  pointer to output Message 
+ * @param   bd    :  pointer to descriptor container with value
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int bufr_get_desc_ccittia5( BUFR_Message *bufr, BufrDescriptor *bd )
    {
@@ -1856,17 +1873,17 @@ static int bufr_get_desc_ccittia5( BUFR_Message *bufr, BufrDescriptor *bd )
    return errcode;
    }
 
-/*
- * name: bufr_get_desc_ieeefp
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract an ieee fp value of a descriptor from BUFR Message
- *
- * parametres:
- *      
- *    bufr  :  pointer to output Message 
- *    bd    :  pointer to descriptor container of value
+/**
+ * @english
+ * extract an ieee fp value of a descriptor from BUFR Message
+ * @param   bufr  :  pointer to output Message 
+ * @param   bd    :  pointer to descriptor container of value
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
    {
@@ -1918,6 +1935,7 @@ static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup message decode
  */
 BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    {
@@ -1940,31 +1958,32 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    DataSubset     *subset;
    BufrDDOp       *ddo;
    int             errcode;
+   LinkedList     *tmplist;
 
    if (debug)
       bufr_print_debug( "### Converting BUFR Message into Dataset\n" );
 
    if (tables->master.version <= 13)
       {
-      if (msg->s1.master_table_version > tables->master.version )
+      if (msg->s1.master_table_version > tables->master.version)
          {
-         sprintf( errmsg, "Warning: master Table B version: %d less than message: %d\n", 
-               tables->master.version, msg->s1.master_table_version );
-         bufr_print_debug( errmsg );
-         }
-      else if (debug)
-         {
-         sprintf( errmsg, "Warning: master Table B version: %d compatible with message's: %d\n", 
-               tables->master.version, msg->s1.master_table_version );
-         bufr_print_debug( errmsg );
+         if (debug)
+            {
+            sprintf( errmsg, "Warning: master Table B version: %d less than message: %d\n", 
+                  tables->master.version, msg->s1.master_table_version );
+            bufr_print_debug( errmsg );
+            }
          }
       }
    else if ((msg->s1.master_table_version != tables->master.version )&&
             (msg->s1.master_table_version > 13))
       {
-      sprintf( errmsg, "Warning: master Table B version: %d differs message's: %d\n", 
-            tables->master.version, msg->s1.master_table_version );
-      bufr_print_debug( errmsg );
+      if (debug)
+         {
+         sprintf( errmsg, "Warning: master Table B version: %d differs message's: %d\n", 
+               tables->master.version, msg->s1.master_table_version );
+         bufr_print_debug( errmsg );
+         }
       }
 
    count = arr_count( msg->s3.desc_list );
@@ -1984,7 +2003,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       }
 /*
  * create a template using only codes from message section 3
- */
+
+*/
    template = bufr_create_template( codets, count, tables, msg->edition );
    if (template == NULL)
       {
@@ -2019,7 +2039,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    compressed = msg->s3.flag & BUFR_FLAG_COMPRESSED;
 /*
  * see how many datasubset are specified in section 3
- */
+
+*/
    nbsubset   = msg->s3.no_data_subsets;
 
    count = arr_count( dts->tmplte->gabarit );
@@ -2040,7 +2061,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          bufr_print_debug( "### Message is not compressed\n" );
 /*
  * loop as many times as specified to fill in all the datasubsets
- */
+
+*/
       for (j = 0; j < nbsubset ; j++ )
          {
          subset = bufr_allocate_datasubset();
@@ -2068,7 +2090,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                {
 /*
  * terminate the loop and bail out nicely
- */
+
+*/
                node = NULL;
                j = nbsubset;
                continue;
@@ -2097,7 +2120,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                      continue;
                      }
                   ival = bufr_descriptor_get_ivalue( cb31 );
-                  bsq2->list = bufr_expand_node_descriptor( bsq2->list, node, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  tmplist = bufr_expand_node_descriptor( bsq2->list, node, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  if (tmplist == NULL)
+                     {
+                     return NULL;
+                     }
+                  bsq2->list = tmplist;
                   node = lst_nextnode( node ); /* skip over class 31 code */
                   }
                }
@@ -2123,7 +2151,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          bufr_print_debug( "### Message is compressed\n" );
 /*
  * allocates all subsets
- */
+
+*/
       bseq = (BUFR_Sequence **)malloc ( nbsubset * sizeof(BUFR_Sequence *) );
       ddos = (BufrDDOp **)malloc ( nbsubset * sizeof(BufrDDOp *) );
       nodes = (ListNode **)malloc ( nbsubset * sizeof(ListNode *) );
@@ -2195,7 +2224,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             }
 /*
  * apply post value operations on BufrDescriptor
- */
+
+*/
          for ( i = 0; i < nbsubset ; i++ )
             {
             node2 = nodes[i];
@@ -2215,7 +2245,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                for (i = 0; i < nbsubset ; i++)
                   {
                   node2 = nodes[i]->prev;
-                  bseq[i]->list = bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  tmplist = bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &errcode );
+                  if (tmplist == NULL)
+                     {
+                     return NULL;
+                     }
+                  bseq[i]->list = tmplist;
                   ddos[i]->current = node2;
                   }
                }
@@ -2236,12 +2271,14 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          subset = bufr_get_datasubset( dts, i );
 /*
  * transfer ddo->dpbm to subset->dpbm
- */
+
+*/
          subset->dpbm = ddos[i]->dpbm;
          ddos[i]->dpbm = NULL;
-/* 
+/*
  * bseq[i] is freed by bufr_fill_datasubset 
- */
+
+*/
          bufr_reindex_sequence( bseq[i] );
          bufr_fill_datasubset( subset, bseq[i] ); 
          bseq[i] = NULL;
@@ -2271,21 +2308,20 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    return dts;
    }
 
-/*
- * name: bufr_get_ccitt_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a block of compressed string elements of all subsets of a message
- *
- * parametres:
- *
- *   cb    : pointer to BufrDescriptor
- *   bseq  : array of codelist of every subset
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   j        : position of the current code in the subset.
- *      
+/**
+ * @english
+ * extract a block of compressed string elements of all subsets of a message
+ * @param  cb    : pointer to BufrDescriptor
+ * @param  bseq  : array of codelist of every subset
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  j        : position of the current code in the subset.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int bufr_get_ccitt_compressed
    ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
@@ -2343,19 +2379,19 @@ static int bufr_get_ccitt_compressed
    return 1;
    }
 
-/*
- * name: bufr_get_ieeefp_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function:  extract a block of compressed values of ieee fp
- *
- * parametres:
- *      
- *   cb       : pointer to BufrDescriptor
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   nodes    : list of current node for eah subset
+/**
+ * @english
+ * extract a block of compressed values of ieee fp
+ * @param  cb       : pointer to BufrDescriptor
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  nodes    : list of current node for eah subset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int bufr_get_ieeefp_compressed
    ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
@@ -2412,20 +2448,20 @@ static int bufr_get_ieeefp_compressed
    return 1;
    }
 
-/*
- * name: bufr_get_numeric_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a block of compressed numeric
- *
- * parametres:
- *      
- *   cb    : pointer to BufrDescriptor
- *   bseq  : array of codelist of every subset
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   j        : position of the current code in the subset.
+/**
+ * @english
+ * extract a block of compressed numeric
+ * @param  cb    : pointer to BufrDescriptor
+ * @param  bseq  : array of codelist of every subset
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  j        : position of the current code in the subset.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static int bufr_get_numeric_compressed
    ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
@@ -2506,20 +2542,21 @@ static int bufr_get_numeric_compressed
    return 1;
    }
 
-/*
- * name: bufr_get_af_compressed
- *
- * author:  Vanh Souvanlasy
- *
- * function: extract a block of compressed associated fields
- *
- * parametres:
- *      
- *   cb    : pointer to BufrDescriptor
- *   bseq  : array of codelist of every subset
- *   nbsubset : number of subset in the message
- *   msg      : the Message containing bitstream data to decode
- *   j        : position of the current code in the subset.
+/**
+ * @english
+ * extract a block of compressed associated fields
+ * @param  cb    : pointer to BufrDescriptor
+ * @param  bseq  : array of codelist of every subset
+ * @param  nbsubset : number of subset in the message
+ * @param  msg      : the Message containing bitstream data to decode
+ * @param  j        : position of the current code in the subset.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor internal
+
  */
 static int bufr_get_af_compressed
    ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
@@ -2609,6 +2646,7 @@ static int bufr_get_af_compressed
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset encode
  */
 int  bufr_dataset_compressible( BUFR_Dataset *dts )
    {
@@ -2624,14 +2662,16 @@ int  bufr_dataset_compressible( BUFR_Dataset *dts )
 
 /*
  * no need to compress with 1 single subset
- */
+
+*/
    nb_subsets = bufr_count_datasubset( dts );
    if (nb_subsets <= 1) return 0;
 
 /*
  * data with delayed replication is compressible only when
  * all replication number are identical
- */
+
+*/
    subsetref = bufr_get_datasubset( dts, 0 );
    count = bufr_datasubset_count_descriptor( subsetref );
    for (i = 1; i < nb_subsets ; i++)
@@ -2640,12 +2680,14 @@ int  bufr_dataset_compressible( BUFR_Dataset *dts )
 /*
  * first indication that delayed replication count are not the same
  * make sure all datasubsets have the same code values count, 
- */
+
+*/
       if (count != bufr_datasubset_count_descriptor( subset ))
          return 0;
 /*
  * the above test should be enough, will skip the following test is slowing down very large dataset
- */
+
+*/
 #if 0
       for (j = 0; j < count ; j++ )
          {
@@ -2705,6 +2747,7 @@ int  bufr_dataset_compressible( BUFR_Dataset *dts )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup encode dataset
  */
 int bufr_merge_dataset ( BUFR_Dataset *dest, int dest_pos, BUFR_Dataset *src,  int src_pos, int nb )
    {
@@ -2773,11 +2816,13 @@ int bufr_merge_dataset ( BUFR_Dataset *dest, int dest_pos, BUFR_Dataset *src,  i
  * @endfrancais
  * @deprecated by bufr_read_dataset_dump
  * @author Vanh Souvanlasy
+ * @ingroup io encode dataset
  */
 int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
    {
    FILE          *fp;
    char           errmsg[256];
+   int            status;
 
    if (infile == NULL) return -1;
 
@@ -2790,10 +2835,13 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
       }
 
    if (bufr_load_header( fp, dts ) > 0)
-      bufr_load_datasubsets( fp, dts );
+      status = bufr_load_datasubsets( fp, dts );
 
    fclose ( fp ) ;
-   return bufr_count_datasubset( dts );
+   if (status >= 0)
+      return bufr_count_datasubset( dts );
+   else
+      return status;
    }
 
 /**
@@ -2815,6 +2863,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io encode dataset
  */
 int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
    {
@@ -2827,19 +2876,18 @@ int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
    return status;
    }
 
-/*
- * name: bufr_load_datasubsets
- *
- * author:  Vanh Souvanlasy
- *
- * function: load data stored in a file into a Dataset
- *
- * parametres:
- *
- *    fp       :  file pointer containing data to load
- *    dts      :  destination Dataset
- *    ligne    :  string buffer for reading a line of string from the file
- *      
+/**
+ * @english
+ * load data stored in a file into a Dataset
+ * @param   fp       :  file pointer containing data to load
+ * @param   dts      :  destination Dataset
+ * @param   ligne    :  string buffer for reading a line of string from the file
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup io dataset internal
  */
 static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
    {
@@ -2862,7 +2910,10 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
    int            f, x, y;
    int            i, len;
    int            errcode;
+   LinkedList    *tmplist;
+   int            debug;
 
+   debug = bufr_is_debug();
    count = arr_count( dts->tmplte->gabarit );
    bsq = bufr_create_sequence(NULL);
    pbcd = (BufrDescriptor **)arr_get( dts->tmplte->gabarit, 0 );
@@ -2921,8 +2972,14 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
       if (tok == NULL) continue;
       icode = atoi(tok);
 
+      if (debug)
+         {
+         sprintf( errmsg, "*** Input for: %d\n", icode );
+         bufr_print_debug( errmsg );
+         }
+
       while ( node )
-      	 {
+      	{
          cb = (BufrDescriptor *)node->data;
          if ((icode != cb->descriptor)&&(cb->flags & FLAG_SKIPPED))
             node = lst_nextnode( node );
@@ -2943,7 +3000,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          }
       if (icode != cb->descriptor)
          {
-         sprintf( errmsg, "Error: data codes %d mismatch with template code %d\n", 
+         sprintf( errmsg, "Error: data descriptor %d mismatch with template %d\n", 
                   icode, cb->descriptor );
          bufr_print_debug( errmsg );
          return -1;
@@ -2956,10 +3013,68 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
 
       if (cb->value == NULL)
          cb->value = bufr_mkval_for_descriptor( cb );
+/*
+ * remove spaces
+ */
+      len = strlen( ptr );
+      i = len-1;
+      while (isspace(ptr[i]) && (i >= 0)) 
+         {
+         ptr[i--] = '\0';
+         }
 
       i = 0;
       len = strlen( ptr );
       while (isspace(ptr[i]) && (i < len)) ++i;
+
+      if (ptr[i] == '{')  /* Skip Meta Info */
+         {
+         int j = len-1;
+         if (debug)
+            {
+            sprintf( errmsg, "   *** skipping comment: '%s'", ptr );
+            bufr_print_debug( errmsg );
+            }
+         while ((ptr[j] != '}') && (j >= i)) --j;
+         i = j;
+         ptr = ptr+i+1;
+
+         i = 0;
+         len = strlen( ptr );
+         while (isspace(ptr[i]) && (i < len)) ++i;
+
+         if (debug)
+            {
+            sprintf( errmsg, "-> '%s'\n", ptr+i );
+            bufr_print_debug( errmsg );
+            }
+         }
+
+      if (ptr[i] == '(')  /* AF bits */
+         {
+         uint64_t  afbits;
+         int j;
+
+         tok = strtok_r( NULL, " \t\n\r():", &ptr );
+         sscanf( tok, "%llx", &afbits );
+         if (debug)
+            {
+            sprintf( errmsg, "   *** has AF: %s -> %llx\n", tok, afbits );
+            bufr_print_debug( errmsg );
+            }
+         cb->value->af->bits = afbits;
+         len = strlen( ptr );
+         while ((ptr[i] != ')') && (i < len)) ++i;
+         if (ptr[i] == ')') i += 1;
+         while (isspace(ptr[i]) && (i < len)) ++i;
+
+         if (debug)
+            {
+            sprintf( errmsg, "   *** found value: '%s'\n", ptr+i );
+            bufr_print_debug( errmsg );
+            }
+         }
+
       if (ptr[i] == '"') /* QUOTED STRING */
          {
          ptr = ptr+i+1; 
@@ -2974,26 +3089,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                }
             }
          }
-      else if (ptr[i] == '(')  /* AF bits */
-         {
-         uint64_t  afbits;
-
-         tok = strtok_r( NULL, " \t\n\r():", &ptr );
-         sscanf( tok, "%llx", &afbits );
-         cb->value->af->bits = afbits;
-         tok = strtok_r( NULL, " \t\n\r():", &ptr ); /* skip comment nbits */
-         tok = strtok_r( NULL, " \t\n\r,=", &ptr );
-         }
-      else if (ptr[i] == '{')  /* Skip Meta Info */
-         {
-         int j = len-1;
-         while ((ptr[j] != '}') && (j >= i)) --j;
-         i = j;
-         ptr = ptr+i+1;
-         tok = strtok_r( NULL, " \t\n\r", &ptr );
-         }
       else
+         {
+         ptr = ptr+i; 
          tok = strtok_r( NULL, " \t\n\r,=", &ptr );
+         }
 
       if (tok == NULL) 
          {
@@ -3006,7 +3106,27 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          switch( cb->value->type )
             {
             case VALTYPE_STRING :
-               bufr_descriptor_set_svalue( cb, tok );
+               if (strcmp( tok, "MSNG" ) != 0)
+                  {
+                  bufr_descriptor_set_svalue( cb, tok );
+                  }
+               else
+                  {
+                  int len=cb->encoding.nbits/8;
+                  char *tmpbuf;
+
+                  tmpbuf = (char *)malloc( (len+1)*sizeof(char) );
+                  bufr_missing_string( tmpbuf, len );
+                  bufr_descriptor_set_svalue( cb, tmpbuf );
+                  free( tmpbuf );
+                  }
+               if (debug)
+                  {
+                  int l;
+                  sprintf( errmsg, "   *** has value: '%s' -> '%s'\n", 
+                        tok, bufr_descriptor_get_svalue( cb, &l ) );
+                  bufr_print_debug( errmsg );
+                  }
                break;
             case VALTYPE_INT32 :
                if (strcmp( tok, "MSNG" ) != 0)
@@ -3019,6 +3139,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                else
                   ival32 = -1;
                bufr_descriptor_set_ivalue( cb, ival32 );
+               if (debug)
+                  {
+                  sprintf( errmsg, "   *** has value: %s -> %d\n", tok, ival32 );
+                  bufr_print_debug( errmsg );
+                  }
                break;
             case VALTYPE_FLT64  :
                if (strcmp( tok, "MSNG" ) != 0)
@@ -3026,6 +3151,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                   dval = strtof( tok, NULL );
                   if (!bufr_is_missing_double( dval ))
                      bufr_descriptor_set_dvalue( cb, dval );
+                  if (debug)
+                     {
+                     sprintf( errmsg, "   *** has value: %s -> %f\n", tok, dval );
+                     bufr_print_debug( errmsg );
+                     }
                   }
                break;
             case VALTYPE_FLT32  :
@@ -3034,6 +3164,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                   fval = strtof( tok, NULL );
                   if (!bufr_is_missing_float( fval ))
                      bufr_descriptor_set_fvalue( cb, fval );
+                  if (debug)
+                     {
+                     sprintf( errmsg, "   *** has value: %s -> %f\n", tok, fval );
+                     bufr_print_debug( errmsg );
+                     }
                   }
                break;
             default :
@@ -3047,8 +3182,13 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          BufrDescriptor  *cb2;
          int errcode;
 
-         bsq2->list = bufr_expand_node_descriptor( bsq2->list, lst_prevnode( node ), 
+         tmplist = bufr_expand_node_descriptor( bsq2->list, lst_prevnode( node ), 
                OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tbls, &errcode );
+         if (tmplist == NULL)
+            {
+            return -1;
+            }
+         bsq2->list = tmplist;
 
          nnode = lst_nextnode( node );
          }
@@ -3078,19 +3218,18 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
       return 0;
    }
 
-/*
- * name: bufr_load_header
- *
- * author:  Vanh Souvanlasy
- *
- * function: load the header part of the data stored in a file into a Dataset
- *
- * parametres:
- *
- *    fp       :  file pointer containing data to load
- *    dts      :  destination Dataset
- *    ligne    :  string buffer for reading a line of string from the file
- *      
+/**
+ * @english
+ * load the header part of the data stored in a file into a Dataset
+ * @param   fp       :  file pointer containing data to load
+ * @param   dts      :  destination Dataset
+ * @param   ligne    :  string buffer for reading a line of string from the file
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup io dataset internal
  */
 static int bufr_load_header( FILE *fp, BUFR_Dataset *dts )
    {
@@ -3273,6 +3412,7 @@ static int bufr_load_header( FILE *fp, BUFR_Dataset *dts )
  * @endfrancais
  * @deprecated by bufr_fdump_dataset
  * @author Vanh Souvanlasy
+ * @ingroup io decode dataset
  */
 int bufr_dump_dataset( BUFR_Dataset *dts, const char *filename )
    {
@@ -3304,6 +3444,7 @@ int bufr_dump_dataset( BUFR_Dataset *dts, const char *filename )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io decode dataset
  */
 int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
    {
@@ -3311,7 +3452,7 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
    int            sscount, cvcount;
    int            i, j;
    BufrDescriptor      *bcv;
-   char           buf[256];
+   char           buf[2048];
    int            compressed;
 
    fprintf( fp, "BUFR_EDITION=%d\n", dts->tmplte->edition );
@@ -3370,6 +3511,12 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
 
             if (bcv->value)
                {
+               if (bcv->value->af)
+                  {
+                  bufr_print_af( buf, bcv->value->af );
+                  fprintf( fp, "%s", buf );
+                  }
+
                if (bufr_print_dscptr_value( buf, bcv ))
                   fprintf( fp, "%s", buf );
                }
@@ -3381,17 +3528,17 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
    return sscount;
    }
 
-/*
- * name: bufr_create_dataset_from_sequence
- *
- * author:  Vanh Souvanlasy
- *
- * function: instantiate a BUFR_Dataset object
+/**
+ * @english
+ * instantiate a BUFR_Dataset object
  *           from a BUFR_Sequence
- *
- * parametres:  
- *     tmplt  :  pointer to a BUFR_Template
- *      
+ * @param    tmplt  :  pointer to a BUFR_Template
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup template dataset
  */
 BUFR_Dataset *bufr_create_dataset_from_sequence 
    ( BUFR_Sequence *cl, BUFR_Tables *tbls, int edition )
@@ -3466,19 +3613,7 @@ BUFR_Dataset *bufr_create_dataset_from_sequence
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- */
-/*
- * name: bufr_genmsgs_from_dump
- *
- * author:  Vanh Souvanlasy
- *
- * function: convert bufr messages stored in a dump text file into BUFR format file
- *
- * parametres:
- *
- *    infile   :  filename containing data to load, the data should match
- *                the template
- *      
+ * @ingroup io template encode
  */
 int bufr_genmsgs_from_dump
    ( BUFR_Template *tmplt, const char *infile, const char *outfile, int do_compress )

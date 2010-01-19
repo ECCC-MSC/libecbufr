@@ -29,19 +29,21 @@ This file is part of libECBUFR.
 static int bufr_zip_sect3(BUFR_Tables *tbls, BUFR_Message *bufr );
 static int bufr_tdzip_sect3(BUFR_Tables *, int *zdesc, int *desc, int descnt );
 
-/*
- * nom: bufr_write_datablks
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: ecrire dans un fichier DATA les donnees d'une station
- *
- * parametres:  
- *        fp   : pointeur du fichier DATA
- *        bufr : structure de donnees d'un message DATA
- *        blks : les blocs de donnees a ecrire
- *        nblk : le nombre de blocs
- *        x_compress : s'il faut compresser les donnees
+/**
+ * @english
+ * @todo translate to English
+ * @endenglish
+ * @francais
+ * @param       fp   : pointeur du fichier DATA
+ * @param       bufr : structure de donnees d'un message DATA
+ * @param       blks : les blocs de donnees a ecrire
+ * @param       nblk : le nombre de blocs
+ * @param       x_compress : s'il faut compresser les donnees
+ * ecrire dans un fichier DATA les donnees d'une station
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @warning for local use, for converting BURP to BUFR
+ * @ingroup io message internal
  */
 int bufr_write_datablks
 (FILE *fp, BUFR_Message *bufr, DATA_BLK **blks, int nblk, int x_compress, BUFR_Tables *tbls )
@@ -66,8 +68,9 @@ int bufr_write_datablks
 
 /*
  * on accepte de malanger les blocs nt=1 avec d'autres
- */
-/* trouve 1er NT > 1 */
+
+*/
+/*
    blk = blks[0];
    nt = DATA_NT(blk);
    for ( k = 1 ; k < nblk ; k++ ) 
@@ -90,7 +93,8 @@ int bufr_write_datablks
 
 /*
  * faire la compression seulement pour les series temporelles
- */
+
+*/
    if (nt == 1) x_compress = 0;
 
    if (x_compress)
@@ -109,7 +113,8 @@ int bufr_write_datablks
 
 /*
  * construire la liste descripteurs de la section 3
- */
+
+*/
    desc_list = (EntryTableBArray)arr_create( 300, sizeof(EntryTableB), 100 );
    BUFR_SET_NB_DATASET(bufr, nt);
 
@@ -120,7 +125,8 @@ int bufr_write_datablks
       blk = blks[k];
 /*
  * NELE are repeated NVAL times, delayed replication are not supported
- */
+
+*/
       e.descriptor = FXY_TO_DESC(1,DATA_NELE(blk),DATA_NVAL(blk));
       klen = 0;
       arr_add( desc_list, (char *)&e ); 
@@ -147,7 +153,8 @@ int bufr_write_datablks
 /*
  * calculer la longueur maximum de la section4, 
  * en tenant compte de la compression de la pire cas
- */
+
+*/
    blen = ((blen * (bufr->s3.no_data_subsets+1))+nbinc+7)/8;
    bufr_alloc_sect4( bufr, blen );
 
@@ -172,7 +179,8 @@ int bufr_write_datablks
       } else {
 /*
  * mode compression
- */
+
+*/
       for ( k = 0 ; k < nblk ; k++ ) 
          {
          blk = blks[k];
@@ -213,17 +221,17 @@ int bufr_write_datablks
    return 0;
    }
 
-/*
- * nom: bufr_cvt_blk
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: convertir les valeurs de pt. floatant en entier en utilisant
- *           les tables B chargees localement
- *
- * parametres:  
- *        blk      : bloc de donnees
- *
+/**
+ * @english
+ * @todo translate to English
+ * @endenglish
+ * @francais
+ * convertir les valeurs de pt. floatant en entier en utilisant
+ * @param       blk      : bloc de donnees
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @warning for local use, for converting BURP to BUFR
+ * @ingroup io message internal
  */
 void bufr_cvt_blk( DATA_BLK *blk, BUFR_Tables *tbls )
    {
@@ -341,9 +349,6 @@ int  bufr_add_dlste( int  code, DATA_BLK *blk )
 void bufr_allocdata( DATA_BLK *blk, int  nele, int nval, int nt )
    {
    int max_len, len;
-/*
-** liberer l'espace memoire de ces elements s'il ne sont pas deja faits
-*/
    DATA_SetNELE(blk, nele );
    DATA_SetNVAL(blk, nval );
    DATA_SetNT(blk, nt );
@@ -584,6 +589,7 @@ int  bufr_searchdlste( int  code, DATA_BLK *blk )
  *
  * parametres: 
  *      bufr : la structure de donnees BUFR
+
  */
 static int bufr_zip_sect3(BUFR_Tables *tbls, BUFR_Message *bufr )
    {
@@ -629,17 +635,19 @@ static int bufr_zip_sect3(BUFR_Tables *tbls, BUFR_Message *bufr )
    return zcnt;
    }
 
-/*
- * nom: bufr_tdzip_sect3
- *
- * auteur:  Vanh Souvanlasy
- *
- * fonction: faire 1 passe de compress avec une table D
- *
- * parametres: 
- *      zdesc  : descripteurs compresses
- *      desc   : descripteurs en entree
- *      descnt : nombre de descripteurs
+/**
+ * @english
+ * @todo translate to English
+ * @endenglish
+ * @francais
+ * faire 1 passe de compress avec une table D
+ * @param     zdesc  : descripteurs compresses
+ * @param     desc   : descripteurs en entree
+ * @param     descnt : nombre de descripteurs
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @deprecated by bufr_tabled_match_sequence
+ * @ingroup io message internal
  */
 static int bufr_tdzip_sect3(BUFR_Tables *tbls, int *zdesc, int *desc, int descnt )
    {

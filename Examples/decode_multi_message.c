@@ -2,6 +2,13 @@
 @example decode_multi_message.c
 @english
 Multiple BUFR messages in a file where one dataset equals one message
+
+@verbatim
+BUFR_TABLES=../Tables/ ./decode_multi_message ../Test/BUFR/iusd40_okli.bufr 
+@endverbatim
+
+This generates multiple OUTPUT-n.TXT files, each file for a separate BUFR message as found in
+Test/BUFR/iusd40_okli.bufr.
 @endenglish
 @francais
 @todo decode_multi_message.c description should be translated

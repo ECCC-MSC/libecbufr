@@ -1,0 +1,45 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+export LC_ALL=C
+
+
+export PKGDIR=`pwd`
+
+build:
+	dh_testdir
+	dh_testroot
+	libtoolize --force
+	rm -f configure
+	autoreconf --force --install
+	./configure
+	make
+
+# Build architecture-dependent files here.
+binary-arch:
+# We have nothing to do by default.
+
+# Build architecture-independent files here.
+binary-indep: install
+	dh_testdir
+	dh_testroot
+	dh_installdirs
+	dh_install
+	dh_link
+	make DESTDIR=$(PKGDIR)/debian/libecbufr install
+	dh_installinfo
+	dh_compress
+	install -d debian/libecbufr/DEBIAN
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_fixperms
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install
+
+clean:
+	dh_testdir
+	dh_clean

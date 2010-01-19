@@ -138,7 +138,10 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                   int   len;
 
                   char *str = bufr_descriptor_get_svalue( bcv, &len );
-                  sprintf( buf, "VALUE=%s", str );
+                  if (str && !bufr_is_missing_string( str, len ) )
+                     sprintf( buf, "VALUE=%s", str );
+                  else
+                     strcpy( buf, "VALUE=MSNG" );
                   bufr_print_output( buf );
                   }
 					}
@@ -173,6 +176,7 @@ int main(int argc, char *argv[])
    tables = bufr_create_tables();
    bufr_load_cmc_tables( tables );  
    bufr_load_l_tableB( tables, "./local_table_b" );
+   bufr_load_l_tableD( tables, "./local_table_d" );
 
 	bufr_set_abort( my_abort );
 	bufr_set_debug_file( "test_mem.DEBUG" );

@@ -450,8 +450,8 @@ static void make_test_dataset( BUFR_Dataset *dts )
 
          if (bdv->flags & FLAG_CLASS31)
             {
-            bufr_expand_datasubset( dts, i );
-            cvcount = bufr_datasubset_count_descriptor( subset );
+            if (bufr_expand_datasubset( dts, i ) >= 0)
+               cvcount = bufr_datasubset_count_descriptor( subset );
             }
 
          if (verbose)

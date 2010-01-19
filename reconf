@@ -13,7 +13,7 @@ libtoolize --force
 #
 echo "*** Running autoreconf"
 rm -f configure
-autoreconf --force
+autoreconf --force --install
 if [ -f configure ]; then
    echo "*** Done. You may now run configure"
 fi

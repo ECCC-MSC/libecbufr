@@ -1,3 +1,5 @@
+See https://bugs.launchpad.net/libecbufr for most up-to-date task list.
+
 1) implement Table C  222000  see file bfr_stw.dat
 
 2) Implementation of Table C operators of BUFR edition 3 and 4
@@ -11,3 +13,5 @@
 6) Add function   BUFR_Tables *bufr_find_best_tables( BUFR_Message *msg );
 
 7) Unit Testing (Regression, Tests Suite)
+
+8) Packaging (https://bugs.launchpad.net/libecbufr/+bug/389142)

@@ -2,6 +2,11 @@
 @example decode_net.c
 @english
 Repeat example 2 decoding BUFR message using sockets
+
+@verbatim
+nc -l -p 1234 -c 'cat ../Test/BUFR/iusd40_okli.bufr' &
+BUFR_TABLES=../Tables ./decode_net
+@endverbatim
 @endenglish
 @francais
 @todo decode_net.c description should be translated
@@ -77,7 +82,7 @@ int main(int argc, char *argv[])
  * substitute with valid port number and hostname 
  */
    addr.sin_port = htons(1234); 
-   if (host = gethostbyname( "MYHOSTNAME" ))
+   if (host = gethostbyname( "localhost" ))
       {
       memcpy(&(addr.sin_addr), host->h_addr, host->h_length);
       }

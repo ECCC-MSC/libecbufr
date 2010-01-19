@@ -39,6 +39,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup internal
  */
 char *strimdup ( char *dest, const char *src, int maxlen )
    {
@@ -81,6 +82,7 @@ char *strimdup ( char *dest, const char *src, int maxlen )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup internal
  */
 void append_char_to_string
    ( char **str, int *size, int *pos, unsigned char c )
@@ -112,6 +114,7 @@ void append_char_to_string
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup internal
  */
 char *str_oct2char( char *str0, int *len )
    {
@@ -167,6 +170,7 @@ char *str_oct2char( char *str0, int *len )
  * @todo translate to French
  * @endfrancais
  * @author  Vanh Souvanlasy
+ * @ingroup internal
  */
 char *str_schar2oct( char *str, int *len, int *bsize )
    {

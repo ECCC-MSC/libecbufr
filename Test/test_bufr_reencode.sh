@@ -22,16 +22,18 @@ do
 	# worry. We're assuming that the sample was already run past the
 	# decoder test.
 	${DECODER} -inbufr $i -dump -output ${TMPDUMP} -otemplate ${TMPTMPL} \
-		-ltableb ./local_table_b >/dev/null 2>&1
+		-ltableb ./local_table_b -ltabled ./local_table_d >/dev/null 2>&1
 	if [ -s ${TMPDUMP} ] && [ -s ${TMPTMPL} ]; then
 		echo "decoded ... "
 		${ENCODER} -template ${TMPTMPL} -outbufr ${TMPBUFR} -nolocal \
-			-ltableb ./local_table_b -datafile ${TMPDUMP} >/dev/null 2>&1
+			-ltableb ./local_table_b -ltabled ./local_table_d \
+         -datafile ${TMPDUMP} >/dev/null 2>&1
 		if [ -s ${TMPBUFR} ]; then
 			echo -n "       encoded ${TMPBUFR} ... "
 			rm ${TMPTMPL} ${TMPDUMP}
 
-			${DECODER} -inbufr $i -ltableb ./local_table_b > ${TMPOUT} 2>&1
+			${DECODER} -inbufr $i -ltableb ./local_table_b \
+               -ltabled ./local_table_d > ${TMPOUT} 2>&1
 			if [ -s ${TMPOUT} ]; then
 				echo "decoded"
 				rm ${TMPBUFR} ${TMPOUT}

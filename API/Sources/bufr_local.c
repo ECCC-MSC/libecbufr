@@ -39,29 +39,26 @@ This file is part of libECBUFR.
 #include "private/bufr_util.h"
 
 static int             *bufr_sequence_2intarr  ( BUFR_Sequence *bsq, int *len );
-static EntryTableBArray bufr_sequence_2TBarray ( BUFR_Sequence *codes, BUFR_Tables *tbls );
+static EntryTableBArray bufr_sequence_2TBarray ( BUFR_Sequence *sequence, BUFR_Tables *tbls );
 static void             fill_line              ( char *line, int len, char *str, int slen );
 static void             split_lines            ( char *line1,int ,char *line2,int ,char *str,int );
 
 /**
  * @english
- *    bufr_store_tables( fpBufr, dts )
- *    (FILE *fpBufr, BUFR_Dataset *dts)
- * This call stores local table updates used in the dataset into a file. To
- * be discussed. Data is written to file pointed to by “fpBufr”. If no
- * local table is defined in the dataset, then it will return a zero and
- * nothing will happen. If it stores a file, it will return the number of
- * elements defined in the local table B and D.
+ * This call stores local table updates used in the dataset into a file
+ * (a BUFR message, actually).
+ * If no local table is defined in the dataset, no message is written.
  * @warning Need to discuss these Expert functions as a group.
  * @warning Not thread-safe
  * @param fp   a file pointer of output BUFR file
  * @param dts  pointer to a BUFR_Dataset containing local tables (if any)
- * @return int
+ * @return number of elements written from local table B and D (may be zero)
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup io tables advanced
  */
 int bufr_store_tables
 ( FILE *fp, BUFR_Dataset *dts )
@@ -125,11 +122,11 @@ int bufr_store_tables
 
    cat_desc = tbls->data_cat_desc;
    category = tbls->data_cat;
-/* 
+/*
  * BUFR tables, complete replacement or update 
  */
    BUFR_SET_MSGDTYPE( bufr, MSGDTYPE_TABLES_REPLACE_UPDATE );  
-/* 
+/*
  * other data, non-compressed 
  */
    BUFR_SET_UNCOMPRESSED( bufr );
@@ -162,7 +159,8 @@ int bufr_store_tables
       arr_add( desc_list, (char *)&descriptor );
 /*
  * inscrire la categorie des donnees de cette table
- */
+
+*/
       if ( category < 0 ) category = - category;
       category = category % 256;
       sprintf( line1, "%.3d", category );
@@ -181,6 +179,13 @@ int bufr_store_tables
       descriptor = 300004;
       arr_add( desc_list, (char *)&descriptor );
       sequence = bufr_expand_descriptor( descriptor, OP_RM_XPNDBL_DESC, tbls );
+      if (sequence == NULL)
+         {
+         sprintf( errmsg, "Error expanding descriptor: %d\n", descriptor );
+         bufr_print_debug( errmsg );
+         return -1;
+         }
+
       clist = bufr_sequence_2TBarray( sequence, tbls );
       if (debug)
          {
@@ -191,7 +196,8 @@ int bufr_store_tables
 
 /*
  * la sequence de la table D est optionnel
- */
+
+*/
    if (dcount > 0) 
       {
       descriptor = FXY_TO_DESC(1,1,dcount);
@@ -208,7 +214,8 @@ int bufr_store_tables
 
 /*
  * ecrire les valeurs de la table B
- */
+
+*/
    if (tcount > 0) 
       {
       EntryTableB **ptr = (EntryTableB **)arr_get( clist, 0 );
@@ -251,7 +258,8 @@ int bufr_store_tables
       }
 /*
  * ecrire les valeurs de la table D
- */
+
+*/
    if (dcount > 0) 
       {
       EntryTableD **ptr;
@@ -291,21 +299,23 @@ int bufr_store_tables
  * This call extracts table information (usually local table elements) and
  * then returns a BUFR tables object. A message read can contain local
  * table updates. The extracted tables are stored in the BUFR table objects
- * as local table objects (“tbls” which contains master table space and
+ * as local table objects (tbls which contains master table space and
  * local table space). Local table space may be saved and merged (see
  * bufr_merge_tables) where this is not true of master table space.
  * @warning We need to review whether this is a good practice or not.
  * Examples have been noted by Jose Garcia (using a local table dictionary
- * on the side) – countries may be sending local data with their messages
- * and including the means to decode the local elements contained –
- * originating centre AFJY – 775 – satellite data (look up).
+ * on the side); countries may be sending local data with their messages
+ * and including the means to decode the local elements contained -
+ * originating centre AFJY 775 satellite data (look up).
  * @param dts pointer to Dataset
- * @return BUFR_Table
+ * @return BUFR_Table, or NULL on failure or if the message doesn't contain
+ any tables.
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset tables advanced
  */
 BUFR_Tables *bufr_extract_tables( BUFR_Dataset *dts )
    {
@@ -524,12 +534,13 @@ BUFR_Tables *bufr_extract_tables( BUFR_Dataset *dts )
  * both. This is used in order to make a decision as to whether Tables can
  * be extracted to help decoding subsequent messages.
  * @param dts pointer to a DataSet
- * @return int - This call returns a flag with values TRUE(1) or FALSE(0).
+ * @return zero if the dataset contains no BUFR table updates
  * @endenglish
  * @francais
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup dataset tables advanced
  */
 int bufr_contains_tables( BUFR_Dataset *dts )
    {
@@ -537,18 +548,20 @@ int bufr_contains_tables( BUFR_Dataset *dts )
    }
 
 
-/*
- * name: fill_lines
- *
- * author:  Vanh Souvanlasy
- *
- * function: copy a string into a fixed length line and fill with blank 
- *
- * parametres: 
- *      line  : line of string to fill
- *      len   : maxlength of line
- *      str   : string to copy
- *      slen  : length of string
+/**
+ * @english
+ * copy a string into a fixed length line and fill with blank 
+ * @param     line  : line of string to fill
+ * @param     len   : maxlength of line
+ * @param     str   : string to copy
+ * @param     slen  : length of string
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+
  */
 static void fill_line(char *line, int len, char *str, int slen)
    {
@@ -563,20 +576,21 @@ static void fill_line(char *line, int len, char *str, int slen)
       }
    }
 
-/*
- * name: split_lines
- *
- * author:  Vanh Souvanlasy
- *
- * function: cut a string into 2 lines and fill remaining with blank
- *
- * parametres: 
- *      line1 : string line 1
- *      len1  : length of line1
- *      line2 : string line 2
- *      len2  : length of line2
- *      str   : source string to split
- *      len   : length of str
+/**
+ * @english
+ * cut a string into 2 lines and fill remaining with blank
+ * @param     line1 : string line 1
+ * @param     len1  : length of line1
+ * @param     line2 : string line 2
+ * @param     len2  : length of line2
+ * @param     str   : source string to split
+ * @param     len   : length of str
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 static void split_lines
 (char *line1, int len1, char *line2, int len2, char *str, int len)
@@ -600,17 +614,21 @@ static void split_lines
       }
    }
 
-/*
- * name: bufr_sequence_2TBarray
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
+/**
+ * @english
+ * Convert a sequence of BUFR descriptors to an array of EntryTableBArray
+ * @param sequence BUFR descriptors to convert
+ * @param tbls BUFR tables needed to lookup meta-data
+ * @return EntryTableBArray containing Table B entries for the sequence
+ * @warn arr_free must be called on the resulting array to cleanup.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
-static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Tables *tbls )
+static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *sequence, BUFR_Tables *tbls )
    {
    EntryTableBArray arr;
    int   count;
@@ -618,11 +636,11 @@ static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Table
    ListNode  *node;
    BufrDescriptor  *cb;
 
-   if (codes == NULL) return NULL;
-   count = lst_count( codes->list );
+   if (sequence == NULL) return NULL;
+   count = lst_count( sequence->list );
    arr = (EntryTableBArray)arr_create( count, sizeof(EntryTableB *), 100 );
 
-   node = lst_firstnode( codes->list );
+   node = lst_firstnode( sequence->list );
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
@@ -642,15 +660,21 @@ static EntryTableBArray bufr_sequence_2TBarray( BUFR_Sequence *codes, BUFR_Table
    return arr;
    }
 
-/*
- * name: bufr_sequence_2intarr
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
- *      
+/**
+ * @english
+ * Convert a sequence of BUFR descriptors to an array of integers, returning
+ * the length.
+ * @param bsq BUFR descriptor sequence to convert
+ * @param len pointer to place to store the number of descriptors
+ * @return point to array of ints, or NULL on failure
+ * @warn return must be freed be caller, using free()
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ * @bug unchecked malloc result
  */
 static int *bufr_sequence_2intarr( BUFR_Sequence *bsq, int *len )
    {

@@ -22,20 +22,18 @@ static void bufr_show_dataset( BUFR_Dataset *dts, char *filename );
 static int get_value_as_string( BufrDescriptor *bcv, char* str ) {
 	str[0] = 0;
 	if (bcv->value) {
+		if( bufr_value_is_missing( bcv->value ) ) return 0;
 		if (bcv->value->type == VALTYPE_INT32) {
 			int32_t value = bufr_descriptor_get_ivalue( bcv );
-			if (bufr_is_missing_int( value )) return 0;
 			sprintf( str, "%d ", value );
 		} else if (bcv->value->type == VALTYPE_INT64) {
 			int64_t value = bufr_descriptor_get_ivalue( bcv );
 			sprintf( str, "%lld ", value );
 		} else if (bcv->value->type == VALTYPE_FLT32) {
 			float value = bufr_descriptor_get_fvalue( bcv );
-			if (bufr_is_missing_float( value )) return 0;
 			sprintf( str, "%E", value );
 		} else if (bcv->value->type == VALTYPE_FLT64) {
 			double value = bufr_descriptor_get_dvalue( bcv );
-			if (bufr_is_missing_double( value )) return 0;
 			sprintf( str, "%E", value );
 		} else if (bcv->value->type == VALTYPE_STRING) {
 			int len;

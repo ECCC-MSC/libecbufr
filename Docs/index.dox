@@ -4,34 +4,38 @@
 
 @section history History
 
-Part of this library was created in 1996 at CMC during its participation
+Early parts of this library were created in 1996 at CMC during its participation
 in the GEWEX Research Project (Global Energy Water Cycle Experiment).
 The BUFR format was used as the medium for data exchange. A BUFR encoder
 was needed for the conversion of MOLTS Data points (Model Output Local
 Time Series) into BUFR messages. After the completion and release of the
 encoder, no further work was done to complete the library, and only the
 encoding part of the library was implemented. 
+
 This was the case until summer 2007, when the project for conversion of
-SCRIBE matrices to BUFR was started. Since there are no freely available
-BUFR library that meet the requirements, decoding and template support
-functions were added to the encoder library which was also updated with
-latest updates of BUFR specifications.
+SCRIBE matrices to BUFR was started. Since there were no freely available
+BUFR library that meet the requirements for the  project, decoding and 
+template support functions were added to the encoder library which was
+also updated to meet the specifications of BUFR Editions 3 and 4.
 
 @section overview Overview
-This BUFR API library created for SCRIBE was written with the Open
-Source model in mind, it is being developed using GNU tools for
-packaging and uses a structure that follows the standard for release
-under GPL. It is a general-purpose, template-oriented BUFR
-encoding/decoding library that supports BUFR editions 2, 3, 4, and the
-upcoming version 5. It supports most of the defined Table C operators,
-and comes with example applications for encoding and decoding BUFR
-datasets using templates (see accompanying Code Examples document).. 
+
+LibECBUFR is a general-purpose, template-oriented BUFR encoding/decoding
+library that supports BUFR editions 2, 3 and 4. It supports most of the
+existing Table C operators, and comes with example applications for
+encoding and decoding BUFR datasets using templates.
+
 It is written in C and has no dependency on any other library. It can be
 installed very quickly and easily using ?.deb? files. It is simple to
 use and requires moderate knowledge of BUFR to use it for decoding and
 encoding BUFR message.
 
-@section Overall Architecture
+This BUFR API library was written with the Free Software model in mind.
+It is being developed using GNU tools for development and packaging.
+Packaging follows a standard structure commonly used for software
+releases under the GPL.
+
+@section architecture Overall Architecture
 A general architecture is given in the diagram below as to the layers of
 functions within the library. It ranges from ?low-level? worker-bee
 routines that are generally not directly accessible to the developers to
@@ -42,91 +46,178 @@ functionality; General-purpose, Decoding, Encoding, and Debugging.
 @image html LibraryCodeStructure.jpg
 @image rtf LibraryCodeStructure.jpg
 
-@section glossary Glossary
+@subsection tags API Categories
+
+See <a href="modules.html">modules</a> for details.
+@image html "libecbufr_tags.png"
+@image rtf "libecbufr_tags.png"
+
+@section data BUFR Data Structure
+
+@subsection glossary Glossary
 We have the defined the following terms that are frequently used in the
 documentation that we should not assume to be self-evident:
 
 - BUFR Message ? A BUFR format message between ?BUFR? and ?7777? in its
 un-decoded form. This may be either as files or in sockets or pipes.
 - Dataset ? The data payload of the BUFR message contained in section 4.
-- Template ? A format of BUFR data elements meant to describe a common
-sequence of events i.e. a synoptic observation or a vertical profile.
+- Template ? A sequence of BUFR descriptors meant to describe a data product, such as
+a synoptic observation or readings from a space-borne instrument.
 - Data Subset ? Instance of data specified by the Section 3 template. A Dataset may contain
 multiple data subsets.
-- Code Descriptor ? (F,X,Y) set which is a number which identifies a
-single element.
-- Code List ? List of code descriptors.
+- Element Descriptor ? (F,X,Y) set, listed in Table B (WMO or local), which conveys a
+single concept to which a value (numerical or otherwise) may be attached. Examples of such
+concepts include temperature, height, station name, data qualifiers, instrumentation,
+etc. See section 94.5.3 of the BUFR regulations and WMO Table B for complete details.
+- Sequence ? List of descriptors that can be interpreted as a semantic unit. For instance:
+station name, latitude, longitude, station height.
 - Table A ? Contains the definition of the data type (e.g. Radar, surface
 data ? land, etc.).
-- Table B ? Contains the low-level single-element descriptors.
-- Table C ? Contains the data description operators where F = 2 (from
-(F,X,Y) e.g. 2 05 signify character that defines a field length.
-- Table D ? Contains sequences of lower-level descriptors from B or from
-- Tables C and D. In fact, a template can be defined as a Table D
-descriptors.
-- Definition File ? template files constructed from Table B manually via a
-text editor using a standard format (example below from NC-AWOS):
+- Table B ? Lists and defines Element Descriptors.
+- Table C ? Lists and defines the data description operators (F = 2) which can be used to
+alter the characteritics of descriptors in sequences, to create special data structures, or
+to provide special meta-data about the sequence itself.
+- Table D ? Contains standardized sequences of descriptors 
+- Definition File ? ASCII file containing a sequence of descriptors and their associated
+values that can be read by the utility bufr_encoder to generate a BUFR file. The easiest way
+to obtain a Definition File is with the -dump option of the decoder. It can then be modified
+as extensively as necessary in a text editor. Another file, called the Template File, is also
+fed to the encoder to populate Section 3. 
+
+(example below is a shortened PILOT (WMO Table D sequence 309051)):
+
+@subsection diagram BUFR Data Structure Diagram
+
+@image html "BUFR Data Structure.jpg"
+@image rtf "BUFR Data Structure.jpg"
+
+@subsection definition_file Sample Definition File
 
 @verbatim
-#LOCAL_TABLEB=
+# This data can be fed to the utility bufr_encoder to generate a sample BUFR.
+# Copy-paste this sequence to a file named data.txt, and the template example to
+# file template.txt
 #
+# The following command should create a BUFR file data.bufr with the data in data.txt:
+# 
+# bufr_encoder -datafile data.txt -template template.txt -output data.bufr
+#
+# Format notes:
+# - User comments start with '#'
+# - Text in curly brackets {} is not parsed and counts as comments.
+#   It is generated by the decoder to help human readers follow replication counts
+#   and which portions of the sequence belong to replications.
+# - Section 1 parameters change, depending on BUFR edition numbers. Be sure they match.
+# - Otherwise, the data format is pretty self-explanatory. Element descriptors need to be
+#   given a value, which is simply entered to their right.  The value can be an integer,
+#   a character string of appropriate length, or a decimal value.
+# - As the example shows, Table D sequences need to be explicitly expanded and values
+#   given to the Table B descriptors therein. If sequences contain embedded Table D
+#   descriptors, then the sequence must be expanded recursively.
+# - Replications must also be fully expanded.
+#
+# Information for the use of the encoder
 BUFR_EDITION=4
+HEADER_STRING="IUGB99 CZED 211200 COR"
 #
-
-001035,VALUE=53         #Originating center
-001015                  #CYUL (8 character string length limitation for Ninjo?)
-301001                  #Block and station number
-301021                  #Station lat lon
-010001                  #Station height (non-coordinate)
-301011                  #Date
-301012                  #Time
-008021,VALUE=4          #Time significance = Forecast
-004024                  #Time displacement in hours from reference time to validity time.
-206015                  #Signify data width of following descriptor
-007196                  #Elevation of model terrain
-010004                  #Station pressure
-010051                  #MSL pressure
-001032                  #Generating application (36 GEM reg, 46 GE global)
-117000                  #Delayed replication of 17 descriptors 70 time (57 eta levels converted to pressure
-031001,VALUE=70         # + 12000 either 2 or 10 m agl + 11 pressure). Delayed replication future-proofs the template somewhat.
-   008001                  #Level significance
-   101000                  #Indicate if level is in pressure coordinates
-   031000                  #Set to 1 if yes
-      007004                  #Pressure level
-   101000                  #Indicate if level is AGL coordinates (relative to model station height)
-   031000                  #Set to 1 if yes. NOTE: 007004 and 007006 are mutually exclusive.
-      007006                  #MAGL level
-   102000                  #Indicate if we have the winds
-   031000                  #Set to 1 in all cases except if height is 2m AGL
-      011001                  #Wind speed
-      011002                  #Wind direction
-   103000                  #Indicate if we have the temp(s)
-   031000                  #Set to 1 in all cases except if height is 10m AGL
-      012101                  #Temperature
-      012102,VALUE=MSNG       #Wet bulb
-      012103                  #Dew point
-   010009                  #Geopotential height (non-coordinate)
+# Values for Section 1
+BUFR_MASTER_TABLE=0
+ORIG_CENTER=255   # Set to correct value if operational
+UPDATE_SEQUENCE=0
+DATA_CATEGORY=2
+INTERN_SUB_CATEGORY=1
+LOCAL_SUB_CATEGORY=255
+MASTER_TABLE_VERSION=12
+LOCAL_TABLE_VERSION=0
+YEAR=2009
+MONTH=5
+DAY=21
+HOUR=12
+MINUTE=0
+SECOND=0
+DATA_FLAG=128
+COMPRESSED=0
+DATASUBSET 1 : 575 descriptors
+309051
+301110
+301001
+001001 71
+001002 126
+001011 "Stony_Pla"
+002011 80
+002014 6
+002003 5
+301113
+008021 18
+301011
+004001 2009
+004002 5
+004003 21
+301013
+004004 11
+004005 15
+004006 32
+301114
+301021
+005001 53.54790
+006001 -114.10860
+007030 766.0
+007031 766.0
+007007 766
+033024 MSNG
+101000
+031002 {R=0} 2
+303052
+004086 {R=0} 0
+008042 {R=0} 100000100000000000
+007009 {R=0} 766
+005015 {R=0} 0.00210
+006015 {R=0} -0.00140
+011001 {R=0} 340
+011002 {R=0} 1.0
+303052
+004086 {R=0} 7172
+008042 {R=0} 000000100000000000
+007009 {R=0} 35025
+005015 {R=0} -0.21790
+006015 {R=0} 0.96860
+011001 {R=0} 121
+011002 {R=0} 7.8
+303052 # This 303052 sequence is stand-alone (not from the replication above)
+004086 MSNG
+008042 010000000000000000
+007009 36067
+005015 MSNG
+006015 MSNG
+011001 MSNG
+011002 MSNG
+101000
+031001 {R=0} 1
+303053
+004086 1662
+008042 000100100000000000
+007009 8474
+005015 -0.11790
+006015 0.44860
+011061 3.9
+011062 7.0
 @endverbatim
 
-@section structure Data Structure in BUFR
-This describes the data structure of BUFR within the library. It
-corresponds somewhat to the library code architecture.
+@subsection template Sample Template File
+
 @verbatim
-0100090000037800000002001c00000000000400000003010800050000000b0
-200000000050000000c02d80dd60d040000002e0118001c000000fb02100007
-0000000000bc02000000000102022253797374656d000dd60d000092be00005
-853110026e27706881425000c020000040000002d0100000400000002010100
-1c000000fb029cff0000000000009001000000000440001254696d6573204e6
-57720526f6d616e0000000000000000000000000000000000040000002d0101
-00050000000902000000020d000000320a5a0000000100040000000000d80dd
-80d20002d00040000002d010000030000000000
+# Format notes:
+# This is simply a list of one or more descriptors, as required for Section 3
+# of the message to be encoded.
+BUFR_EDITION=4
+#
+309051
+#
 @endverbatim
 
 @section installation Installation
-This section will be deferred until tests with CMDS and ADS, It is noted
-that ?.deb? packages have already been created, but that we wish to
-resolve dependencies from other applications. The library name must also
-be finalized.
+
+See https://answers.launchpad.net/libecbufr/+faq/538
 
 @section environment Environment
 
@@ -168,5 +259,23 @@ Compressing BUFR Messages
 @francais
 @todo Main page should be translated
 @endfrancais
+
+
+@todo translate module/group names
+@defgroup api High-level stuff
+@defgroup encode Encoding
+@defgroup decode Decoding
+@defgroup debug Debug/diagnostics
+@defgroup error Error handling
+@defgroup tables Table management functions
+@defgroup dataset Dealing with datasets, data subsets
+@defgroup template Managing templates and sequences
+@defgroup message Dealing with entire messages
+@defgroup io Input/output
+@defgroup descriptor Getting/setting values
+@defgroup meta Meta-data handling
+@defgroup data_structures Linked list/array interfaces
+@defgroup advanced Low-level expert/advanced functions
+@defgroup internal Don't touch, don't ask
 */
 

@@ -46,6 +46,8 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
+ * @ingroup tables
+ * @todo should AFSISIO be supported as an env variable?
  */
 int bufr_load_cmc_tables( BUFR_Tables *tables )
    {
