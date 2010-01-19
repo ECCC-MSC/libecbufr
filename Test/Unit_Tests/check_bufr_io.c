@@ -4,6 +4,11 @@
 #include "bufr_io.c"
 #include "check_libecbufr.h"
 
+#define ADD_TEST_CASE(X) {                                    \
+                          TCase *tc_##X = tcase_create (#X);   \
+                          tcase_add_test (tc_##X, test_##X##_core); \
+                          suite_add_tcase (s, tc_##X);          \
+                         }
 
 START_TEST (test_bufr_read_fn_core)
 {
@@ -167,31 +172,130 @@ for (int i=0; i<nb_cases; i++)
 }
 END_TEST
 
-/*START_TEST (test_bufr_seek_msg_start_core)
+START_TEST (test_bufr_seek_msg_start_core)
 {
+struct bufr_mem data[8];  //memory structure to read
+size_t tb_len=10;         //Length of test bytes
+int bufr_found=-2;
+char *tagstr;
+int len;
+
+//memory structure creation and initializing
+
+//case with BUFR string, but ONLY BUFR string.
+ data[0].mem = (char *)malloc(sizeof(char)*tb_len);
+ strcpy(data[0].mem, "BUFR");
+ data[0].mem[4]='\0';
+ data[0].pos=0;
+ data[0].max_len=tb_len;
+
+//case with no string
+ data[1].mem = (char *)malloc(sizeof(char)*tb_len);
+ data[1].mem[0]='\0';
+ data[1].pos=0;
+ data[1].max_len=tb_len;
+
+//case with no BUFR string: short string (less than length of "BUFR" word)
+ data[2].mem = (char *)malloc(sizeof(char)*tb_len);
+ strcpy(data[2].mem, "ab");
+ data[2].mem[2]='\0';
+ data[2].pos=0;
+ data[2].max_len=tb_len;
+
+//case with no BUFR string: long string(more than length of "BUFR" word)
+ data[3].mem = (char *)malloc(sizeof(char)*tb_len);
+ strcpy(data[3].mem, "abcdef");
+ data[3].mem[7]='\0';
+ data[3].pos=0;
+ data[3].max_len=tb_len;
+
+//case starting with BUF but with no BUFR string
+ data[4].mem = (char *)malloc(sizeof(char)*tb_len);
+ strcpy(data[4].mem, "BUFZ");
+ data[4].mem[4]='\0';
+ data[4].pos=0;
+ data[4].max_len=tb_len;
+
+//Normal case
+ data[5].mem = (char *)malloc(sizeof(char)*tb_len);
+ strcpy(data[5].mem, "BUFRabc");
+ data[5].mem[7]='\0';
+ data[5].pos=0;
+ data[5].max_len=tb_len;
+
+//Case with BUFR in the middle
+ data[6].mem = (char *)malloc(sizeof(char)*tb_len);
+ strcpy(data[6].mem, "abcBUFRab");
+ data[6].mem[9]='\0';
+ data[6].pos=0;
+ data[6].max_len=tb_len;
+
+//Case with BUFR at the end
+ data[7].mem = (char *)malloc(sizeof(char)*tb_len);
+ strcpy(data[7].mem, "abcBUFR");
+ data[7].mem[7]='\0';
+ data[7].pos=0;
+ data[7].max_len=tb_len;
+
+
+//Execution of tests
+//case with BUFR string, but ONLY BUFR string.
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[0]), &tagstr, &len );
+ fail_unless(bufr_found==1 && tagstr==NULL && len==0);
+
+//case with no string
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[1]), &tagstr, &len );
+ fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
+
+//case with no BUFR string: short string (less than length of "BUFR" word)
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[2]), &tagstr, &len );
+ fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
+
+//case with no BUFR string: long string(more than length of "BUFR" word)
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[3]), &tagstr, &len );
+ fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
+
+//case starting with BUF but with no BUFR string
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[4]), &tagstr, &len );
+ fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
+
+//Normal case
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[5]), &tagstr, &len );
+ fail_unless(bufr_found==1 && tagstr==NULL && len==0);
+
+//Case with BUFR in the middle
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[6]), &tagstr, &len );
+ fail_unless(bufr_found==1 && strcmp(tagstr,"abc")==0 && len==3);
+
+//Case with BUFR at the end
+ bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[7]), &tagstr, &len );
+ fail_unless(bufr_found==1 && strcmp(tagstr,"abc")==0 && len==3);
 
 }
 END_TEST
-*/
+
 
 Suite * bufr_io_suite (void)
 {
   Suite *s = suite_create ("bufr_io");
 
-  // bufr_read_fn
+/* The macro ADD_TEST_CASE(bufr_read_fn) does:
   TCase *tc_bufr_read_fn = tcase_create ("bufr_read_fn");
   tcase_add_test (tc_bufr_read_fn, test_bufr_read_fn_core);
   suite_add_tcase (s, tc_bufr_read_fn);
+*/
+
+  // bufr_read_fn
+  ADD_TEST_CASE(bufr_read_fn)
 
   // bufr_memread_fn
-  TCase *tc_bufr_memread_fn = tcase_create ("bufr_memread_fn");
-  tcase_add_test (tc_bufr_memread_fn, test_bufr_memread_fn_core);
-  suite_add_tcase (s, tc_bufr_memread_fn);
+  ADD_TEST_CASE(bufr_memread_fn)
 
   // bufr_read_octet
-  TCase *tc_bufr_read_octet = tcase_create ("bufr_read_octet");
-  tcase_add_test (tc_bufr_read_octet, test_bufr_read_octet_core);
-  suite_add_tcase (s, tc_bufr_read_octet);
+  ADD_TEST_CASE(bufr_read_octet)
+
+  // bufr_seek_msg_start
+  ADD_TEST_CASE(bufr_seek_msg_start)
 
   return s;
 
