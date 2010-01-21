@@ -209,14 +209,14 @@ int len;
  data[3].pos=0;
  data[3].max_len=tb_len;
 
-//case starting with BUF but with no BUFR string
+//case starting with BUF but with no BUFR string(BUFZ)
  data[4].mem = (char *)malloc(sizeof(char)*tb_len);
  strcpy(data[4].mem, "BUFZ");
  data[4].mem[4]='\0';
  data[4].pos=0;
  data[4].max_len=tb_len;
 
-//Normal case
+//Case with BUFR at start
  data[5].mem = (char *)malloc(sizeof(char)*tb_len);
  strcpy(data[5].mem, "BUFRabc");
  data[5].mem[7]='\0';
@@ -241,36 +241,52 @@ int len;
 //Execution of tests
 //case with BUFR string, but ONLY BUFR string.
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[0]), &tagstr, &len );
- fail_unless(bufr_found==1 && tagstr==NULL && len==0);
+ fail_unless(bufr_found==1, "Case: Only BUFR string; Failed to find 'BUFR' in string: %s", data[0].mem);
+ fail_unless(tagstr==NULL, "Case: Only BUFR string; tagstr: %s", tagstr);
+ fail_unless(len==0, "Case: Only BUFR string; length of tagstr is: %d", len);
 
 //case with no string
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[1]), &tagstr, &len );
- fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
+ fail_unless(bufr_found==-1, "Case: No string; bufr_found:%d", bufr_found);
+ fail_unless(tagstr==NULL, "Case: No string; tagstr: %s", tagstr);
+ fail_unless(len==0, "Case: No string; length of tagstr is: %d", len);
 
 //case with no BUFR string: short string (less than length of "BUFR" word)
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[2]), &tagstr, &len );
- fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
+ fail_unless(bufr_found==-1, "Case: No BUFR short string; bufr_found:%d", bufr_found);
+ fail_unless(tagstr==NULL, "Case: No BUFR short string; tagstr: %s", tagstr);
+ fail_unless(len==0, "Case: No BUFR short string; length of tagstr is: %d", len);
 
 //case with no BUFR string: long string(more than length of "BUFR" word)
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[3]), &tagstr, &len );
- fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
+ fail_unless(bufr_found==-1, "Case: No BUFR long string; bufr_found:%d", bufr_found);
+ fail_unless(tagstr==NULL, "Case: No BUFR long string; tagstr: %s", tagstr);
+ fail_unless(len==0, "Case: No BUFR long string; length of tagstr is: %d", len);
 
-//case starting with BUF but with no BUFR string
+//case starting with BUF but with no BUFR string(BUFZ)
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[4]), &tagstr, &len );
- fail_unless(bufr_found==-1 && tagstr==NULL && len==0);
-
-//Normal case
+ fail_unless(bufr_found==-1, "Case: BUFZ string; bufr_found:%d", bufr_found);
+ fail_unless(tagstr==NULL, "Case: BUFZ string; tagstr: %s", tagstr);
+ fail_unless(len==0, "Case: BUFZ string; length of tagstr is: %d", len);
+ 
+//Case with BUFR at start
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[5]), &tagstr, &len );
- fail_unless(bufr_found==1 && tagstr==NULL && len==0);
-
+ fail_unless(bufr_found==1, "Case: BUFR at start; Failed to find 'BUFR' string, bufr_found:%d", bufr_found);
+ fail_unless(tagstr==NULL, "Case: BUFR at start; tagstr: %s", tagstr);
+ fail_unless(len==0, "Case: BUFR at start; length of tagstr is: %d", len);
+ 
 //Case with BUFR in the middle
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[6]), &tagstr, &len );
- fail_unless(bufr_found==1 && strcmp(tagstr,"abc")==0 && len==3);
-
+ fail_unless(bufr_found==1, "Case: BUFR in the middle; Failed to find 'BUFR' string, bufr_found:%d", bufr_found);
+ fail_unless(strcmp(tagstr,"abc")==0, "Case: BUFR in the middle; tagstr:%s should be:'abc'", tagstr);
+ fail_unless(len==3, "Case: BUFR in the middle; length: %d, should be: 3", len);
+ 
 //Case with BUFR at the end
  bufr_found=bufr_seek_msg_start(bufr_memread_fn, &(data[7]), &tagstr, &len );
- fail_unless(bufr_found==1 && strcmp(tagstr,"abc")==0 && len==3);
-
+ fail_unless(bufr_found==1, "Case: BUFR at the end; Failed to find 'BUFR' string, bufr_found:%d", bufr_found);
+ fail_unless(strcmp(tagstr,"abc")==0, "Case: BUFR at the end; tagstr:%s should be:'abc'", tagstr);
+ fail_unless(len==3, "Case: BUFR at the end; length: %d, should be: 3", len);
+ 
 }
 END_TEST
 
