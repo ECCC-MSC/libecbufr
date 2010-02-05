@@ -3,5 +3,6 @@
 
 Suite * str_util_suite (void);
 Suite * bufr_io_suite (void);
+Suite * array_suite (void);
 
 #endif /* CHECK_LIBCECBUFR_H */

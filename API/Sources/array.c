@@ -129,7 +129,7 @@ This file is part of libECBUFR.
  * @english
  *    create a dynamic array
  * @param   int   len   :  initial size of the array
- * @param   int   size  :  size of each element
+ * @param   int   size  :  size of each element in bytes
  * @param   int   grow  :  size increment when resizing
  * @return  char *array  :  pointer to array
  * @endenglish

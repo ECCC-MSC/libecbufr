@@ -290,7 +290,109 @@ int len;
 }
 END_TEST
 
+START_TEST (test_bufr_read_int3b_core)
+{
+struct bufr_mem cd;
+//see bufr_memread_message to find out what mem is... 
+char *mem;
+int mem_len=4;
+int val=0;
 
+mem=(char *)malloc(sizeof(char)*mem_len);
+strcpy(mem,"ABC");
+
+cd.mem = (char*) mem;
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int3b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==4276803, "Read bad value: %d\n", val);
+
+//Verifier la valeur 0
+cd.mem = (char*)memcpy(mem,"\x00\x00\x00",3);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int3b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==0, "Read bad value: %d\n", val);
+
+//Verifier la valeur FFFFFF
+cd.mem = (char*)memcpy(mem,"\xFF\xFF\xFF",3);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int3b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==16777215, "Read bad value: %d\n", val);
+
+//Verifier des valeurs speciales pour les chaine de characteres.
+//Verifier LF: line feed
+cd.mem = (char*)memcpy(mem,"\x00\x00\xA",3);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int3b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==10, "Read bad value: %d\n", val);
+
+//Verifier ETX: end of text
+cd.mem = (char*)memcpy(mem,"\x00\x00\x03",3);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int3b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==3, "Read bad value: %d\n", val);
+}
+END_TEST
+
+START_TEST (test_bufr_read_int2b_core)
+{
+struct bufr_mem cd;
+//see bufr_memread_message to find out what mem is... 
+char *mem;
+int mem_len=4;
+int val=0;
+
+mem=(char *)malloc(sizeof(char)*mem_len);
+strcpy(mem,"AB");
+
+cd.mem = (char*) mem;
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int2b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==16706, "Read bad value: %d\n", val);
+
+//Verifier la valeur 0
+cd.mem = (char*)memcpy(mem,"\x00\x00",2);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int2b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==0, "Read bad value: %d\n", val);
+
+//Verifier la valeur FFFF
+cd.mem = (char*)memcpy(mem,"\xFF\xFF",2);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int2b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==65535, "Read bad value: %d\n", val);
+
+//Verifier des valeurs speciales pour les chaine de characteres.
+//Verifier LF LF: line feed
+cd.mem = (char*)memcpy(mem,"\x0A\x0A",2);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int2b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==2570, "Read bad value: %d\n", val);
+
+//Verifier ETX ETX: end of text
+cd.mem = (char*)memcpy(mem,"\x03\x03",2);
+cd.pos = 0;
+cd.max_len = mem_len;
+val=bufr_read_int2b(bufr_memread_fn, (void*) &cd);
+fail_unless(val==771, "Read bad value: %d\n", val);
+}
+END_TEST
+
+/*
+START_TEST (test_bufr_rd_section0_core)
+{
+
+}
+END_TEST
+*/
 Suite * bufr_io_suite (void)
 {
   Suite *s = suite_create ("bufr_io");
@@ -312,6 +414,22 @@ Suite * bufr_io_suite (void)
 
   // bufr_seek_msg_start
   ADD_TEST_CASE(bufr_seek_msg_start)
+
+//
+  // bufr_read_int3b
+  ADD_TEST_CASE(bufr_read_int3b)
+
+  // bufr_read_int2b
+  ADD_TEST_CASE(bufr_read_int2b)
+
+  // bufr_init_header
+
+  //bufr_is_debug
+
+  //bufr_print_debug
+
+  // bufr_rd_section0
+//  ADD_TEST_CASE(bufr_rd_section0)
 
   return s;
 
