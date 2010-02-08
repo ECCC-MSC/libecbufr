@@ -1,6 +1,6 @@
 /***
-Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009.
-Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2009.
+Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009-2010.
+Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2009-2010.
 
 This file is part of libECBUFR.
 
@@ -160,7 +160,7 @@ This file is part of libECBUFR.
       arr->grow  = grow;
       arr->msize  = sizeof(Array);
       if( len > 0 ) arr_allocate( arr, len );
-      return((char *)arr);
+      return((ArrayPtr)arr);
     } else {
       int msize = sizeof(Array)+len*size;
       arr = (Array *)malloc(msize);
