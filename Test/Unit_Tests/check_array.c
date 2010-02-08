@@ -1,3 +1,22 @@
+/***
+Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2010.
+Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2010.
+
+This file is part of libECBUFR.
+
+    libECBUFR is free software: you can redistribute it and/or modify
+    it under the terms of the Lesser GNU General Public License,
+    version 3, as published by the Free Software Foundation.
+
+    libECBUFR is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    Lesser GNU General Public License for more details.
+
+    You should have received a copy of the Lesser GNU General Public
+    License along with libECBUFR.  If not, see <http://www.gnu.org/licenses/>.
+***/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "check.h"
@@ -43,6 +62,37 @@ fail_unless(arr->total==3, "Bad array size: %d", arr->total);
 }
 END_TEST
 
+START_TEST (test_arr_count_core)
+{
+ArrayPtr arrptr;
+char *elem1="5";
+char *elem2="7";
+char *elem3="9";
+int nb_elem;
+
+// Creating an array with one element
+arrptr=arr_create(1,1, 2);
+
+// Test new array with no elements
+nb_elem=arr_count(arrptr);
+fail_unless(nb_elem==0, "Bad number of elements in new empty array: %d", nb_elem);
+
+//Adding a first element
+arr_add(arrptr, (void *)elem1);
+nb_elem=arr_count(arrptr);
+fail_unless(nb_elem==1, "Bad number of elements: %d, should be 1", nb_elem);
+
+//Adding second element - growth of total size of array is 2
+arr_add(arrptr, (void *)elem2);
+nb_elem=arr_count(arrptr);
+fail_unless(nb_elem==2, "Bad number of elements: %d, should be 2", nb_elem);
+
+//Adding third element
+arr_add(arrptr, (void *)elem3);
+nb_elem=arr_count(arrptr);
+fail_unless(nb_elem==3, "Bad number of elements: %d, should be 3", nb_elem);
+}
+END_TEST
 
 Suite * array_suite (void)
 {
@@ -55,10 +105,14 @@ Suite * array_suite (void)
 */
 
   // No need to test, too simple: 
-  // arr_allocate
+  // arr_allocate, arr_create, arr_del
 
   // arr_add
   ADD_TEST_CASE(arr_add)
+
+  // arr_count
+  ADD_TEST_CASE(arr_count)
+
 
   return s;
 
