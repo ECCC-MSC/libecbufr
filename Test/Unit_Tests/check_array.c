@@ -166,6 +166,8 @@ arrptr_copy=arr_share(arrptr);
 
 //Testing second element
 arr = (Array *)arrptr_copy;
+
+ //this test is not correct right now, it needs to be modified.
 fail_unless(memcmp(arr->eles+1, elem2, 1)==0, "Shared copy doesn't have same second element: %s", arr->eles+1);
 }
 END_TEST
@@ -226,7 +228,9 @@ Suite * array_suite (void)
   // arr_get
   ADD_TEST_CASE(arr_get)
 
-  // arr_share - MVE: Voir l'exemple de Vanh dans le courriel
+  // arr_share - If we need this, then add also the unit tests at that point.
+  //  Right now, the implementation makes it work correctly only if it's 
+  //  read-only access.
   //ADD_TEST_CASE(arr_share)
 
   // arr_search
