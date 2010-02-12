@@ -357,7 +357,7 @@ This file is part of libECBUFR.
  *  compar returns -1, 0, 1 depending if its first argument
  *  is smaller, equal to or bigger than its second.
  * @param   ArrayPtr array  :  pointer to array
- * @param  void *vaddr
+ * @param  void *vaddr: element we are searching
  * @param  int (*compar)(void *, void *)
  * @return  ArrayItemPtr
  * @endenglish
