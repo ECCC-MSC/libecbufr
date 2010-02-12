@@ -61,12 +61,12 @@ typedef struct _oper_table
    {
    unsigned int            flags;
    int                     add_nbits;
-   unsigned char           multiply_scale;
+   short                   multiply_scale;
    unsigned char           change_ref_val_op;
    short                   add_af_nbits;
    unsigned char           local_nbits_follows;
    unsigned char           use_ieee_fp;
-   unsigned char           change_ref_value;
+   short                   change_ref_value;
 
    LocationValueArray      current_location;
    EntryTableBArray        override_tableb;
