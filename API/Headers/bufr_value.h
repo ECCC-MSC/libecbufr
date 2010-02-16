@@ -37,6 +37,10 @@ This file is part of libECBUFR.
 #include <inttypes.h>
 #include "bufr_af.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum
    {
    VALTYPE_UNDEFINE=0,
@@ -105,5 +109,8 @@ extern void           bufr_print_binary         ( char *outstr, int64_t  ival, i
 extern int64_t        bufr_binary_to_int        ( const char *str );
 extern int            bufr_str_is_binary        ( const char *str );
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

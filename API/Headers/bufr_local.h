@@ -36,8 +36,16 @@ This file is part of libECBUFR.
 #include <stdio.h>
 #include  "bufr_dataset.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern int            bufr_store_tables           ( FILE *fp, BUFR_Dataset *dts );
 extern BUFR_Tables   *bufr_extract_tables         ( BUFR_Dataset *dts );
 extern int            bufr_contains_tables        ( BUFR_Dataset *dts );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

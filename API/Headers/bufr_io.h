@@ -42,6 +42,9 @@ This file is part of libECBUFR.
 #include <limits.h>
 #include <inttypes.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern void           bufr_putbits         ( BUFR_Message *bufr, uint64_t val, int nbbits );
 extern uint64_t       bufr_getbits         ( BUFR_Message *bufr, int nbbits, int *errcode );
@@ -69,5 +72,9 @@ extern int            bufr_is_debug        ( void );
 extern int            bufr_is_verbose      ( void );
 extern int            bufr_errtype         ( void );
 extern void           bufr_abort           ( const char * );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

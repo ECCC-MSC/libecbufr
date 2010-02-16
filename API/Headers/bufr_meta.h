@@ -36,6 +36,10 @@ This file is part of libECBUFR.
 
 #include "bufr_array.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct
    {
    int   descriptor;
@@ -74,5 +78,9 @@ extern void          bufr_print_rtmd_data      ( char *outstr, BufrRTMD *bm );
 extern void          bufr_print_rtmd_repl      ( char *outstr, BufrRTMD *bm );
 extern void          bufr_print_rtmd_location  ( char *outstr, int desc, BufrRTMD *bm );
 extern float         bufr_fetch_rtmd_location ( int descriptor, BufrRTMD *bm );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -40,6 +40,10 @@ This file is part of libECBUFR.
 #include  "bufr_linklist.h"
 #include  "bufr_tables.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct 
    {
    int8_t   *bit_map;
@@ -105,5 +109,8 @@ extern void           bufr_clear_location           ( BufrDDOp *ddo );
 extern void           bufr_set_current_location     ( BufrDDOp *ddo, int desc, float value, int npos );
 extern LocationValue *bufr_current_location         ( BufrDDOp *ddo, BufrRTMD *meta, int *nbtlc );
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

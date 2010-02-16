@@ -35,6 +35,10 @@ This file is part of libECBUFR.
 #ifndef _bufr_afd_h
 #define _bufr_afd_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct
    {
    int              nbits;
@@ -50,5 +54,9 @@ typedef struct
 extern BufrAFD          *bufr_create_afd     ( const int *bdefs, int count );
 extern BufrAFD          *bufr_duplicate_afd  ( const BufrAFD * );
 extern void              bufr_free_afd       ( BufrAFD * );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

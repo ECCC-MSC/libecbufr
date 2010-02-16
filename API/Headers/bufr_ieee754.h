@@ -40,6 +40,10 @@ This file is part of libECBUFR.
 #include <math.h>
 #include <limits.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern int           bufr_use_C_ieee754      ( int use );
 
 extern double        bufr_ieee_decode_double ( uint64_t ivalue );
@@ -49,5 +53,9 @@ extern uint64_t      bufr_ieee_encode_double ( double   fvalue );
 extern uint32_t      bufr_ieee_encode_single ( float    fvalue );
 
 extern void          bufr_init_limits        ( void );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -41,6 +41,10 @@ This file is part of libECBUFR.
 #include <limits.h>
 #include <time.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define  BUFR_MAX_MSG_LEN       16777216
 
 #define  BUFR_FLAG_OBSERVED     (1<<7)
@@ -181,6 +185,10 @@ extern void           bufr_set_time_sect1  ( BufrSection1 *s1, time_t );
 extern void           bufr_sect2_set_data  ( BUFR_Message *r,
                                              const char *data,
 															int len);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

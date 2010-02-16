@@ -37,6 +37,10 @@ This file is part of libECBUFR.
 #include "bufr_array.h"
 #include <inttypes.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define FXY_TO_DESC(f,x,y)  ((f)*100000+(x)*1000+(y))
 
 /*
@@ -166,5 +170,8 @@ extern double         bufr_cvt_i64_to_dval        ( BufrValueEncoding *be, int64
 
 extern int            bufr_get_tberror            ( BufrValueEncoding *be, int *reference, int *nbits );
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
