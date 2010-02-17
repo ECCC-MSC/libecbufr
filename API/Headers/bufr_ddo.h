@@ -70,7 +70,7 @@ typedef struct _oper_table
    short                   add_af_nbits;
    unsigned char           local_nbits_follows;
    unsigned char           use_ieee_fp;
-   short                   change_ref_value;
+   int                     change_ref_value;
 
    LocationValueArray      current_location;
    EntryTableBArray        override_tableb;
