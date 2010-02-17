@@ -43,6 +43,10 @@ This file is part of libECBUFR.
 #include  "bufr_meta.h"
 #include  "bufr_array.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define   FLAG_CLASS31      0x1
 #define   FLAG_EXPANDED     0x2
 #define   FLAG_SKIPPED      0x4
@@ -87,5 +91,9 @@ extern char           *bufr_descriptor_get_svalue     ( BufrDescriptor *bdsc, in
 extern void            bufr_set_value_af              ( BufrValue *bv, const BufrDescriptor *bc );
 
 extern float           bufr_descriptor_get_location   ( BufrDescriptor *bdsc, int desc );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

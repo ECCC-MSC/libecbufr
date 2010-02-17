@@ -49,6 +49,10 @@ This file is part of libECBUFR.
 #include  "bufr_sequence.h"
 #include  "bufr_ddo.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define   BUFR_SET_ORIG_CENTRE(d,val)    (d)->s1.orig_centre=(val)
 #define   BUFR_SET_MASTER_TABLE(d,val)   (d)->s1.bufr_master_table=(val)
 #define   BUFR_SET_SUB_CENTRE(d,val)     (d)->s1.orig_sub_centre=(val)
@@ -142,6 +146,8 @@ extern BUFR_Dataset    *bufr_create_dataset_from_sequence
 extern int              bufr_genmsgs_from_dump
                                     ( BUFR_Template *tmplt, const char *infile, const char *outfile, int );
 
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif

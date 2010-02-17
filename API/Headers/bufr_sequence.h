@@ -74,6 +74,10 @@ This file is part of libECBUFR.
  * @see bufr_expand_descriptor(), bufr_expand_sequence(), bufr_expand_node_descriptor()
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define  OP_EXPAND_DELAY_REPL   0x1
 #define  OP_RM_XPNDBL_DESC      0x2
 #define  OP_ZDRC_SKIP           0x4
@@ -109,5 +113,9 @@ extern int                 bufr_apply_op_crefval
 extern int                 bufr_check_sequence             ( BUFR_Sequence *descriptors, int version, int *flags, BUFR_Tables *, int );
 extern BufrDescriptorArray bufr_sequence_to_array          ( BUFR_Sequence *descriptors, int dovalue );
 extern BufrDPBM           *bufr_index_dpbm                 ( BufrDDOp *ddo, BUFR_Sequence *bcl );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

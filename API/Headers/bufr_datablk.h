@@ -36,6 +36,11 @@ This file is part of libECBUFR.
 #define	_bufr_datablk_h_
 
 #include "bufr_io.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /****************************************************************************/
 
 /*
@@ -116,6 +121,9 @@ extern  int        bufr_searchdlste     ( int  descriptor, DATA_BLK *blk );
 extern int         bufr_write_datablks  ( FILE *,BUFR_Message *,DATA_BLK **,int nblk,int docomp, BUFR_Tables * );
 extern void        bufr_cvt_blk         ( DATA_BLK *blk, BUFR_Tables * );
 
+#ifdef __cplusplus
+}
+#endif
 
 /***************************************************************************
 ***************************************************************************/

@@ -37,6 +37,10 @@ This file is part of libECBUFR.
 
 #include <inttypes.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct
    {
    uint8_t       len;
@@ -63,5 +67,9 @@ extern int               bufr_af_get_value  ( const BufrAF *, int pos );
 extern void              bufr_af_set_sig    ( BufrAF *, int pos, int val );
 extern int               bufr_af_get_sig    ( const BufrAF *, int pos );
 extern int               bufr_print_af      ( char *outstr, const BufrAF *af );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
