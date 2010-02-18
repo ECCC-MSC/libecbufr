@@ -101,6 +101,7 @@ void  bufr_free_message( BUFR_Message *r )
    if ( r == NULL ) return;
    if (r->s3.data != NULL) free( r->s3.data );
    if (r->s2.data != NULL) free( r->s2.data );
+   if (r->s1.data != NULL) free( r->s1.data );
    arr_free( &(r->s3.desc_list) );
    if (r->s4.data != NULL) 
       free( r->s4.data );

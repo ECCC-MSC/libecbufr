@@ -41,6 +41,10 @@ This file is part of libECBUFR.
 #include  "bufr_desc.h"
 #include  "bufr_value.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define    HAS_DELAYED_REPLICATION   0x1
 #define    HAS_IEEE_FP               0x2
 
@@ -80,5 +84,9 @@ extern int              bufr_compare_template       ( BUFR_Template *, BUFR_Temp
 extern void             bufr_init_DescValue         ( BufrDescValue *dscv );
 extern void             bufr_valloc_DescValue       ( BufrDescValue *dscv, int nb_values );
 extern void             bufr_vfree_DescValue        ( BufrDescValue *dscv );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -20,6 +20,10 @@
 #include "bufr_dataset.h"
 #include "bufr_tables.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** BUFR_API version number. */
 #define BUFR_API_VERSION "@PACKAGE_VERSION@"
 
@@ -62,5 +66,9 @@ extern int       bufr_callback_write_message ( bufr_write_callback writecb,
                                                void* client_data, BUFR_Message *bufr);
 
 extern   int     bufr_apply_dpbm             ( BufrDPBM *dpbm, BUFR_Sequence *bs, ListNode *svnode );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
