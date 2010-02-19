@@ -74,6 +74,8 @@ AC_PROG_LIBTOOL
 AC_PATH_PROG(DOXYGEN, doxygen, no)
 
 # Checks for libraries.
+#AM_PATH_CHECK("0.9.4") #this is apparently deprecated (message from configure)
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4], CHECK_AVAILABLE="yes", CHECK_AVAILABLE="no")
 
 # Checks for header files.
 #AC_HEADER_STDC
@@ -115,6 +117,9 @@ AC_SUBST(VERSION_MINOR)
 AC_SUBST(BUILD_DATE)
 
 AM_MAINTAINER_MODE
+
+# Set a conditional value for the 'check' package.
+AM_CONDITIONAL(CHECK_ACTIVATED, test "$CHECK_AVAILABLE" = yes)
 
 AC_OUTPUT(Makefile \
       API/Makefile \
