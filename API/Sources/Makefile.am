@@ -10,3 +10,5 @@ libecbufr_la_SOURCES=\
 		bufr_sequence.c bufr_tables.c bufr_io.c bufr_sio.c \
 		bufr_datablk.c bufr_dataset.c bufr_ddo.c bufr_template.c \
 		bufr_message.c bufr_ieee754.c cmc_tables.c bufr_api.c bufr_local.c
+
+CLEANFILES=*.gcda *.gcno

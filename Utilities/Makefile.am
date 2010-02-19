@@ -16,4 +16,4 @@ INCLUDES = -I../API/Headers
 
 LDADD = -L../API/Sources -lecbufr -lm
 
-CLEANFILES = $(bin_PROGRAMS)
+CLEANFILES = $(bin_PROGRAMS) *.gcda *.gcno

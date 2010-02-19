@@ -12,3 +12,4 @@ test_mem_SOURCES = test_mem.c
 test_tables_SOURCES = test_tables.c
 LDADD = -L../API/Sources -lecbufr -lm
 AM_CFLAGS = -g
+CLEANFILES=*.gcda *.gcno

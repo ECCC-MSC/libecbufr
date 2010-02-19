@@ -7,3 +7,5 @@ check_libecbufr_SOURCES = check_libecbufr.c check_str_util.c check_bufr_io.c che
 AM_CFLAGS = -g -I${PWD}
 LDADD = -L../../API/Sources -lecbufr -lm -lcheck
 endif
+
+CLEANFILES=*.gcda *.gcno
