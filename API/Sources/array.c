@@ -1,6 +1,6 @@
 /***
-Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009.
-Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2009.
+Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009-2010.
+Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2009-2010.
 
 This file is part of libECBUFR.
 
@@ -129,7 +129,7 @@ This file is part of libECBUFR.
  * @english
  *    create a dynamic array
  * @param   int   len   :  initial size of the array
- * @param   int   size  :  size of each element
+ * @param   int   size  :  size of each element in bytes
  * @param   int   grow  :  size increment when resizing
  * @return  char *array  :  pointer to array
  * @endenglish
@@ -160,7 +160,7 @@ This file is part of libECBUFR.
       arr->grow  = grow;
       arr->msize  = sizeof(Array);
       if( len > 0 ) arr_allocate( arr, len );
-      return((char *)arr);
+      return((ArrayPtr)arr);
     } else {
       int msize = sizeof(Array)+len*size;
       arr = (Array *)malloc(msize);
@@ -357,7 +357,7 @@ This file is part of libECBUFR.
  *  compar returns -1, 0, 1 depending if its first argument
  *  is smaller, equal to or bigger than its second.
  * @param   ArrayPtr array  :  pointer to array
- * @param  void *vaddr
+ * @param  void *vaddr: element we are searching
  * @param  int (*compar)(void *, void *)
  * @return  ArrayItemPtr
  * @endenglish
