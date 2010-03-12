@@ -25,6 +25,7 @@ This file is part of libECBUFR.
 #include "bufr_datablk.h"
 #include "bufr_tables.h"
 #include "bufr_value.h"
+#include "bufr_i18n.h"
 
 static int bufr_zip_sect3(BUFR_Tables *tbls, BUFR_Message *bufr );
 static int bufr_tdzip_sect3(BUFR_Tables *, int *zdesc, int *desc, int descnt );
@@ -61,7 +62,7 @@ int bufr_write_datablks
 
    if ((nblk < 0)||(nblk > 200)) 
       {
-      sprintf( buf, "Error: illegal number of blocks requested: %d\n", nblk );
+      sprintf( buf, _("Error: illegal number of blocks requested: %d\n"), nblk );
       bufr_print_debug( buf );
       return -1;
       }

@@ -36,6 +36,7 @@ This file is part of libECBUFR.
 #include "bufr_ddo.h"
 #include "bufr_io.h"
 #include "bufr_template.h"
+#include "bufr_i18n.h"
 
 #define DEBUG         0
 #define TESTINDEX     0
@@ -140,7 +141,7 @@ void bufr_add_descriptor_to_sequence( BUFR_Sequence *bsq, BufrDescriptor *cb )
    list = (bsq && bsq->list) ? bsq->list : NULL;
    if (list == NULL)
       {
-      bufr_print_debug( "Error in bufr_add_descriptor_to_sequence(): list is NULL\n" );
+      bufr_print_debug( _("Error in bufr_add_descriptor_to_sequence(): list is NULL\n") );
       return;
       }
    lst_addlast( list, lst_newnode( cb ) );
@@ -165,7 +166,7 @@ int bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
    if (lst1 == NULL)
       {
       bufr_free_descriptorList( bsq->list );
-      bufr_print_debug( "Error: cannot expand template sequence\n" );
+      bufr_print_debug( _("Error: cannot expand template sequence\n") );
       }
    bsq->list = lst1;
    return (lst1 == NULL) ? -1 : 1;
@@ -288,7 +289,7 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls )
                char errmsg[256];
                bufr_free_descriptorList( lst );
 
-               sprintf( errmsg, "Error: unknown descriptor in bufr_expand_desc %d\n" , 
+               sprintf( errmsg, _("Error: unknown descriptor in bufr_expand_desc %d\n") , 
                      code );
                bufr_print_debug( errmsg );
                return NULL;
@@ -385,7 +386,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
             {
             char errmsg[256];
 
-            sprintf( errmsg, "Error: delayed replication not followed by class 31 code=%d\n" , 
+            sprintf( errmsg, _("Error: delayed replication not followed by class 31 code=%d\n") , 
                      cb31->descriptor );
             bufr_print_debug( errmsg );
             *skip = -1;
@@ -517,7 +518,7 @@ static LinkedList *bufr_repl_descriptors
          {
          if (node == NULL)
             {
-            bufr_abort( "Error in bufr_repl_descriptors(): node is null\n" );
+            bufr_abort( _("Error in bufr_repl_descriptors(): node is null\n") );
             break;
             }
          cb = (BufrDescriptor *)node->data;
@@ -537,7 +538,7 @@ static LinkedList *bufr_repl_descriptors
             {
             char errmsg[128];
 
-            sprintf( errmsg, "ERROR, can't replicate codes: %d %d while duplicating: %d\n", 
+            sprintf( errmsg, _("ERROR, can't replicate codes: %d %d while duplicating: %d\n"), 
                   nbdesc, count, cb->descriptor );
             bufr_abort( errmsg );
             }
@@ -686,7 +687,7 @@ int bufr_check_sequence
 #if 0
    if (debug)
       {
-      bufr_print_debug( "### Checking template codes list\n" );
+      bufr_print_debug( _("### Checking template codes list\n") );
       }
 #endif
 
@@ -694,7 +695,7 @@ int bufr_check_sequence
       {
       char buffer[256];
 
-      sprintf( buffer, "Error in bufr_check_sequence(): unsupported BUFR edition %d\n", 
+      sprintf( buffer, _("Error in bufr_check_sequence(): unsupported BUFR edition %d\n"), 
             version );
       bufr_print_debug( buffer );
       return -1;
@@ -763,7 +764,7 @@ int bufr_check_sequence
             }
          else
             {
-            sprintf( errmsg, "Warning: %d is followed by %d (not a local descriptor)\n", 
+            sprintf( errmsg, _("Warning: %d is followed by %d (not a local descriptor)\n"), 
                   next_local_desc, cb->descriptor );
             bufr_print_debug( errmsg );
             next_local_desc = 0;
@@ -816,26 +817,26 @@ int bufr_check_sequence
    lst_dellist( stack );
    if (next_31021 != 0)
       {
-      sprintf( errmsg, "Error: expecting Class 31021 after 204YYY but found: %d\n", next_31021 );
+      sprintf( errmsg, _("Error: expecting Class 31021 after 204YYY but found: %d\n"), next_31021 );
       bufr_print_debug( errmsg );
       return -1;
       }
    if (next_class_31 != 0)
       {
-      sprintf( errmsg, "Error: expecting Class 31 after delayed replication but found: %d\n", 
+      sprintf( errmsg, _("Error: expecting Class 31 after delayed replication but found: %d\n"), 
             next_class_31 );
       bufr_print_debug( errmsg );
       return -1;
       }
    if (repl_active > 1)
       {
-      sprintf( errmsg, "Error: bad replication code count in dataset definition\n" );
+      sprintf( errmsg, _("Error: bad replication code count in dataset definition\n") );
       bufr_print_debug( errmsg );
       return -1;
       }
    if (next_local_desc > 0)
       {
-      sprintf( errmsg, "Warning: expecting local descriptor after 206YYY but found: %d\n", 
+      sprintf( errmsg, _("Warning: expecting local descriptor after 206YYY but found: %d\n"), 
             next_local_desc );
       bufr_print_debug( errmsg );
       /* 
@@ -868,7 +869,7 @@ static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *ski
 #if DEBUG
    if (isdebug) 
       {
-      sprintf( errmsg,"### Checking #Code Replication >> %.6d : {", descriptor );
+      sprintf( errmsg,_("### Checking #Code Replication >> %.6d : {"), descriptor );
       bufr_print_debug( errmsg );
       }
 
@@ -1115,7 +1116,7 @@ BufrDDOp  *bufr_apply_Tables
                {
                if (debug)
                   {
-                  sprintf( errmsg, "Error obtaining Repl Rank of %d = %d\n",
+                  sprintf( errmsg, _("Error obtaining Repl Rank of %d = %d\n"),
                      cb->descriptor, idp );
                   bufr_print_debug( errmsg );
                   }
@@ -1135,7 +1136,7 @@ BufrDDOp  *bufr_apply_Tables
                   cb->s_descriptor = cbm->descriptor;
                   if (debug)
                      {
-                     sprintf( errmsg, "NDX=%d DESC=%d\n", ndx, cbm->descriptor );
+                     sprintf( errmsg, _("NDX=%d DESC=%d\n"), ndx, cbm->descriptor );
                      bufr_print_debug( errmsg );
                      }
                   }
@@ -1189,7 +1190,7 @@ BufrDDOp  *bufr_apply_Tables
             ddo->dpbm = bufr_index_dpbm( ddo, bsq );
          if ((ddo->remain_dpi > 0)&&(ddo->remain_dpi < ddo->dpbm->nb_codes))
             {
-            sprintf( errmsg, "Warning: bitmap size %d != %d data present descriptors\n",
+            sprintf( errmsg, _("Warning: bitmap size %d != %d data present descriptors\n"),
                ddo->dpbm->nb_codes - ddo->remain_dpi, ddo->dpbm->nb_codes );
             bufr_print_debug( errmsg );
             bufr_init_dpbm( ddo->dpbm, ddo->start_dpi );
@@ -1316,7 +1317,7 @@ BufrDDOp  *bufr_apply_Tables
                         new206 = 206000 + ddo->local_nbits_follows;
                         if (debug)
                            {
-                           sprintf( errmsg, "Warning: local descriptor %.6d (%d bits) dont match %d, should have been %d\n", 
+                           sprintf( errmsg, _("Warning: local descriptor %.6d (%d bits) dont match %d, should have been %d\n"), 
                               cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
                            bufr_print_debug( errmsg );
                            }
@@ -1326,7 +1327,7 @@ BufrDDOp  *bufr_apply_Tables
                      {
                      if (debug)
                         {
-                        sprintf( errmsg, "### Setting local descriptor %.6d to %d bits)\n", 
+                        sprintf( errmsg, _("### Setting local descriptor %.6d to %d bits)\n"), 
                               cb->descriptor, ddo->local_nbits_follows );
                         bufr_print_debug( errmsg );
                         }
@@ -1345,7 +1346,7 @@ BufrDDOp  *bufr_apply_Tables
                cb->encoding.scale += ddo->multiply_scale;
                if (debug)
                   {
-                  sprintf( errmsg, "### 202 %d scale=%d\n", 
+                  sprintf( errmsg, _("### 202 %d scale=%d\n"), 
                            cb->descriptor, cb->encoding.scale );
                   bufr_print_debug( errmsg );
                   }
@@ -1356,7 +1357,7 @@ BufrDDOp  *bufr_apply_Tables
                cb->encoding.reference += ddo->change_ref_value;
                if (debug)
                   {
-                  sprintf( errmsg, "### 203 %d reference=%d\n", 
+                  sprintf( errmsg, _("### 203 %d reference=%d\n"), 
                       cb->descriptor, cb->encoding.reference );
                   bufr_print_debug( errmsg );
                   }
@@ -1430,7 +1431,7 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
             cb->encoding.nbits = ddo->change_ref_val_op;
             if (debug)
                {
-               sprintf( errmsg, "### Changing REF: %d to %d bits:", 
+               sprintf( errmsg, _("### Changing REF: %d to %d bits:"), 
                      cb->descriptor, ddo->change_ref_val_op ); 
                bufr_print_debug( errmsg );
                }
@@ -1460,18 +1461,18 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
                    */
                   arr_add( ddo->override_tableb, (char *)&tb1 ); 
                   if (debug)
-                     bufr_print_debug( "codetable overrided\n" );
+                     bufr_print_debug( _("codetable overrided\n") );
                   }
                else
                   {
                   if (debug)
-                     bufr_print_debug( "codetable entry not found\n" );
+                     bufr_print_debug( _("codetable entry not found\n") );
                   }
                }
             else
                {
                if (debug)
-                  bufr_print_debug( "No value\n" );
+                  bufr_print_debug( _("No value\n") );
                }
             }
             return 1;
@@ -1593,7 +1594,7 @@ static int bufr_solve_replication( int value, int y2, int descriptor )
          {
          char errmsg[256];
 
-         sprintf( errmsg, "Error: invalid delayed replication count code : %.6d\n" , descriptor );
+         sprintf( errmsg, _("Error: invalid delayed replication count code : %.6d\n") , descriptor );
          bufr_print_debug( errmsg );
          return 0;
          }
@@ -1657,7 +1658,7 @@ BufrDPBM *bufr_index_dpbm ( BufrDDOp *ddo, BUFR_Sequence *bsq )
 
    if (bufr_is_debug())
       {
-      sprintf( buffer, "### Code Count: %d\n", nb );
+      sprintf( buffer, _("### Code Count: %d\n"), nb );
       bufr_print_debug( buffer );
       }
 
@@ -1698,7 +1699,7 @@ BufrDPBM *bufr_index_dpbm ( BufrDDOp *ddo, BUFR_Sequence *bsq )
       }
 
 #if TESTINDEX
-      sprintf( buffer, "### Indexed DPBM Data Descriptor count: %d\n", dpbm->nb_codes );
+      sprintf( buffer, _("### Indexed DPBM Data Descriptor count: %d\n"), dpbm->nb_codes );
       bufr_print_debug( buffer );
 #endif
 

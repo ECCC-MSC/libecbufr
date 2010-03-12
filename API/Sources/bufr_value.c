@@ -35,6 +35,7 @@ This file is part of libECBUFR.
 #include "bufr_ieee754.h"
 #include "bufr_value.h"
 #include "private/bufr_priv_value.h"
+#include "bufr_i18n.h"
 
 
 /**
@@ -156,7 +157,7 @@ BufrValue  *bufr_duplicate_value( const BufrValue *bv )
 
    if (bv == NULL) 
       {
-      bufr_print_debug( "Error: cannot copy NULL in bufr_duplicate_value\n" );
+      bufr_print_debug( _("Error: cannot copy NULL in bufr_duplicate_value\n") );
       return NULL;
       }
 
@@ -1018,7 +1019,7 @@ uint64_t bufr_negative_ivalue( int64_t value, int nbits )
       {
       char errmsg[256];
 
-      sprintf( errmsg, "Warning: %lld need at least %d bits for storage\n", value, minbits );
+      sprintf( errmsg, _("Warning: %lld need at least %d bits for storage\n"), value, minbits );
       bufr_print_debug( errmsg );
       }
 

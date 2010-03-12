@@ -37,6 +37,7 @@ This file is part of libECBUFR.
 #include "bufr_tables.h"
 #include "bufr_message.h"
 #include "bufr_sequence.h"
+#include "bufr_i18n.h"
 
 
 static int   bufr_encode_sect3 ( BUFR_Message *bufr );
@@ -135,117 +136,117 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
 
    if (bufr == NULL) 
       {
-      bufr_print_debug( "Warning: bufr_print_message( NULL )\n" );
+      bufr_print_debug( _("Warning: bufr_print_message( NULL )\n") );
       return;
       }
 
    if ( bufr->header_string )
       {
-      sprintf( str, "### Message header            : \"%s\"\n", bufr->header_string );
+      sprintf( str, _("### Message header            : \"%s\"\n"), bufr->header_string );
       print_proc( str );
       }
 
-   sprintf( str, "### Message version           : %d\n",      bufr->edition  );
+   sprintf( str, _("### Message version           : %d\n"),      bufr->edition  );
    print_proc( str );
-   sprintf( str, "###          length           : %d\n",      bufr->len_msg  );
+   sprintf( str, _("###          length           : %d\n"),      bufr->len_msg  );
    print_proc( str );
-   sprintf( str, "###   Section 0\n" );
+   sprintf( str, _("###   Section 0\n") );
    print_proc( str );
-   sprintf( str, "###      length               : %d\n",      bufr->s0.len   );
+   sprintf( str, _("###      length               : %d\n"),      bufr->s0.len   );
    print_proc( str );
-   sprintf( str, "###   Section 1\n" );
+   sprintf( str, _("###   Section 1\n") );
    print_proc( str );
-   sprintf( str, "###      length               : %d\n",      bufr->s1.len   );
+   sprintf( str, _("###      length               : %d\n"),      bufr->s1.len   );
    print_proc( str );
-   sprintf( str, "###      BUFR master table    : %d\n",      bufr->s1.bufr_master_table );
+   sprintf( str, _("###      BUFR master table    : %d\n"),      bufr->s1.bufr_master_table );
    print_proc( str );
    if (bufr->edition == 2)
       {
-      sprintf( str, "###      originating center   : %d\n",      bufr->s1.orig_centre );
+      sprintf( str, _("###      originating center   : %d\n"),      bufr->s1.orig_centre );
       print_proc( str );
       }
    else if (bufr->edition >= 3)
       {
-      sprintf( str, "###      originating center   : %d\n",      bufr->s1.orig_centre );
+      sprintf( str, _("###      originating center   : %d\n"),      bufr->s1.orig_centre );
       print_proc( str );
-      sprintf( str, "###      sub center           : %d\n",      bufr->s1.orig_sub_centre );
+      sprintf( str, _("###      sub center           : %d\n"),      bufr->s1.orig_sub_centre );
       print_proc( str );
       }
-   sprintf( str, "###      update sequence      : %d\n",      bufr->s1.upd_seq_no );
+   sprintf( str, _("###      update sequence      : %d\n"),      bufr->s1.upd_seq_no );
    print_proc( str );
-   sprintf( str, "###      Data category        : %d\n",      bufr->s1.msg_type );
+   sprintf( str, _("###      Data category        : %d\n"),      bufr->s1.msg_type );
    print_proc( str );
    if (bufr->edition == 3)
       {
-      sprintf( str, "###      Data subcategory     : %d\n",      bufr->s1.msg_local_subtype );
+      sprintf( str, _("###      Data subcategory     : %d\n"),      bufr->s1.msg_local_subtype );
       print_proc( str );
       }
    else if (bufr->edition >= 4)
       {
-      sprintf( str, "###      Inter. sub category  : %d\n",      bufr->s1.msg_inter_subtype );
+      sprintf( str, _("###      Inter. sub category  : %d\n"),      bufr->s1.msg_inter_subtype );
       print_proc( str );
-      sprintf( str, "###      Local sub category   : %d\n",      bufr->s1.msg_local_subtype );
+      sprintf( str, _("###      Local sub category   : %d\n"),      bufr->s1.msg_local_subtype );
       print_proc( str );
       }
-   sprintf( str, "###      master table version : %d\n",      bufr->s1.master_table_version );
+   sprintf( str, _("###      master table version : %d\n"),      bufr->s1.master_table_version );
    print_proc( str );
-   sprintf( str, "###      local table version  : %d\n",      bufr->s1.local_table_version );
+   sprintf( str, _("###      local table version  : %d\n"),      bufr->s1.local_table_version );
    print_proc( str );
-   sprintf( str, "###      Year                 : %d\n",      bufr->s1.year );
+   sprintf( str, _("###      Year                 : %d\n"),      bufr->s1.year );
    print_proc( str );
-   sprintf( str, "###      Month                : %d\n",      bufr->s1.month );
+   sprintf( str, _("###      Month                : %d\n"),      bufr->s1.month );
    print_proc( str );
-   sprintf( str, "###      Day                  : %d\n",      bufr->s1.day );
+   sprintf( str, _("###      Day                  : %d\n"),      bufr->s1.day );
    print_proc( str );
-   sprintf( str, "###      Hour                 : %d\n",      bufr->s1.hour );
+   sprintf( str, _("###      Hour                 : %d\n"),      bufr->s1.hour );
    print_proc( str );
-   sprintf( str, "###      Min                  : %d\n",      bufr->s1.minute );
+   sprintf( str, _("###      Min                  : %d\n"),      bufr->s1.minute );
    print_proc( str );
    if (bufr->edition >= 4)
       {
-      sprintf( str, "###      Sec                  : %d\n",      bufr->s1.second );
+      sprintf( str, _("###      Sec                  : %d\n"),      bufr->s1.second );
       print_proc( str );
       }
-   sprintf( str, "###      octet 8              : %d\n",      bufr->s1.flag   );
+   sprintf( str, _("###      octet 8              : %d\n"),      bufr->s1.flag   );
    print_proc( str );
-   sprintf( str, "###         optional section  :" );
+   sprintf( str, _("###         optional section  :") );
    print_proc( str );
    if (bufr->s1.flag & 1 )
-      print_proc( " Yes\n" );
+      print_proc( _(" Yes\n") );
    else
-      print_proc( " No\n" );
+      print_proc( _(" No\n") );
 
 
-   sprintf( str, "###   Section 2\n" );
+   sprintf( str, _("###   Section 2\n") );
    print_proc( str );
-   sprintf( str, "###      length               : %d\n",      bufr->s2.len   );
+   sprintf( str, _("###      length               : %d\n"),      bufr->s2.len   );
    print_proc( str );
-   sprintf( str, "###   Section 3\n" );
+   sprintf( str, _("###   Section 3\n") );
    print_proc( str );
-   sprintf( str, "###      length               : %d\n",      bufr->s3.len   );
+   sprintf( str, _("###      length               : %d\n"),      bufr->s3.len   );
    print_proc( str );
-   sprintf( str, "###      datasubsets          : %d\n",      bufr->s3.no_data_subsets   );
+   sprintf( str, _("###      datasubsets          : %d\n"),      bufr->s3.no_data_subsets   );
    print_proc( str );
-   sprintf( str, "###      octet 7              : %d\n",      bufr->s3.flag   );
+   sprintf( str, _("###      octet 7              : %d\n"),      bufr->s3.flag   );
    print_proc( str );
-   sprintf( str, "###         compression       :" );
+   sprintf( str, _("###         compression       :") );
    print_proc( str );
    if (BUFR_IS_COMPRESSED( bufr ))
-      print_proc( " Yes\n" );
+      print_proc( _(" Yes\n") );
    else
-      print_proc( " No\n" );
+      print_proc( _(" No\n") );
    if ( bufr->s3.flag & BUFR_FLAG_OBSERVED )
-      sprintf( str, "###         observed data\n" );
+      sprintf( str, _("###         observed data\n") );
    else
-      sprintf( str, "###         other data\n" );
+      sprintf( str, _("###         other data\n") );
    print_proc( str );
-   sprintf( str, "###   Section 4\n" );
+   sprintf( str, _("###   Section 4\n") );
    print_proc( str );
-   sprintf( str, "###      length               : %d\n",      bufr->s4.len   );
+   sprintf( str, _("###      length               : %d\n"),      bufr->s4.len   );
    print_proc( str );
-   sprintf( str, "###   Section 5\n" );
+   sprintf( str, _("###   Section 5\n") );
    print_proc( str );
-   sprintf( str, "###      length               : %d\n",      bufr->s5.len   );
+   sprintf( str, _("###      length               : %d\n"),      bufr->s5.len   );
    print_proc( str );
 
    print_proc( "###\n" );
@@ -315,7 +316,7 @@ void bufr_init_header(BUFR_Message *bufr, int edition)
 
    if ((edition < 2)||(edition > 5))
       {
-      sprintf( errmsg, "Warning: unsupported BUFR edition=%d, default=4\n", edition );
+      sprintf( errmsg, _("Warning: unsupported BUFR edition=%d, default=4\n"), edition );
       bufr_print_debug( errmsg );
       edition = 4;
       }

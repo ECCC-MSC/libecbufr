@@ -38,6 +38,7 @@ This file is part of libECBUFR.
 #include "bufr_value.h"
 #include "bufr_tables.h"
 #include "bufr_sequence.h"
+#include "bufr_i18n.h"
 
 static int          bad_descriptor=0;
 static BufrValueEncoding bufr_errtbe;
@@ -617,7 +618,7 @@ static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
             ival = *pival;
             if (ival == desc)
                {
-               sprintf( errmsg, "Warning: Table D descriptor : %d is in a circular loop\n", desc );
+               sprintf( errmsg, _("Warning: Table D descriptor : %d is in a circular loop\n"), desc );
                bufr_print_debug( errmsg );
                return -1;
                }
@@ -628,7 +629,7 @@ static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
       etd = bufr_fetch_tableD( tbls, desc );
       if (etd == NULL)
          {
-         sprintf( errmsg, "Warning: invalid Table D descriptor : %d\n", desc );
+         sprintf( errmsg, _("Warning: invalid Table D descriptor : %d\n"), desc );
          bufr_print_debug( errmsg );
          return -1;
          }
@@ -669,7 +670,7 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
       case 3 :
          {
          char buf[128];
-         sprintf( buf, "Warning: Not table B descriptor %d\n", desc );
+         sprintf( buf, _("Warning: Not table B descriptor %d\n"), desc );
          bufr_print_output( buf );
          bufr_print_debug( buf );
          return NULL;
@@ -691,7 +692,7 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
          {
          char buf[128];
 
-         sprintf( buf, "Warning: Unknown BUFR descriptor: %d\n", desc );
+         sprintf( buf, _("Warning: Unknown BUFR descriptor: %d\n"), desc );
          bufr_print_output( buf );
          bufr_print_debug( buf );
          }
@@ -736,7 +737,7 @@ EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int desc)
    if (e == NULL)
       {
       char buf[128];
-      sprintf( buf, "Warning: Table D Code unknown: %d\n", desc );
+      sprintf( buf, _("Warning: Table D Code unknown: %d\n"), desc );
       bufr_print_debug( buf );
       }
    return e;
@@ -769,7 +770,7 @@ EntryTableD *bufr_match_tableD_sequence  ( BUFR_Tables * tbls,
    if (e == NULL)
       e = bufr_tabled_match_sequence( tbls->master.tableD, ndesc, desc );
    if (e == NULL)
-      bufr_print_debug( "Warning: Table D sequence not found\n" );
+      bufr_print_debug( _("Warning: Table D sequence not found\n") );
    return e;
    }
 
@@ -837,7 +838,7 @@ static EntryTableBArray bufr_tableb_read
    fp = fopen ( filename, "r" ) ;
    if (fp == NULL)
       {
-      sprintf( buf, "Warning: can't open Table B file %s\n", filename );
+      sprintf( buf, _("Warning: can't open Table B file %s\n"), filename );
       bufr_print_debug( buf );
       return NULL;
       }
@@ -918,7 +919,7 @@ static EntryTableBArray bufr_tableb_read
 #if DEBUG
          if (isdebug)
             {
-            sprintf( buf, "Skipped invalid descriptor: %s\n", ligne );
+            sprintf( buf, _("Skipped invalid descriptor: %s\n"), ligne );
             bufr_print_debug( buf );
             }
 #endif
@@ -936,7 +937,7 @@ static EntryTableBArray bufr_tableb_read
 #if DEBUG
             if (isdebug)
                {
-               sprintf( buf, "Skipped local descriptor: %s\n", ligne );
+               sprintf( buf, _("Skipped local descriptor: %s\n"), ligne );
                bufr_print_debug( buf );
                }
 #endif
@@ -964,17 +965,17 @@ static EntryTableBArray bufr_tableb_read
       etb->encoding.type        = bufr_unit_to_datatype( etb->unit );
       if (etb->encoding.type == TYPE_UNDEFINED)
          {
-         sprintf( errmsg, "Warning: error while loading Table B file: %s\n", 
+         sprintf( errmsg, _("Warning: error while loading Table B file: %s\n"), 
             filename );
          bufr_print_debug( errmsg );
-         sprintf( errmsg, "Error reading descriptor: %d unit=\"%s\"\n", 
+         sprintf( errmsg, _("Error reading descriptor: %d unit=\"%s\"\n"), 
                 etb->descriptor, etb->unit );
          bufr_print_debug( errmsg );
          }
 #if DEBUG
       if (isdebug)
          {
-         sprintf( buf, "Loaded descriptor: %s\n", ligne );
+         sprintf( buf, _("Loaded descriptor: %s\n"), ligne );
          bufr_print_debug( buf );
          }
 #endif
@@ -1223,7 +1224,7 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
    fp = fopen ( filename, "r" ) ;
    if (fp == NULL)
 		{
-      sprintf( ligne, "Warning: can't open Table D file %s\n", filename );
+      sprintf( ligne, _("Warning: can't open Table D file %s\n"), filename );
       bufr_print_debug( ligne );
       return NULL;
       }
@@ -1642,7 +1643,7 @@ int32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_UNDERFLOW;
-      sprintf( buffer, "Warning: UNDERFLOW with element %d : value = %e, giving %lld",
+      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %e, giving %lld"),
                code, fval, ival );
       bufr_print_debug( buffer );
       ival = -1;
@@ -1655,7 +1656,7 @@ int32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_OVERFLOW;
-      sprintf( buffer, "Warning: OVERFLOW with element %d (max=%lld) : value = %e, giving %lld",
+      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%lld) : value = %e, giving %lld"),
                code, maxval, fval, ival );
       bufr_print_debug( buffer );
       ival = -1;
@@ -1753,7 +1754,7 @@ int64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double dval)
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_UNDERFLOW;
-      sprintf( buffer, "Warning: UNDERFLOW with element %d : value = %f, giving %lld",
+      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %f, giving %lld"),
                code, dval, ival );
       bufr_print_debug( buffer );
       ival = -1;
@@ -1765,7 +1766,7 @@ int64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double dval)
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_OVERFLOW;
-      sprintf( buffer, "Warning: OVERFLOW with element %d (max=%lld) : value = %e, giving %lld",
+      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%lld) : value = %e, giving %lld"),
                code, maxval, dval, ival );
       bufr_print_debug( buffer );
       ival = -1;
@@ -2078,7 +2079,7 @@ static void test_print_tableD( char *tabled )
       r = pe ? *pe : NULL;
       if ( r != NULL)
          {
-         sprintf( buf, "TableD : %d\n", r->code );
+         sprintf( buf, _("TableD : %d\n"), r->code );
          bufr_print_debug( buf );
          }
       }

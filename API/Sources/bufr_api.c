@@ -36,7 +36,7 @@ This file is part of libECBUFR.
 #include "bufr_value.h"
 #include "bufr_array.h"
 #include "bufr_template.h"
-
+#include "bufr_i18n.h"
 
 #define   TLC_FLAG_BIT      0x80000
 
@@ -61,7 +61,7 @@ void bufr_begin_api(void)
       char msg[256];
 
       bufr_print_debug( "###\n" );
-      snprintf( msg, 256, "### Debugging printout of BUFR API Version: %s\n", 
+      snprintf( msg, 256, _("### Debugging printout of BUFR API Version: %s\n"), 
                            BUFR_API_VERSION );
       bufr_print_debug( msg );
       bufr_print_debug( "###\n" );
