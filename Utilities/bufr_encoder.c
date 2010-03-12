@@ -23,6 +23,9 @@ This file is part of libECBUFR.
 #include <math.h>
 #include <time.h>
 #include <ctype.h>
+#include <locale.h>
+
+#include "bufr_i18n.h"
 #include "bufr_api.h"
 #include "bufr_io.h"
 #include "bufr_tables.h"
@@ -203,7 +206,11 @@ static void cleanup(void)
  */
 int main(int argc,char *argv[])
 {
-   
+   //Setup for internationalization
+   bufr_begin_api();
+   setlocale (LC_ALL, "");
+   textdomain (PACKAGE);
+  
 
    if (argc == 1)
       {
@@ -214,7 +221,6 @@ int main(int argc,char *argv[])
 
    bufr_set_debug_file( str_debug );
 
-   bufr_begin_api();
 /*
  * charger les tables en memoire
  */

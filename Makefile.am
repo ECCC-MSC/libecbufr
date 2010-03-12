@@ -6,7 +6,7 @@ doc_DATA = AUTHORS ChangeLog COPYING INSTALL NEWS README TODO
 
 EXTRA_DIST = reconf configure make_debpkg
 
-SUBDIRS = API Examples Utilities Tables Test Docs
+SUBDIRS = po API Examples Utilities Tables Test Docs
 
 distdir=@PACKAGE_NAME@-@PACKAGE_VERSION@
 
@@ -16,3 +16,5 @@ pkg: make_debsrcpkg all
 	cd debpackage/@PACKAGE_NAME@-@PACKAGE_VERSION@ && \
 		fakeroot dpkg-buildpackage -b -us -uc -tc
 	mv debpackage/*.deb .
+
+ACLOCAL_AMFLAGS = -I m4

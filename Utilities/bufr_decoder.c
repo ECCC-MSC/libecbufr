@@ -22,6 +22,9 @@ This file is part of libECBUFR.
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <locale.h>
+
+#include "bufr_i18n.h"
 #include "bufr_api.h"
 #include "bufr_io.h"
 #include "bufr_tables.h"
@@ -178,7 +181,11 @@ static void cleanup(void)
  */
 int main(int argc,char *argv[])
 {
-   
+   //Setup for internationalization
+   bufr_begin_api();
+   setlocale (LC_ALL, "");
+   textdomain (PACKAGE);
+
    if (argc == 1)
       abort_usage( argv[0] );
 
