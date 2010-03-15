@@ -43,7 +43,8 @@ This file is part of libECBUFR.
 
 /**
  * @english
- * Initialises mathematical constants, calls bufr_init_limits.
+ * Initializes mathematical constants, calls bufr_init_limits.
+ * Also, it initializes the internationalization features.
  * First function to call for using the BUFR API library
  * @warning Not thread-safe
  * @return void
@@ -56,6 +57,9 @@ This file is part of libECBUFR.
  */
 void bufr_begin_api(void)
    {
+   // Internationalization
+   bindtextdomain(PACKAGE, LOCALEDIR);
+
    if (bufr_is_debug())
       {
       char msg[256];
