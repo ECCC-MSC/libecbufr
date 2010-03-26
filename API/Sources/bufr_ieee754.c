@@ -540,7 +540,7 @@ static void check_word_size(char *string, int size, int expected, int *failed)
 
    if (debug)
       {
-      sprintf( errmsg, _("### Checking: %s size is %d bytes:"), string, size );
+      sprintf( errmsg, _n("### Checking: %s size is %d byte:", "### Checking: %s size is %d bytes:", size), string, size );
       bufr_print_debug( errmsg );
       }
 
@@ -553,7 +553,7 @@ static void check_word_size(char *string, int size, int expected, int *failed)
       {
       if (debug) 
          {
-         sprintf( errmsg, _("Failed: should be %d bytes\n"), expected );
+         sprintf( errmsg, _n("Failed: size should be %d byte\n", "Failed: size should be %d bytes\n", expected), expected );
          bufr_print_debug( errmsg );
          }
       *failed = 1;

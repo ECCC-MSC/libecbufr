@@ -381,8 +381,10 @@ int bufr_callback_write_message(bufr_write_callback writecb,
       {
       char errmsg[256];
 
-      sprintf( errmsg, _("Error: cannot create BUFR message with length %d octets\n"), 
-            bufr->len_msg  );
+      sprintf( errmsg, _n("Error: cannot create BUFR message with a length of %d octet\n", 
+                          "Error: cannot create BUFR message with a length of %d octets\n", 
+                          bufr->len_msg), 
+               bufr->len_msg  );
       fprintf( stderr, errmsg );
       return errno=EINVAL, -1;
       }
@@ -1503,7 +1505,9 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
          bufr->s1.data_len = c - bufr->s1.header_len;
          if (bufr_is_verbose())
             {
-            sprintf( errmsg, _("### Section1 contains additionnal data length=%d octets\n"), 
+            sprintf( errmsg, _n("### Section1 contains additionnal data length=%d octet\n",
+                                "### Section1 contains additionnal data length=%d octets\n", 
+                                bufr->s1.data_len), 
                      bufr->s1.data_len );
             bufr_print_debug( errmsg );
             }
@@ -1647,8 +1651,9 @@ static int bufr_rd_section2(bufr_read_callback readcb, void *cd,
 
    if (bufr_is_verbose())
       {
-      sprintf( errmsg, _("### Section2 contains additionnal data length=%d octets\n"), 
-            bufr->s2.data_len );
+      sprintf( errmsg, _n("### Section2 contains additionnal data length=%d octet\n", 
+                          "### Section2 contains additionnal data length=%d octets\n", bufr->s2.data_len), 
+               bufr->s2.data_len );
       bufr_print_debug( errmsg );
       }
 
@@ -1813,7 +1818,9 @@ int bufr_decode_sect3(BUFR_Message *bufr)
 
    if (bufr_is_verbose()||bufr_is_debug())
       {
-      sprintf( errmsg, _("### Decoding Section 3: contains %d items\n"), count );
+      sprintf( errmsg, _n("### Decoding Section 3: contains %d item\n", 
+                          "### Decoding Section 3: contains %d items\n", count), 
+               count );
       bufr_print_debug( errmsg );
       }
 

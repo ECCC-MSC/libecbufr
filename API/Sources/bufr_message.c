@@ -172,7 +172,7 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
       sprintf( str, _("###      sub center           : %d\n"),      bufr->s1.orig_sub_centre );
       print_proc( str );
       }
-   sprintf( str, _("###      update sequence      : %d\n"),      bufr->s1.upd_seq_no );
+   sprintf( str, _("###      update sequence number : %d\n"),      bufr->s1.upd_seq_no );
    print_proc( str );
    sprintf( str, _("###      Data category        : %d\n"),      bufr->s1.msg_type );
    print_proc( str );
@@ -183,7 +183,7 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
       }
    else if (bufr->edition >= 4)
       {
-      sprintf( str, _("###      Inter. sub category  : %d\n"),      bufr->s1.msg_inter_subtype );
+      sprintf( str, _("###      International sub category  : %d\n"),      bufr->s1.msg_inter_subtype );
       print_proc( str );
       sprintf( str, _("###      Local sub category   : %d\n"),      bufr->s1.msg_local_subtype );
       print_proc( str );

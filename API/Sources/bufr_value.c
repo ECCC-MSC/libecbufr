@@ -1019,7 +1019,9 @@ uint64_t bufr_negative_ivalue( int64_t value, int nbits )
       {
       char errmsg[256];
 
-      sprintf( errmsg, _("Warning: %lld need at least %d bits for storage\n"), value, minbits );
+      sprintf( errmsg, _n("Warning: %lld needs at least %d bit for storage\n", 
+                          "Warning: %lld needs at least %d bits for storage\n", minbits), 
+               value, minbits );
       bufr_print_debug( errmsg );
       }
 

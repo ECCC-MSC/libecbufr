@@ -38,6 +38,7 @@ This file is part of libECBUFR.
 #include "gettext.h"
 
 #define _(String) dgettext(PACKAGE, String)
+#define _n(String1, String2, n) dngettext(PACKAGE, String1, String2, n)
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
 

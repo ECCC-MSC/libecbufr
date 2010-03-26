@@ -111,7 +111,7 @@ int bufr_store_tables
    if ((tcount <= 0)&&(dcount <= 0)) 
       {
       if (debug)
-         bufr_print_debug( _("###  no, Local tables is empty\n") );
+         bufr_print_debug( _("###  no, Local tables are empty\n") );
       return 0;
       }
 
@@ -190,7 +190,10 @@ int bufr_store_tables
       clist = bufr_sequence_2TBarray( sequence, tbls );
       if (debug)
          {
-         sprintf( errmsg, _("### Local tables contains %d table B entries\n"), tcount );
+         sprintf( errmsg, _n("### Local tables contain %d table B entry\n", 
+                             "### Local tables contain %d table B entries\n", 
+                             tcount ), 
+                  tcount );
          bufr_print_debug( errmsg );
          }
       }
@@ -207,7 +210,10 @@ int bufr_store_tables
       arr_add( desc_list, (char *)&descriptor );
       if (debug)
          {
-         sprintf( errmsg, _("### Local tables contains %d table D entries\n"), dcount );
+         sprintf( errmsg, _n("### Local tables contain %d table D entry\n", 
+                             "### Local tables contain %d table D entries\n", 
+                             dcount), 
+                  dcount );
          bufr_print_debug( errmsg );
          }
       }
@@ -443,8 +449,9 @@ BUFR_Tables *bufr_extract_tables( BUFR_Dataset *dts )
                bufr_copy_EntryTableB( e1, &eb );
                if (bufr_is_debug())
                   {
-                  sprintf( errmsg, _("Extracted TableB %d : (%d bits) %s\n"), 
-                        e1->descriptor, e1->encoding.nbits, e1->description );
+                  sprintf( errmsg, _n("Extracted TableB %d : (%d bit) %s\n", 
+                                      "Extracted TableB %d : (%d bits) %s\n", e1->encoding.nbits), 
+                           e1->descriptor, e1->encoding.nbits, e1->description );
                   bufr_print_debug( errmsg );
                   }
                arr_add( tbls->local.tableB, (char *)&e1 );
@@ -466,7 +473,7 @@ BUFR_Tables *bufr_extract_tables( BUFR_Dataset *dts )
                   free( codes );
                   if (c > 0)
                      {
-                     sprintf( errmsg, _("Warning: Table D %d is incomplete, got only %d of %d, rejected.\n"), 
+                     sprintf( errmsg, _("Warning: Table D descriptor %d is incomplete, got only %d of %d, rejected.\n"), 
                            descriptor, c, count_tableD );
                      bufr_print_debug( errmsg );
                      }
@@ -485,8 +492,9 @@ BUFR_Tables *bufr_extract_tables( BUFR_Dataset *dts )
                   {
                   if (bufr_is_debug())
                      {
-                     sprintf( errmsg, _("Extracted TableD %d : %d items\n"), 
-                           descriptor, count_tableD );
+                     sprintf( errmsg, _n("Extracted TableD %d : %d item\n", 
+                                         "Extracted TableD %d : %d items\n", count_tableD), 
+                              descriptor, count_tableD );
                      bufr_print_debug( errmsg );
                      }
                   etd = bufr_new_EntryTableD( descriptor, NULL, 0, codes, count_tableD );

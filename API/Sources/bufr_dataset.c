@@ -713,7 +713,7 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
          {
          x_compress = bufr_dataset_compressible( dts );
          if (debug && !x_compress)
-         bufr_print_debug( _("### Data not not compressible\n") );
+         bufr_print_debug( _("### Data not compressible\n") );
          }
       }
 
@@ -808,7 +808,7 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
       count = bufr_datasubset_count_descriptor( subset );
       if (debug)
          {
-         sprintf( errmsg, _("Storing %d Subsets compressed of %d items\n"), nb_subsets, count );
+         sprintf( errmsg, _("Storing %d compressed Subsets of %d items\n"), nb_subsets, count );
          bufr_print_debug( errmsg );
          }
       for ( j = 0 ; j < count ; j++ )
@@ -859,8 +859,11 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
 
    if (msg->len_msg > BUFR_MAX_MSG_LEN)
       {
-      sprintf( errmsg, _("Warning: BUFR message length %lld octets exceeded the max allowed of %d octets\n"), 
-                  msg->len_msg, BUFR_MAX_MSG_LEN );
+      sprintf( errmsg, _n("Warning: BUFR message length is %lld octet. ", "Warning: BUFR message length is %lld octets. ", msg->len_msg), 
+               msg->len_msg );
+      bufr_print_debug( errmsg );
+      sprintf( errmsg, _n("It exceeds the maximum allowed of %d octet\n", "It exceeds the maximum allowed of %d octets\n", BUFR_MAX_MSG_LEN), 
+               BUFR_MAX_MSG_LEN );
       bufr_print_debug( errmsg );
       fprintf( stderr, errmsg );
       }
@@ -930,8 +933,10 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
          bufr_print_debug( "   " );
          if (bufr_print_dscptr_value( errmsg, bcv ))
             bufr_print_debug( errmsg );
-         sprintf( errmsg, _(" -> R0=0x%llx (%d bits) NBINC=%d (%d bits) \n"), 
-               imin, bcv->encoding.nbits, 0, 6 );
+         sprintf( errmsg, _n(" -> R0=0x%llx (%d bit) ", " -> R0=0x%llx (%d bits) ", bcv->encoding.nbits), 
+               imin, bcv->encoding.nbits );
+         bufr_print_debug( errmsg );
+         sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6 ), 0, 6 );
          bufr_print_debug( errmsg );
          }
       }
@@ -947,8 +952,10 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
          bufr_print_debug( "   " );
          if (bufr_print_dscptr_value( errmsg, bcv ))
             bufr_print_debug( errmsg );
-         sprintf( errmsg, _(" -> R0=0x%llx (%d bits) NBINC=%d (%d bits)\n"), 
-               imin, bcv->encoding.nbits, nbinc, 6 );
+         sprintf( errmsg, _n(" -> R0=0x%llx (%d bit) ", " -> R0=0x%llx (%d bits) ", bcv->encoding.nbits), 
+               imin, bcv->encoding.nbits );
+         bufr_print_debug( errmsg );
+         sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), nbinc, 6 );
          bufr_print_debug( errmsg );
          }
       for (i = 0; i < nb_subsets ; i++)
@@ -966,7 +973,7 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
             bufr_print_debug( "   " );
             if (bufr_print_dscptr_value( errmsg, bcv ))
                bufr_print_debug( errmsg );
-            sprintf( errmsg, _(" -> R(%d)=0x%llx (%d bits)\n"), i+1, ival, nbinc );
+            sprintf( errmsg, _n(" -> R(%d)=0x%llx (%d bit)\n", " -> R(%d)=0x%llx (%d bits)\n", nbinc), i+1, ival, nbinc );
             bufr_print_debug( errmsg );
             }
          }
@@ -1031,8 +1038,10 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, uval, 64 );     /* REF */
          if (debug)
             {
-            sprintf( errmsg, _("   %E -> R0=%llx (%d bits) NBINC=0 (%d bits)\n"), 
-                  dval0, uval, 64, 6 );
+            sprintf( errmsg, _n("   %E -> R0=%llx (%d bit) ", "   %E -> R0=%llx (%d bits) ", 64), 
+                  dval0, uval, 64 );
+            bufr_print_debug( errmsg );
+            sprintf( errmsg, _n("NBINC=0 (%d bit)\n", "NBINC=0 (%d bits)\n", 6), 6 );
             bufr_print_debug( errmsg );
             }
          }
@@ -1042,8 +1051,10 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, uval, 32 );     /* REF */
          if (debug)
             {
-            sprintf( errmsg, _("   %E -> R0=%llx (%d bits) NBINC=0 (%d bits)\n"), 
-                  fval0, uval, 32, 6 );
+            sprintf( errmsg, _n("   %E -> R0=%llx (%d bit) ", "   %E -> R0=%llx (%d bits) ", 32), 
+                  fval0, uval, 32 );
+            bufr_print_debug( errmsg );
+            sprintf( errmsg, _n("NBINC=0 (%d bit)\n", "NBINC=0 (%d bits)\n", 6), 6);
             bufr_print_debug( errmsg );
             }
          }
@@ -1058,8 +1069,10 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, 8, 6 );         /* NBINC */
          if (debug)
             {
-            sprintf( errmsg, _("   %E -> R0=0x%llx (%d bits) NBINC=%d (%d bits)\n"), 
-                  dval0, uval, 64, 8, 6  );
+            sprintf( errmsg, _n("   %E -> R0=0x%llx (%d bit) ", "   %E -> R0=0x%llx (%d bits) ", 64), 
+                  dval0, uval, 64 );
+            bufr_print_debug( errmsg );
+            sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), 8, 6);
             bufr_print_debug( errmsg );
             }
          }
@@ -1070,8 +1083,10 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, 4, 6 );         /* NBINC */
          if (debug)
             {
-            sprintf( errmsg, _("   %E -> R0=0x%llx (%d bits) NBINC=%d (%d bits)\n"), 
-                  fval0, uval, 32, 4, 6 );
+            sprintf( errmsg, _n("   %E -> R0=0x%llx (%d bit) ", "   %E -> R0=0x%llx (%d bits) ", 32), 
+                  fval0, uval, 32);
+            bufr_print_debug( errmsg );
+            sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), 4, 6);
             bufr_print_debug( errmsg );
             }
          }
@@ -1087,7 +1102,7 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
             bufr_putbits( msg, uval, 64 );
             if (debug)
                {
-               sprintf( errmsg, _("   %E -> R(%d)=0x%llx (%d bits)\n"), dval, i+1, uval, 64 );
+               sprintf( errmsg, _n("   %E -> R(%d)=0x%llx (%d bit)\n", "   %E -> R(%d)=0x%llx (%d bits)\n", 64), dval, i+1, uval, 64 );
                bufr_print_debug( errmsg );
                }
             }
@@ -1098,7 +1113,7 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
             bufr_putbits( msg, uval, 32 );
             if (debug)
                {
-               sprintf( errmsg, _("   %E ->  R(%d)=0x%llx (%d bits)\n"), fval, i, uval, 32 );
+               sprintf( errmsg, _n("   %E ->  R(%d)=0x%llx (%d bit)\n", "   %E ->  R(%d)=0x%llx (%d bits)\n", 32), fval, i, uval, 32 );
                bufr_print_debug( errmsg );
                }
             }
@@ -1150,8 +1165,10 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
       bufr_putbits( msg, 0, 6 );                       /* NBINC */
       if (debug)
          {
-         sprintf( errmsg, _("   AF0=0x%llx (%d bits) NBINC=%d (%d bits) \n"), 
-                     umin, bcv->value->af->nbits, 0, 6 );
+         sprintf( errmsg, _n("   AF0=0x%llx (%d bit) ", "   AF0=0x%llx (%d bits) ", bcv->value->af->nbits), 
+                     umin, bcv->value->af->nbits);
+         bufr_print_debug( errmsg );
+         sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), 0, 6 );
          bufr_print_debug( errmsg );
          }
       }
@@ -1163,8 +1180,10 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
       bufr_putbits( msg, nbinc, 6 );          /* NBINC */
       if (debug)
          {
-         sprintf( errmsg, _("   AF0=0x%llx (%d bits) NBINC=%d (%d bits)\n"), 
-                     umin, bcv->encoding.nbits, nbinc, 6 );
+         sprintf( errmsg, _n("   AF0=0x%llx (%d bit) ", "   AF0=0x%llx (%d bits) ", bcv->encoding.nbits), 
+                     umin, bcv->encoding.nbits );
+         bufr_print_debug( errmsg );
+         sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), nbinc, 6 );
          bufr_print_debug( errmsg );
          }
       for (i = 0; i < nb_subsets ; i++)
@@ -1178,7 +1197,7 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
             bufr_putbits( msg, uval, nbinc );     /* Inc 's */
             if (debug)
                {
-               sprintf( errmsg, _("   0x%llx -> AF(%d)=0x%llx (%d bits)\n"), uval2, i+1, uval, nbinc );
+               sprintf( errmsg, _n("   0x%llx -> AF(%d)=0x%llx (%d bit)\n", "   0x%llx -> AF(%d)=0x%llx (%d bits)\n", nbinc), uval2, i+1, uval, nbinc );
                bufr_print_debug( errmsg );
                }
             }
@@ -1249,7 +1268,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
          bufr_print_debug( " R0=" );
          if (bufr_print_dscptr_value( errmsg, bcv ))
             bufr_print_debug( errmsg );
-         sprintf( errmsg, _(" NBINC=0 (%d bits)\n"), 6 );
+         sprintf( errmsg, _n(" NBINC=0 (%d bit)\n", " NBINC=0 (%d bits)\n", 6), 6 );
          bufr_print_debug( errmsg );
          }
       }
@@ -1264,7 +1283,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
          bufr_print_debug( " R0=" );
          if (bufr_print_value( errmsg, bv ))
             bufr_print_debug( errmsg );
-         sprintf( errmsg, _(" NBINC=%d (%d bits)\n"), bcv->encoding.nbits/8, 6 );
+         sprintf( errmsg, _n(" NBINC=%d (%d bit)\n", " NBINC=%d (%d bits)\n", 6), bcv->encoding.nbits/8, 6 );
          bufr_print_debug( errmsg );
          }
       bufr_free_value( bv );
@@ -1281,7 +1300,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
             bufr_print_debug( errmsg );
             if (bufr_print_dscptr_value( errmsg, bcv ))
                bufr_print_debug( errmsg );
-            sprintf( errmsg, _(" (%d bits)\n"), bcv->encoding.nbits );
+            sprintf( errmsg, _n(" (%d bit)\n", " (%d bits)\n", bcv->encoding.nbits), bcv->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          }
@@ -1461,7 +1480,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
       {
       if (isdebug)
          {
-         sprintf( errmsg, _("AFD: 0x%llx (%d bits) "), 
+         sprintf( errmsg, _n("AFD: 0x%llx (%d bit) ", "AFD: 0x%llx (%d bits) ", bd->value->af->nbits), 
                bd->value->af->bits, bd->value->af->nbits );
          bufr_print_debug( errmsg );
          }
@@ -1487,7 +1506,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             }
          if (isdebug)
             {
-            sprintf( errmsg, _("STR: \"%s\" (%d bits) "), strval, bd->encoding.nbits );
+            sprintf( errmsg, _n("STR: \"%s\" (%d bit) ", "STR: \"%s\" (%d bits) ", bd->encoding.nbits), strval, bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          bufr_putstring( bufr, strval, bd->encoding.nbits/8 );
@@ -1500,7 +1519,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
       case TYPE_IEEE_FP :
          if (isdebug)
             {
-            sprintf( errmsg, _("IEEE FP(%d bits) "), bd->encoding.nbits );
+            sprintf( errmsg, _n("IEEE FP(%d bit) ", "IEEE FP(%d bits) ", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          if (bd->encoding.nbits == 64)
@@ -1590,7 +1609,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             }
          if (isdebug)
             {
-            sprintf( errmsg, _(" (%d bits) "), bd->encoding.nbits );
+            sprintf( errmsg, _n(" (%d bit) ", " (%d bits) ", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          bufr_putbits( bufr, ival, bd->encoding.nbits );
@@ -1613,7 +1632,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             }
          if (isdebug)
             {
-            sprintf( errmsg, _("(%d bits) "), bd->encoding.nbits );
+            sprintf( errmsg, _n("(%d bit) ", "(%d bits) ", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          bufr_putbits( bufr, ival, bd->encoding.nbits );
@@ -1637,7 +1656,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             }
          if (isdebug)
             {
-            sprintf( errmsg, _("(%d bits) "), bd->encoding.nbits );
+            sprintf( errmsg, _n("(%d bit) ", "(%d bits) ", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          bufr_putbits( bufr, ival, bd->encoding.nbits );
@@ -1714,7 +1733,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
 
    if (isdebug)
       {
-      sprintf( errmsg, _("AFD: (%d bits) "), 
+      sprintf( errmsg, _n("AFD: (%d bit) ", "AFD: (%d bits) ", bd->encoding.af_nbits), 
             bd->encoding.af_nbits );
       bufr_print_debug( errmsg );
       }
@@ -1724,7 +1743,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
       bd->value->af->bits = bufr_getbits( bufr, bd->value->af->nbits, &errcode );
       if (isdebug)
          {
-         sprintf( errmsg, _("AFD: 0x%llx (%d bits) "), 
+         sprintf( errmsg, _n("AFD: 0x%llx (%d bit) ", "AFD: 0x%llx (%d bits) ",  bd->value->af->nbits), 
                bd->value->af->bits, bd->value->af->nbits );
          bufr_print_debug( errmsg );
          }
@@ -1799,7 +1818,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
 
          if (isdebug)
             {
-            sprintf( errmsg, _(" (%d bits)"), bd->encoding.nbits );
+            sprintf( errmsg, _n(" (%d bit)", " (%d bits)", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          break;
@@ -1809,7 +1828,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          ival2 = bufr_cvt_ivalue( ival, bd->encoding.nbits );
          if (isdebug)
             {
-            sprintf( errmsg, _("IVAL=%lld INT: %lld (%d bits) "), 
+            sprintf( errmsg, _n("IVAL=%lld INT: %lld (%d bit) ", "IVAL=%lld INT: %lld (%d bits) ", bd->encoding.nbits), 
                   ival2, ival, bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
@@ -1823,7 +1842,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          if (ival == ival2) ival = -1;
          if (isdebug)
             {
-            sprintf( errmsg, _("IVAL=%lld (%d bits) "), ival, bd->encoding.nbits );
+            sprintf( errmsg, _n("IVAL=%lld (%d bit) ", "IVAL=%lld (%d bits) ", bd->encoding.nbits), ival, bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          bufr_value_set_int32( bd->value, ival );
@@ -1867,7 +1886,7 @@ static int bufr_get_desc_ccittia5( BUFR_Message *bufr, BufrDescriptor *bd )
       {
       char errmsg[256];
 
-      sprintf( errmsg, _("STR: [%s] (%d bits) "), strval, bd->encoding.nbits );
+      sprintf( errmsg, _n("STR: [%s] (%d bit) ", "STR: [%s] (%d bits) ", bd->encoding.nbits), strval, bd->encoding.nbits );
       bufr_print_debug( errmsg );
       }
    free( strval );
@@ -1903,7 +1922,7 @@ static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
       bufr_value_set_double( bd->value, dval );
       if (bufr_is_debug())
          {
-         sprintf( errmsg, _("DVAL=%E (%d bits)"), dval, 64 );
+         sprintf( errmsg, _n("DVAL=%E (%d bit)", "DVAL=%E (%d bits)", 64), dval, 64 );
          bufr_print_debug( errmsg );
          }
       }
@@ -1913,7 +1932,7 @@ static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
       bufr_value_set_float( bd->value, fval );
       if (bufr_is_debug())
          {
-         sprintf( errmsg, _("FVAL=%E (%d bits)"), fval, 32 );
+         sprintf( errmsg, _n("FVAL=%E (%d bit)", "FVAL=%E (%d bits)", 32), fval, 32 );
          bufr_print_debug( errmsg );
          }
       }
@@ -1981,7 +2000,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       {
       if (debug)
          {
-         sprintf( errmsg, _("Warning: master Table B version: %d differs message's: %d\n"), 
+         sprintf( errmsg, _("Warning: master Table B version: %d differs from message's: %d\n"), 
                tables->master.version, msg->s1.master_table_version );
          bufr_print_debug( errmsg );
          }
@@ -2347,7 +2366,7 @@ static int bufr_get_ccitt_compressed
       {
       if (bufr_print_value( errmsg, cb->value ))
          bufr_print_debug( errmsg );
-      sprintf( errmsg, _(" NBINC=%d (%d bits)\n"), nbinc, 6 );
+      sprintf( errmsg, _n(" NBINC=%d (%d bit)\n", " NBINC=%d (%d bits)\n", 6), nbinc, 6 );
       bufr_print_debug( errmsg );
       }
    for (i = 0; i < nbsubset ; i++)
@@ -2414,7 +2433,7 @@ static int bufr_get_ieeefp_compressed
       {
       if (bufr_print_value( errmsg, cb->value ))
          bufr_print_debug( errmsg );
-      sprintf( errmsg, _(" NBINC=%d (%d bits)\n"), nbinc, 6 );
+      sprintf( errmsg, _n(" NBINC=%d (%d bit)\n", " NBINC=%d (%d bits)\n", 6), nbinc, 6 );
       bufr_print_debug( errmsg );
       }
    if (errcode < 0) return errcode;
@@ -2482,7 +2501,7 @@ static int bufr_get_numeric_compressed
    imin = bufr_getbits( msg, cb->encoding.nbits, &errcode );
    if (debug)
       {
-      sprintf( errmsg, _("   R0=%lld (%d bits)"), 
+      sprintf( errmsg, _n("   R0=%lld (%d bit)", "   R0=%lld (%d bits)", cb->encoding.nbits), 
             imin, cb->encoding.nbits );
       bufr_print_debug( errmsg );
       }
@@ -2490,7 +2509,7 @@ static int bufr_get_numeric_compressed
    nbinc = bufr_getbits( msg, 6, &errcode );
    if (debug)
       {
-      sprintf( errmsg, _(" NBINC=%d (%d bits)\n"), 
+      sprintf( errmsg, _n(" NBINC=%d (%d bit)\n", " NBINC=%d (%d bits)\n", 6), 
             nbinc, 6 );
       bufr_print_debug( errmsg );
       }
@@ -2532,7 +2551,7 @@ static int bufr_get_numeric_compressed
          bufr_descriptor_set_bitsvalue( cb2, ival2 );
          if (debug)
             {
-            sprintf( errmsg, _("   R(%d)=%llx(%llx) (%d bits)"), i+1, ival2, ival, nbinc );
+            sprintf( errmsg, _n("   R(%d)=%llx(%llx) (%d bit)", "   R(%d)=%llx(%llx) (%d bits)", nbinc), i+1, ival2, ival, nbinc );
             bufr_print_debug( errmsg );
             if (bufr_print_dscptr_value( errmsg, cb2 ))
                bufr_print_debug( errmsg );
@@ -2580,7 +2599,7 @@ static int bufr_get_af_compressed
    imin = bufr_getbits( msg, cb->value->af->nbits, &errcode );
    if (debug)
       {
-      sprintf( errmsg, _(" A0=%llx (%d bits)"), 
+      sprintf( errmsg, _n(" A0=%llx (%d bit)", " A0=%llx (%d bits)", cb->value->af->nbits), 
             imin, cb->value->af->nbits );
       bufr_print_debug( errmsg );
       }
@@ -2588,7 +2607,7 @@ static int bufr_get_af_compressed
    nbinc = bufr_getbits( msg, 6, &errcode );
    if (debug)
       {
-      sprintf( errmsg, _(" NBINC=%d (%d bits)\n"), 
+      sprintf( errmsg, _n(" NBINC=%d (%d bit)\n", " NBINC=%d (%d bits)\n", 6), 
             nbinc, 6 );
       bufr_print_debug( errmsg );
       }
@@ -2624,7 +2643,7 @@ static int bufr_get_af_compressed
          cb2->value->af->bits = ival;
          if (debug)
             {
-            sprintf( errmsg, _("   A(%d)=%llx (%d bits)"), i+1, ival, nbinc );
+            sprintf( errmsg, _n("   A(%d)=%llx (%d bit)", "   A(%d)=%llx (%d bits)", nbinc), i+1, ival, nbinc );
             bufr_print_debug( errmsg );
             bufr_print_debug( "\n" );
             }
@@ -2830,7 +2849,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
    fp = fopen ( infile, "r" ) ;
    if (fp == NULL) 
       {
-      sprintf( errmsg, _("Error: can't open Datafile file %s\n"), infile );
+      sprintf( errmsg, _("Error: can't open Datafile %s\n"), infile );
       bufr_print_debug( errmsg );
       return -1;
       }
@@ -3663,7 +3682,7 @@ int bufr_genmsgs_from_dump
          {
          if (debug)
             {
-            sprintf( errmsg, _("Saving message with %d subsets\n"), bufr_count_datasubset( dts ) );
+            sprintf( errmsg, _n("Saving message with %d subset\n", "Saving message with %d subsets\n", bufr_count_datasubset( dts )), bufr_count_datasubset( dts ) );
             bufr_print_debug( errmsg );
             }
          bufr_write_message( fpo, msg );

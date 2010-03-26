@@ -1317,8 +1317,10 @@ BufrDDOp  *bufr_apply_Tables
                         new206 = 206000 + ddo->local_nbits_follows;
                         if (debug)
                            {
-                           sprintf( errmsg, _("Warning: local descriptor %.6d (%d bits) dont match %d, should have been %d\n"), 
-                              cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
+                           sprintf( errmsg, _n("Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been %d\n", 
+                                               "Warning: local descriptor %.6d (%d bits) doesn't match %d, should have been %d\n", 
+                                               cb->encoding.nbits), 
+                                    cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
                            bufr_print_debug( errmsg );
                            }
                         }
@@ -1327,8 +1329,10 @@ BufrDDOp  *bufr_apply_Tables
                      {
                      if (debug)
                         {
-                        sprintf( errmsg, _("### Setting local descriptor %.6d to %d bits)\n"), 
-                              cb->descriptor, ddo->local_nbits_follows );
+                        sprintf( errmsg, _n("### Setting local descriptor %.6d to %d bit\n", 
+                                            "### Setting local descriptor %.6d to %d bits\n", 
+                                            ddo->local_nbits_follows), 
+                                 cb->descriptor, ddo->local_nbits_follows );
                         bufr_print_debug( errmsg );
                         }
                      cb->encoding.nbits = ddo->local_nbits_follows;
@@ -1431,8 +1435,10 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
             cb->encoding.nbits = ddo->change_ref_val_op;
             if (debug)
                {
-               sprintf( errmsg, _("### Changing REF: %d to %d bits:"), 
-                     cb->descriptor, ddo->change_ref_val_op ); 
+               sprintf( errmsg, _n("### Changing REF: %d to %d bit:", 
+                                   "### Changing REF: %d to %d bits:", 
+                                   ddo->change_ref_val_op), 
+                        cb->descriptor, ddo->change_ref_val_op ); 
                bufr_print_debug( errmsg );
                }
 
