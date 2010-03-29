@@ -146,7 +146,7 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
       print_proc( str );
       }
 
-   sprintf( str, _("### Message version           : %d\n"),      bufr->edition  );
+   sprintf( str, _("### BUFR Edition              : %d\n"),      bufr->edition  );
    print_proc( str );
    sprintf( str, _("###          length           : %d\n"),      bufr->len_msg  );
    print_proc( str );

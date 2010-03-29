@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libecbufr 0.8.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-25 17:06-0400\n"
-"PO-Revision-Date: 2010-03-26 07:52-0400\n"
+"POT-Creation-Date: 2010-03-29 06:26-0400\n"
+"PO-Revision-Date: 2010-03-29 06:38-0400\n"
 "Last-Translator: Michel Van Eeckhout <Michel.VanEeckhout@ec.gc.ca>\n"
 "Language-Team: Français\n"
 "MIME-Version: 1.0\n"
@@ -102,18 +102,14 @@ msgstr "### Information de débogage de la version: %s de l'API BUFR\n"
 msgid "Error: illegal number of blocks requested: %d\n"
 msgstr "Erreur : Le nombre de blocs demandé est illégal : %d\n"
 
-# Template = modèle, source: WMO
+# Template = gabarit, source : CMC, Template = modèle, source : WMO (Si ailleurs ils veulent modèle, ce sera facile de faire une régionalisation correspondante)
 #: bufr_dataset.c:116
 msgid "Warning: cannot create dataset, template not finalized\n"
-msgstr ""
-"Attention : impossible de créer l'ensemble de données, le modèle n'est pas "
-"finalisé\n"
+msgstr "Attention : impossible de créer l'ensemble de données, le gabarit n'est pas finalisé\n"
 
 #: bufr_dataset.c:224
 msgid "Error: cannot create datasubset, template not defined in dataset\n"
-msgstr ""
-"Attention : impossible de créer le sous-ensemble de données, le modèle n'est "
-"pas défini dans l'ensemble de données\n"
+msgstr "Attention : impossible de créer le sous-ensemble de données, le gabarit n'est pas défini dans l'ensemble de données\n"
 
 #: bufr_dataset.c:689
 msgid "### Creating BUFR Message with Dataset\n"
@@ -503,8 +499,7 @@ msgstr "Erreur : plus de descripteurs pour les données\n"
 #: bufr_dataset.c:3023
 #, c-format
 msgid "Error: data descriptor %d mismatch with template %d\n"
-msgstr ""
-"Erreur : Le descripteur de données : %d ne correspond pas au modèle : %d\n"
+msgstr "Erreur : Le descripteur de données : %d ne correspond pas au gabarit : %d\n"
 
 #: bufr_dataset.c:3055
 #, c-format
@@ -543,9 +538,7 @@ msgstr "   *** a la valeur : « %s » -> « %f »\n"
 #: bufr_dataset.c:3273
 #, c-format
 msgid "Warning: datafile bufr edition %d differs with template's %d\n"
-msgstr ""
-"Attention : Le numéro d'édition du fichier de données BUFR : %d diffère de "
-"celui du modèle : %d\n"
+msgstr "Attention : Le numéro d'édition du fichier de données BUFR : %d diffère de celui du gabarit : %d\n"
 
 #: bufr_dataset.c:3655
 #, c-format
@@ -844,7 +837,9 @@ msgstr ""
 #, c-format
 msgid "### Section2 contains additionnal data length=%d octet\n"
 msgid_plural "### Section2 contains additionnal data length=%d octets\n"
-msgstr[0] "### La section 2 contient des informations supplémentaires, longueur=%d octet\n"
+msgstr[0] ""
+"### La section 2 contient des informations supplémentaires, longueur=%d "
+"octet\n"
 msgstr[1] ""
 "### La section 2 contient des informations supplémentaires, longueur=%d "
 "octets\n"
@@ -872,7 +867,7 @@ msgstr "### non, l'ensemble de données est nul\n"
 
 #: bufr_local.c:97
 msgid "###  no, Dataset has no template\n"
-msgstr "### non, l'ensemble de données n'a pas de modèle\n"
+msgstr "### non, l'ensemble de données n'a pas de gabarit\n"
 
 #: bufr_local.c:105
 msgid "###  no, Dataset has no local tables\n"
@@ -945,8 +940,8 @@ msgstr "### Entête du message         : « %s »\n"
 
 #: bufr_message.c:149
 #, c-format
-msgid "### Message version           : %d\n"
-msgstr "### Version du message        : %d\n"
+msgid "### BUFR Edition              : %d\n"
+msgstr "### Edition BUFR              : %d\n"
 
 #: bufr_message.c:151
 #, c-format
@@ -1126,7 +1121,7 @@ msgstr ""
 
 #: bufr_sequence.c:169
 msgid "Error: cannot expand template sequence\n"
-msgstr "Erreur : impossible de faire l'expansion de la séquence du modèle\n"
+msgstr "Erreur : impossible de faire l'expansion de la séquence du gabarit\n"
 
 #: bufr_sequence.c:292
 #, c-format
@@ -1155,7 +1150,7 @@ msgstr ""
 
 #: bufr_sequence.c:690
 msgid "### Checking template codes list\n"
-msgstr "### Vérification de la liste des codes du modèle\n"
+msgstr "### Vérification de la liste des codes du gabarit\n"
 
 #: bufr_sequence.c:698
 #, c-format
@@ -1411,50 +1406,50 @@ msgstr "Erreur : descripteur inconnu : %d\n"
 
 #: bufr_template.c:152 bufr_template.c:176
 msgid "Error: Template definition contains error(s)\n"
-msgstr "Erreur : La définition du modèle contient des erreurs\n"
+msgstr "Erreur : La définition du gabarit contient des erreurs\n"
 
 #: bufr_template.c:153 bufr_template.c:177 bufr_template.c:765
 msgid "Error: Unable to create Template\n"
-msgstr "Erreur : impossible de créer le modèle\n"
+msgstr "Erreur : impossible de créer le gabarit\n"
 
 #: bufr_template.c:370 bufr_template.c:392
 msgid "Error: template contains errors\n"
-msgstr "Erreur : le modèle contient des erreurs\n"
+msgstr "Erreur : le gabarit contient des erreurs\n"
 
 #: bufr_template.c:558
 #, c-format
 msgid "### Loading template file \"%s\"\n"
-msgstr "### Chargement du fichier modèle « %s »\n"
+msgstr "### Chargement du fichier gabarit « %s »\n"
 
 #: bufr_template.c:565
 #, c-format
 msgid "Error: can't open template file %s\n"
-msgstr "Erreur : impossible d'ouvrir le fichier modèle « %s »\n"
+msgstr "Erreur : impossible d'ouvrir le fichier gabarit « %s »\n"
 
 #: bufr_template.c:588
 #, c-format
 msgid "### template has a local table B: %s\n"
-msgstr "### le modèle a une table B locale : %s\n"
+msgstr "### le gabarit a une table B locale : %s\n"
 
 #: bufr_template.c:602
 #, c-format
 msgid "### template has a master table B: %s\n"
-msgstr "### le modèle a une table B maître : %s\n"
+msgstr "### le gabarit a une table B maître : %s\n"
 
 #: bufr_template.c:616
 #, c-format
 msgid "### template has a local table D: %s\n"
-msgstr "### le modèle a une table D locale : %s\n"
+msgstr "### le gabarit a une table D locale : %s\n"
 
 #: bufr_template.c:630
 #, c-format
 msgid "### template has a master table D: %s\n"
-msgstr "### le modèle a une table D maître : %s\n"
+msgstr "### le gabarit a une table D maître : %s\n"
 
 #: bufr_template.c:645
 #, c-format
 msgid "### template BUFR Version: %d\n"
-msgstr "### version BUFR du modèle : %d\n"
+msgstr "### version BUFR du gabarit : %d\n"
 
 #: bufr_template.c:656
 #, c-format
@@ -1464,21 +1459,21 @@ msgstr "Erreur : des tables BUFR maîtres sont requises\n"
 #: bufr_template.c:658
 #, c-format
 msgid "Error: can't load template file %s\n"
-msgstr "Erreur : impossible de charger le fichier modèle « %s »\n"
+msgstr "Erreur : impossible de charger le fichier gabarit « %s »\n"
 
 #: bufr_template.c:763
 #, c-format
 msgid "Error: Template file %s contains error(s)\n"
-msgstr "Erreur : Le fichier modèle « %s » contient des erreurs\n"
+msgstr "Erreur : Le fichier gabarit « %s » contient des erreurs\n"
 
 #: bufr_template.c:775
 msgid "### Finished loading template file\n"
-msgstr "### Chargement du fichier modèle terminé\n"
+msgstr "### Chargement du fichier gabarit terminé\n"
 
 #: bufr_template.c:777
 #, c-format
 msgid "### Template contains %d descriptors\n"
-msgstr "### Le modèle contient %d descripteurs\n"
+msgstr "### Le gabarit contient %d descripteurs\n"
 
 #: bufr_value.c:160
 msgid "Error: cannot copy NULL in bufr_duplicate_value\n"
@@ -1492,4 +1487,3 @@ msgid "Warning: %lld needs at least %d bit for storage\n"
 msgid_plural "Warning: %lld needs at least %d bits for storage\n"
 msgstr[0] "Attention : %lld nécessite au moins %d bit pour l'enregistrement\n"
 msgstr[1] "Attention : %lld nécessite au moins %d bits pour l'enregistrement\n"
-
