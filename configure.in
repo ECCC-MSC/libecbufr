@@ -135,6 +135,7 @@ AC_OUTPUT(Makefile \
       API/Sources/Makefile \
       API/version \
       Utilities/Makefile \
+      Utilities/po/Makefile.in \
       Tables/Makefile \
       Test/Makefile \
       Docs/Makefile \

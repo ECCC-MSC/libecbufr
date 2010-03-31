@@ -6,6 +6,8 @@ example_DATA=$(SOURCES)
 
 EXTRA_DIST = bufr_encoder bufr_decoder
 
+SUBDIRS = po
+
 bufr_encoder_SOURCES = \
 	bufr_encoder.c
 

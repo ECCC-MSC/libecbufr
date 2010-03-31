@@ -30,8 +30,13 @@ This file is part of libECBUFR.
 #include "bufr_tables.h"
 #include "bufr_dataset.h"
 #include "bufr_local.h"
+#include "config.h"
+#include "gettext.h"
 
 #define   EXIT_ERROR    5
+#define _(String) gettext(String)
+#define _n(String1, String2, n) ngettext(String1, String2, n)
+#define N_(String) gettext_noop (String)
 
 
 static int   save_local_table_B = 0;
@@ -75,25 +80,25 @@ static void run_tests(void);
  */
 static void abort_usage(char *pgrmname)
 {
-   fprintf( stderr, "BUFR Decoder Version %s\n", BUFR_API_VERSION );
-   fprintf( stderr, "Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009\n" );
-   fprintf( stderr, "Licence LGPLv3\n\n" );
-   fprintf( stderr, "Usage: %s\n", pgrmname );
-   fprintf( stderr, "          [-inbufr     <filename>]    BUFR file to decode\n" );
-   fprintf( stderr, "          [-ltableb    <filename>]    local table B to use for decoding\n" );
-   fprintf( stderr, "          [-ltabled    <filename>]    local table D to use for decoding\n" );
-   fprintf( stderr, "          [-output     <filename>]    output file\n" );
-   fprintf( stderr, "          [-otemplate  <filename>]    output template into file\n" );
-   fprintf( stderr, "          [-debug]                    debug mode (put the messages into file) \n" );
-   fprintf( stderr, "          [-nometa]                   dont show meta info\n" );
-   fprintf( stderr, "          [-dump]                     dump template and data in ASCII file suitable for re-encoding\n" );
-   fprintf( stderr, "          [-describe]                 show description and unit\n" );
-   fprintf( stderr, "          [-location]                 show implicit location or time\n" );
-   fprintf( stderr, "          [-locdesc    <descriptor>]  show RTMD of the location descriptors\n" );
-   fprintf( stderr, "          [-no_format]                disable formatting\n" );
-   fprintf( stderr, "          [-verbose]                  send more messages\n" );
-   fprintf( stderr, "          [-local]                    save the local table B\n" );
-   fprintf( stderr, "          [-stop       <nb_messages>] stops decoding after the specified number of messages\n" );
+   fprintf( stderr, _("BUFR Decoder Version %s\n"), BUFR_API_VERSION );
+   fprintf( stderr, _("Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009\n") );
+   fprintf( stderr, _("Licence LGPLv3\n\n") );
+   fprintf( stderr, _("Usage: %s\n"), pgrmname );
+   fprintf( stderr, _("          [-inbufr     <filename>]    BUFR file to decode\n") );
+   fprintf( stderr, _("          [-ltableb    <filename>]    local table B to use for decoding\n") );
+   fprintf( stderr, _("          [-ltabled    <filename>]    local table D to use for decoding\n") );
+   fprintf( stderr, _("          [-output     <filename>]    output file\n") );
+   fprintf( stderr, _("          [-otemplate  <filename>]    output template into file\n") );
+   fprintf( stderr, _("          [-debug]                    debug mode (put the messages into file) \n") );
+   fprintf( stderr, _("          [-nometa]                   dont show meta info\n") );
+   fprintf( stderr, _("          [-dump]                     dump template and data in ASCII file suitable for re-encoding\n") );
+   fprintf( stderr, _("          [-describe]                 show description and unit\n") );
+   fprintf( stderr, _("          [-location]                 show implicit location or time\n") );
+   fprintf( stderr, _("          [-locdesc    <descriptor>]  show RTMD of the location descriptors\n") );
+   fprintf( stderr, _("          [-no_format]                disable formatting\n") );
+   fprintf( stderr, _("          [-verbose]                  send more messages\n") );
+   fprintf( stderr, _("          [-local]                    save the local table B\n") );
+   fprintf( stderr, _("          [-stop       <nb_messages>] stops decoding after the specified number of messages\n") );
    exit(EXIT_ERROR);
 }
 
@@ -184,7 +189,10 @@ int main(int argc,char *argv[])
    //Setup for internationalization
    bufr_begin_api();
    setlocale (LC_ALL, "");
-   textdomain (PACKAGE);
+   bindtextdomain ("bufr_codec", LOCALEDIR);
+   textdomain ("bufr_codec");
+
+
 
    if (argc == 1)
       abort_usage( argv[0] );
@@ -216,7 +224,7 @@ static void run_tests(void)
 
    if (str_ibufr == NULL)
       {
-      fprintf( stderr, "Warning: No input file\n" );
+      fprintf( stderr, _("Warning: No input file\n") );
       abort_usage( "bufr_decoder" );
       exit(EXIT_ERROR);
       }
@@ -226,7 +234,7 @@ static void run_tests(void)
       char errmsg[256];
 
       bufr_print_debug( "*\n" );
-      sprintf( errmsg, "* BUFR decoder : API version %s\n", BUFR_API_VERSION );
+      sprintf( errmsg, _("* BUFR decoder : API version %s\n"), BUFR_API_VERSION );
       bufr_print_debug( errmsg );
       bufr_print_debug( "*\n" );
       }
@@ -251,7 +259,7 @@ static void run_tests(void)
    if (fpBufr == NULL)
       {
       bufr_free_tables( file_tables );
-      sprintf( buf, "Error: can't open file \"%s\"\n", str_ibufr );
+      sprintf( buf, _("Error: can't open file \"%s\"\n"), str_ibufr );
       bufr_print_debug( buf );
       exit(EXIT_ERROR);
       }
@@ -261,7 +269,7 @@ static void run_tests(void)
       fp = fopen( str_output, "w" );
       if (fp == NULL)
          {
-         sprintf( buf, "Error: can't open file \"%s\"\n", str_output );
+         sprintf( buf, _("Error: can't open file \"%s\"\n"), str_output );
          bufr_print_debug( buf );
          exit(EXIT_ERROR);
          }
@@ -285,7 +293,7 @@ static void run_tests(void)
 
       if (dts == NULL) 
          {
-         strcpy( buf, "Error: can't decode messages\n" );
+         strcpy( buf, _("Error: can't decode messages\n") );
          bufr_print_output( buf );
          bufr_print_debug( buf );
          continue;
@@ -350,7 +358,9 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
       subset = bufr_get_datasubset( dts, i );
       cvcount = bufr_datasubset_count_descriptor( subset );
 
-      sprintf( buf, "## Subset %d : %d descriptors\n", i+1, cvcount );
+      sprintf( buf, _n("## Subset %d : %d descriptor\n", 
+                       "## Subset %d : %d descriptors\n", cvcount), 
+               i+1, cvcount );
       bufr_print_output( buf );
 
       for (j = 0; j < cvcount ; j++)
@@ -404,7 +414,9 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                if (bcv->value->af)  /* If there are Associated Fields */
                   {
                   BufrAF *af = bcv->value->af;
-                  sprintf( buf, "(0x%llx:%d bits)", af->bits, af->nbits );
+                  sprintf( buf, _n("(0x%llx:%d bit)", 
+                                   "(0x%llx:%d bits)", af->nbits), 
+                           af->bits, af->nbits );
                   bufr_print_output( buf );
                   }
 
@@ -412,18 +424,18 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                   {
                   int32_t value = bufr_descriptor_get_ivalue( bcv );
                   if ( value == -1 )
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
                      if (bcv->encoding.type == TYPE_FLAGTABLE)
                         {
                         char str[256];
                         bufr_print_binary( str, value, bcv->encoding.nbits );
-                        sprintf( buf, "BITS=%s ", str );
+                        sprintf( buf, _("BITS=%s "), str );
                         }
                      else
                         {
-                        sprintf( buf, "VALUE=%d ", value );
+                        sprintf( buf, _("VALUE=%d "), value );
                         }
                      bufr_print_output( buf );
                      }
@@ -432,10 +444,10 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                   {
                   int64_t value = bufr_descriptor_get_ivalue( bcv );
                   if ( value == -1 )
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
-                     sprintf( buf, "VALUE=%lld ", value );
+                     sprintf( buf, _("VALUE=%lld "), value );
                      bufr_print_output( buf );
                      }
                   }
@@ -444,10 +456,10 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                   float value = bufr_descriptor_get_fvalue( bcv );
 
                   if (bufr_is_missing_float( value ))
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
-                     bufr_print_output( "VALUE=" );
+                     bufr_print_output( _("VALUE=") );
                      bufr_print_dscptr_value( buf, bcv );
                      bufr_print_output( buf );
                      }
@@ -457,10 +469,10 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                   double value = bufr_descriptor_get_dvalue( bcv );
 
                   if (bufr_is_missing_double( value ))
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
-                     bufr_print_output( "VALUE=" );
+                     bufr_print_output( _("VALUE=") );
                      bufr_print_dscptr_value( buf, bcv );
                      bufr_print_output( buf );
                      }
@@ -471,9 +483,9 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
 
                   char *str = bufr_descriptor_get_svalue( bcv, &len );
                   if (str && !bufr_is_missing_string( str, len ) )
-                     sprintf( buf, "VALUE=%s", str );
+                     sprintf( buf, _("VALUE=%s"), str );
                   else
-                     strcpy( buf, "VALUE=MSNG" );
+                     strcpy( buf, _("VALUE=MSNG") );
                   bufr_print_output( buf );
                   }
                if (show_unitdesc)
@@ -511,7 +523,9 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
       subset = bufr_get_datasubset( dts, i );
       cvcount = bufr_datasubset_count_descriptor( subset );
 
-      sprintf( buf, "## Subset %d : %d descriptors\n", i+1, cvcount );
+      sprintf( buf, _n("## Subset %d : %d descriptor\n", 
+                       "## Subset %d : %d descriptors\n", cvcount), 
+               i+1, cvcount );
       bufr_print_output( buf );
 /*
  * precalculates how long RTMD string will be
@@ -616,7 +630,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   }
                else
                   {
-                  sprintf( buf, "Error: descriptor not found in table B {%d}", desc );
+                  sprintf( buf, _("Error: descriptor not found in table B {%d}"), desc );
                   bufr_print_output( buf );
                   }
                }
@@ -626,7 +640,9 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                if (bcv->value->af)  /* If there are Associated Fields */
                   {
                   BufrAF *af = bcv->value->af;
-                  sprintf( buf, "(0x%llx:%d bits)", af->bits, af->nbits );
+                  sprintf( buf, _n("(0x%llx:%d bit)", 
+                                   "(0x%llx:%d bits)", af->nbits), 
+                           af->bits, af->nbits );
                   bufr_print_output( buf );
                   }
 
@@ -634,7 +650,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   {
                   int32_t value = bufr_descriptor_get_ivalue( bcv );
                   if ( value == -1 )
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
                      if (bcv->encoding.type == TYPE_FLAGTABLE)
@@ -654,7 +670,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   {
                   int64_t value = bufr_descriptor_get_ivalue( bcv );
                   if ( value == -1 )
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
                      sprintf( buf, "%lld ", value );
@@ -666,7 +682,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   float value = bufr_descriptor_get_fvalue( bcv );
 
                   if (bufr_is_missing_float( value ))
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
                      bufr_print_dscptr_value( buf, bcv );
@@ -678,7 +694,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   double value = bufr_descriptor_get_dvalue( bcv );
 
                   if (bufr_is_missing_double( value ))
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                   else
                      {
                      bufr_print_dscptr_value( buf, bcv );
@@ -697,7 +713,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                      }
                   else
                      {
-                     bufr_print_output( "MSNG" );
+                     bufr_print_output( _("MSNG") );
                      }
                   }
                }
