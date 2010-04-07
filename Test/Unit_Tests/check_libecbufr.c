@@ -27,9 +27,9 @@ int main (void)
 {
   int number_failed;
 
-  SRunner *sr = srunner_create (str_util_suite ());
+  SRunner *sr = srunner_create (bufr_util_suite ());
   srunner_add_suite(sr, bufr_io_suite ());
-  srunner_add_suite(sr, array_suite ());
+  srunner_add_suite(sr, bufr_array_suite ());
 
   srunner_run_all (sr, CK_NORMAL);
   number_failed = srunner_ntests_failed (sr);

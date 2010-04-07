@@ -197,9 +197,9 @@ fail_unless(strcmp(output, "A\\040B\\t")==0, "Octal conversion failed, output:%s
 END_TEST
 
 
-Suite * str_util_suite (void)
+Suite * bufr_util_suite (void)
 {
-  Suite *s = suite_create ("str_util");
+  Suite *s = suite_create ("bufr_util");
 
   // strimdup
   TCase *tc_strimdup = tcase_create ("strimdup");
