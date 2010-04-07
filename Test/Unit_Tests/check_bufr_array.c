@@ -20,7 +20,7 @@ This file is part of libECBUFR.
 #include <stdlib.h>
 #include <stdio.h>
 #include "check.h"
-#include "array.c"
+#include "bufr_array.c"
 #include "check_libecbufr.h"
 
 #define ADD_TEST_CASE(X) {                                    \
@@ -206,9 +206,9 @@ fail_unless(arritem_ptr==NULL, "Error: Search found an item that does not exist"
 }
 END_TEST
 
-Suite * array_suite (void)
+Suite * bufr_array_suite (void)
 {
-  Suite *s = suite_create ("array");
+  Suite *s = suite_create ("bufr_array");
 
 /* The macro ADD_TEST_CASE(bufr_read_fn) does:
   TCase *tc_bufr_read_fn = tcase_create ("bufr_read_fn");
