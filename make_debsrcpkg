@@ -58,7 +58,7 @@ EOFDEB
 
 cd ${PKGDIR}
 
-fakeroot dpkg-source -b ${SRCTARGET}
+dpkg-source -b ${SRCTARGET}
 
 if [ $? -eq 0 ]; then
    rm -rf ${SRCPKGDIR}

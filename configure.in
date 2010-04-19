@@ -14,6 +14,9 @@ m4_define(ecbufr_version_micro, 2)
 
 AC_INIT(libecbufr, ecbufr_version_major.ecbufr_version_minor.ecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
 
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([.])
+
 AC_PREFIX_DEFAULT(/usr)
 AC_CONFIG_SRCDIR(API/Sources)
 #AM_CONFIG_HEADER(config.h)
@@ -65,10 +68,7 @@ LDFLAGS="$LDFLAGS -L${PWD}/API/Sources"
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
-#
-# AC_PROG_RANLIB is rendered obsolete by AC_PROG_LIBTOOL
-#AC_PROG_RANLIB
-# seems AC_PROG_LIBTOOL not available on IRIX, and should be commented 
+
 AC_PROG_LIBTOOL
 
 AC_PATH_PROG(DOXYGEN, doxygen, no)

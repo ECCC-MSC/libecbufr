@@ -1,13 +1,5 @@
 #!/bin/sh
 #
-# first, make sure scripts for libtool support exist
-echo "*** Running libtoolize"
-if [ ! -f aclocal.m4 ]
-then
-   echo "*** This warning may appear the first time only: 'You should add the contents of...'"
-fi
-libtoolize --force
-#
 # let autoreconf do everything for us: it will call
 #         autoconf, autoheader,  aclocal, automake, libtoolize ...
 #

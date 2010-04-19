@@ -67,7 +67,7 @@ EOF
 
 cd debpackage
 
-fakeroot dpkg -b $TARGET_FN
+dpkg -b $TARGET_FN
 
 if [ -f ${TARGET_FN}.deb ]; then
 	mv ${TARGET_FN}.deb ..
