@@ -9,9 +9,6 @@ export PKGDIR=`pwd`
 
 build:
 	dh_testdir
-	dh_testroot
-	libtoolize --force
-	rm -f configure
 	autoreconf --force --install
 	./configure
 	make

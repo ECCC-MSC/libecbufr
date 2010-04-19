@@ -14,6 +14,9 @@ m4_define(ecbufr_version_micro, 2)
 
 AC_INIT(libecbufr, ecbufr_version_major.ecbufr_version_minor.ecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
 
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR(./)
+
 AC_PREFIX_DEFAULT(/usr)
 AC_CONFIG_SRCDIR(API/Sources)
 #AM_CONFIG_HEADER(config.h)
@@ -44,6 +47,8 @@ LIBTOOL_SUFFIX=${LIBTOOL_SUFFIX1}.${LIBTOOL_AGE}.${LIBTOOL_REVISION}
 
 TOPDIR=`pwd`
 
+AC_ARG_ENABLE(code-coverage, [  --enable-code-coverage  Adds -fprofile-arcs -ftest-coverage to CFLAGS to be able to use gcov], [ CFLAGS="$CFLAGS -fprofile-arcs -ftest-coverage"])
+
 # on IRIX machines: use cc instead of gcc, use -c99 and remove -std=gnu99
 #                  CFLAGS="$CFLAGS -c99 -I${PWD}/API/Headers -D_GNU_SOURCE"
 # For gcc
@@ -56,22 +61,21 @@ TOPDIR=`pwd`
 #
 # no -fPIC       : for static library
 #CFLAGS="$CFLAGS -I${PWD}/API/Headers -std=gnu99 -g -D_REENTRANT"
-CFLAGS="$CFLAGS -I${PWD}/API/Headers -std=gnu99 -D_REENTRANT -fPIC"
+CFLAGS="$CFLAGS -I${PWD}/API/Headers -I${PWD}/API/Sources -std=gnu99 -D_REENTRANT -static -fPIC"
 LDFLAGS="$LDFLAGS -L${PWD}/API/Sources"
 
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
-#
-# AC_PROG_RANLIB is rendered obsolete by AC_PROG_LIBTOOL
-#AC_PROG_RANLIB
-# seems AC_PROG_LIBTOOL not available on IRIX, and should be commented 
+
 AC_PROG_LIBTOOL
 
 AC_PATH_PROG(DOXYGEN, doxygen, no)
 
 # Checks for libraries.
+#AM_PATH_CHECK("0.9.4") #this is apparently deprecated (message from configure)
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4], CHECK_AVAILABLE="yes", CHECK_AVAILABLE="no")
 
 # Checks for header files.
 #AC_HEADER_STDC
@@ -114,6 +118,9 @@ AC_SUBST(BUILD_DATE)
 
 AM_MAINTAINER_MODE
 
+# Set a conditional value for the 'check' package.
+AM_CONDITIONAL(CHECK_ACTIVATED, test "$CHECK_AVAILABLE" = yes)
+
 AC_OUTPUT(Makefile \
       API/Makefile \
       API/Headers/Makefile \
@@ -127,4 +134,5 @@ AC_OUTPUT(Makefile \
       Docs/Makefile \
       Test/BUFR/Makefile \
       Test/Dump/Makefile \
+      Test/Unit_Tests/Makefile \
       Examples/Makefile )
