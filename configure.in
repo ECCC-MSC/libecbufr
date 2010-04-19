@@ -15,7 +15,7 @@ m4_define(ecbufr_version_micro, 2)
 AC_INIT(libecbufr, ecbufr_version_major.ecbufr_version_minor.ecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
 
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_AUX_DIR([.])
+AC_CONFIG_AUX_DIR(./)
 
 AC_PREFIX_DEFAULT(/usr)
 AC_CONFIG_SRCDIR(API/Sources)
