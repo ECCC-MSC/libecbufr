@@ -1208,7 +1208,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
    const char     *strval, *strval0;
    int             debug;
    int             differs;
-   char            errmsg[256];
+   char            errmsg[2048];
    BufrDescriptor       *bcv;
 
    debug = bufr_is_debug();
@@ -1334,7 +1334,6 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
    float           fval;
    double          dval;
    int64_t         ival;
-   char            errmsg[256];
 
    switch (bd->encoding.type)
       {
@@ -1392,6 +1391,8 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
       case TYPE_IEEE_FP   :
       case TYPE_CCITT_IA5 :
       default :
+         {
+         char    errmsg[2048];
          fprintf( stderr, "Error: internal problem in bufr_value2bits(), wrong type:%.6d (%d)", 
                   bd->descriptor, bd->encoding.type );
          bufr_print_descriptor( errmsg, bd );
@@ -1399,6 +1400,7 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
          if (bufr_print_value( errmsg, bd->value ))
             fprintf( stderr, "%s\n", errmsg );
          exit(1);
+         }
       break;
       }
 
@@ -1486,8 +1488,10 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             }
          if (isdebug)
             {
-            sprintf( errmsg, "STR: \"%s\" (%d bits) ", strval, bd->encoding.nbits );
-            bufr_print_debug( errmsg );
+            char  errmsgl[2048];
+
+            sprintf( errmsgl, "STR: \"%s\" (%d bits) ", strval, bd->encoding.nbits );
+            bufr_print_debug( errmsgl );
             }
          bufr_putstring( bufr, strval, bd->encoding.nbits/8 );
          if (bv) 
@@ -1864,7 +1868,7 @@ static int bufr_get_desc_ccittia5( BUFR_Message *bufr, BufrDescriptor *bd )
    bufr_descriptor_set_svalue( bd, strval );
    if (bufr_is_debug())
       {
-      char errmsg[256];
+      char errmsg[2048];
 
       sprintf( errmsg, "STR: [%s] (%d bits) ", strval, bd->encoding.nbits );
       bufr_print_debug( errmsg );
@@ -2329,7 +2333,8 @@ static int bufr_get_ccitt_compressed
    int             i;
    ListNode       *node2;
    int             debug=bufr_is_debug();
-   char            errmsg[256];
+   char            *errmsg;
+   char            *dstrptr;
    BufrDescriptor       *cb2;
    int             nbinc;
    int             errcode;
@@ -2342,6 +2347,13 @@ static int bufr_get_ccitt_compressed
 
    nbinc = bufr_getbits( msg, 6, &errcode );
    if ( errcode < 0 ) return errcode;
+/*
+ * initial allocation for string buffer
+ */
+   dstrptr = arr_create( 2048, sizeof(char), 1024 );
+   arr_inc( dstrptr, 2000 );
+   errmsg = (char *) arr_get( dstrptr, 0 );
+
    if (debug)
       {
       if (bufr_print_value( errmsg, cb->value ))
@@ -2361,9 +2373,23 @@ static int bufr_get_ccitt_compressed
             bufr_print_debug( errmsg );
             }
          errcode = bufr_get_desc_ccittia5( msg, cb2 );
-         if (errcode < 0) return errcode;
+         if (errcode < 0) 
+            {
+            arr_free( &dstrptr );
+            return errcode;
+            }
          if (debug)
             {
+            int slen;
+/*
+ * make sure buffer string is big enough
+ */         
+            bufr_value_get_string( cb2->value, &slen );
+            if (slen >= arr_count(dstrptr) )
+               {
+               arr_inc( dstrptr, slen );
+               errmsg = arr_get( dstrptr, 0 );
+               }
             if (bufr_print_value( errmsg, cb2->value ))
                bufr_print_debug( errmsg );
             bufr_print_debug( "\n" );
@@ -2376,6 +2402,8 @@ static int bufr_get_ccitt_compressed
          bufr_copy_value( cb2->value, cb->value );
          }
       }
+
+   arr_free( &dstrptr );
    return 1;
    }
 
@@ -2891,7 +2919,8 @@ int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
  */
 static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
    {
-   char           errmsg[256];
+   char            *errmsg;
+   char            *dstrptr;
    BufrDescriptor     **pbcd;
    int            count;
    BUFR_Sequence  *bsq, *bsq2 = NULL;
@@ -2930,6 +2959,13 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
 
    node = NULL;
 
+/*
+ * initial allocation for string buffer
+ */
+   dstrptr = arr_create( 2048, sizeof(char), 1024 );
+   arr_inc( dstrptr, 2000 );
+   errmsg = (char *) arr_get( dstrptr, 0 );
+
    while ( fgets(ligne,2048,fp) != NULL )
       {
       if ( ligne[0] == '#' ) continue;
@@ -2940,6 +2976,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          if (bsq2) 
             bufr_add_datasubset( dts, bsq2, ddo );
          fseek( fp, - strlen(ligne), SEEK_CUR );
+         arr_free( &dstrptr );
          return 1;
          }
 
@@ -3003,6 +3040,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          sprintf( errmsg, "Error: data descriptor %d mismatch with template %d\n", 
                   icode, cb->descriptor );
          bufr_print_debug( errmsg );
+         arr_free( &dstrptr );
          return -1;
          }
 
@@ -3032,6 +3070,12 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
          int j = len-1;
          if (debug)
             {
+            int slen = strlen( ptr );
+            if (slen >= arr_count(dstrptr) )
+               {
+               arr_inc( dstrptr, slen );
+               errmsg = arr_get( dstrptr, 0 );
+               }
             sprintf( errmsg, "   *** skipping comment: '%s'", ptr );
             bufr_print_debug( errmsg );
             }
@@ -3045,6 +3089,12 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
 
          if (debug)
             {
+            int slen = strlen( ptr+i );
+            if (slen >= arr_count(dstrptr) )
+               {
+               arr_inc( dstrptr, slen );
+               errmsg = arr_get( dstrptr, 0 );
+               }
             sprintf( errmsg, "-> '%s'\n", ptr+i );
             bufr_print_debug( errmsg );
             }
@@ -3070,6 +3120,12 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
 
          if (debug)
             {
+            int slen = strlen( ptr+i );
+            if (slen >= arr_count(dstrptr) )
+               {
+               arr_inc( dstrptr, slen );
+               errmsg = arr_get( dstrptr, 0 );
+               }
             sprintf( errmsg, "   *** found value: '%s'\n", ptr+i );
             bufr_print_debug( errmsg );
             }
@@ -3123,6 +3179,16 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                if (debug)
                   {
                   int l;
+                  char  *sval;
+                  int   slen;
+
+                  sval = bufr_descriptor_get_svalue( cb, &l );
+                  slen = strlen( tok ) + 50 + l;
+                  if (slen >= arr_count(dstrptr) )
+                     {
+                     arr_inc( dstrptr, slen );
+                     errmsg = arr_get( dstrptr, 0 );
+                     }
                   sprintf( errmsg, "   *** has value: '%s' -> '%s'\n", 
                         tok, bufr_descriptor_get_svalue( cb, &l ) );
                   bufr_print_debug( errmsg );
@@ -3186,6 +3252,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
                OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tbls, &errcode );
          if (tmplist == NULL)
             {
+            arr_free( &dstrptr );
             return -1;
             }
          bsq2->list = tmplist;
@@ -3211,6 +3278,8 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
       free( kptr );
       kptr = NULL;
       }
+
+   arr_free( &dstrptr );
 
    if (bsq2) 
       return 1;
@@ -3620,7 +3689,7 @@ int bufr_genmsgs_from_dump
    {
    FILE          *fpi, *fpo;
    int            debug;
-   char           errmsg[256];
+   char           errmsg[1024];
    BUFR_Dataset  *dts;
    BUFR_Message  *msg = NULL;
 
