@@ -132,7 +132,6 @@ BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
 
    if (tbls != NULL)
       {
-      int           len;
 		const EntryTableB *e;
 
 		e = bufr_fetch_tableB( tbls, desc );
