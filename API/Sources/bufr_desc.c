@@ -133,8 +133,13 @@ BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
    if (tbls != NULL)
       {
       int           len;
+		const EntryTableB *e;
 
-      d->encoding.type = bufr_descriptor_to_datatype   ( tbls, NULL, desc, &len );
+		e = bufr_fetch_tableB( tbls, desc );
+		if( e )
+			{
+				memcpy( &d->encoding, &e->encoding, sizeof(d->encoding) );
+			}
       }
    return d;
    }
