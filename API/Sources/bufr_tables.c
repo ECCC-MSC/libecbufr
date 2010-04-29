@@ -667,13 +667,7 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
       case 1 :
       case 2 :
       case 3 :
-         {
-         char buf[128];
-         sprintf( buf, "Warning: Not table B descriptor %d\n", desc );
-         bufr_print_output( buf );
-         bufr_print_debug( buf );
          return NULL;
-         }
       default :
          break;
       }
