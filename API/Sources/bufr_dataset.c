@@ -66,6 +66,7 @@ static DataSubset *bufr_allocate_datasubset  ( void );
 static void        bufr_fill_datasubset      ( DataSubset *subset, BUFR_Sequence *bsq );
 static int         bufr_load_header( FILE *fp, BUFR_Dataset *dts );
 static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts );
+static void        bufr_mkval_rest_sequence(BUFR_Tables   *tbls, BUFR_Sequence *bsq2, ListNode *node );
 
 
 /**
@@ -2973,8 +2974,11 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
 
       if (strncmp( ligne, "BUFR_EDITION=", 13 ) == 0)
          {
-         if (bsq2) 
+         if (bsq2)
+            {
+            bufr_mkval_rest_sequence( tbls, bsq2, node );
             bufr_add_datasubset( dts, bsq2, ddo );
+            }
          fseek( fp, - strlen(ligne), SEEK_CUR );
          arr_free( &dstrptr );
          return 1;
@@ -2986,7 +2990,10 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
             fprintf( stderr, "Loading: %s\n", ligne );
 
          if (bsq2) 
+            {
+            bufr_mkval_rest_sequence( tbls, bsq2, node );
             bufr_add_datasubset( dts, bsq2, ddo );
+            }
          bsq2 = bufr_copy_sequence( bsq );
          node = lst_firstnode( bsq2->list );
          if ( ddo ) 
@@ -3263,7 +3270,10 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
       }
 
    if (bsq2)
+      {
+      bufr_mkval_rest_sequence( tbls, bsq2, node );
       bufr_add_datasubset( dts, bsq2, ddo );
+      }
 
    if ( bsq )
       {
@@ -3285,6 +3295,43 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
       return 1;
    else 
       return 0;
+   }
+
+/**
+ * @english
+ * complete the remaining descriptors of a sequence
+ * @param   tbls     :  pointer to BUFR Tables
+ * @param   bsq2     :  a sequence of descriptors
+ * @param   node     :  starting point of the sequence
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+static void bufr_mkval_rest_sequence(BUFR_Tables   *tbls, BUFR_Sequence *bsq2, ListNode *node )
+   {
+   BufrDescriptor      *cb;
+   int errcode;
+
+   while ( node )
+      {
+      cb = (BufrDescriptor *)node->data;
+      if (!(cb->flags & FLAG_SKIPPED))
+         {
+         if (cb->value == NULL)
+            {
+            cb->value = bufr_mkval_for_descriptor( cb );
+            }
+         }
+      if (cb->flags & FLAG_CLASS31)
+         {
+         bufr_expand_node_descriptor( bsq2->list, lst_prevnode( node ),
+                  OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tbls, &errcode );
+         }
+      node = lst_nextnode( node );
+      }
    }
 
 /**
