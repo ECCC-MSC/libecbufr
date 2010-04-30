@@ -19,4 +19,3 @@ pkg: make_debsrcpkg all
 		dpkg-buildpackage -rfakeroot -b -us -uc -tc
 	mv debpackage/*.deb .
 
-ACLOCAL_AMFLAGS = -I m4
