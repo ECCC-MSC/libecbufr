@@ -708,8 +708,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   char *str = bufr_descriptor_get_svalue( bcv, &len );
                   if (str && !bufr_is_missing_string( str, len ) )
                      {
-                     sprintf( buf, "%s", str );
-                     bufr_print_output( buf );
+                     bufr_print_output( str );
                      }
                   else
                      {

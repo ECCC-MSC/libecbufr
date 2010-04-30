@@ -10,9 +10,12 @@ m4_define(libecbufr_version_major, 0)
 m4_define(libecbufr_version_minor, 8)
 # An odd micro number indicates in-progress development, (eg. from git/cvs)
 # An even micro number indicates a released version.
-m4_define(libecbufr_version_micro, 3)
+m4_define(libecbufr_version_micro, 2)
 
 AC_INIT(libecbufr, libecbufr_version_major.libecbufr_version_minor.libecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
+
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR(./)
 
 AC_PREFIX_DEFAULT(/usr)
 AC_CONFIG_SRCDIR([API/Sources/bufr_io.c])
