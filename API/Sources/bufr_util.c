@@ -134,6 +134,12 @@ char *str_oct2char( char *str0, int *len )
          if (str[k+1] == '\\') 
             {
             str[i++] = str[k];
+            k += 1;
+            }
+         else if (str[k+1] == 'n') 
+            {
+            str[i++] = '\012';
+            k += 1;
             }
          else
             {
