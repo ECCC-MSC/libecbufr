@@ -1,5 +1,5 @@
 ### Message header            : "IUAB01\040CWAO\040072043\012"
-### Message version           : 2
+### BUFR Edition              : 2
 ###          length           : 280
 ###   Section 0
 ###      length               : 8
@@ -7,7 +7,7 @@
 ###      length               : 18
 ###      BUFR master table    : 0
 ###      originating center   : 53
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 4
 ###      master table version : 2
 ###      local table version  : 1

@@ -1,5 +1,5 @@
 ### Message header            : "ISXX01\040CYTR\040010000\012"
-### Message version           : 3
+### BUFR Edition              : 3
 ###          length           : 66
 ###   Section 0
 ###      length               : 8
@@ -8,7 +8,7 @@
 ###      BUFR master table    : 0
 ###      originating center   : 53
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 255
 ###      Data subcategory     : 0
 ###      master table version : 8

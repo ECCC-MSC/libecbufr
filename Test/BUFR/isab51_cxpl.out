@@ -1,5 +1,5 @@
 ### Message header            : "ISAB51\040CXPL\040071700\012"
-### Message version           : 2
+### BUFR Edition              : 2
 ###          length           : 400
 ###   Section 0
 ###      length               : 8
@@ -7,7 +7,7 @@
 ###      length               : 18
 ###      BUFR master table    : 0
 ###      originating center   : 54
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
 ###      master table version : 11
 ###      local table version  : 35
