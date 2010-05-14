@@ -1,6 +1,6 @@
 ### Message header            : "edition\0404\040examples\012\001\015\015\012052\015\015\012ISMD01\040OKPR\040211200\015\015\012"
 ### Message version           : 4
-###          length           : 689
+###          length           : 694
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -31,7 +31,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 646
+###      length               : 651
 ###   Section 5
 ###      length               : 4
 ###
@@ -1115,7 +1115,7 @@
 
 ### Message header            : "\015\015\012\003\001\015\015\012380\015\015\012ISMD01\040OKPR\040210600\015\015\012"
 ### Message version           : 4
-###          length           : 710
+###          length           : 715
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -1146,7 +1146,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 667
+###      length               : 672
 ###   Section 5
 ###      length               : 4
 ###
@@ -2230,7 +2230,7 @@
 
 ### Message header            : "\015\015\012\003\001\015\015\012633\015\015\012ISMD01\040OKPR\040211800\015\015\012"
 ### Message version           : 4
-###          length           : 696
+###          length           : 701
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -2261,7 +2261,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 653
+###      length               : 658
 ###   Section 5
 ###      length               : 4
 ###
@@ -3345,7 +3345,7 @@
 
 ### Message header            : "\015\015\012\003\001\015\015\012811\015\015\012ISMD01\040OKPR\040210000\015\015\012"
 ### Message version           : 4
-###          length           : 700
+###          length           : 704
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -3376,7 +3376,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 657
+###      length               : 661
 ###   Section 5
 ###      length               : 4
 ###
