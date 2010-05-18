@@ -1,0 +1,7 @@
+# List of source files which contain translatable strings.
+# Copyright Her Majesty The Queen in Right of Canada, Environment Canada,2010.
+# Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada,2010.
+
+# Source files
+Test/test_mem.c
+Test/test_tables.c
