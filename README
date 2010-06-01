@@ -136,7 +136,45 @@ Also, plural forms depending on a variable are defined like this:
 _n("Here is %d file", "Here are %d files", nb_files)
 This way, the strings become available for translation.
 
-To provide translations, or translation bugs : https://launchpad.net/~libecbufr-dev
+
+For translators:
+If you want to translate this library into a new language, you can contact 
+the libecbufr team for us to create the basic file to be translated for your 
+language, or you can create it yourself.  All translation related files are 
+found in the 'po' directories.  There are three of them : "po", "Test/po" 
+and "Utilities/po".  The main translations are in "po", the translations 
+for the encoder and decoder are in "Utilities/po" and the translations for
+the regression tests are found in "Test/po".
+
+To generate a file containing the translations for a new language, go in the
+appropriate "po" directory and type "msginit -l <ll_LL>" where <ll_LL> is 
+the language code, fr_CA for canadian french, for example. This will generate
+a file called fr_CA.po with the english strings to be translated into french.
+You can then edit the file and add your translations. There are several software
+that helps with the editing of such a file, the libecbufr team uses the
+xemacs po-mode to help keep the file's syntax correct.
+
+In order to make translations, you need to understand a few key concepts:
+- When you see "\n" in a string, it is the "new line" character from the
+C language. If it is present in the original string, it usually must be there
+in the translated string (normally it is found at the end).
+- Sometimes you see "%s" or "%d", these also must appear in the translated
+string.  "%s" replaces a string that will be generated at run time, and "%d"
+replaces an integer that will be replaced at run time.  
+- Sometimes there are two english strings at once, one has the singular 
+form and the other is plural. You must provide all the plural forms for 
+your language based on the value of the "%d" integer provided with the string.
+- If you ever need to change the order of the "%d" or "%s" symbols, there is a
+special syntax for this: "Original string %s, %d", "Translated string with
+inversion of variables %2$d, %1$s"
+- Every time the strings in the library are modified, the translated file will
+need to be updated with "msgmerge --update fr_CA.po *.pot" and all the strings 
+that were modified will be marked as "fuzzy" in the translated file.  This means
+that until a translator verifies that the translations are correct, those
+fuzzy translations will not be used by the program and the english string will be
+used instead.
+
+To provide translations, or translation bugs, contact : https://launchpad.net/~libecbufr-dev
 You must log in to drop a message.
 
 For more details see: http://www.gnu.org/software/gettext/manual/gettext.html
