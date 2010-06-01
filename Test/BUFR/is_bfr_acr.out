@@ -1,5 +1,5 @@
 ### Message header            : "AF\040cancellation\040as\040last\040descriptor;\040broke\040the\040MM/MEL\040decoder\012"
-### Message version           : 2
+### BUFR Edition              : 2
 ###          length           : 7894
 ###   Section 0
 ###      length               : 8
@@ -7,7 +7,7 @@
 ###      length               : 18
 ###      BUFR master table    : 0
 ###      originating center   : 255
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 4
 ###      master table version : 2
 ###      local table version  : 0
@@ -63,8 +63,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=110.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=110.0
    204000 
 
 ## Subset 2 : 34 descriptors
@@ -99,8 +99,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=34.0
-   013009 (0x1:1 bits)VALUE=36.0
+   013009 (0x0:1 bit)VALUE=34.0
+   013009 (0x1:1 bit)VALUE=36.0
    204000 
 
 ## Subset 3 : 34 descriptors
@@ -135,8 +135,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=79.0
-   013009 (0x1:1 bits)VALUE=80.0
+   013009 (0x0:1 bit)VALUE=79.0
+   013009 (0x1:1 bit)VALUE=80.0
    204000 
 
 ## Subset 4 : 34 descriptors
@@ -171,8 +171,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=59.0
-   013009 (0x1:1 bits)VALUE=58.0
+   013009 (0x0:1 bit)VALUE=59.0
+   013009 (0x1:1 bit)VALUE=58.0
    204000 
 
 ## Subset 5 : 34 descriptors
@@ -207,8 +207,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=43.0
-   013009 (0x1:1 bits)VALUE=43.0
+   013009 (0x0:1 bit)VALUE=43.0
+   013009 (0x1:1 bit)VALUE=43.0
    204000 
 
 ## Subset 6 : 34 descriptors
@@ -243,8 +243,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=32.0
-   013009 (0x1:1 bits)VALUE=33.0
+   013009 (0x0:1 bit)VALUE=32.0
+   013009 (0x1:1 bit)VALUE=33.0
    204000 
 
 ## Subset 7 : 34 descriptors
@@ -279,8 +279,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=41.0
-   013009 (0x1:1 bits)VALUE=39.0
+   013009 (0x0:1 bit)VALUE=41.0
+   013009 (0x1:1 bit)VALUE=39.0
    204000 
 
 ## Subset 8 : 34 descriptors
@@ -315,8 +315,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=30.0
-   013009 (0x1:1 bits)VALUE=32.0
+   013009 (0x0:1 bit)VALUE=30.0
+   013009 (0x1:1 bit)VALUE=32.0
    204000 
 
 ## Subset 9 : 34 descriptors
@@ -351,8 +351,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=39.0
-   013009 (0x1:1 bits)VALUE=38.0
+   013009 (0x0:1 bit)VALUE=39.0
+   013009 (0x1:1 bit)VALUE=38.0
    204000 
 
 ## Subset 10 : 34 descriptors
@@ -387,8 +387,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=42.0
-   013009 (0x1:1 bits)VALUE=42.0
+   013009 (0x0:1 bit)VALUE=42.0
+   013009 (0x1:1 bit)VALUE=42.0
    204000 
 
 ## Subset 11 : 34 descriptors
@@ -423,8 +423,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=35.0
-   013009 (0x1:1 bits)VALUE=38.0
+   013009 (0x0:1 bit)VALUE=35.0
+   013009 (0x1:1 bit)VALUE=38.0
    204000 
 
 ## Subset 12 : 34 descriptors
@@ -459,8 +459,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=41.0
-   013009 (0x1:1 bits)VALUE=41.0
+   013009 (0x0:1 bit)VALUE=41.0
+   013009 (0x1:1 bit)VALUE=41.0
    204000 
 
 ## Subset 13 : 34 descriptors
@@ -495,8 +495,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=95.0
-   013009 (0x1:1 bits)VALUE=83.0
+   013009 (0x0:1 bit)VALUE=95.0
+   013009 (0x1:1 bit)VALUE=83.0
    204000 
 
 ## Subset 14 : 34 descriptors
@@ -531,8 +531,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=46.0
-   013009 (0x1:1 bits)VALUE=47.0
+   013009 (0x0:1 bit)VALUE=46.0
+   013009 (0x1:1 bit)VALUE=47.0
    204000 
 
 ## Subset 15 : 34 descriptors
@@ -567,8 +567,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=29.0
-   013009 (0x1:1 bits)VALUE=67.0
+   013009 (0x0:1 bit)VALUE=29.0
+   013009 (0x1:1 bit)VALUE=67.0
    204000 
 
 ## Subset 16 : 34 descriptors
@@ -603,8 +603,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=57.0
-   013009 (0x1:1 bits)VALUE=55.0
+   013009 (0x0:1 bit)VALUE=57.0
+   013009 (0x1:1 bit)VALUE=55.0
    204000 
 
 ## Subset 17 : 34 descriptors
@@ -639,8 +639,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=95.0
-   013009 (0x1:1 bits)VALUE=89.0
+   013009 (0x0:1 bit)VALUE=95.0
+   013009 (0x1:1 bit)VALUE=89.0
    204000 
 
 ## Subset 18 : 34 descriptors
@@ -675,8 +675,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=55.0
-   013009 (0x1:1 bits)VALUE=65.0
+   013009 (0x0:1 bit)VALUE=55.0
+   013009 (0x1:1 bit)VALUE=65.0
    204000 
 
 ## Subset 19 : 34 descriptors
@@ -711,8 +711,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=90.0
-   013009 (0x1:1 bits)VALUE=88.0
+   013009 (0x0:1 bit)VALUE=90.0
+   013009 (0x1:1 bit)VALUE=88.0
    204000 
 
 ## Subset 20 : 34 descriptors
@@ -747,8 +747,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=55.0
-   013009 (0x1:1 bits)VALUE=57.0
+   013009 (0x0:1 bit)VALUE=55.0
+   013009 (0x1:1 bit)VALUE=57.0
    204000 
 
 ## Subset 21 : 34 descriptors
@@ -783,8 +783,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=87.0
-   013009 (0x1:1 bits)VALUE=86.0
+   013009 (0x0:1 bit)VALUE=87.0
+   013009 (0x1:1 bit)VALUE=86.0
    204000 
 
 ## Subset 22 : 34 descriptors
@@ -819,8 +819,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=39.0
-   013009 (0x1:1 bits)VALUE=39.0
+   013009 (0x0:1 bit)VALUE=39.0
+   013009 (0x1:1 bit)VALUE=39.0
    204000 
 
 ## Subset 23 : 34 descriptors
@@ -855,8 +855,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=88.0
-   013009 (0x1:1 bits)VALUE=86.0
+   013009 (0x0:1 bit)VALUE=88.0
+   013009 (0x1:1 bit)VALUE=86.0
    204000 
 
 ## Subset 24 : 34 descriptors
@@ -891,8 +891,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=67.0
-   013009 (0x1:1 bits)VALUE=92.0
+   013009 (0x0:1 bit)VALUE=67.0
+   013009 (0x1:1 bit)VALUE=92.0
    204000 
 
 ## Subset 25 : 34 descriptors
@@ -927,8 +927,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=38.0
-   013009 (0x1:1 bits)VALUE=37.0
+   013009 (0x0:1 bit)VALUE=38.0
+   013009 (0x1:1 bit)VALUE=37.0
    204000 
 
 ## Subset 26 : 34 descriptors
@@ -963,8 +963,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=64.0
-   013009 (0x1:1 bits)VALUE=69.0
+   013009 (0x0:1 bit)VALUE=64.0
+   013009 (0x1:1 bit)VALUE=69.0
    204000 
 
 ## Subset 27 : 34 descriptors
@@ -999,8 +999,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=90.0
-   013009 (0x1:1 bits)VALUE=87.0
+   013009 (0x0:1 bit)VALUE=90.0
+   013009 (0x1:1 bit)VALUE=87.0
    204000 
 
 ## Subset 28 : 34 descriptors
@@ -1035,8 +1035,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=69.0
-   013009 (0x1:1 bits)VALUE=75.0
+   013009 (0x0:1 bit)VALUE=69.0
+   013009 (0x1:1 bit)VALUE=75.0
    204000 
 
 ## Subset 29 : 34 descriptors
@@ -1071,8 +1071,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=24.0
-   013009 (0x1:1 bits)VALUE=27.0
+   013009 (0x0:1 bit)VALUE=24.0
+   013009 (0x1:1 bit)VALUE=27.0
    204000 
 
 ## Subset 30 : 34 descriptors
@@ -1107,8 +1107,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=72.0
-   013009 (0x1:1 bits)VALUE=85.0
+   013009 (0x0:1 bit)VALUE=72.0
+   013009 (0x1:1 bit)VALUE=85.0
    204000 
 
 ## Subset 31 : 34 descriptors
@@ -1143,8 +1143,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=58.0
-   013009 (0x1:1 bits)VALUE=55.0
+   013009 (0x0:1 bit)VALUE=58.0
+   013009 (0x1:1 bit)VALUE=55.0
    204000 
 
 ## Subset 32 : 34 descriptors
@@ -1179,8 +1179,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=90.0
-   013009 (0x1:1 bits)VALUE=87.0
+   013009 (0x0:1 bit)VALUE=90.0
+   013009 (0x1:1 bit)VALUE=87.0
    204000 
 
 ## Subset 33 : 34 descriptors
@@ -1215,8 +1215,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=43.0
-   013009 (0x1:1 bits)VALUE=43.0
+   013009 (0x0:1 bit)VALUE=43.0
+   013009 (0x1:1 bit)VALUE=43.0
    204000 
 
 ## Subset 34 : 34 descriptors
@@ -1251,8 +1251,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=41.0
-   013009 (0x1:1 bits)VALUE=39.0
+   013009 (0x0:1 bit)VALUE=41.0
+   013009 (0x1:1 bit)VALUE=39.0
    204000 
 
 ## Subset 35 : 34 descriptors
@@ -1287,8 +1287,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=91.0
-   013009 (0x1:1 bits)VALUE=88.0
+   013009 (0x0:1 bit)VALUE=91.0
+   013009 (0x1:1 bit)VALUE=88.0
    204000 
 
 ## Subset 36 : 34 descriptors
@@ -1323,8 +1323,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=90.0
-   013009 (0x1:1 bits)VALUE=89.0
+   013009 (0x0:1 bit)VALUE=90.0
+   013009 (0x1:1 bit)VALUE=89.0
    204000 
 
 ## Subset 37 : 34 descriptors
@@ -1359,8 +1359,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=75.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=75.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 38 : 34 descriptors
@@ -1395,8 +1395,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=80.0
-   013009 (0x1:1 bits)VALUE=86.0
+   013009 (0x0:1 bit)VALUE=80.0
+   013009 (0x1:1 bit)VALUE=86.0
    204000 
 
 ## Subset 39 : 34 descriptors
@@ -1431,8 +1431,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=84.0
-   013009 (0x1:1 bits)VALUE=90.0
+   013009 (0x0:1 bit)VALUE=84.0
+   013009 (0x1:1 bit)VALUE=90.0
    204000 
 
 ## Subset 40 : 34 descriptors
@@ -1467,8 +1467,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=44.0
-   013009 (0x1:1 bits)VALUE=44.0
+   013009 (0x0:1 bit)VALUE=44.0
+   013009 (0x1:1 bit)VALUE=44.0
    204000 
 
 ## Subset 41 : 34 descriptors
@@ -1503,8 +1503,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=80.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=80.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 42 : 34 descriptors
@@ -1539,8 +1539,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=44.0
-   013009 (0x1:1 bits)VALUE=44.0
+   013009 (0x0:1 bit)VALUE=44.0
+   013009 (0x1:1 bit)VALUE=44.0
    204000 
 
 ## Subset 43 : 34 descriptors
@@ -1575,8 +1575,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=90.0
-   013009 (0x1:1 bits)VALUE=98.0
+   013009 (0x0:1 bit)VALUE=90.0
+   013009 (0x1:1 bit)VALUE=98.0
    204000 
 
 ## Subset 44 : 34 descriptors
@@ -1611,8 +1611,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=64.0
-   013009 (0x1:1 bits)VALUE=62.0
+   013009 (0x0:1 bit)VALUE=64.0
+   013009 (0x1:1 bit)VALUE=62.0
    204000 
 
 ## Subset 45 : 34 descriptors
@@ -1647,8 +1647,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=89.0
-   013009 (0x1:1 bits)VALUE=98.0
+   013009 (0x0:1 bit)VALUE=89.0
+   013009 (0x1:1 bit)VALUE=98.0
    204000 
 
 ## Subset 46 : 34 descriptors
@@ -1683,8 +1683,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=44.0
-   013009 (0x1:1 bits)VALUE=44.0
+   013009 (0x0:1 bit)VALUE=44.0
+   013009 (0x1:1 bit)VALUE=44.0
    204000 
 
 ## Subset 47 : 34 descriptors
@@ -1719,8 +1719,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=89.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=89.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 48 : 34 descriptors
@@ -1755,8 +1755,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=86.0
-   013009 (0x1:1 bits)VALUE=91.0
+   013009 (0x0:1 bit)VALUE=86.0
+   013009 (0x1:1 bit)VALUE=91.0
    204000 
 
 ## Subset 49 : 34 descriptors
@@ -1791,8 +1791,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=43.0
-   013009 (0x1:1 bits)VALUE=40.0
+   013009 (0x0:1 bit)VALUE=43.0
+   013009 (0x1:1 bit)VALUE=40.0
    204000 
 
 ## Subset 50 : 34 descriptors
@@ -1827,8 +1827,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=43.0
-   013009 (0x1:1 bits)VALUE=43.0
+   013009 (0x0:1 bit)VALUE=43.0
+   013009 (0x1:1 bit)VALUE=43.0
    204000 
 
 ## Subset 51 : 34 descriptors
@@ -1863,8 +1863,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=95.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=95.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 52 : 34 descriptors
@@ -1899,8 +1899,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=98.0
-   013009 (0x1:1 bits)VALUE=120.0
+   013009 (0x0:1 bit)VALUE=98.0
+   013009 (0x1:1 bit)VALUE=120.0
    204000 
 
 ## Subset 53 : 34 descriptors
@@ -1935,8 +1935,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 54 : 34 descriptors
@@ -1971,8 +1971,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=92.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=92.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 55 : 34 descriptors
@@ -2007,8 +2007,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 56 : 34 descriptors
@@ -2043,8 +2043,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=16.0
-   013009 (0x1:1 bits)VALUE=16.0
+   013009 (0x0:1 bit)VALUE=16.0
+   013009 (0x1:1 bit)VALUE=16.0
    204000 
 
 ## Subset 57 : 34 descriptors
@@ -2079,8 +2079,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=67.0
-   013009 (0x1:1 bits)VALUE=65.0
+   013009 (0x0:1 bit)VALUE=67.0
+   013009 (0x1:1 bit)VALUE=65.0
    204000 
 
 ## Subset 58 : 34 descriptors
@@ -2115,8 +2115,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=89.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=89.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 59 : 34 descriptors
@@ -2151,8 +2151,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=81.0
-   013009 (0x1:1 bits)VALUE=82.0
+   013009 (0x0:1 bit)VALUE=81.0
+   013009 (0x1:1 bit)VALUE=82.0
    204000 
 
 ## Subset 60 : 34 descriptors
@@ -2187,8 +2187,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=26.0
-   013009 (0x1:1 bits)VALUE=26.0
+   013009 (0x0:1 bit)VALUE=26.0
+   013009 (0x1:1 bit)VALUE=26.0
    204000 
 
 ## Subset 61 : 34 descriptors
@@ -2223,8 +2223,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=47.0
-   013009 (0x1:1 bits)VALUE=46.0
+   013009 (0x0:1 bit)VALUE=47.0
+   013009 (0x1:1 bit)VALUE=46.0
    204000 
 
 ## Subset 62 : 34 descriptors
@@ -2259,8 +2259,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=120.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=120.0
    204000 
 
 ## Subset 63 : 34 descriptors
@@ -2295,8 +2295,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=89.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=89.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 64 : 34 descriptors
@@ -2331,8 +2331,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=110.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=110.0
    204000 
 
 ## Subset 65 : 34 descriptors
@@ -2367,8 +2367,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=41.0
-   013009 (0x1:1 bits)VALUE=40.0
+   013009 (0x0:1 bit)VALUE=41.0
+   013009 (0x1:1 bit)VALUE=40.0
    204000 
 
 ## Subset 66 : 34 descriptors
@@ -2403,8 +2403,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=91.0
-   013009 (0x1:1 bits)VALUE=97.0
+   013009 (0x0:1 bit)VALUE=91.0
+   013009 (0x1:1 bit)VALUE=97.0
    204000 
 
 ## Subset 67 : 34 descriptors
@@ -2439,8 +2439,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=44.0
-   013009 (0x1:1 bits)VALUE=42.0
+   013009 (0x0:1 bit)VALUE=44.0
+   013009 (0x1:1 bit)VALUE=42.0
    204000 
 
 ## Subset 68 : 34 descriptors
@@ -2475,8 +2475,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=90.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=90.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 69 : 34 descriptors
@@ -2511,8 +2511,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=71.0
-   013009 (0x1:1 bits)VALUE=73.0
+   013009 (0x0:1 bit)VALUE=71.0
+   013009 (0x1:1 bit)VALUE=73.0
    204000 
 
 ## Subset 70 : 34 descriptors
@@ -2547,8 +2547,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=53.0
-   013009 (0x1:1 bits)VALUE=54.0
+   013009 (0x0:1 bit)VALUE=53.0
+   013009 (0x1:1 bit)VALUE=54.0
    204000 
 
 ## Subset 71 : 34 descriptors
@@ -2583,8 +2583,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=78.0
-   013009 (0x1:1 bits)VALUE=82.0
+   013009 (0x0:1 bit)VALUE=78.0
+   013009 (0x1:1 bit)VALUE=82.0
    204000 
 
 ## Subset 72 : 34 descriptors
@@ -2619,8 +2619,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=110.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=110.0
    204000 
 
 ## Subset 73 : 34 descriptors
@@ -2655,8 +2655,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=91.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=91.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 74 : 34 descriptors
@@ -2691,8 +2691,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=92.0
-   013009 (0x1:1 bits)VALUE=96.0
+   013009 (0x0:1 bit)VALUE=92.0
+   013009 (0x1:1 bit)VALUE=96.0
    204000 
 
 ## Subset 75 : 34 descriptors
@@ -2727,8 +2727,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=41.0
-   013009 (0x1:1 bits)VALUE=44.0
+   013009 (0x0:1 bit)VALUE=41.0
+   013009 (0x1:1 bit)VALUE=44.0
    204000 
 
 ## Subset 76 : 34 descriptors
@@ -2763,8 +2763,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=92.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=92.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 77 : 34 descriptors
@@ -2799,8 +2799,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=63.0
-   013009 (0x1:1 bits)VALUE=60.0
+   013009 (0x0:1 bit)VALUE=63.0
+   013009 (0x1:1 bit)VALUE=60.0
    204000 
 
 ## Subset 78 : 34 descriptors
@@ -2835,8 +2835,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=39.0
-   013009 (0x1:1 bits)VALUE=59.0
+   013009 (0x0:1 bit)VALUE=39.0
+   013009 (0x1:1 bit)VALUE=59.0
    204000 
 
 ## Subset 79 : 34 descriptors
@@ -2871,8 +2871,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=84.0
-   013009 (0x1:1 bits)VALUE=93.0
+   013009 (0x0:1 bit)VALUE=84.0
+   013009 (0x1:1 bit)VALUE=93.0
    204000 
 
 ## Subset 80 : 34 descriptors
@@ -2907,8 +2907,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=86.0
-   013009 (0x1:1 bits)VALUE=90.0
+   013009 (0x0:1 bit)VALUE=86.0
+   013009 (0x1:1 bit)VALUE=90.0
    204000 
 
 ## Subset 81 : 34 descriptors
@@ -2943,8 +2943,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=91.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=91.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 82 : 34 descriptors
@@ -2979,8 +2979,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=88.0
-   013009 (0x1:1 bits)VALUE=92.0
+   013009 (0x0:1 bit)VALUE=88.0
+   013009 (0x1:1 bit)VALUE=92.0
    204000 
 
 ## Subset 83 : 34 descriptors
@@ -3015,8 +3015,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=120.0
-   013009 (0x1:1 bits)VALUE=7.2
+   013009 (0x0:1 bit)VALUE=120.0
+   013009 (0x1:1 bit)VALUE=7.2
    204000 
 
 ## Subset 84 : 34 descriptors
@@ -3051,8 +3051,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=89.0
-   013009 (0x1:1 bits)VALUE=93.0
+   013009 (0x0:1 bit)VALUE=89.0
+   013009 (0x1:1 bit)VALUE=93.0
    204000 
 
 ## Subset 85 : 34 descriptors
@@ -3087,8 +3087,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=93.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=93.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 86 : 34 descriptors
@@ -3123,8 +3123,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=83.0
-   013009 (0x1:1 bits)VALUE=87.0
+   013009 (0x0:1 bit)VALUE=83.0
+   013009 (0x1:1 bit)VALUE=87.0
    204000 
 
 ## Subset 87 : 34 descriptors
@@ -3159,8 +3159,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=63.0
-   013009 (0x1:1 bits)VALUE=65.0
+   013009 (0x0:1 bit)VALUE=63.0
+   013009 (0x1:1 bit)VALUE=65.0
    204000 
 
 ## Subset 88 : 34 descriptors
@@ -3195,8 +3195,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=120.0
-   013009 (0x1:1 bits)VALUE=10.0
+   013009 (0x0:1 bit)VALUE=120.0
+   013009 (0x1:1 bit)VALUE=10.0
    204000 
 
 ## Subset 89 : 34 descriptors
@@ -3231,8 +3231,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=110.0
-   013009 (0x1:1 bits)VALUE=9.5
+   013009 (0x0:1 bit)VALUE=110.0
+   013009 (0x1:1 bit)VALUE=9.5
    204000 
 
 ## Subset 90 : 34 descriptors
@@ -3267,8 +3267,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=7.5
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=7.5
    204000 
 
 ## Subset 91 : 34 descriptors
@@ -3303,8 +3303,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=39.0
-   013009 (0x1:1 bits)VALUE=38.0
+   013009 (0x0:1 bit)VALUE=39.0
+   013009 (0x1:1 bit)VALUE=38.0
    204000 
 
 ## Subset 92 : 34 descriptors
@@ -3339,8 +3339,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=33.0
-   013009 (0x1:1 bits)VALUE=35.0
+   013009 (0x0:1 bit)VALUE=33.0
+   013009 (0x1:1 bit)VALUE=35.0
    204000 
 
 ## Subset 93 : 34 descriptors
@@ -3375,8 +3375,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 94 : 34 descriptors
@@ -3411,8 +3411,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 95 : 34 descriptors
@@ -3447,8 +3447,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=92.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=92.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 96 : 34 descriptors
@@ -3483,8 +3483,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=25.0
-   013009 (0x1:1 bits)VALUE=26.0
+   013009 (0x0:1 bit)VALUE=25.0
+   013009 (0x1:1 bit)VALUE=26.0
    204000 
 
 ## Subset 97 : 34 descriptors
@@ -3519,8 +3519,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=93.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=93.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 98 : 34 descriptors
@@ -3555,8 +3555,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=17.0
-   013009 (0x1:1 bits)VALUE=17.0
+   013009 (0x0:1 bit)VALUE=17.0
+   013009 (0x1:1 bit)VALUE=17.0
    204000 
 
 ## Subset 99 : 34 descriptors
@@ -3591,8 +3591,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=97.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=97.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 100 : 34 descriptors
@@ -3627,8 +3627,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=78.0
-   013009 (0x1:1 bits)VALUE=79.0
+   013009 (0x0:1 bit)VALUE=78.0
+   013009 (0x1:1 bit)VALUE=79.0
    204000 
 
 ## Subset 101 : 34 descriptors
@@ -3663,8 +3663,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=33.0
-   013009 (0x1:1 bits)VALUE=31.0
+   013009 (0x0:1 bit)VALUE=33.0
+   013009 (0x1:1 bit)VALUE=31.0
    204000 
 
 ## Subset 102 : 34 descriptors
@@ -3699,8 +3699,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=43.0
-   013009 (0x1:1 bits)VALUE=43.0
+   013009 (0x0:1 bit)VALUE=43.0
+   013009 (0x1:1 bit)VALUE=43.0
    204000 
 
 ## Subset 103 : 34 descriptors
@@ -3735,8 +3735,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=27.0
-   013009 (0x1:1 bits)VALUE=28.0
+   013009 (0x0:1 bit)VALUE=27.0
+   013009 (0x1:1 bit)VALUE=28.0
    204000 
 
 ## Subset 104 : 34 descriptors
@@ -3771,8 +3771,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=37.0
-   013009 (0x1:1 bits)VALUE=40.0
+   013009 (0x0:1 bit)VALUE=37.0
+   013009 (0x1:1 bit)VALUE=40.0
    204000 
 
 ## Subset 105 : 34 descriptors
@@ -3807,8 +3807,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=76.0
-   013009 (0x1:1 bits)VALUE=78.0
+   013009 (0x0:1 bit)VALUE=76.0
+   013009 (0x1:1 bit)VALUE=78.0
    204000 
 
 ## Subset 106 : 34 descriptors
@@ -3843,8 +3843,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=73.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=73.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 107 : 34 descriptors
@@ -3879,8 +3879,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=110.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=110.0
    204000 
 
 ## Subset 108 : 34 descriptors
@@ -3915,8 +3915,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=92.0
-   013009 (0x1:1 bits)VALUE=90.0
+   013009 (0x0:1 bit)VALUE=92.0
+   013009 (0x1:1 bit)VALUE=90.0
    204000 
 
 ## Subset 109 : 34 descriptors
@@ -3951,8 +3951,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=43.0
-   013009 (0x1:1 bits)VALUE=65.0
+   013009 (0x0:1 bit)VALUE=43.0
+   013009 (0x1:1 bit)VALUE=65.0
    204000 
 
 ## Subset 110 : 34 descriptors
@@ -3987,8 +3987,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=65.0
-   013009 (0x1:1 bits)VALUE=66.0
+   013009 (0x0:1 bit)VALUE=65.0
+   013009 (0x1:1 bit)VALUE=66.0
    204000 
 
 ## Subset 111 : 34 descriptors
@@ -4023,8 +4023,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=27.0
-   013009 (0x1:1 bits)VALUE=29.0
+   013009 (0x0:1 bit)VALUE=27.0
+   013009 (0x1:1 bit)VALUE=29.0
    204000 
 
 ## Subset 112 : 34 descriptors
@@ -4059,8 +4059,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=33.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=33.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 113 : 34 descriptors
@@ -4095,8 +4095,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=22.0
-   013009 (0x1:1 bits)VALUE=24.0
+   013009 (0x0:1 bit)VALUE=22.0
+   013009 (0x1:1 bit)VALUE=24.0
    204000 
 
 ## Subset 114 : 34 descriptors
@@ -4131,8 +4131,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=46.0
-   013009 (0x1:1 bits)VALUE=43.0
+   013009 (0x0:1 bit)VALUE=46.0
+   013009 (0x1:1 bit)VALUE=43.0
    204000 
 
 ## Subset 115 : 34 descriptors
@@ -4167,8 +4167,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=32.0
-   013009 (0x1:1 bits)VALUE=33.0
+   013009 (0x0:1 bit)VALUE=32.0
+   013009 (0x1:1 bit)VALUE=33.0
    204000 
 
 ## Subset 116 : 34 descriptors
@@ -4203,8 +4203,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=29.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=29.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 117 : 34 descriptors
@@ -4239,8 +4239,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=54.0
-   013009 (0x1:1 bits)VALUE=51.0
+   013009 (0x0:1 bit)VALUE=54.0
+   013009 (0x1:1 bit)VALUE=51.0
    204000 
 
 ## Subset 118 : 34 descriptors
@@ -4275,8 +4275,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=91.0
-   013009 (0x1:1 bits)VALUE=89.0
+   013009 (0x0:1 bit)VALUE=91.0
+   013009 (0x1:1 bit)VALUE=89.0
    204000 
 
 ## Subset 119 : 34 descriptors
@@ -4311,8 +4311,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=54.0
-   013009 (0x1:1 bits)VALUE=51.0
+   013009 (0x0:1 bit)VALUE=54.0
+   013009 (0x1:1 bit)VALUE=51.0
    204000 
 
 ## Subset 120 : 34 descriptors
@@ -4347,8 +4347,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=37.0
-   013009 (0x1:1 bits)VALUE=40.0
+   013009 (0x0:1 bit)VALUE=37.0
+   013009 (0x1:1 bit)VALUE=40.0
    204000 
 
 ## Subset 121 : 34 descriptors
@@ -4383,8 +4383,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=35.0
-   013009 (0x1:1 bits)VALUE=36.0
+   013009 (0x0:1 bit)VALUE=35.0
+   013009 (0x1:1 bit)VALUE=36.0
    204000 
 
 ## Subset 122 : 34 descriptors
@@ -4419,8 +4419,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=21.0
-   013009 (0x1:1 bits)VALUE=23.0
+   013009 (0x0:1 bit)VALUE=21.0
+   013009 (0x1:1 bit)VALUE=23.0
    204000 
 
 ## Subset 123 : 34 descriptors
@@ -4455,8 +4455,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=59.0
-   013009 (0x1:1 bits)VALUE=55.0
+   013009 (0x0:1 bit)VALUE=59.0
+   013009 (0x1:1 bit)VALUE=55.0
    204000 
 
 ## Subset 124 : 34 descriptors
@@ -4491,8 +4491,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=30.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=30.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 125 : 34 descriptors
@@ -4527,8 +4527,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=65.0
-   013009 (0x1:1 bits)VALUE=61.0
+   013009 (0x0:1 bit)VALUE=65.0
+   013009 (0x1:1 bit)VALUE=61.0
    204000 
 
 ## Subset 126 : 34 descriptors
@@ -4563,8 +4563,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=16.0
-   013009 (0x1:1 bits)VALUE=16.0
+   013009 (0x0:1 bit)VALUE=16.0
+   013009 (0x1:1 bit)VALUE=16.0
    204000 
 
 ## Subset 127 : 34 descriptors
@@ -4599,8 +4599,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=99.0
-   013009 (0x1:1 bits)VALUE=98.0
+   013009 (0x0:1 bit)VALUE=99.0
+   013009 (0x1:1 bit)VALUE=98.0
    204000 
 
 ## Subset 128 : 34 descriptors
@@ -4635,8 +4635,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=68.0
-   013009 (0x1:1 bits)VALUE=65.0
+   013009 (0x0:1 bit)VALUE=68.0
+   013009 (0x1:1 bit)VALUE=65.0
    204000 
 
 ## Subset 129 : 34 descriptors
@@ -4671,8 +4671,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=78.0
-   013009 (0x1:1 bits)VALUE=79.0
+   013009 (0x0:1 bit)VALUE=78.0
+   013009 (0x1:1 bit)VALUE=79.0
    204000 
 
 ## Subset 130 : 34 descriptors
@@ -4707,8 +4707,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=70.0
-   013009 (0x1:1 bits)VALUE=67.0
+   013009 (0x0:1 bit)VALUE=70.0
+   013009 (0x1:1 bit)VALUE=67.0
    204000 
 
 ## Subset 131 : 34 descriptors
@@ -4743,8 +4743,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=73.0
-   013009 (0x1:1 bits)VALUE=71.0
+   013009 (0x0:1 bit)VALUE=73.0
+   013009 (0x1:1 bit)VALUE=71.0
    204000 
 
 ## Subset 132 : 34 descriptors
@@ -4779,8 +4779,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=67.0
-   013009 (0x1:1 bits)VALUE=69.0
+   013009 (0x0:1 bit)VALUE=67.0
+   013009 (0x1:1 bit)VALUE=69.0
    204000 
 
 ## Subset 133 : 34 descriptors
@@ -4815,8 +4815,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=77.0
-   013009 (0x1:1 bits)VALUE=75.0
+   013009 (0x0:1 bit)VALUE=77.0
+   013009 (0x1:1 bit)VALUE=75.0
    204000 
 
 ## Subset 134 : 34 descriptors
@@ -4851,8 +4851,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=97.0
-   013009 (0x1:1 bits)VALUE=95.0
+   013009 (0x0:1 bit)VALUE=97.0
+   013009 (0x1:1 bit)VALUE=95.0
    204000 
 
 ## Subset 135 : 34 descriptors
@@ -4887,8 +4887,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=76.0
-   013009 (0x1:1 bits)VALUE=74.0
+   013009 (0x0:1 bit)VALUE=76.0
+   013009 (0x1:1 bit)VALUE=74.0
    204000 
 
 ## Subset 136 : 34 descriptors
@@ -4923,8 +4923,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=95.0
-   013009 (0x1:1 bits)VALUE=94.0
+   013009 (0x0:1 bit)VALUE=95.0
+   013009 (0x1:1 bit)VALUE=94.0
    204000 
 
 ## Subset 137 : 34 descriptors
@@ -4959,8 +4959,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=95.0
-   013009 (0x1:1 bits)VALUE=93.0
+   013009 (0x0:1 bit)VALUE=95.0
+   013009 (0x1:1 bit)VALUE=93.0
    204000 
 
 ## Subset 138 : 34 descriptors
@@ -4995,8 +4995,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=42.0
-   013009 (0x1:1 bits)VALUE=60.0
+   013009 (0x0:1 bit)VALUE=42.0
+   013009 (0x1:1 bit)VALUE=60.0
    204000 
 
 ## Subset 139 : 34 descriptors
@@ -5031,8 +5031,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=32.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=32.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 140 : 34 descriptors
@@ -5067,8 +5067,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=120.0
-   013009 (0x1:1 bits)VALUE=120.0
+   013009 (0x0:1 bit)VALUE=120.0
+   013009 (0x1:1 bit)VALUE=120.0
    204000 
 
 ## Subset 141 : 34 descriptors
@@ -5103,8 +5103,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=29.0
-   013009 (0x1:1 bits)VALUE=29.0
+   013009 (0x0:1 bit)VALUE=29.0
+   013009 (0x1:1 bit)VALUE=29.0
    204000 
 
 ## Subset 142 : 34 descriptors
@@ -5139,8 +5139,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=24.0
-   013009 (0x1:1 bits)VALUE=25.0
+   013009 (0x0:1 bit)VALUE=24.0
+   013009 (0x1:1 bit)VALUE=25.0
    204000 
 
 ## Subset 143 : 34 descriptors
@@ -5175,8 +5175,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=99.0
-   013009 (0x1:1 bits)VALUE=98.0
+   013009 (0x0:1 bit)VALUE=99.0
+   013009 (0x1:1 bit)VALUE=98.0
    204000 
 
 ## Subset 144 : 34 descriptors
@@ -5211,8 +5211,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=58.0
-   013009 (0x1:1 bits)VALUE=56.0
+   013009 (0x0:1 bit)VALUE=58.0
+   013009 (0x1:1 bit)VALUE=56.0
    204000 
 
 ## Subset 145 : 34 descriptors
@@ -5247,8 +5247,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 146 : 34 descriptors
@@ -5283,8 +5283,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=110.0
-   013009 (0x1:1 bits)VALUE=110.0
+   013009 (0x0:1 bit)VALUE=110.0
+   013009 (0x1:1 bit)VALUE=110.0
    204000 
 
 ## Subset 147 : 34 descriptors
@@ -5319,8 +5319,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=100.0
-   013009 (0x1:1 bits)VALUE=110.0
+   013009 (0x0:1 bit)VALUE=100.0
+   013009 (0x1:1 bit)VALUE=110.0
    204000 
 
 ## Subset 148 : 34 descriptors
@@ -5355,8 +5355,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=71.0
-   013009 (0x1:1 bits)VALUE=76.0
+   013009 (0x0:1 bit)VALUE=71.0
+   013009 (0x1:1 bit)VALUE=76.0
    204000 
 
 ## Subset 149 : 34 descriptors
@@ -5391,8 +5391,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=18.0
-   013009 (0x1:1 bits)VALUE=18.0
+   013009 (0x0:1 bit)VALUE=18.0
+   013009 (0x1:1 bit)VALUE=18.0
    204000 
 
 ## Subset 150 : 34 descriptors
@@ -5427,8 +5427,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=25.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=25.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 151 : 34 descriptors
@@ -5463,8 +5463,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=39.0
-   013009 (0x1:1 bits)VALUE=38.0
+   013009 (0x0:1 bit)VALUE=39.0
+   013009 (0x1:1 bit)VALUE=38.0
    204000 
 
 ## Subset 152 : 34 descriptors
@@ -5499,8 +5499,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=20.0
-   013009 (0x1:1 bits)VALUE=21.0
+   013009 (0x0:1 bit)VALUE=20.0
+   013009 (0x1:1 bit)VALUE=21.0
    204000 
 
 ## Subset 153 : 34 descriptors
@@ -5535,8 +5535,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=33.0
-   013009 (0x1:1 bits)VALUE=33.0
+   013009 (0x0:1 bit)VALUE=33.0
+   013009 (0x1:1 bit)VALUE=33.0
    204000 
 
 ## Subset 154 : 34 descriptors
@@ -5571,8 +5571,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=32.0
-   013009 (0x1:1 bits)VALUE=33.0
+   013009 (0x0:1 bit)VALUE=32.0
+   013009 (0x1:1 bit)VALUE=33.0
    204000 
 
 ## Subset 155 : 34 descriptors
@@ -5607,8 +5607,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=67.0
-   013009 (0x1:1 bits)VALUE=71.0
+   013009 (0x0:1 bit)VALUE=67.0
+   013009 (0x1:1 bit)VALUE=71.0
    204000 
 
 ## Subset 156 : 34 descriptors
@@ -5643,8 +5643,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=77.0
-   013009 (0x1:1 bits)VALUE=78.0
+   013009 (0x0:1 bit)VALUE=77.0
+   013009 (0x1:1 bit)VALUE=78.0
    204000 
 
 ## Subset 157 : 34 descriptors
@@ -5679,8 +5679,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=26.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=26.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 158 : 34 descriptors
@@ -5715,8 +5715,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=96.0
-   013009 (0x1:1 bits)VALUE=91.0
+   013009 (0x0:1 bit)VALUE=96.0
+   013009 (0x1:1 bit)VALUE=91.0
    204000 
 
 ## Subset 159 : 34 descriptors
@@ -5751,8 +5751,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=64.0
-   013009 (0x1:1 bits)VALUE=66.0
+   013009 (0x0:1 bit)VALUE=64.0
+   013009 (0x1:1 bit)VALUE=66.0
    204000 
 
 ## Subset 160 : 34 descriptors
@@ -5787,8 +5787,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=96.0
-   013009 (0x1:1 bits)VALUE=110.0
+   013009 (0x0:1 bit)VALUE=96.0
+   013009 (0x1:1 bit)VALUE=110.0
    204000 
 
 ## Subset 161 : 34 descriptors
@@ -5823,8 +5823,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=94.0
-   013009 (0x1:1 bits)VALUE=90.0
+   013009 (0x0:1 bit)VALUE=94.0
+   013009 (0x1:1 bit)VALUE=90.0
    204000 
 
 ## Subset 162 : 34 descriptors
@@ -5859,8 +5859,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=0.0
-   013009 (0x1:1 bits)VALUE=82.0
+   013009 (0x0:1 bit)VALUE=0.0
+   013009 (0x1:1 bit)VALUE=82.0
    204000 
 
 ## Subset 163 : 34 descriptors
@@ -5895,8 +5895,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=16.0
-   013009 (0x1:1 bits)VALUE=17.0
+   013009 (0x0:1 bit)VALUE=16.0
+   013009 (0x1:1 bit)VALUE=17.0
    204000 
 
 ## Subset 164 : 34 descriptors
@@ -5931,8 +5931,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=91.0
-   013009 (0x1:1 bits)VALUE=89.0
+   013009 (0x0:1 bit)VALUE=91.0
+   013009 (0x1:1 bit)VALUE=89.0
    204000 
 
 ## Subset 165 : 34 descriptors
@@ -5967,8 +5967,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=50.0
-   013009 (0x1:1 bits)VALUE=59.0
+   013009 (0x0:1 bit)VALUE=50.0
+   013009 (0x1:1 bit)VALUE=59.0
    204000 
 
 ## Subset 166 : 34 descriptors
@@ -6003,8 +6003,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=130.0
-   013009 (0x1:1 bits)VALUE=130.0
+   013009 (0x0:1 bit)VALUE=130.0
+   013009 (0x1:1 bit)VALUE=130.0
    204000 
 
 ## Subset 167 : 34 descriptors
@@ -6039,8 +6039,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=90.0
-   013009 (0x1:1 bits)VALUE=90.0
+   013009 (0x0:1 bit)VALUE=90.0
+   013009 (0x1:1 bit)VALUE=90.0
    204000 
 
 ## Subset 168 : 34 descriptors
@@ -6075,8 +6075,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=41.0
-   013009 (0x1:1 bits)VALUE=42.0
+   013009 (0x0:1 bit)VALUE=41.0
+   013009 (0x1:1 bit)VALUE=42.0
    204000 
 
 ## Subset 169 : 34 descriptors
@@ -6111,8 +6111,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=91.0
-   013009 (0x1:1 bits)VALUE=92.0
+   013009 (0x0:1 bit)VALUE=91.0
+   013009 (0x1:1 bit)VALUE=92.0
    204000 
 
 ## Subset 170 : 34 descriptors
@@ -6147,8 +6147,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=0.0
-   013009 (0x1:1 bits)VALUE=86.0
+   013009 (0x0:1 bit)VALUE=0.0
+   013009 (0x1:1 bit)VALUE=86.0
    204000 
 
 ## Subset 171 : 34 descriptors
@@ -6183,8 +6183,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=60.0
-   013009 (0x1:1 bits)VALUE=63.0
+   013009 (0x0:1 bit)VALUE=60.0
+   013009 (0x1:1 bit)VALUE=63.0
    204000 
 
 ## Subset 172 : 34 descriptors
@@ -6219,8 +6219,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=36.0
-   013009 (0x1:1 bits)VALUE=36.0
+   013009 (0x0:1 bit)VALUE=36.0
+   013009 (0x1:1 bit)VALUE=36.0
    204000 
 
 ## Subset 173 : 34 descriptors
@@ -6255,8 +6255,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=27.0
-   013009 (0x1:1 bits)VALUE=0.0
+   013009 (0x0:1 bit)VALUE=27.0
+   013009 (0x1:1 bit)VALUE=0.0
    204000 
 
 ## Subset 174 : 34 descriptors
@@ -6291,8 +6291,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=92.0
-   013009 (0x1:1 bits)VALUE=93.0
+   013009 (0x0:1 bit)VALUE=92.0
+   013009 (0x1:1 bit)VALUE=93.0
    204000 
 
 ## Subset 175 : 34 descriptors
@@ -6327,8 +6327,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=73.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=73.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 176 : 34 descriptors
@@ -6363,8 +6363,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=2.3
-   013009 (0x1:1 bits)VALUE=97.0
+   013009 (0x0:1 bit)VALUE=2.3
+   013009 (0x1:1 bit)VALUE=97.0
    204000 
 
 ## Subset 177 : 34 descriptors
@@ -6399,8 +6399,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=93.0
-   013009 (0x1:1 bits)VALUE=94.0
+   013009 (0x0:1 bit)VALUE=93.0
+   013009 (0x1:1 bit)VALUE=94.0
    204000 
 
 ## Subset 178 : 34 descriptors
@@ -6435,8 +6435,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=17.0
-   013009 (0x1:1 bits)VALUE=17.0
+   013009 (0x0:1 bit)VALUE=17.0
+   013009 (0x1:1 bit)VALUE=17.0
    204000 
 
 ## Subset 179 : 34 descriptors
@@ -6471,8 +6471,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=66.0
-   013009 (0x1:1 bits)VALUE=96.0
+   013009 (0x0:1 bit)VALUE=66.0
+   013009 (0x1:1 bit)VALUE=96.0
    204000 
 
 ## Subset 180 : 34 descriptors
@@ -6507,8 +6507,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=95.0
-   013009 (0x1:1 bits)VALUE=96.0
+   013009 (0x0:1 bit)VALUE=95.0
+   013009 (0x1:1 bit)VALUE=96.0
    204000 
 
 ## Subset 181 : 34 descriptors
@@ -6543,8 +6543,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=27.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=27.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 182 : 34 descriptors
@@ -6579,8 +6579,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=97.0
-   013009 (0x1:1 bits)VALUE=98.0
+   013009 (0x0:1 bit)VALUE=97.0
+   013009 (0x1:1 bit)VALUE=98.0
    204000 
 
 ## Subset 183 : 34 descriptors
@@ -6615,8 +6615,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=61.0
-   013009 (0x1:1 bits)VALUE=93.0
+   013009 (0x0:1 bit)VALUE=61.0
+   013009 (0x1:1 bit)VALUE=93.0
    204000 
 
 ## Subset 184 : 34 descriptors
@@ -6651,8 +6651,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=95.0
-   013009 (0x1:1 bits)VALUE=96.0
+   013009 (0x0:1 bit)VALUE=95.0
+   013009 (0x1:1 bit)VALUE=96.0
    204000 
 
 ## Subset 185 : 34 descriptors
@@ -6687,8 +6687,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=60.0
-   013009 (0x1:1 bits)VALUE=93.0
+   013009 (0x0:1 bit)VALUE=60.0
+   013009 (0x1:1 bit)VALUE=93.0
    204000 
 
 ## Subset 186 : 34 descriptors
@@ -6723,8 +6723,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=62.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=62.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 187 : 34 descriptors
@@ -6759,8 +6759,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=20.0
-   013009 (0x1:1 bits)VALUE=21.0
+   013009 (0x0:1 bit)VALUE=20.0
+   013009 (0x1:1 bit)VALUE=21.0
    204000 
 
 ## Subset 188 : 34 descriptors
@@ -6795,8 +6795,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=59.0
-   013009 (0x1:1 bits)VALUE=95.0
+   013009 (0x0:1 bit)VALUE=59.0
+   013009 (0x1:1 bit)VALUE=95.0
    204000 
 
 ## Subset 189 : 34 descriptors
@@ -6831,8 +6831,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=53.0
-   013009 (0x1:1 bits)VALUE=99.0
+   013009 (0x0:1 bit)VALUE=53.0
+   013009 (0x1:1 bit)VALUE=99.0
    204000 
 
 ## Subset 190 : 34 descriptors
@@ -6867,8 +6867,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=58.0
-   013009 (0x1:1 bits)VALUE=100.0
+   013009 (0x0:1 bit)VALUE=58.0
+   013009 (0x1:1 bit)VALUE=100.0
    204000 
 
 ## Subset 191 : 34 descriptors
@@ -6903,8 +6903,8 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=58.0
-   013009 (0x1:1 bits)VALUE=97.0
+   013009 (0x0:1 bit)VALUE=58.0
+   013009 (0x1:1 bit)VALUE=97.0
    204000 
 
 ## Subset 192 : 34 descriptors
@@ -6939,7 +6939,7 @@
    204000 
    204001 
    031021 VALUE=62 
-   013009 (0x0:1 bits)VALUE=51.0
-   013009 (0x1:1 bits)VALUE=53.0
+   013009 (0x0:1 bit)VALUE=51.0
+   013009 (0x1:1 bit)VALUE=53.0
    204000 
 

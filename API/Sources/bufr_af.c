@@ -32,7 +32,7 @@ This file is part of libECBUFR.
 #include "bufr_af.h"
 #include "bufr_afd.h"
 #include "bufr_value.h"
-
+#include "bufr_i18n.h"
 
 static void bufr_copy_af( BufrAF *dest, const BufrAF *src );
 static void bufr_copy_afd( BufrAFD *dest, const BufrAFD *src );
@@ -65,7 +65,7 @@ BufrAF  *bufr_create_af( const int *blens, int count )
    if (nbits > 64) 
       {
       char errmsg[256];
-      snprintf( errmsg, 256, "Warning: current implementation do not support >64 AF bits (%d)\n", nbits );
+      snprintf( errmsg, 256, _("Warning: current implementation does not support >64 AF bits (%d)\n"), nbits );
       bufr_abort( errmsg );
       }
 
@@ -107,7 +107,7 @@ BufrAF  *bufr_duplicate_af( const BufrAF *dup )
 
    if (dup == NULL) 
       {
-      bufr_print_debug( "Error in bufr_duplicate_af(): cannot copy NULL in bufr_duplicate_af\n" );
+      bufr_print_debug( _("Error in bufr_duplicate_af(): cannot copy NULL in bufr_duplicate_af\n") );
       return NULL;
       }
 
@@ -195,7 +195,10 @@ BufrAFD  *bufr_create_afd( const int *blens, int count )
       {
       char errmsg[256];
 
-      snprintf( errmsg, 256, "Error in bufr_create_afd(): AF bits %d > 64\n", nbits );
+      snprintf( errmsg, 256, _n("Error in bufr_create_afd(): %d AF bit > 64\n", 
+                                "Error in bufr_create_afd(): %d AF bits > 64\n", 
+                                nbits), 
+                nbits );
       bufr_abort( errmsg );
       }
 
@@ -232,7 +235,7 @@ BufrAFD  *bufr_duplicate_afd( const BufrAFD *dup )
 
    if (dup == NULL) 
       {
-      bufr_print_debug( "Error: cannot copy NULL in bufr_duplicate_af\n" );
+      bufr_print_debug( _("Error: cannot copy NULL in bufr_duplicate_af\n") );
       return NULL;
       }
 
@@ -388,7 +391,7 @@ static void bufr_copy_af( BufrAF *dest, const BufrAF *src )
    if (src  == NULL) return;
    if ((dest->count != src->count) || (dest->nbits != src->nbits))
       {
-      bufr_print_debug( "Warning: cannot copy different AF\n" );
+      bufr_print_debug( _("Warning: cannot copy different AF\n") );
       return;
       }
 
@@ -421,7 +424,7 @@ static void bufr_copy_afd( BufrAFD *dest, const BufrAFD *src )
       {
       char errmsg[256];
 
-      snprintf( errmsg, 256, "Warning: cannot copy different AF: dest=%d != src=%d\n", 
+      snprintf( errmsg, 256, _("Warning: cannot copy different AF: dest=%d != src=%d\n"), 
             dest->count, src->count );
       bufr_print_debug( errmsg );
       return;

@@ -176,7 +176,7 @@ fail_unless(strcmp(output,"A888C")==0, "Conversion of normal string failed, outp
 len=strlen(two_backslashes);
 output=str_oct2char(two_backslashes, &len);
 
-fail_unless(strcmp(output,"A\\BC")==0, "Two backslashes octal conversion failed, output:%s", output);
+fail_unless(strcmp(output,"A\\102C")==0, "Two backslashes octal conversion failed, output:%s", output);
 
 
 }

@@ -6,6 +6,8 @@ example_DATA=$(SOURCES)
 
 EXTRA_DIST = bufr_encoder bufr_decoder
 
+SUBDIRS = po
+
 bufr_encoder_SOURCES = \
 	bufr_encoder.c
 
@@ -14,6 +16,9 @@ bufr_decoder_SOURCES = \
 
 INCLUDES = -I../API/Headers
 
-LDADD = -L../API/Sources -lecbufr -lm
+LDADD = @LTLIBINTL@ -L../API/Sources -lecbufr -lm
+
+localedir = @datadir@/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 CLEANFILES = $(bin_PROGRAMS) *.gcda *.gcno

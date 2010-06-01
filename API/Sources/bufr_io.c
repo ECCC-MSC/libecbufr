@@ -39,6 +39,7 @@ This file is part of libECBUFR.
 #include "bufr_io.h"
 #include "bufr_sequence.h"
 #include "bufr_api.h"
+#include "bufr_i18n.h"
 
 #define DEBUG  0
 
@@ -149,7 +150,7 @@ static int bufr_wr_section0(bufr_write_callback writecb,
 
    if (bufr_is_verbose())
       {
-      bufr_print_debug( "### Writing BUFR Message\n" );
+      bufr_print_debug( _("### Writing BUFR Message\n") );
       bufr_print_message( bufr, bufr_print_debug );
       }
 
@@ -380,8 +381,10 @@ int bufr_callback_write_message(bufr_write_callback writecb,
       {
       char errmsg[256];
 
-      sprintf( errmsg, "Error: cannot create BUFR message with length %d octets\n", 
-            bufr->len_msg  );
+      sprintf( errmsg, _n("Error: cannot create BUFR message with a length of %d octet\n", 
+                          "Error: cannot create BUFR message with a length of %d octets\n", 
+                          bufr->len_msg), 
+               bufr->len_msg  );
       fprintf( stderr, errmsg );
       return errno=EINVAL, -1;
       }
@@ -511,7 +514,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
    *errcode = 0;
    if (nbbits > 64)
       {
-      sprintf( errmsg, "Warning: bufr_getbits( %d ), max_nbbits=64\n", nbbits );
+      sprintf( errmsg, _("Warning: bufr_getbits( %d ), max_nbbits=64\n"), nbbits );
       bufr_print_debug( errmsg );
       *errcode = -2;
       return 0;
@@ -522,7 +525,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
 
 	if( ptrData > (bufr->s4.data + bufr->s4.len) )
 		{
-      sprintf( errmsg, "Warning: bufr_getbits( %d ), out of bounds!\n", nbbits);
+      sprintf( errmsg, _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
       bufr_print_debug( errmsg );
       *errcode = -1;
       return 0;
@@ -544,7 +547,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
       {
 	   if ( ptrData >= (bufr->s4.data + bufr->s4.len) )
 		   {
-         sprintf( errmsg, "Warning: bufr_getbits( %d ), out of bounds!\n", nbbits);
+         sprintf( errmsg, _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
          bufr_print_debug( errmsg );
          *errcode = -1;
          return 0;
@@ -573,7 +576,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
          {
 	      if( ptrData >= (bufr->s4.data + bufr->s4.len) )
 		      {
-            sprintf( errmsg, "Warning: bufr_getbits( %d ), out of bounds!\n", nbbits);
+            sprintf( errmsg, _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
             bufr_print_debug( errmsg );
             *errcode = -1;
             bufr->s4.bitno = bitno;
@@ -653,7 +656,7 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
 
    if (nbbits > 64)
       {
-      sprintf( errmsg, "Warning: bufr_putbits() max_nbbits=64 < nbbits=%d\n", nbbits );
+      sprintf( errmsg, _("Warning: bufr_putbits() max_nbbits=64 < nbbits=%d\n"), nbbits );
       bufr_abort( errmsg );
       }
 
@@ -708,7 +711,7 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
 
    if (bufr_is_debug())
       {
-      sprintf( errmsg, "bitno=%d  start=%x current=%x len=%d, at=%d, filled=%d max=%d\n", 
+      sprintf( errmsg, _("bitno=%d  start=%x current=%x len=%d, at=%d, filled=%d max=%d\n"), 
             bitno,  bufr->s4.data, ptrData, bufr->s4.len, ptrData-bufr->s4.data, bufr->s4.filled, bufr->s4.max_data_len );
       bufr_print_debug( errmsg );
       }
@@ -1464,9 +1467,9 @@ static int bufr_rd_section0(bufr_read_callback readcb, void *cd, BUFR_Message *b
    if (bufr_is_debug())
       {
 		char buffer[256];
-      sprintf( buffer, "### Reading BUFR edition: %d\n", bufr->edition );
+      sprintf( buffer, _("### Reading BUFR edition: %d\n"), bufr->edition );
       bufr_print_debug( buffer );
-      sprintf( buffer, "### Message length: %d\n", bufr->len_msg );
+      sprintf( buffer, _("### Message length: %d\n"), bufr->len_msg );
       bufr_print_debug( buffer );
       }
 
@@ -1502,7 +1505,9 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
          bufr->s1.data_len = c - bufr->s1.header_len;
          if (bufr_is_verbose())
             {
-            sprintf( errmsg, "### Section1 contains additionnal data length=%d octets\n", 
+            sprintf( errmsg, _n("### Section1 contains additionnal data length=%d octet\n",
+                                "### Section1 contains additionnal data length=%d octets\n", 
+                                bufr->s1.data_len), 
                      bufr->s1.data_len );
             bufr_print_debug( errmsg );
             }
@@ -1511,7 +1516,7 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
          {
          if (bufr_is_debug())
             {
-            sprintf( errmsg, "Warning: length of Section 1 is %d, should have been %d\n", c, bufr->s1.len );
+            sprintf( errmsg, _("Warning: length of Section 1 is %d, should have been %d\n"), c, bufr->s1.len );
             bufr_print_debug( errmsg );
             }
          return -1;
@@ -1646,8 +1651,9 @@ static int bufr_rd_section2(bufr_read_callback readcb, void *cd,
 
    if (bufr_is_verbose())
       {
-      sprintf( errmsg, "### Section2 contains additionnal data length=%d octets\n", 
-            bufr->s2.data_len );
+      sprintf( errmsg, _n("### Section2 contains additionnal data length=%d octet\n", 
+                          "### Section2 contains additionnal data length=%d octets\n", bufr->s2.data_len), 
+               bufr->s2.data_len );
       bufr_print_debug( errmsg );
       }
 
@@ -1780,7 +1786,7 @@ static int bufr_rd_section5( bufr_read_callback readcb, void *cd )
 
    if (strncmp( buffer, "7777", 4 ) != 0)
       {
-      bufr_print_debug( "Warning: BUFR message not ending with 7777\n" );
+      bufr_print_debug( _("Warning: BUFR message not ending with 7777\n") );
       return -1;
       }
 
@@ -1812,7 +1818,9 @@ int bufr_decode_sect3(BUFR_Message *bufr)
 
    if (bufr_is_verbose()||bufr_is_debug())
       {
-      sprintf( errmsg, "### Decoding Section 3: contains %d items\n", count );
+      sprintf( errmsg, _n("### Decoding Section 3: contains %d item\n", 
+                          "### Decoding Section 3: contains %d items\n", count), 
+               count );
       bufr_print_debug( errmsg );
       }
 

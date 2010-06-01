@@ -1,5 +1,5 @@
 ### Message header            : "good\040report\040from\040WinIDE\012ISAA41\040CYVV\040201400\012"
-### Message version           : 2
+### BUFR Edition              : 2
 ###          length           : 162
 ###   Section 0
 ###      length               : 8
@@ -7,7 +7,7 @@
 ###      length               : 18
 ###      BUFR master table    : 0
 ###      originating center   : 54
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
 ###      master table version : 6
 ###      local table version  : 14

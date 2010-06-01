@@ -1,3 +1,22 @@
+/***
+Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009-2010.
+Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2009-2010.
+
+This file is part of libECBUFR.
+
+    libECBUFR is free software: you can redistribute it and/or modify
+    it under the terms of the Lesser GNU General Public License,
+    version 3, as published by the Free Software Foundation.
+
+    libECBUFR is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    Lesser GNU General Public License for more details.
+
+    You should have received a copy of the Lesser GNU General Public
+    License along with libECBUFR.  If not, see <http://www.gnu.org/licenses/>.
+***/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,8 +25,15 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <assert.h>
+#include <locale.h>
 
+#include "bufr_i18n.h"
 #include "bufr_api.h"
+
+#define _(String) gettext(String)
+#define _n(String1, String2, n) ngettext(String1, String2, n)
+#define N_(String) gettext_noop (String)
+
 
 static void my_abort( const char* msg ) {
 	fprintf(stderr,"%s\n", msg );
@@ -20,6 +46,14 @@ int main(int argc, char *argv[])
 	EntryTableB   *tb = NULL;
 	EntryTableD   *td = NULL;
 	int            desc[4];
+
+
+   //Setup for internationalization
+   bufr_begin_api();
+   setlocale (LC_ALL, "");
+   bindtextdomain ("bufr_test", LOCALEDIR);
+   textdomain ("bufr_test");
+
 
 	putenv("BUFR_TABLES=../Tables/");
 

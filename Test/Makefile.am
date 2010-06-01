@@ -1,4 +1,4 @@
-SUBDIRS = BUFR Dump Unit_Tests
+SUBDIRS = BUFR Dump Unit_Tests po
 
 EXTRA_DIST = README
 
@@ -10,6 +10,10 @@ TESTS = $(check_SCRIPTS) $(check_PROGRAMS)
 
 test_mem_SOURCES = test_mem.c
 test_tables_SOURCES = test_tables.c
-LDADD = -L../API/Sources -lecbufr -lm
+LDADD = @LTLIBINTL@ -L../API/Sources -lecbufr -lm
+
+localedir = @datadir@/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+
 AM_CFLAGS = -g
 CLEANFILES=*.gcda *.gcno

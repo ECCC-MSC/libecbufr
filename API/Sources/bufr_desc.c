@@ -36,7 +36,7 @@ This file is part of libECBUFR.
 #include "bufr_linklist.h"
 #include "bufr_array.h"
 #include "bufr_value.h"
-
+#include "bufr_i18n.h"
 
 static int bufr_check_class31_set( BufrDescriptor *cb );
 static void print_set_value_error( BufrDescriptor *cb, char *valstr );
@@ -172,7 +172,7 @@ BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
    if (dup == NULL) 
       {
       if (bufr_is_debug())
-         bufr_print_debug( "Error in bufr_dupl_descriptor(): cannot copy NULL in bufr_dupl_descriptor\n" );
+         bufr_print_debug( _("Error in bufr_dupl_descriptor(): cannot copy NULL in bufr_dupl_descriptor\n") );
       return NULL;
       }
 
@@ -558,7 +558,7 @@ int bufr_descriptor_set_fvalue ( BufrDescriptor *cb , float fval )
          {
          char errmsg[256];
 
-         sprintf( errmsg, "Warning: %d has no value to set\n", cb->descriptor );
+         sprintf( errmsg, _("Warning: cannot assign a value to descriptor %d\n"), cb->descriptor );
          bufr_print_debug( errmsg );
          }
       return rtrn;
@@ -577,8 +577,8 @@ int bufr_descriptor_set_fvalue ( BufrDescriptor *cb , float fval )
             {
             char errmsg[256];
 
-            sprintf( errmsg, "Warning: %d value %f is out of range [%f,%f]\n", 
-                  cb->descriptor, fval, min, max );
+            sprintf( errmsg, _("Warning: The value %f of descriptor %d is out of range [%f,%f]\n"), 
+                     fval, cb->descriptor, min, max );
             bufr_print_debug( errmsg );
             }
          rtrn = -1;
@@ -645,7 +645,7 @@ int bufr_descriptor_set_dvalue ( BufrDescriptor *cb , double dval )
       {
       if (bufr_is_debug())
          {
-         sprintf( errmsg, "Warning: %d has no value to set\n", cb->descriptor );
+         sprintf( errmsg, _("Warning: cannot assign a value to descriptor %d\n"), cb->descriptor );
          bufr_print_debug( errmsg );
          }
       return rtrn;
@@ -660,8 +660,8 @@ int bufr_descriptor_set_dvalue ( BufrDescriptor *cb , double dval )
       else
          {
          bufr_value_set_double( cb->value, bufr_get_max_double() );
-         sprintf( errmsg, "Warning: %d value %f is out of range [%f,%f]\n", 
-               cb->descriptor, dval, min, max );
+         sprintf( errmsg, _("Warning: The value %f of descriptor %d is out of range [%f,%f]\n"), 
+                  dval, cb->descriptor, min, max );
          bufr_print_debug( errmsg );
          }
       } 
@@ -725,7 +725,7 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
       {
       if (bufr_is_debug())
          {
-         sprintf( errmsg, "Warning: %d has no value to set\n", cb->descriptor );
+         sprintf( errmsg, _("Warning: cannot assign a value to descriptor %d\n"), cb->descriptor );
          bufr_print_debug( errmsg );
          }
       return rtrn;
@@ -742,8 +742,8 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
          rtrn = bufr_value_set_int32( cb->value, -1 );
          if ( ival != -1 )
             {
-            sprintf( errmsg, "Warning: %d value %d is out of range [%.0f,%.0f]\n", 
-               cb->descriptor, ival, min, max );
+            sprintf( errmsg, _("Warning: The value %d of descriptor %d is out of range [%.0f,%.0f]\n"), 
+                     ival, cb->descriptor, min, max );
             bufr_print_debug( errmsg );
             }
          }
@@ -911,7 +911,7 @@ int bufr_descriptor_set_svalue ( BufrDescriptor *cb , const char *sval )
       {
       if (bufr_is_debug())
          {
-         sprintf( errmsg, "Warning: %d has no value to set\n", cb->descriptor );
+         sprintf( errmsg, _("Warning: cannot assign a value to descriptor %d\n"), cb->descriptor );
          bufr_print_debug( errmsg );
          }
       return rtrn;
@@ -941,10 +941,10 @@ static void print_set_value_error( BufrDescriptor *cb, char *valstr )
    {
    char errmsg[256];
 
-   strcpy( errmsg, "Warning: cannot set value for" );
+   strcpy( errmsg, _("Warning: cannot set value for descriptor:") );
    bufr_print_descriptor( errmsg, cb );
    bufr_print_debug( errmsg );
-   sprintf( errmsg, "with value=%s\n", valstr );
+   sprintf( errmsg, _("with value=%s\n"), valstr );
    bufr_print_debug( errmsg );
    }
 

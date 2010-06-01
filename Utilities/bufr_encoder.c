@@ -23,6 +23,9 @@ This file is part of libECBUFR.
 #include <math.h>
 #include <time.h>
 #include <ctype.h>
+#include <locale.h>
+
+#include "bufr_i18n.h"
 #include "bufr_api.h"
 #include "bufr_io.h"
 #include "bufr_tables.h"
@@ -77,27 +80,27 @@ static void make_test_dataset( BUFR_Dataset *dts );
  */
 static void abort_usage(char *pgrmname)
 {
-   fprintf( stderr, "BUFR Encoder Version %s\n", BUFR_API_VERSION );
-   fprintf( stderr, "Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009\n" );
-   fprintf( stderr, "Licence LGPLv3\n\n" );
-   fprintf( stderr, "Usage: %s\n", pgrmname );
-   fprintf( stderr, "          [-outbufr    <filename>]   encoded BUFR file (default=OUT.bufr)\n" );
-   fprintf( stderr, "          [-datafile   <filename>]   data file from the dumped output of the decoder\n" );
-   fprintf( stderr, "          [-template   <filename>]   template file to use for encoding\n" );
-   fprintf( stderr, "          [-ltableb    <filename>]   local table B to use for encoding\n" );
-   fprintf( stderr, "          [-ltabled    <filename>]   local table D to use for encoding\n" );
-   fprintf( stderr, "          [-edition    <number>]     forcing the use of edition number (no template)\n" );
-   fprintf( stderr, "          [-nbsubset   <number>]     specify the number of subset(s) of bogus data to generate\n" );
-   fprintf( stderr, "          [-def_values]              use random default values\n" );
-   fprintf( stderr, "          [-verbose]                 send more messages\n" );   
-   fprintf( stderr, "          [-nolocal]                 do not save local tables to file (default=save)\n" );
-   fprintf( stderr, "          [-compress]                compress datasubsets if possible\n" );
-   fprintf( stderr, "          [-no_compress]             do not compress datasubsets\n" );
-   fprintf( stderr, "          [-debug]                   debug mode (put the messages into file)\n" );
-   fprintf( stderr, "          [-sequence   <descriptor>] sequence descriptor from table D\n" );
-   fprintf( stderr, "\n  Env. Variables:\n" );
-   fprintf( stderr, "     BUFR_TEMPLATE : specify template file\n" );
-   fprintf( stderr, "     BUFR_TABLES :   path to BUFR tables in the CMC table format\n" );
+   fprintf( stderr, _("BUFR Encoder Version %s\n"), BUFR_API_VERSION );
+   fprintf( stderr, _("Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009\n") );
+   fprintf( stderr, _("Licence LGPLv3\n\n") );
+   fprintf( stderr, _("Usage: %s\n"), pgrmname );
+   fprintf( stderr, _("          [-outbufr    <filename>]   encoded BUFR file (default=OUT.bufr)\n") );
+   fprintf( stderr, _("          [-datafile   <filename>]   data file from the dumped output of the decoder\n") );
+   fprintf( stderr, _("          [-template   <filename>]   template file to use for encoding\n") );
+   fprintf( stderr, _("          [-ltableb    <filename>]   local table B to use for encoding\n") );
+   fprintf( stderr, _("          [-ltabled    <filename>]   local table D to use for encoding\n") );
+   fprintf( stderr, _("          [-edition    <number>]     forcing the use of edition number (no template)\n") );
+   fprintf( stderr, _("          [-nbsubset   <number>]     specify the number of subset(s) of bogus data to generate\n") );
+   fprintf( stderr, _("          [-def_values]              use random default values\n") );
+   fprintf( stderr, _("          [-verbose]                 send more messages\n") );   
+   fprintf( stderr, _("          [-nolocal]                 do not save local tables to file (default=save)\n") );
+   fprintf( stderr, _("          [-compress]                compress datasubsets if possible\n") );
+   fprintf( stderr, _("          [-no_compress]             do not compress datasubsets\n") );
+   fprintf( stderr, _("          [-debug]                   debug mode (put the messages into file)\n") );
+   fprintf( stderr, _("          [-sequence   <descriptor>] sequence descriptor from table D\n") );
+   fprintf( stderr, _("\n  Env. Variables:\n") );
+   fprintf( stderr, _("     BUFR_TEMPLATE : specify template file\n") );
+   fprintf( stderr, _("     BUFR_TABLES :   path to BUFR tables in the CMC table format\n") );
    exit(1);
 }
 
@@ -203,7 +206,11 @@ static void cleanup(void)
  */
 int main(int argc,char *argv[])
 {
-   
+   //Setup for internationalization
+   bufr_begin_api();
+   setlocale (LC_ALL, "");
+   textdomain (PACKAGE);
+  
 
    if (argc == 1)
       {
@@ -214,7 +221,6 @@ int main(int argc,char *argv[])
 
    bufr_set_debug_file( str_debug );
 
-   bufr_begin_api();
 /*
  * charger les tables en memoire
  */
@@ -238,7 +244,7 @@ static void run_tests(void)
    if (verbose)
       {
       bufr_print_debug( "*\n" );
-      sprintf( errmsg, "* BUFR encoder : API version %s\n", BUFR_API_VERSION );
+      sprintf( errmsg, _("* BUFR encoder : API version %s\n"), BUFR_API_VERSION );
       bufr_print_debug( errmsg );
       bufr_print_debug( "*\n" );
       }
@@ -274,7 +280,7 @@ static void run_tests(void)
 
    if (tmplt == NULL)
       {
-      fprintf( stderr, "Template not defined properly\n" );
+      fprintf( stderr, _("Template not defined properly\n") );
       exit(1);
       }
 
@@ -284,7 +290,7 @@ static void run_tests(void)
    dts = bufr_create_dataset( tmplt );
    if (dts == NULL)
       {
-      fprintf( stderr, "Error: unable to create dataset, abort\n" );
+      fprintf( stderr, _("Error: unable to create dataset, abort\n") );
       exit(1);
       }
 
@@ -355,7 +361,9 @@ static void make_test_dataset( BUFR_Dataset *dts )
       cvcount = bufr_datasubset_count_descriptor( subset );
       if (verbose)
          {
-         sprintf( errmsg, "Subset #%d : %d descs\n", i+1, cvcount );
+         sprintf( errmsg, _n("Subset #%d : %d descriptor\n", 
+                            "Subset #%d : %d descriptors\n", cvcount), 
+                  i+1, cvcount );
          bufr_print_debug( errmsg );
          }
       for (j = 0; j < cvcount ; j++)

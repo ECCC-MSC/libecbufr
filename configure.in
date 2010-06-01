@@ -6,25 +6,28 @@ BUILD_DATE=`date +%d-%m-%Y`
 
 AC_PREREQ(2.59)
 
-m4_define(ecbufr_version_major, 0)
-m4_define(ecbufr_version_minor, 8)
+m4_define(libecbufr_version_major, 0)
+m4_define(libecbufr_version_minor, 8)
 # An odd micro number indicates in-progress development, (eg. from git/cvs)
 # An even micro number indicates a released version.
-m4_define(ecbufr_version_micro, 2b4)
+m4_define(libecbufr_version_micro, 2b4)
 
-AC_INIT(libecbufr, ecbufr_version_major.ecbufr_version_minor.ecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
+AC_INIT(libecbufr, libecbufr_version_major.libecbufr_version_minor.libecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
 
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(./)
 
 AC_PREFIX_DEFAULT(/usr)
-AC_CONFIG_SRCDIR(API/Sources)
-AM_INIT_AUTOMAKE(ecbufr_version_major.ecbufr_version_minor)
+AC_CONFIG_SRCDIR([API/Sources/bufr_io.c])
+AC_CONFIG_HEADERS([config.h])
+#AM_CONFIG_HEADER(config.h) # This is obsolete
+#AM_INIT_AUTOMAKE(ECBUFR, 0.8.2) # This is obsolete
+AM_INIT_AUTOMAKE
 
 # use these version macros in Makefile.am
-VERSION_MAJOR=ecbufr_version_major
-VERSION_MINOR=ecbufr_version_minor
-VERSION_MICRO=ecbufr_version_micro
+VERSION_MAJOR=libecbufr_version_major
+VERSION_MINOR=libecbufr_version_minor
+VERSION_MICRO=libecbufr_version_micro
 AC_SUBST(VERSION_MAJOR)
 AC_SUBST(VERSION_MINOR)
 AC_SUBST(VERSION_MICRO)
@@ -37,10 +40,10 @@ dnl Age      = number of previous interfaces this one is compatible with (i.e. i
 dnl
 dnl Suffix1  = [Current - Age] (on Linux, anyway, soname suffix is [C-A].A.R)
 dnl
-LIBTOOL_CURRENT=ecbufr_version_major
-LIBTOOL_REVISION=ecbufr_version_minor
+LIBTOOL_CURRENT=libecbufr_version_major
+LIBTOOL_REVISION=libecbufr_version_minor
 LIBTOOL_AGE=0
-LIBTOOL_SUFFIX1=ecbufr_version_major
+LIBTOOL_SUFFIX1=libecbufr_version_major
 LIBTOOL_SUFFIX=${LIBTOOL_SUFFIX1}.${LIBTOOL_AGE}.${LIBTOOL_REVISION}
 
 TOPDIR=`pwd`
@@ -67,7 +70,12 @@ LDFLAGS="$LDFLAGS -L${PWD}/API/Sources"
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
+#
+AC_GNU_SOURCE
 
+# AC_PROG_RANLIB is rendered obsolete by AC_PROG_LIBTOOL
+#AC_PROG_RANLIB
+# seems AC_PROG_LIBTOOL not available on IRIX, and should be commented 
 AC_PROG_LIBTOOL
 
 AC_PATH_PROG(DOXYGEN, doxygen, no)
@@ -110,17 +118,20 @@ AC_CHECK_LIB( c, main )
 
 dnl Set environment variables.
 # AC_SUBST(PACKAGE)
-AC_SUBST(VERSION_MAJOR)
-AC_SUBST(VERSION_MINOR)
 # AC_SUBST(RELEASE)
 AC_SUBST(BUILD_DATE)
 
 AM_MAINTAINER_MODE
 
+# Internationalization support
+AM_GNU_GETTEXT_VERSION([0.16.1])
+AM_GNU_GETTEXT([external])
+
 # Set a conditional value for the 'check' package.
 AM_CONDITIONAL(CHECK_ACTIVATED, test "$CHECK_AVAILABLE" = yes)
 
 AC_OUTPUT(Makefile \
+      po/Makefile.in \
       API/Makefile \
       API/Headers/Makefile \
       API/Headers/private/Makefile \
@@ -128,8 +139,10 @@ AC_OUTPUT(Makefile \
       API/Sources/Makefile \
       API/version \
       Utilities/Makefile \
+      Utilities/po/Makefile.in \
       Tables/Makefile \
       Test/Makefile \
+      Test/po/Makefile.in \
       Docs/Makefile \
       Test/BUFR/Makefile \
       Test/Dump/Makefile \

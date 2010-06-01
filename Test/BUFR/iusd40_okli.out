@@ -1,5 +1,5 @@
 ### Message header            : "\001\015\015\012411\015\015\012IUSD40\040OKLI\040201800\015\015\012"
-### Message version           : 3
+### BUFR Edition              : 3
 ###          length           : 1826
 ###   Section 0
 ###      length               : 8
@@ -8,7 +8,7 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 2
 ###      Data subcategory     : 0
 ###      master table version : 12
@@ -987,7 +987,7 @@
    011062 MSNG
 
 ### Message header            : "\015\015\012\003\001\015\015\012653\015\015\012IUSD40\040OKLI\040201200\015\015\012"
-### Message version           : 3
+### BUFR Edition              : 3
 ###          length           : 1678
 ###   Section 0
 ###      length               : 8
@@ -996,7 +996,7 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 2
 ###      Data subcategory     : 0
 ###      master table version : 12
@@ -1898,7 +1898,7 @@
    011062 MSNG
 
 ### Message header            : "\015\015\012\003\001\015\015\012843\015\015\012IUSD40\040OKLI\040200600\015\015\012"
-### Message version           : 3
+### BUFR Edition              : 3
 ###          length           : 1286
 ###   Section 0
 ###      length               : 8
@@ -1907,7 +1907,7 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 2
 ###      Data subcategory     : 0
 ###      master table version : 12
@@ -2604,7 +2604,7 @@
 #  303051 {R=0}
 
 ### Message header            : "\015\015\012\003\001\015\015\012932\015\015\012IUSD40\040OKLI\040200000\015\015\012"
-### Message version           : 3
+### BUFR Edition              : 3
 ###          length           : 1468
 ###   Section 0
 ###      length               : 8
@@ -2613,7 +2613,7 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 2
 ###      Data subcategory     : 0
 ###      master table version : 12

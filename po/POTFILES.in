@@ -1,0 +1,26 @@
+# List of source files which contain translatable strings.
+# Copyright Her Majesty The Queen in Right of Canada, Environment Canada,2010.
+# Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada,2010.
+
+# Source files
+API/Sources/array.c
+API/Sources/bufr_af.c
+API/Sources/bufr_api.c
+API/Sources/bufr_datablk.c
+API/Sources/bufr_dataset.c
+API/Sources/bufr_ddo.c
+API/Sources/bufr_desc.c
+API/Sources/bufr_ieee754.c
+API/Sources/bufr_io.c
+API/Sources/bufr_local.c
+API/Sources/bufr_message.c
+API/Sources/bufr_meta.c
+API/Sources/bufr_sequence.c
+API/Sources/bufr_sio.c
+API/Sources/bufr_tables.c
+API/Sources/bufr_template.c
+API/Sources/bufr_value.c
+API/Sources/cmc_tables.c
+API/Sources/linklist.c
+API/Sources/str_util.c
+

@@ -22,6 +22,7 @@ This file is part of libECBUFR.
 #include <string.h>
 
 #include "bufr_array.h"
+#include "bufr_i18n.h"
 
  typedef struct { char *eles;  /* pointer to the elements               */
                   int   size;  /* size of each element in the array     */
@@ -62,9 +63,9 @@ This file is part of libECBUFR.
        if (arr->grow > 0)
          arr_allocate( arr, arr->total+arr->grow );
        else {
-         fprintf( stderr, "Warning: initial array size too small: %d\n", 
+         fprintf( stderr, _("Warning: initial array size too small: %d\n"), 
               arr->total );
-         fprintf( stderr, "Warning: item can't be added\n" );
+         fprintf( stderr, _("Warning: item can't be added\n") );
          return arr->count;
        }
     }
@@ -97,7 +98,7 @@ This file is part of libECBUFR.
 
     if( arr->eles == NULL )
       {
-      printf(" error arr_allocate no more memory: %d\n", len);
+      printf(_(" error arr_allocate no more memory: %d\n"), len);
       exit(1);
       }
 
@@ -149,7 +150,7 @@ This file is part of libECBUFR.
 
       if( arr == NULL )
       {
-      printf(" error arr_create no more memory\n");
+      printf(_(" error arr_create no more memory\n"));
       exit(1);
       }
 
@@ -687,16 +688,16 @@ int arr_intDescCmp
 
     arr_sort( arr, arrcmp );
     arr_del( arr, 128 );
-    if( arr_count(arr) != 128 ) printf("Error in array count\n");
+    if( arr_count(arr) != 128 ) printf(_("Error in array count\n"));
     for( i = 0 ; i < 128 ; i++ )
        {
        pele = (dummy *)arr_get( arr, i ); 
        if((pele->pos != i)||(pele->v!=i*10))
-         printf("Error in array\n");
+         printf(_("Error in array\n"));
        }
 
     arr_inc( arr, 128 );
-    if( arr_count(arr) != 256) printf("Error in array count\n");
+    if( arr_count(arr) != 256) printf(_("Error in array count\n"));
 
     arr_free( &arr );
     }
