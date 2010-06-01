@@ -1,33 +1,32 @@
-# French translations for libecbufr package
-# Traductions françaises du paquet libecbufr.
+# Spanish translations for libecbufr package.
 # Copyright (C) 2010 THE libecbufr'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the libecbufr package.
-# Michel Van Eeckhout <Michel.VanEeckhout@ec.gc.ca>, 2010.
+# Michel Van Eeckhout <change@address.com>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libecbufr 0.8.2\n"
+"Project-Id-Version: libecbufr 0.8.2b4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-29 12:17-0400\n"
-"PO-Revision-Date: 2010-05-31 11:31-0400\n"
-"Last-Translator: Michel Van Eeckhout <Michel.VanEeckhout@ec.gc.ca>\n"
-"Language-Team: French\n"
+"PO-Revision-Date: 2010-06-01 07:26-0400\n"
+"Last-Translator: Michel Van Eeckhout <change@address.com>\n"
+"Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: bufr_decoder.c:83
 #, c-format
 msgid "BUFR Decoder Version %s\n"
-msgstr "Décodeur BUFR version %s\n"
+msgstr ""
 
 #: bufr_decoder.c:84 bufr_encoder.c:84
 #, c-format
 msgid ""
 "Copyright Her Majesty The Queen in Right of Canada, Environment Canada, "
 "2009\n"
-msgstr "Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2009\n"
+msgstr ""
 
 #: bufr_decoder.c:85 bufr_encoder.c:85
 #, c-format
@@ -35,42 +34,38 @@ msgid ""
 "Licence LGPLv3\n"
 "\n"
 msgstr ""
-"Licence LGPLv3\n"
-"\n"
 
 #: bufr_decoder.c:86 bufr_encoder.c:86
 #, c-format
 msgid "Usage: %s\n"
-msgstr "Usage: %s\n"
+msgstr ""
 
 #: bufr_decoder.c:87
 #, c-format
 msgid "          [-inbufr     <filename>]    BUFR file to decode\n"
-msgstr "          [-inbufr     <fichier>]     fichier BUFR à décoder\n"
+msgstr ""
 
 #: bufr_decoder.c:88
 #, c-format
 msgid ""
 "          [-ltableb    <filename>]    local table B to use for decoding\n"
-msgstr "          [-ltableb    <fichier>]     table B locale à utiliser pour le décodage\n"
+msgstr ""
 
 #: bufr_decoder.c:89
 #, c-format
 msgid ""
 "          [-ltabled    <filename>]    local table D to use for decoding\n"
 msgstr ""
-"          [-ltabled    <fichier>]     table D locale à utiliser pour le "
-"décodage\n"
 
 #: bufr_decoder.c:90
 #, c-format
 msgid "          [-output     <filename>]    output file\n"
-msgstr "          [-output     <fichier>]     fichier de sortie\n"
+msgstr ""
 
 #: bufr_decoder.c:91
 #, c-format
 msgid "          [-otemplate  <filename>]    output template into file\n"
-msgstr "          [-otemplate  <fichier>]     fichier gabarit de sortie\n"
+msgstr ""
 
 #: bufr_decoder.c:92
 #, c-format
@@ -78,13 +73,11 @@ msgid ""
 "          [-debug]                    debug mode (put the messages into "
 "file) \n"
 msgstr ""
-"          [-debug]                    mode de débogage (place les messages "
-"dans le fichier) \n"
 
 #: bufr_decoder.c:93
 #, c-format
 msgid "          [-nometa]                   dont show meta info\n"
-msgstr "          [-nometa]                   sans méta information\n"
+msgstr ""
 
 #: bufr_decoder.c:94
 #, c-format
@@ -92,44 +85,37 @@ msgid ""
 "          [-dump]                     dump template and data in ASCII file "
 "suitable for re-encoding\n"
 msgstr ""
-"          [-dump]                     écrire le gabarit et les données en "
-"format ASCII dans un fichier prêt pour le ré-encodage\n"
 
 #: bufr_decoder.c:95
 #, c-format
 msgid "          [-describe]                 show description and unit\n"
 msgstr ""
-"          [-describe]                 afficher la description et les unités\n"
 
 #: bufr_decoder.c:96
 #, c-format
 msgid "          [-location]                 show implicit location or time\n"
 msgstr ""
-"          [-location]                 afficher la position ou le temps "
-"implicite\n"
 
 #: bufr_decoder.c:97
 #, c-format
 msgid ""
 "          [-locdesc    <descriptor>]  show RTMD of the location descriptors\n"
 msgstr ""
-"          [-locdesc    <descripteur>] afficher le RTMD des descripteurs de "
-"position\n"
 
 #: bufr_decoder.c:98
 #, c-format
 msgid "          [-no_format]                disable formatting\n"
-msgstr "          [-no_format]                sans formattage\n"
+msgstr ""
 
 #: bufr_decoder.c:99
 #, c-format
 msgid "          [-verbose]                  send more messages\n"
-msgstr "          [-verbose]                  afficher plus de messages\n"
+msgstr ""
 
 #: bufr_decoder.c:100
 #, c-format
 msgid "          [-local]                    save the local table B\n"
-msgstr "          [-local]                    enregistrer la table B locale\n"
+msgstr ""
 
 #: bufr_decoder.c:101
 #, c-format
@@ -137,205 +123,203 @@ msgid ""
 "          [-stop       <nb_messages>] stops decoding after the specified "
 "number of messages\n"
 msgstr ""
-"          [-stop       <nb_messages>] arrêter l'enregistrement après le "
-"nombre de messages spécifié\n"
 
 #: bufr_decoder.c:227
 #, c-format
 msgid "Warning: No input file\n"
-msgstr "Attention : Aucun fichier en entrée\n"
+msgstr ""
 
 #: bufr_decoder.c:237
 #, c-format
 msgid "* BUFR decoder : API version %s\n"
-msgstr "Décodeur BUFR : la version de l'API est %s\n"
+msgstr ""
 
 #: bufr_decoder.c:262 bufr_decoder.c:272
 #, c-format
 msgid "Error: can't open file \"%s\"\n"
-msgstr "Erreur : impossible d'ouvrir le fichier « %s »\n"
+msgstr ""
 
 #: bufr_decoder.c:296
 msgid "Error: can't decode messages\n"
-msgstr "Erreur : impossible de décoder les messages\n"
+msgstr ""
 
 #: bufr_decoder.c:361 bufr_decoder.c:526
 #, c-format
 msgid "## Subset %d : %d descriptor\n"
 msgid_plural "## Subset %d : %d descriptors\n"
-msgstr[0] "## Sous-ensemble %d : %d descripteur\n"
-msgstr[1] "## Sous-ensemble %d : %d descripteurs\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: bufr_decoder.c:417 bufr_decoder.c:643
 #, c-format
 msgid "(0x%llx:%d bit)"
 msgid_plural "(0x%llx:%d bits)"
-msgstr[0] "(0x%llx:%d bit)"
-msgstr[1] "(0x%llx:%d bits)"
+msgstr[0] ""
+msgstr[1] ""
 
 #: bufr_decoder.c:427 bufr_decoder.c:447 bufr_decoder.c:459 bufr_decoder.c:472
 #: bufr_decoder.c:653 bufr_decoder.c:673 bufr_decoder.c:685 bufr_decoder.c:697
 #: bufr_decoder.c:716
 msgid "MSNG"
-msgstr "MANQUANTE"
+msgstr ""
 
 #: bufr_decoder.c:434
 #, c-format
 msgid "BITS=%s "
-msgstr "BITS=%s "
+msgstr ""
 
 #: bufr_decoder.c:438
 #, c-format
 msgid "VALUE=%d "
-msgstr "VALEUR=%d "
+msgstr ""
 
 #: bufr_decoder.c:450
 #, c-format
 msgid "VALUE=%lld "
-msgstr "VALEUR=%lld "
+msgstr ""
 
 #: bufr_decoder.c:462 bufr_decoder.c:475
 msgid "VALUE="
-msgstr "VALEUR="
+msgstr ""
 
 #: bufr_decoder.c:486
 #, c-format
 msgid "VALUE=%s"
-msgstr "VALEUR=%s"
+msgstr ""
 
 #: bufr_decoder.c:488
 msgid "VALUE=MSNG"
-msgstr "VALEUR=MANQUANTE"
+msgstr ""
 
 #: bufr_decoder.c:633
 #, c-format
 msgid "Error: descriptor not found in table B {%d}"
-msgstr "Erreur : le descripteur n'a pu être trouvé dans la table B {%d}"
+msgstr ""
 
 #: bufr_encoder.c:83
 #, c-format
 msgid "BUFR Encoder Version %s\n"
-msgstr "Encodeur BUFR version %s\n"
+msgstr ""
 
 #: bufr_encoder.c:87
 #, c-format
 msgid ""
 "          [-outbufr    <filename>]   encoded BUFR file (default=OUT.bufr)\n"
-msgstr "          [-outbufr    <fichier>]    fichier BUFR (defaut=OUT.bufr)\n"
+msgstr ""
 
 #: bufr_encoder.c:88
 #, c-format
 msgid ""
 "          [-datafile   <filename>]   data file from the dumped output of the "
 "decoder\n"
-msgstr "          [-datafile   <fichier>]    fichier de données obtenu à partir de l'option « -dump » du décodeur\n"
+msgstr ""
 
 #: bufr_encoder.c:89
 #, c-format
 msgid ""
 "          [-template   <filename>]   template file to use for encoding\n"
-msgstr "          [-template   <fichier>]    gabarit à utiliser pour l'encodage\n"
+msgstr ""
 
 #: bufr_encoder.c:90
 #, c-format
 msgid ""
 "          [-ltableb    <filename>]   local table B to use for encoding\n"
-msgstr "          [-ltableb    <fichier>]    table B locale à utiliser pour l'encodage\n"
+msgstr ""
 
 #: bufr_encoder.c:91
 #, c-format
 msgid ""
 "          [-ltabled    <filename>]   local table D to use for encoding\n"
-msgstr "          [-ltabled    <fichier>]    table D locale à utiliser pour l'encodage\n"
+msgstr ""
 
 #: bufr_encoder.c:92
 #, c-format
 msgid ""
 "          [-edition    <number>]     forcing the use of edition number (no "
 "template)\n"
-msgstr "          [-edition    <nombre>]     forcer l'utilisation d'une édition particulière (sans gabarit)\n"
+msgstr ""
 
 #: bufr_encoder.c:93
 #, c-format
 msgid ""
 "          [-nbsubset   <number>]     specify the number of subset(s) of "
 "bogus data to generate\n"
-msgstr "          [-nbsubset   <nombre>]     spécifier le nombre de sous-ensemble(s) de données aléatoires à générer\n"
+msgstr ""
 
 #: bufr_encoder.c:94
 #, c-format
 msgid "          [-def_values]              use random default values\n"
-msgstr "          [-def_values]              utiliser des valeurs par défaut au hasard\n"
+msgstr ""
 
 #: bufr_encoder.c:95
 #, c-format
 msgid "          [-verbose]                 send more messages\n"
-msgstr "          [-verbose]                 affichier plus de messages\n"
+msgstr ""
 
 #: bufr_encoder.c:96
 #, c-format
 msgid ""
 "          [-nolocal]                 do not save local tables to file "
 "(default=save)\n"
-msgstr "          [-nolocal]                 Ne pas enregistrer les tables locales dans des fichiers. (defaut=enregistrer)\n"
+msgstr ""
 
 #: bufr_encoder.c:97
 #, c-format
 msgid "          [-compress]                compress datasubsets if possible\n"
-msgstr "          [-compress]                compresser les sous-ensembles de données si possible\n"
+msgstr ""
 
 #: bufr_encoder.c:98
 #, c-format
 msgid "          [-no_compress]             do not compress datasubsets\n"
-msgstr "          [-no_compress]             sans compression des sous-ensembles de données\n"
+msgstr ""
 
 #: bufr_encoder.c:99
 #, c-format
 msgid ""
 "          [-debug]                   debug mode (put the messages into "
 "file)\n"
-msgstr "          [-debug]                   mode de débogage (placer les messages dans le fichier)\n"
+msgstr ""
 
 #: bufr_encoder.c:100
 #, c-format
 msgid "          [-sequence   <descriptor>] sequence descriptor from table D\n"
-msgstr "          [-sequence   <descripteur>] descripteur de séquence de la table D\n"
+msgstr ""
 
 #: bufr_encoder.c:101
 #, c-format
 msgid ""
 "\n"
 "  Env. Variables:\n"
-msgstr "\n  Variables d'environnement :\n"
+msgstr ""
 
 #: bufr_encoder.c:102
 #, c-format
 msgid "     BUFR_TEMPLATE : specify template file\n"
-msgstr "     BUFR_TEMPLATE : specifiez le fichier gabarit\n"
+msgstr ""
 
 #: bufr_encoder.c:103
 #, c-format
 msgid "     BUFR_TABLES :   path to BUFR tables in the CMC table format\n"
-msgstr "     BUFR_TABLES :   chemin d'accès aux tables BUFR dans le format du CMC\n"
+msgstr ""
 
 #: bufr_encoder.c:247
 #, c-format
 msgid "* BUFR encoder : API version %s\n"
-msgstr "* encodeur BUFR : la version de l'API est %s\n"
+msgstr ""
 
 #: bufr_encoder.c:283
 #, c-format
 msgid "Template not defined properly\n"
-msgstr "Le gabarit n'est pas défini correctement\n"
+msgstr ""
 
 #: bufr_encoder.c:293
 #, c-format
 msgid "Error: unable to create dataset, abort\n"
-msgstr "Erreur : incapable de créer l'ensemble de données, avortement du programme\n"
+msgstr ""
 
 #: bufr_encoder.c:364
 #, c-format
 msgid "Subset #%d : %d descriptor\n"
 msgid_plural "Subset #%d : %d descriptors\n"
-msgstr[0] "Sous-ensemble #%d : %d descripteur\n"
-msgstr[1] "Sous-ensemble #%d : %d descripteurs\n"
+msgstr[0] ""
+msgstr[1] ""

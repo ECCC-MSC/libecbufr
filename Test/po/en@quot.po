@@ -27,10 +27,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libecbufr 0.8.libecbufr_version_micro\n"
+"Project-Id-Version: libecbufr 0.8.2b4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-05-18 09:42-0400\n"
-"PO-Revision-Date: 2010-05-18 07:31-0400\n"
+"PO-Revision-Date: 2010-05-18 09:42-0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -46,10 +46,10 @@ msgstr[0] "## Subset %d : %d descriptor\n"
 msgstr[1] "## Subset %d : %d descriptors\n"
 
 #: test_mem.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "(0x%llx:%d bit)"
 msgid_plural "(0x%llx:%d bits)"
-msgstr[0] "(0x%llx:%d bits)"
+msgstr[0] "(0x%llx:%d bit)"
 msgstr[1] "(0x%llx:%d bits)"
 
 #: test_mem.c:100 test_mem.c:120 test_mem.c:141 test_mem.c:154
