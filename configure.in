@@ -147,4 +147,6 @@ AC_OUTPUT(Makefile \
       Test/BUFR/Makefile \
       Test/Dump/Makefile \
       Test/Unit_Tests/Makefile \
-      Examples/Makefile )
+      Examples/Makefile
+		cgi/Makefile
+		)

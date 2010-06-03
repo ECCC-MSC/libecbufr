@@ -8,7 +8,7 @@ doc_DATA = AUTHORS ChangeLog COPYING INSTALL NEWS README TODO
 
 EXTRA_DIST = reconf configure make_debpkg
 
-SUBDIRS = po API Examples Utilities Tables Test Docs
+SUBDIRS = po API Examples Utilities Tables Test Docs cgi
 
 distdir=@PACKAGE_NAME@-@PACKAGE_VERSION@
 
