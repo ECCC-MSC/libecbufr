@@ -7,6 +7,7 @@
 DECODER=../Utilities/bufr_decoder
 ENCODER=../Utilities/bufr_encoder
 export BUFR_TABLES=../Tables/
+unset AFSISIO
 
 for i in BUFR/*.bufr
 do
