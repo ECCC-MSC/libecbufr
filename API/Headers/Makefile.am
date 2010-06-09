@@ -2,7 +2,7 @@
 
 SUBDIRS = private
 
-bufrIncludedir=@includedir@/@PACKAGE@@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_MICRO@
+bufrIncludedir=@includedir@/@PACKAGE@@PACKAGE_VERSION@
 
 INCLUDE_FILES = $(wildcard *.h)
 
