@@ -614,6 +614,7 @@ static void bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR
          if ((flags & OP_ZDRC_SKIP)||(flags & OP_ZDRC_IGNORE))
             {
             cb->flags |= FLAG_SKIPPED;
+            cb->flags |= FLAG_IGNORED;
             skipped = 1;
             }
          }

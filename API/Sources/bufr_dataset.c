@@ -3590,6 +3590,7 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
    BufrDescriptor      *bcv;
    char           buf[2048];
    int            compressed;
+   int            f, x, y;
 
    fprintf( fp, "BUFR_EDITION=%d\n", dts->tmplte->edition );
    if ( dts->header_string )
@@ -3628,7 +3629,10 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
 
          if (bcv->flags & FLAG_SKIPPED)
             {
-            fprintf( fp, "%.6d ", bcv->descriptor );
+            if (bcv->flags & FLAG_IGNORED)
+               fprintf( fp, "#%.6d ", bcv->descriptor );
+            else
+               fprintf( fp, "%.6d ", bcv->descriptor );
             }
          else
             {

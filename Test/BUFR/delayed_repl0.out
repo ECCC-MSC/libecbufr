@@ -1,0 +1,49 @@
+### BUFR Edition              : 4
+###          length           : 55
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 22
+###      BUFR master table    : 0
+###      originating center   : 54
+###      sub center           : 0
+###      update sequence number : 0
+###      Data category        : 0
+###      International sub category  : 0
+###      Local sub category   : 0
+###      master table version : 2
+###      local table version  : 0
+###      Year                 : 2010
+###      Month                : 5
+###      Day                  : 27
+###      Hour                 : 13
+###      Min                  : 33
+###      Sec                  : 40
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 15
+###      datasubsets          : 1
+###      octet 7              : 0
+###         compression       : No
+###         other data
+###   Section 4
+###      length               : 6
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 11 descriptors
+   101000 {R=0} 
+   031001 {R=0} VALUE=0 
+#  302005 {R=0}
+#  302036 
+   105000 
+   031001 VALUE=0 
+#  008002 
+#  020011 
+#  020012 
+#  020014 
+#  020017 
+

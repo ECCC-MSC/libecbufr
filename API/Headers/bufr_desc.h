@@ -51,6 +51,7 @@ extern "C" {
 #define   FLAG_EXPANDED     0x2
 #define   FLAG_SKIPPED      0x4
 #define   FLAG_CLASS33      0x8
+#define   FLAG_IGNORED      0x10
 
 typedef struct bufr_desc
    {

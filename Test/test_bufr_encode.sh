@@ -5,6 +5,7 @@
 
 ENCODER=../Utilities/bufr_encoder
 export BUFR_TABLES=../Tables/
+unset AFSISIO
 
 for i in Dump/*.template
 do
