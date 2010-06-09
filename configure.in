@@ -79,6 +79,8 @@ AC_GNU_SOURCE
 AC_PROG_LIBTOOL
 
 AC_PATH_PROG(DOXYGEN, doxygen, no)
+AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, yes)
+AM_CONDITIONAL(HAVE_PKGCONFIG, test "$HAVE_PKGCONFIG" = "yes")
 
 # Checks for libraries.
 #AM_PATH_CHECK("0.9.4") #this is apparently deprecated (message from configure)

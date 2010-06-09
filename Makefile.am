@@ -12,6 +12,27 @@ SUBDIRS = po API Examples Utilities Tables Test Docs cgi
 
 distdir=@PACKAGE_NAME@-@PACKAGE_VERSION@
 
+if HAVE_PKGCONFIG
+# pkg-config file makes it a lot easier to build against libecbufr
+pcdir=@prefix@/lib/pkgconfig
+pc_DATA = libecbufr.pc
+
+libecbufr.pc: Makefile
+	echo 'prefix=@prefix@' > $@
+	echo 'exec_prefix=@exec_prefix@' > $@
+	echo 'libdir=@libdir@/@PACKAGE@@PACKAGE_VERSION@' >> $@
+	echo 'includedir=@includedir@/@PACKAGE@@PACKAGE_VERSION@' >> $@
+	echo >> $@
+	echo 'Name: @PACKAGE@' >> $@
+	echo 'Version: @PACKAGE_VERSION@' >> $@
+	echo 'Description: Environment Canada BUFR Library' >> $@
+	echo 'URL: https://launchpad.net/libecbufr' >> $@
+	echo 'Libs: -L$${libdir} -lecbufr' >> $@
+	echo 'Libs.private: -lm' >> $@
+	echo 'Cflags: -I$${includedir}' >> $@
+
+endif
+
 pkg: make_debsrcpkg all
 	./make_debsrcpkg @PACKAGE_NAME@ @PACKAGE_VERSION@
 	cd debpackage && dpkg-source -x @PACKAGE_NAME@_@PACKAGE_VERSION@.dsc
