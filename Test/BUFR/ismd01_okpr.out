@@ -1,6 +1,6 @@
 ### Message header            : "edition\0404\040examples\012\001\015\015\012052\015\015\012ISMD01\040OKPR\040211200\015\015\012"
-### Message version           : 4
-###          length           : 689
+### BUFR Edition              : 4
+###          length           : 694
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -8,9 +8,9 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
-###      Inter. sub category  : 2
+###      International sub category  : 2
 ###      Local sub category   : 0
 ###      master table version : 13
 ###      local table version  : 0
@@ -31,7 +31,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 646
+###      length               : 651
 ###   Section 5
 ###      length               : 4
 ###
@@ -1114,8 +1114,8 @@
    012049 MSNG
 
 ### Message header            : "\015\015\012\003\001\015\015\012380\015\015\012ISMD01\040OKPR\040210600\015\015\012"
-### Message version           : 4
-###          length           : 710
+### BUFR Edition              : 4
+###          length           : 715
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -1123,9 +1123,9 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
-###      Inter. sub category  : 2
+###      International sub category  : 2
 ###      Local sub category   : 0
 ###      master table version : 13
 ###      local table version  : 0
@@ -1146,7 +1146,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 667
+###      length               : 672
 ###   Section 5
 ###      length               : 4
 ###
@@ -2229,8 +2229,8 @@
    012049 MSNG
 
 ### Message header            : "\015\015\012\003\001\015\015\012633\015\015\012ISMD01\040OKPR\040211800\015\015\012"
-### Message version           : 4
-###          length           : 696
+### BUFR Edition              : 4
+###          length           : 701
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -2238,9 +2238,9 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
-###      Inter. sub category  : 2
+###      International sub category  : 2
 ###      Local sub category   : 0
 ###      master table version : 13
 ###      local table version  : 0
@@ -2261,7 +2261,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 653
+###      length               : 658
 ###   Section 5
 ###      length               : 4
 ###
@@ -3344,8 +3344,8 @@
    012049 MSNG
 
 ### Message header            : "\015\015\012\003\001\015\015\012811\015\015\012ISMD01\040OKPR\040210000\015\015\012"
-### Message version           : 4
-###          length           : 700
+### BUFR Edition              : 4
+###          length           : 704
 ###   Section 0
 ###      length               : 8
 ###   Section 1
@@ -3353,9 +3353,9 @@
 ###      BUFR master table    : 0
 ###      originating center   : 89
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
-###      Inter. sub category  : 2
+###      International sub category  : 2
 ###      Local sub category   : 0
 ###      master table version : 13
 ###      local table version  : 0
@@ -3376,7 +3376,7 @@
 ###         compression       : Yes
 ###         other data
 ###   Section 4
-###      length               : 657
+###      length               : 661
 ###   Section 5
 ###      length               : 4
 ###

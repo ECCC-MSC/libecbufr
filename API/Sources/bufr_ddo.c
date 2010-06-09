@@ -26,6 +26,7 @@ This file is part of libECBUFR.
 #include "bufr_tables.h"
 #include "bufr_ddo.h"
 #include "bufr_meta.h"
+#include "bufr_i18n.h"
 
 static int  bufr_match_increment ( int desc );
 static void free_af_list         ( LinkedList *list );
@@ -137,7 +138,7 @@ void bufr_init_dpbm( BufrDPBM *dpbm, ListNode *node )
          ++dpbm->nb_dp;
          if (isdebug)
             {
-            sprintf( buf, "DPBM Pos=%d ON\n", i );
+            sprintf( buf, _("DPBM Pos=%d ON\n"), i );
             bufr_print_debug( buf );
             }
          }
@@ -145,7 +146,7 @@ void bufr_init_dpbm( BufrDPBM *dpbm, ListNode *node )
       }
    if (isdebug)
       {
-      sprintf( buf, "DPBM DPCount=%d\n", dpbm->nb_dp );
+      sprintf( buf, _("DPBM DPCount=%d\n"), dpbm->nb_dp );
       bufr_print_debug( buf );
       }
    }
@@ -369,7 +370,7 @@ int bufr_resolve_tableC_v2
          break;
       default :
          {
-         sprintf( errmsg, "Warning: unsupported Table C operator %d in BUFR version %d\n", 
+         sprintf( errmsg, _("Warning: unsupported Table C operator %d in BUFR version %d\n"), 
                cb->descriptor, version );
          bufr_print_debug( errmsg );
          return -1;
@@ -417,7 +418,7 @@ int bufr_resolve_tableC_v3
       case 25 :
       case 32 : 
       case 35 : 
-         sprintf( errmsg, "Warning: Table C operator %d has not been implemented\n", x );
+         sprintf( errmsg, _("Warning: Table C operator %d has not been implemented\n"), x );
          bufr_print_debug( errmsg );
          return -1;
       default :
@@ -470,7 +471,7 @@ int bufr_resolve_tableC_v4
       case 43 : 
          {
          char errmsg[256];
-         sprintf( errmsg, "Warning: Table C operator %d has not been implemented\n", x );
+         sprintf( errmsg, _("Warning: Table C operator %d has not been implemented\n"), x );
          bufr_print_debug( errmsg );
          return -1;
          }
@@ -512,7 +513,7 @@ int bufr_resolve_tableC_v5
             {
             char errmsg[256];
 
-            sprintf( errmsg, "Warning: unsupported IEEE floating point width=%d, ignored\n", y );
+            sprintf( errmsg, _("Warning: unsupported IEEE floating point width=%d, ignored\n"), y );
             bufr_print_debug( errmsg );
             }
          break;
@@ -599,7 +600,7 @@ void bufr_set_current_location( BufrDDOp *ddo, int code, float value, int npos )
 
       if (bufr_is_debug())
          {
-         sprintf( buf, "Matching increment %.6d to %.6d incr=%f\n", code, code2, value );
+         sprintf( buf, _("Matching increment %.6d to %.6d incr=%f\n"), code, code2, value );
          bufr_print_debug( buf );
          }
        }
@@ -734,7 +735,7 @@ void bufr_assoc_location  ( BufrDescriptor *bc, BufrDDOp *ddo )
 
    if (isdebug)
       {
-      sprintf( buf, "Associating %d\n", bc->descriptor );
+      sprintf( buf, _("Associating %d\n"), bc->descriptor );
       bufr_print_debug( buf );
       }
 
@@ -747,7 +748,7 @@ void bufr_assoc_location  ( BufrDescriptor *bc, BufrDDOp *ddo )
 
       if (isdebug)
          {
-         sprintf( buf, "   %d=%f npos=%d\n", tlc->descriptor, tlc->value, npos );
+         sprintf( buf, _("   %d=%f npos=%d\n"), tlc->descriptor, tlc->value, npos );
          bufr_print_debug( buf );
          }
       }

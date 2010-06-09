@@ -1,5 +1,5 @@
 ### Message header            : "WinIDE\0403.3\040changed\040code\040table\040for\0400-20-197\012\005\000¯\000ISAA41\040CDOW\040281800\040CCD\012"
-### Message version           : 2
+### BUFR Edition              : 2
 ###          length           : 152
 ###   Section 0
 ###      length               : 8
@@ -7,7 +7,7 @@
 ###      length               : 18
 ###      BUFR master table    : 0
 ###      originating center   : 54
-###      update sequence      : 4
+###      update sequence number : 4
 ###      Data category        : 0
 ###      master table version : 11
 ###      local table version  : 35

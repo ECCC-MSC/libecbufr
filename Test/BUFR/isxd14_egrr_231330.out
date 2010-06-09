@@ -1,5 +1,5 @@
 ### Message header            : "compressed\040CCITT\040strings\012ISXD14\040EGRR\040231330\012"
-### Message version           : 3
+### BUFR Edition              : 3
 ###          length           : 2970
 ###   Section 0
 ###      length               : 8
@@ -8,7 +8,7 @@
 ###      BUFR master table    : 0
 ###      originating center   : 74
 ###      sub center           : 31
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
 ###      Data subcategory     : 14
 ###      master table version : 7

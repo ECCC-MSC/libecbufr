@@ -1,4 +1,4 @@
-### Message version           : 4
+### BUFR Edition              : 4
 ###          length           : 55
 ###   Section 0
 ###      length               : 8
@@ -7,9 +7,9 @@
 ###      BUFR master table    : 0
 ###      originating center   : 54
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 0
-###      Inter. sub category  : 0
+###      International sub category  : 0
 ###      Local sub category   : 0
 ###      master table version : 2
 ###      local table version  : 0

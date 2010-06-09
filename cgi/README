@@ -1,0 +1,10 @@
+  ScriptAlias /cgi-bin/libecbufr/ /usr/lib/cgi-bin/libecbufr/
+  #Alias /bufrex/ "/var/www/libecbufr/"
+  Alias /libecbufr/ "/var/www/libecbufr/"
+  <Directory /var/www/libecbufr>
+			 Options Indexes FollowSymLinks MultiViews
+			 AllowOverride None
+			 Order allow,deny
+			 allow from all
+  </Directory>
+

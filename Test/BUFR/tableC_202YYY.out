@@ -1,5 +1,5 @@
 ### Message header            : "\015\015\012\001\015\015\012IEIX01\040EUMP\040081320\012"
-### Message version           : 4
+### BUFR Edition              : 4
 ###          length           : 49883
 ###   Section 0
 ###      length               : 8
@@ -8,9 +8,9 @@
 ###      BUFR master table    : 0
 ###      originating center   : 254
 ###      sub center           : 0
-###      update sequence      : 0
+###      update sequence number : 0
 ###      Data category        : 3
-###      Inter. sub category  : 255
+###      International sub category  : 255
 ###      Local sub category   : 222
 ###      master table version : 13
 ###      local table version  : 0

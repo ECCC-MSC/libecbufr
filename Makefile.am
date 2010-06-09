@@ -8,7 +8,7 @@ doc_DATA = AUTHORS ChangeLog COPYING INSTALL NEWS README TODO
 
 EXTRA_DIST = reconf configure make_debpkg
 
-SUBDIRS = API Examples Utilities Tables Test Docs
+SUBDIRS = po API Examples Utilities Tables Test Docs cgi
 
 distdir=@PACKAGE_NAME@-@PACKAGE_VERSION@
 
@@ -18,3 +18,4 @@ pkg: make_debsrcpkg all
 	cd debpackage/@PACKAGE_NAME@-@PACKAGE_VERSION@ && \
 		dpkg-buildpackage -rfakeroot -b -us -uc -tc
 	mv debpackage/*.deb .
+

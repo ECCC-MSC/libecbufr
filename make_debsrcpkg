@@ -53,6 +53,7 @@ Architecture: any
 Provides: libecbufr
 Conflicts: libecbufr
 Replaces: libecbufr
+Suggests: libcgi-formbuilder-perl
 Description: Environment Canada BUFR Library
 EOFDEB
 

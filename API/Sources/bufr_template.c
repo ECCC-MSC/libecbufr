@@ -37,6 +37,7 @@ This file is part of libECBUFR.
 #include "bufr_sequence.h"
 #include "bufr_tables.h"
 #include "bufr_template.h"
+#include "bufr_i18n.h"
 
 static void bufr_copy_DescValue ( BufrDescValue *dest, BufrDescValue *src );
 static void bufr_free_desc_array( char *list );
@@ -114,7 +115,7 @@ BUFR_Template *bufr_create_template
       if (!bufr_is_descriptor( descs[i].descriptor ) )
          {
          has_error = 1;
-         sprintf( errmsg, "Error: not a valid descriptor %d\n", 
+         sprintf( errmsg, _("Error: not a valid descriptor %d\n"), 
                descs[i].descriptor );
          bufr_print_debug( errmsg );
          fprintf( stderr, "%s", errmsg );
@@ -129,17 +130,17 @@ BUFR_Template *bufr_create_template
                /* known bit width, acceptable  */
                if (bufr_is_debug())
                   {
-                  sprintf( errmsg, "Descriptor %d has sig data width %d\n", 
+                  sprintf( errmsg, _("Descriptor %d has sig data width %d\n"), 
                         descs[i].descriptor, descs[i-1].descriptor );
                   bufr_print_debug( errmsg );
                   }
                }
             else
                {
-               sprintf( errmsg, "Descriptor %d ??\n", descs[i].descriptor );
+               sprintf( errmsg, _("Descriptor %d ??\n"), descs[i].descriptor );
                bufr_print_debug( errmsg );
                has_error = 1;
-               sprintf( errmsg, "Error: unknown descriptor %d\n", descs[i].descriptor );
+               sprintf( errmsg, _("Error: unknown descriptor %d\n"), descs[i].descriptor );
                bufr_print_debug( errmsg );
                }
             }
@@ -148,8 +149,8 @@ BUFR_Template *bufr_create_template
    
    if (has_error)
       {
-      bufr_print_debug( "Error: Template definition contains error(s)\n" );
-      bufr_print_debug( "Error: Unable to create Template\n" );
+      bufr_print_debug( _("Error: Template definition contains error(s)\n") );
+      bufr_print_debug( _("Error: Unable to create Template\n") );
       return NULL;
       }
 
@@ -172,8 +173,8 @@ BUFR_Template *bufr_create_template
 
    if (bufr_finalize_template( tmplt ) < 0)
       {
-      bufr_print_debug( "Error: Template definition contains error(s)\n" );
-      bufr_print_debug( "Error: Unable to create Template\n" );
+      bufr_print_debug( _("Error: Template definition contains error(s)\n") );
+      bufr_print_debug( _("Error: Unable to create Template\n") );
       bufr_free_template( tmplt );
       tmplt = NULL;
       }
@@ -338,7 +339,7 @@ int bufr_finalize_template( BUFR_Template *tmplt )
       code = (BufrDescValue *)arr_get( tmplt->codets, i );
       if (!bufr_is_descriptor( code->descriptor ) )
          {
-         sprintf( errmsg, "Error: not a valid descriptor %d\n", 
+         sprintf( errmsg, _("Error: not a valid descriptor %d\n"), 
                code->descriptor );
          bufr_print_debug( errmsg );
          fprintf( stderr, "%s", errmsg );
@@ -359,14 +360,14 @@ int bufr_finalize_template( BUFR_Template *tmplt )
                /* known bit width, acceptable  */
                if (bufr_is_debug())
                   {
-                  sprintf( errmsg, "Descriptor %d has sig data width %d\n", 
+                  sprintf( errmsg, _("Descriptor %d has sig data width %d\n"), 
                         code->descriptor, pcode->descriptor );
                   bufr_print_debug( errmsg );
                   }
                }
             else
                {
-               bufr_print_debug( "Error: template contains errors\n" );
+               bufr_print_debug( _("Error: template contains errors\n") );
                bufr_free_sequence( gabarit );
                return -1;
                }
@@ -388,7 +389,7 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    flags = 0;
    if (bufr_check_sequence( gabarit, tmplt->edition, &flags, tmplt->tables, 0 ) <= 0 ) 
       {
-      bufr_print_debug( "Error: template contains errors\n" );
+      bufr_print_debug( _("Error: template contains errors\n") );
       bufr_free_sequence( gabarit );
       return -1;
       }
@@ -554,14 +555,14 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
    debug = bufr_is_debug();
    if (debug)
       {
-      sprintf( errmsg, "### Loading template file \"%s\"\n", filename );
+      sprintf( errmsg, _("### Loading template file \"%s\"\n"), filename );
       bufr_print_debug( errmsg );
       }
 
    fp = fopen ( filename, "r" ) ;
    if (fp == NULL) 
       {
-      sprintf( errmsg, "Error: can't open template file %s\n", filename );
+      sprintf( errmsg, _("Error: can't open template file %s\n"), filename );
       bufr_print_debug( errmsg );
       return NULL;
       }
@@ -584,7 +585,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
             {
             if (debug)
                {
-               sprintf( errmsg, "### template has a local table B: %s\n", tok );
+               sprintf( errmsg, _("### template has a local table B: %s\n"), tok );
                bufr_print_debug( errmsg );
                }
             bufr_load_l_tableB( tbls, tok );
@@ -598,7 +599,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
             {
             if (debug)
                {
-               sprintf( errmsg, "### template has a master table B: %s\n", tok );
+               sprintf( errmsg, _("### template has a master table B: %s\n"), tok );
                bufr_print_debug( errmsg );
                }
             bufr_load_m_tableB( tbls, tok );
@@ -612,7 +613,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
             {
             if (debug)
                {
-               sprintf( errmsg, "### template has a local table D: %s\n", tok );
+               sprintf( errmsg, _("### template has a local table D: %s\n"), tok );
                bufr_print_debug( errmsg );
                }
             bufr_load_l_tableD( tbls, tok );
@@ -626,7 +627,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
             {
             if (debug)
                {
-               sprintf( errmsg, "### template has a master table D: %s\n", tok );
+               sprintf( errmsg, _("### template has a master table D: %s\n"), tok );
                bufr_print_debug( errmsg );
                }
             bufr_load_m_tableD( tbls, tok );
@@ -641,7 +642,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
             edition = atoi( tok );
             if (debug)
                {
-               sprintf( errmsg, "### template BUFR Version: %d\n", edition );
+               sprintf( errmsg, _("### template BUFR Version: %d\n"), edition );
                bufr_print_debug( errmsg );
                }
             }
@@ -652,9 +653,9 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
          {
          if (mtbls == NULL)
             {
-            sprintf( errmsg, "Error: require a master BUFR Tables\n" );
+            sprintf( errmsg, _("Error: require a master BUFR Tables\n") );
             bufr_print_debug( errmsg );
-            sprintf( errmsg, "Error: can't load template file %s\n", filename );
+            sprintf( errmsg, _("Error: can't load template file %s\n"), filename );
             bufr_print_debug( errmsg );
 
             bufr_free_tables( tbls );
@@ -759,9 +760,9 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
    tmplt->codets = sequence;
    if ((bufr_finalize_template( tmplt ) < 0)|| error)
       {
-      sprintf( errmsg, "Error: Template file %s contains error(s)\n", filename );
+      sprintf( errmsg, _("Error: Template file %s contains error(s)\n"), filename );
       bufr_print_debug( errmsg );
-      bufr_print_debug( "Error: Unable to create Template\n" );
+      bufr_print_debug( _("Error: Unable to create Template\n") );
       bufr_free_template( tmplt );
       return NULL;
       }
@@ -771,9 +772,9 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
    if (debug)
       {
       int count;
-      bufr_print_debug   ( "### Finished loading template file\n" );
+      bufr_print_debug   ( _("### Finished loading template file\n") );
       count = arr_count( tmplt->codets );
-      sprintf( errmsg, "### Template contains %d descriptors\n", count  );
+      sprintf( errmsg, _("### Template contains %d descriptors\n"), count  );
       bufr_print_debug( errmsg );
       bufr_print_debug   ( NULL );
       }

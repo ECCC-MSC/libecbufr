@@ -36,14 +36,15 @@ This file is part of libECBUFR.
 #include "bufr_value.h"
 #include "bufr_array.h"
 #include "bufr_template.h"
-
+#include "bufr_i18n.h"
 
 #define   TLC_FLAG_BIT      0x80000
 
 
 /**
  * @english
- * Initialises mathematical constants, calls bufr_init_limits.
+ * Initializes mathematical constants, calls bufr_init_limits.
+ * Also, it initializes the internationalization features.
  * First function to call for using the BUFR API library
  * @warning Not thread-safe
  * @return void
@@ -56,12 +57,15 @@ This file is part of libECBUFR.
  */
 void bufr_begin_api(void)
    {
+   // Internationalization
+   bindtextdomain(PACKAGE, LOCALEDIR);
+
    if (bufr_is_debug())
       {
       char msg[256];
 
       bufr_print_debug( "###\n" );
-      snprintf( msg, 256, "### Debugging printout of BUFR API Version: %s\n", 
+      snprintf( msg, 256, _("### Debugging printout of BUFR API Version: %s\n"), 
                            BUFR_API_VERSION );
       bufr_print_debug( msg );
       bufr_print_debug( "###\n" );
