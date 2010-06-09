@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-libecbufrdir=@libdir@/@PACKAGE@@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_MICRO@
+libecbufrdir=@libdir@/@PACKAGE@@PACKAGE_VERSION@
 
 libecbufr_LTLIBRARIES = libecbufr.la
 
