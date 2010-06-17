@@ -2073,7 +2073,7 @@ static void test_print_tableD( char *tabled )
       r = pe ? *pe : NULL;
       if ( r != NULL)
          {
-         sprintf( buf, _("TableD : %d\n"), r->code );
+         sprintf( buf, _("TableD : %d\n"), r->descriptor );
          bufr_print_debug( buf );
          }
       }
