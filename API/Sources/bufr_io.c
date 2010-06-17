@@ -957,6 +957,9 @@ void bufr_print_debug(const char *msg)
       {
       if (debug_fp == NULL)
          debug_fp = fopen( debug_filename, "a+" );
+      else
+         fflush( debug_fp );
+
       if (debug_fp)
          {
          fprintf( debug_fp, "%s", msg );
