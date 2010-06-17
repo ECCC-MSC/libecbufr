@@ -1731,7 +1731,7 @@ int64_t bufr_binary_to_int( const char *str )
  */
 void bufr_print_binary ( char *outstr, int64_t  ival, int nbit )
    {
-   uint64_t  len;
+   int  len;
    uint64_t  bval;
 
    outstr[0] = '\0';
