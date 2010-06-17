@@ -1344,6 +1344,12 @@ BufrDDOp  *bufr_apply_Tables
             else if (ddo->add_nbits != 0)
                {
                cb->encoding.nbits += ddo->add_nbits;
+               if (debug)
+                  {
+                  sprintf( errmsg, _("### 201 %d datawidth=%d\n"), 
+                           cb->descriptor, cb->encoding.nbits );
+                  bufr_print_debug( errmsg );
+                  }
                }
 
             if (ddo->multiply_scale != 0)
