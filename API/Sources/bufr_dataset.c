@@ -2000,8 +2000,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             }
          }
       }
-   else if ((msg->s1.master_table_version != tables->master.version )&&
-            (msg->s1.master_table_version > 13))
+   else if (msg->s1.master_table_version != tables->master.version )
       {
       if (debug)
          {
