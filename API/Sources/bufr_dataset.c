@@ -2563,12 +2563,12 @@ static int bufr_get_numeric_compressed
       }
    else
       {
+      msng = bufr_missing_ivalue( nbinc );
       for (i = 0; i < nbsubset ; i++)
          {
          node2 = nodes[i];
          cb2 = (BufrDescriptor *)node2->data;
          ival = bufr_getbits( msg, nbinc, &errcode ); 
-         msng = bufr_missing_ivalue( nbinc );
          if ( errcode < 0 ) return errcode;
          if (ival == msng)
             ival2 = missing;
