@@ -47,7 +47,7 @@ static void        bufr_free_datasubset      ( DataSubset *subset );
 static void        bufr_put_desc_value       ( BUFR_Message *bufr, BufrDescriptor *bc );
 static int         bufr_get_desc_value       ( BUFR_Message *bufr, BufrDescriptor *bc );
 static int         bufr_get_desc_ieeefp     ( BUFR_Message *bufr, BufrDescriptor *code );
-static int         bufr_get_desc_ccittia5   ( BUFR_Message *bufr, BufrDescriptor *code );
+static int         bufr_get_desc_ccittia5   ( BUFR_Message *bufr, BufrDescriptor *code, int );
 
 static void        bufr_put_af_compressed    ( BUFR_Message *msg, BUFR_Dataset *, BufrDescriptor *, int j );
 static void        bufr_put_ccitt_compressed ( BUFR_Message *msg, BUFR_Dataset *dts, int j );
@@ -1235,8 +1235,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
    debug = bufr_is_debug();
 /*
  * see if all string are the same
-
-*/
+ */
    nb_subsets = bufr_count_datasubset( dts );
    subset = bufr_get_datasubset( dts, 0 );
    bcv = bufr_datasubset_get_descriptor( subset, j );
@@ -1255,8 +1254,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
 /*
  * compression of CCITT_IA5 increase by 1 element + 6
  * writing R0 REF VALUE, this or a blank 
-
-*/
+ */
    subset = bufr_get_datasubset( dts, 0 );
    bcv = bufr_datasubset_get_descriptor( subset, j );
    strval = bufr_value_get_string( bcv->value, &blen );
@@ -1758,7 +1756,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    switch (bd->encoding.type)
       {
       case TYPE_CCITT_IA5 :
-         errcode = bufr_get_desc_ccittia5( bufr, bd );
+         errcode = bufr_get_desc_ccittia5( bufr, bd, -1 );
          if ( errcode < 0 ) return errcode;
          break;
       case TYPE_IEEE_FP :
@@ -1872,6 +1870,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
  * extract a string of a code from BUFR Message
  * @param   bufr  :  pointer to output Message 
  * @param   bd    :  pointer to descriptor container with value
+ * @param   nb_octet : nb of octets to read overriding bd->encoding.nbits
  * @endenglish
  * @francais
  * @todo translate to French
@@ -1879,19 +1878,22 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-static int bufr_get_desc_ccittia5( BUFR_Message *bufr, BufrDescriptor *bd )
+static int bufr_get_desc_ccittia5
+   ( BUFR_Message *bufr, BufrDescriptor *bd, int nb_octet )
    {
    char           *strval;
    int             errcode;
 
-   strval = (char *)malloc( (bd->encoding.nbits/8+1) * sizeof(char) );
-   errcode = bufr_getstring( bufr, strval, bd->encoding.nbits/8 );
+   if (nb_octet < 0) nb_octet = bd->encoding.nbits/8;
+   strval = (char *)malloc( (nb_octet+1) * sizeof(char) );
+   errcode = bufr_getstring( bufr, strval, nb_octet );
    bufr_descriptor_set_svalue( bd, strval );
    if (bufr_is_debug())
       {
       char errmsg[2048];
 
-      sprintf( errmsg, _n("STR: [%s] (%d bit) ", "STR: [%s] (%d bits) ", bd->encoding.nbits), strval, bd->encoding.nbits );
+      sprintf( errmsg, _n("STR: [%s] (%d bit) ", "STR: [%s] (%d bits) ", 
+               nb_octet*8), strval, nb_octet*8 );
       bufr_print_debug( errmsg );
       }
    free( strval );
@@ -2195,6 +2197,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       while ( node )
          {
          cb = (BufrDescriptor *)node->data;
+
          if (debug)
             {
             bufr_print_descriptor( errmsg, cb );
@@ -2246,6 +2249,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                if (debug) bufr_print_debug( "\n" );
                break; 
             }
+
 /*
  * apply post value operations on BufrDescriptor
 
@@ -2358,15 +2362,17 @@ static int bufr_get_ccitt_compressed
    BufrDescriptor       *cb2;
    int             nbinc;
    int             errcode;
+   int             missing;
 
    if (debug)
       bufr_print_debug( "   R0=" );
 
-   errcode = bufr_get_desc_ccittia5( msg, cb );
+   errcode = bufr_get_desc_ccittia5( msg, cb, -1 );
    if (errcode < 0) return errcode;
 
    nbinc = bufr_getbits( msg, 6, &errcode );
    if ( errcode < 0 ) return errcode;
+
 /*
  * initial allocation for string buffer
  */
@@ -2381,6 +2387,15 @@ static int bufr_get_ccitt_compressed
       sprintf( errmsg, _n(" NBINC=%d (%d bit)\n", " NBINC=%d (%d bits)\n", 6), nbinc, 6 );
       bufr_print_debug( errmsg );
       }
+/*
+ * all values are missing
+ */
+   missing = bufr_missing_ivalue( 6 );
+   if (nbinc == missing)
+      {
+      nbinc = 0;
+      }
+
    for (i = 0; i < nbsubset ; i++)
       {
       node2 = nodes[i];
@@ -2392,7 +2407,7 @@ static int bufr_get_ccitt_compressed
             sprintf( errmsg, "   R(%d)=", i+1 );
             bufr_print_debug( errmsg );
             }
-         errcode = bufr_get_desc_ccittia5( msg, cb2 );
+         errcode = bufr_get_desc_ccittia5( msg, cb2, nbinc );
          if (errcode < 0) 
             {
             arr_free( &dstrptr );
@@ -2541,6 +2556,21 @@ static int bufr_get_numeric_compressed
             nbinc, 6 );
       bufr_print_debug( errmsg );
       }
+   if (nbinc > cb->encoding.nbits)
+      {
+/* ERROR: NBINC can't be bigger than NBITS, corrupted ?? */
+      sprintf( errmsg, _("Warning: NBINC=%d is bigger than (%d bit)\n"),
+            nbinc, cb->encoding.nbits );
+      nbinc = 0; 
+      bufr_print_debug( errmsg );
+      }
+/*
+ * all value are missing
+ */
+   msng = bufr_missing_ivalue( 6 );
+   if (nbinc == msng)
+      nbinc = 0; 
+
    if ( errcode < 0 ) return errcode;
    if (nbinc == 0) 
       {
