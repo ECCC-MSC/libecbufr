@@ -33,6 +33,16 @@ This file is part of libECBUFR.
 #include "config.h"
 #include "gettext.h"
 
+#ifdef _
+#undef _
+#endif
+#ifdef _n
+#undef _n
+#endif
+#ifdef N_
+#undef N_
+#endif
+
 #define   EXIT_ERROR    5
 #define _(String) gettext(String)
 #define _n(String1, String2, n) ngettext(String1, String2, n)
@@ -66,7 +76,7 @@ static int  read_cmdline( int argc, char *argv[] );
 static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables * );
 static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables * );
 
-static void run_tests(void);
+static void run_decoder(void);
 
 /*
  * nom: abort_usage
@@ -205,22 +215,25 @@ int main(int argc,char *argv[])
 /*
  * charger les tables en memoire
  */
-   run_tests();
+   run_decoder();
 
    cleanup();
    exit(0);
 }
 
-static void run_tests(void)
+static void run_decoder(void)
    {
    BUFR_Dataset   *dts;
    FILE         *fpBufr;
    BUFR_Tables   *file_tables=NULL;
+   BUFR_Tables   *useTables=NULL;
    char           buf[256];
    BUFR_Message  *msg;
    int            rtrn;
    int            count;
+   LinkedList    *tables_list=NULL;
    FILE          *fp = NULL;
+   int            tablenos[2];
 
    if (str_ibufr == NULL)
       {
@@ -240,18 +253,23 @@ static void run_tests(void)
       }
 
 /*
- * load CMC Table B and D
- * includes local descriptors
+ * load CMC Table B and D, currently version 14
  */
    file_tables = bufr_create_tables();
    bufr_load_cmc_tables( file_tables );  
 /*
- * load local tables if any 
+ * load all tables into list
  */
-   if (str_ltableb)
-      bufr_load_l_tableB( file_tables, str_ltableb );
-   if (str_ltabled)
-      bufr_load_l_tableD( file_tables, str_ltabled );
+   tablenos[0] = 13;
+   tables_list = bufr_load_tables_list( getenv("BUFR_TABLES"), tablenos, 1 );
+/* 
+ * add version 14 to list 
+ */
+   lst_addfirst( tables_list, lst_newnode( file_tables ) ); 
+/*
+ * load local tables if any to list of tables
+ */
+   bufr_tables_list_addlocal( tables_list, str_ltableb, str_ltabled );
 /*
  * open a file for reading
  */
@@ -285,11 +303,34 @@ static void run_tests(void)
       ++count;
       if (!dumpmode)
          bufr_print_message( msg, bufr_print_output );
+/*
+ * fallback on default Tables first
+ */
+      useTables = file_tables;
+/* 
+ * try to find another if not compatible
+ */
+      if (useTables->master.version != msg->s1.master_table_version)
+         useTables = bufr_use_tables_list( tables_list, msg->s1.master_table_version );
 /* 
  * BUFR_Message ==> BUFR_Dataset 
  */
-
-      dts = bufr_decode_message( msg, file_tables ); 
+      if (useTables == NULL) 
+         {
+         dts = NULL;
+         sprintf( buf, _("Error: no BUFR tables version %d\n"), msg->s1.master_table_version );
+         bufr_print_output( buf );
+         bufr_print_debug( buf );
+         }
+      else
+         { 
+         if (bufr_is_verbose())
+            {
+            sprintf( buf, _("Decoding message version %d with BUFR tables version %d\n"), msg->s1.master_table_version, useTables->master.version );
+            bufr_print_debug( buf );
+            }
+         dts = bufr_decode_message( msg, useTables ); 
+         }
 
       if (dts == NULL) 
          {
@@ -308,7 +349,7 @@ static void run_tests(void)
          tbls = bufr_extract_tables( dts );
          if (tbls)
             {
-            bufr_merge_tables( file_tables, tbls );
+            bufr_tables_list_merge( tables_list, tbls );
             bufr_free_tables( tbls );
             }
          if (dumpmode)
@@ -341,7 +382,7 @@ static void run_tests(void)
  */
    fclose( fpBufr );
    if (fp) fclose( fp );
-   bufr_free_tables( file_tables );
+   bufr_free_tables_list( tables_list );
    }
 
 static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
@@ -722,3 +763,4 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
       bufr_print_output( "\n" );
       }
    }
+

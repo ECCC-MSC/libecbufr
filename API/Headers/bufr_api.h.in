@@ -19,6 +19,7 @@
 #include "bufr_message.h"
 #include "bufr_dataset.h"
 #include "bufr_tables.h"
+#include "bufr_linklist.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,7 +31,12 @@ extern "C" {
 extern   void    bufr_begin_api              ( void );
 extern   void    bufr_end_api                ( void );
 
-extern   int     bufr_load_cmc_tables        ( BUFR_Tables *tables );
+extern   int          bufr_load_cmc_tables      ( BUFR_Tables *tables );
+extern   LinkedList  *bufr_load_tables_list     ( char *path, int tbno[], int nb );
+extern   BUFR_Tables *bufr_use_tables_list      ( LinkedList *list, int version );
+extern   void         bufr_free_tables_list     ( LinkedList *list );
+extern   void         bufr_tables_list_addlocal ( LinkedList *tables_list, char *tableb_fn, char *tabled_fn );
+extern   void         bufr_tables_list_merge    ( LinkedList *tables_list, BUFR_Tables *tblm );
 
 extern   int     bufr_subset_find_descriptor ( DataSubset *subset, int descriptor, int startpos );
 

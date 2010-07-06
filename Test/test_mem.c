@@ -188,14 +188,17 @@ int main(int argc, char *argv[])
    BUFR_Dataset  *dts;
    FILE          *fp;
    BUFR_Tables   *tables=NULL;
+   BUFR_Tables   *useTables=NULL;
    char           buf[256];
    BUFR_Message  *msg;
-   ssize_t            rtrn;
+   ssize_t        rtrn;
    int            count;
-	struct stat sbuf;
-	char *mem = NULL;
-	int n;
-	int pos = 0;
+	struct stat    sbuf;
+	char          *mem = NULL;
+	int            n;
+	int            pos = 0;
+   int            tablenos[2];
+   LinkedList    *tables_list=NULL;
 
    //Setup for internationalization
    bufr_begin_api();
@@ -206,10 +209,15 @@ int main(int argc, char *argv[])
 
 	putenv("BUFR_TABLES=../Tables/");
 
-   tables = bufr_create_tables();
+   useTables = tables = bufr_create_tables();
    bufr_load_cmc_tables( tables );  
-   bufr_load_l_tableB( tables, "./local_table_b" );
-   bufr_load_l_tableD( tables, "./local_table_d" );
+/*
+ * load all tables into list
+ */
+   tablenos[0] = 13;
+   tables_list = bufr_load_tables_list( getenv("BUFR_TABLES"), tablenos, 1 );
+   lst_addfirst( tables_list, lst_newnode( tables ) );
+   bufr_tables_list_addlocal( tables_list, "./local_table_b", "./local_table_d" );
 
 	bufr_set_abort( my_abort );
 	bufr_set_debug_file( "test_mem.DEBUG" );
@@ -273,11 +281,13 @@ int main(int argc, char *argv[])
 			{
 			pos += rtrn;
 
+         if (useTables->master.version != msg->s1.master_table_version)
+            useTables = bufr_use_tables_list( tables_list, msg->s1.master_table_version );
 			/* 
 			 * BUFR_Message ==> BUFR_Dataset 
 			 * decode the message using the BUFR Tables
 			 */
-			dts = bufr_decode_message( msg, tables ); 
+			dts = bufr_decode_message( msg, useTables ); 
 			if (dts == NULL) 
 				{
 				fprintf( stderr, _("Error: can't decode messages\n") );
@@ -287,7 +297,7 @@ int main(int argc, char *argv[])
 				}
 
 			bufr_print_message( msg, bufr_print_output );
-			bufr_show_dataset( dts, tables );
+			bufr_show_dataset( dts, useTables );
 			bufr_free_dataset( dts );
 			}
 
@@ -309,7 +319,7 @@ int main(int argc, char *argv[])
 		free( mem );
 		}
 
-   bufr_free_tables( tables );
+   bufr_free_tables_list( tables_list );
 	exit(0);
    }
 

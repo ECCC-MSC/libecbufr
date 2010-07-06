@@ -905,6 +905,7 @@ static EntryTableBArray bufr_tableb_read
 
       if ( ligne[0] != '0' ) continue ; /* for table B, F=0  */
 
+      if (strlen( ligne ) < 82) continue; /* line is incomplete */
 
       desc = atoi ( &ligne[0] ) ;
 
