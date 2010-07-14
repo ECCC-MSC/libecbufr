@@ -121,7 +121,7 @@ char *str_oct2char( char *str0, int *len )
    char  *str;
    int   i, k;
    char buf[4]; 
-   unsigned char c;
+   unsigned int c;
 
    str = (char *)malloc( (*len+1) * sizeof(char) );
    strncpy( str, str0, *len );
