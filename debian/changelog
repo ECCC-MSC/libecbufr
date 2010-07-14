@@ -1,6 +1,7 @@
 libecbufr (0.8.2b4) unstable; urgency=low
 
-  * Fixed bug: 569075
+  * Fixed bug: 569075, 586425, 591772, 605472
+  * Changed bufr_decoder to use Table B and D v13 or v14 according to message
 
  -- Vanh Souvanlasy <afsmvan@ibsb-01.cmc.ec.gc.ca>  Tue, 11 May 2010 09:26:00 -0400
 
