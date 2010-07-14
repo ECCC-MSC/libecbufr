@@ -1709,7 +1709,7 @@ float bufr_cvt_i32_to_fval(BufrValueEncoding *be, int32_t ival)
 
    val_pow = pow(10.0,(double)be->scale);
 
-   fval = (ival + (float)be->reference) / val_pow ;
+   fval = (float)(ival + be->reference) / val_pow ;
 
    return fval;
    }
