@@ -112,15 +112,14 @@ LinkedList *bufr_load_tables_list ( char *path, int tbnos[], int nb )
    int          i, tb;
    struct       stat buf;
 
+   list = lst_newlist();
 
    if (path == NULL)
       {
       env = getenv( "BUFR_TABLES" );
-      if (env == NULL) return NULL;
+      if (env == NULL) return list;
       path = env;
       }
-
-   list = lst_newlist();
 
    for (i = 0; i < nb ; i++)
       {
