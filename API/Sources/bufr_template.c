@@ -774,7 +774,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
       int count;
       bufr_print_debug   ( _("### Finished loading template file\n") );
       count = arr_count( tmplt->codets );
-      sprintf( errmsg, _("### Template contains %d descriptors\n"), count  );
+      sprintf( errmsg, _n("### Template contains %d descriptor\n", "### Template contains %d descriptors\n", count), count );
       bufr_print_debug( errmsg );
       bufr_print_debug   ( NULL );
       }
