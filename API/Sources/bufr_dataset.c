@@ -2559,8 +2559,11 @@ static int bufr_get_numeric_compressed
    if (nbinc > cb->encoding.nbits)
       {
 /* ERROR: NBINC can't be bigger than NBITS, corrupted ?? */
-      sprintf( errmsg, _("Warning: NBINC=%d is bigger than (%d bit)\n"),
-            nbinc, cb->encoding.nbits );
+      sprintf( errmsg, _n("Warning: NBINC=%d is bigger than (%d bit)\n", 
+                          "Warning: NBINC=%d is bigger than (%d bits)\n", 
+                          cb->encoding.nbits), 
+               nbinc, cb->encoding.nbits );
+
       nbinc = 0; 
       bufr_print_debug( errmsg );
       }
