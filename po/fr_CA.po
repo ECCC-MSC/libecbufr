@@ -8,44 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libecbufr 0.8.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-31 09:53-0400\n"
-"PO-Revision-Date: 2010-03-31 10:08-0400\n"
+"POT-Creation-Date: 2010-07-26 16:35-0400\n"
+"PO-Revision-Date: 2010-07-26 16:45-0400\n"
 "Last-Translator: Michel Van Eeckhout <Michel.VanEeckhout@ec.gc.ca>\n"
 "Language-Team: Français\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n > 1);\n"
-
-#: array.c:66
-#, c-format
-msgid "Warning: initial array size too small: %d\n"
-msgstr "Attention : taille initiale du tableau trop petite: %d\n"
-
-#: array.c:68
-#, c-format
-msgid "Warning: item can't be added\n"
-msgstr "Attention : l'item n'a pu être ajouté\n"
-
-#: array.c:101
-#, c-format
-msgid " error arr_allocate no more memory: %d\n"
-msgstr " erreur avec la fonction « arr_allocate »; plus de mémoire : %d\n"
-
-#: array.c:153
-#, c-format
-msgid " error arr_create no more memory\n"
-msgstr " erreur avec la fonction « arr_create »; plus de mémoire\n"
-
-#: array.c:691 array.c:700
-#, c-format
-msgid "Error in array count\n"
-msgstr "Erreur dans le compte du tableau\n"
-
-#: array.c:696
-#, c-format
-msgid "Error in array\n"
-msgstr "Erreur de tableau\n"
 
 # AF : Associated Fields = champs associés, source WMO
 #: bufr_af.c:68
@@ -70,8 +40,8 @@ msgstr[0] ""
 "Erreur avec la fonction « bufr_create_afd() » : %d bit AF(champs associés) > "
 "64\n"
 msgstr[1] ""
-"Erreur avec la fonction « bufr_create_afd() » : %d bits AF(champs associés) "
-"> 64\n"
+"Erreur avec la fonction « bufr_create_afd() » : %d bits AF(champs associés) > "
+"64\n"
 
 #: bufr_af.c:238
 msgid "Error: cannot copy NULL in bufr_duplicate_af\n"
@@ -97,145 +67,170 @@ msgstr ""
 msgid "### Debugging printout of BUFR API Version: %s\n"
 msgstr "### Information de débogage de la version: %s de l'API BUFR\n"
 
-#: bufr_datablk.c:65
+#: bufr_array.c:66
 #, c-format
-msgid "Error: illegal number of blocks requested: %d\n"
-msgstr "Erreur : Le nombre de blocs demandé est illégal : %d\n"
+msgid "Warning: initial array size too small: %d\n"
+msgstr "Attention : taille initiale du tableau trop petite: %d\n"
+
+#: bufr_array.c:68
+#, c-format
+msgid "Warning: item can't be added\n"
+msgstr "Attention : l'item n'a pu être ajouté\n"
+
+#: bufr_array.c:101
+#, c-format
+msgid " error arr_allocate no more memory: %d\n"
+msgstr " erreur avec la fonction « arr_allocate »; plus de mémoire : %d\n"
+
+#: bufr_array.c:153
+#, c-format
+msgid " error arr_create no more memory\n"
+msgstr " erreur avec la fonction « arr_create »; plus de mémoire\n"
+
+#: bufr_array.c:691 bufr_array.c:700
+#, c-format
+msgid "Error in array count\n"
+msgstr "Erreur dans le compte du tableau\n"
+
+#: bufr_array.c:696
+#, c-format
+msgid "Error in array\n"
+msgstr "Erreur de tableau\n"
 
 # Template = gabarit, source : CMC, Template = modèle, source : WMO (Si ailleurs ils veulent modèle, ce sera facile de faire une régionalisation correspondante)
-#: bufr_dataset.c:116
+#: bufr_dataset.c:117
 msgid "Warning: cannot create dataset, template not finalized\n"
 msgstr ""
 "Attention : impossible de créer l'ensemble de données, le gabarit n'est pas "
 "finalisé\n"
 
-#: bufr_dataset.c:224
+#: bufr_dataset.c:225
 msgid "Error: cannot create datasubset, template not defined in dataset\n"
 msgstr ""
 "Attention : impossible de créer le sous-ensemble de données, le gabarit "
 "n'est pas défini dans l'ensemble de données\n"
 
-#: bufr_dataset.c:689
+#: bufr_dataset.c:690
 msgid "### Creating BUFR Message with Dataset\n"
 msgstr "### Creation du message BUFR avec l'ensemble de données\n"
 
-#: bufr_dataset.c:716
+#: bufr_dataset.c:717
 msgid "### Data not compressible\n"
 msgstr "### Données non compressibles\n"
 
-#: bufr_dataset.c:790
+#: bufr_dataset.c:791
 #, c-format
 msgid "Storing Subset # %d\n"
 msgstr "Enregistrement du sous-ensemble # %d\n"
 
 # cas de double pluriels: si on veut vraiment des pluriels correctes, il faudra faire deux phrases séparées
 # Dans ce cas il faut clarifier
-#: bufr_dataset.c:811
+#: bufr_dataset.c:812
 #, c-format
 msgid "Storing %d compressed Subsets of %d items\n"
 msgstr "Enregistrement de %d sous-ensembles compressés de %d éléments\n"
 
-#: bufr_dataset.c:862
+#: bufr_dataset.c:863
 #, c-format
 msgid "Warning: BUFR message length is %lld octet. "
 msgid_plural "Warning: BUFR message length is %lld octets. "
 msgstr[0] "Attention : la longueur du message BUFR est de %lld octet. "
 msgstr[1] "Attention : la longueur du message BUFR est de %lld octets. "
 
-#: bufr_dataset.c:865
+#: bufr_dataset.c:866
 #, c-format
 msgid "It exceeds the maximum allowed of %d octet\n"
 msgid_plural "It exceeds the maximum allowed of %d octets\n"
 msgstr[0] "Ceci dépasse le maximum permis qui est de %d octet\n"
 msgstr[1] "Ceci dépasse le maximum permis qui est de %d octets\n"
 
-#: bufr_dataset.c:936 bufr_dataset.c:955
+#: bufr_dataset.c:937 bufr_dataset.c:956
 #, c-format
 msgid " -> R0=0x%llx (%d bit) "
 msgid_plural " -> R0=0x%llx (%d bits) "
 msgstr[0] " -> R0=0x%llx (%d bit) "
 msgstr[1] " -> R0=0x%llx (%d bits) "
 
-#: bufr_dataset.c:939 bufr_dataset.c:958 bufr_dataset.c:1075
-#: bufr_dataset.c:1089 bufr_dataset.c:1171 bufr_dataset.c:1186
+#: bufr_dataset.c:940 bufr_dataset.c:959 bufr_dataset.c:1076
+#: bufr_dataset.c:1090 bufr_dataset.c:1172 bufr_dataset.c:1187
 #, c-format
 msgid "NBINC=%d (%d bit)\n"
 msgid_plural "NBINC=%d (%d bits)\n"
 msgstr[0] "NBINC=%d (%d bit)\n"
 msgstr[1] "NBINC=%d (%d bits)\n"
 
-#: bufr_dataset.c:976
+#: bufr_dataset.c:977
 #, c-format
 msgid " -> R(%d)=0x%llx (%d bit)\n"
 msgid_plural " -> R(%d)=0x%llx (%d bits)\n"
 msgstr[0] " -> R(%d)=0x%llx (%d bit)\n"
 msgstr[1] " -> R(%d)=0x%llx (%d bits)\n"
 
-#: bufr_dataset.c:1041 bufr_dataset.c:1054
+#: bufr_dataset.c:1042 bufr_dataset.c:1055
 #, c-format
 msgid "   %E -> R0=%llx (%d bit) "
 msgid_plural "   %E -> R0=%llx (%d bits) "
 msgstr[0] "   %E -> R0=%llx (%d bit) "
 msgstr[1] "   %E -> R0=%llx (%d bits) "
 
-#: bufr_dataset.c:1044 bufr_dataset.c:1057
+#: bufr_dataset.c:1045 bufr_dataset.c:1058
 #, c-format
 msgid "NBINC=0 (%d bit)\n"
 msgid_plural "NBINC=0 (%d bits)\n"
 msgstr[0] "NBINC=0 (%d bit)\n"
 msgstr[1] "NBINC=0 (%d bits)\n"
 
-#: bufr_dataset.c:1072 bufr_dataset.c:1086
+#: bufr_dataset.c:1073 bufr_dataset.c:1087
 #, c-format
 msgid "   %E -> R0=0x%llx (%d bit) "
 msgid_plural "   %E -> R0=0x%llx (%d bits) "
 msgstr[0] "   %E -> R0=0x%llx (%d bit) "
 msgstr[1] "   %E -> R0=0x%llx (%d bits) "
 
-#: bufr_dataset.c:1105
+#: bufr_dataset.c:1106
 #, c-format
 msgid "   %E -> R(%d)=0x%llx (%d bit)\n"
 msgid_plural "   %E -> R(%d)=0x%llx (%d bits)\n"
 msgstr[0] "   %E -> R(%d)=0x%llx (%d bit)\n"
 msgstr[1] "   %E -> R(%d)=0x%llx (%d bits)\n"
 
-#: bufr_dataset.c:1116
+#: bufr_dataset.c:1117
 #, c-format
 msgid "   %E ->  R(%d)=0x%llx (%d bit)\n"
 msgid_plural "   %E ->  R(%d)=0x%llx (%d bits)\n"
 msgstr[0] "   %E -> R(%d)=0x%llx (%d bit)\n"
 msgstr[1] "   %E -> R(%d)=0x%llx (%d bits)\n"
 
-#: bufr_dataset.c:1168 bufr_dataset.c:1183
+#: bufr_dataset.c:1169 bufr_dataset.c:1184
 #, c-format
 msgid "   AF0=0x%llx (%d bit) "
 msgid_plural "   AF0=0x%llx (%d bits) "
 msgstr[0] "   AF0=0x%llx (%d bit) "
 msgstr[1] "   AF0=0x%llx (%d bits) "
 
-#: bufr_dataset.c:1200
+#: bufr_dataset.c:1201
 #, c-format
 msgid "   0x%llx -> AF(%d)=0x%llx (%d bit)\n"
 msgid_plural "   0x%llx -> AF(%d)=0x%llx (%d bits)\n"
 msgstr[0] "   0x%llx -> AF(%d)=0x%llx (%d bit)\n"
 msgstr[1] "   0x%llx -> AF(%d)=0x%llx (%d bits)\n"
 
-#: bufr_dataset.c:1271
+#: bufr_dataset.c:1270
 #, c-format
 msgid " NBINC=0 (%d bit)\n"
 msgid_plural " NBINC=0 (%d bits)\n"
 msgstr[0] " NBINC=0 (%d bit)\n"
 msgstr[1] " NBINC=0 (%d bits)\n"
 
-#: bufr_dataset.c:1286 bufr_dataset.c:2369 bufr_dataset.c:2436
-#: bufr_dataset.c:2512 bufr_dataset.c:2610
+#: bufr_dataset.c:1285 bufr_dataset.c:2387 bufr_dataset.c:2479
+#: bufr_dataset.c:2555 bufr_dataset.c:2671
 #, c-format
 msgid " NBINC=%d (%d bit)\n"
 msgid_plural " NBINC=%d (%d bits)\n"
 msgstr[0] " NBINC=%d (%d bit)\n"
 msgstr[1] " NBINC=%d (%d bits)\n"
 
-#: bufr_dataset.c:1303
+#: bufr_dataset.c:1302
 #, c-format
 msgid " (%d bit)\n"
 msgid_plural " (%d bits)\n"
@@ -249,224 +244,231 @@ msgstr ""
 "Erreur : Problème interne à la fonction « bufr_value2bits() », type erroné : "
 "%.6d (%d)"
 
-#: bufr_dataset.c:1460 bufr_dataset.c:1709
+#: bufr_dataset.c:1461 bufr_dataset.c:1712
 #, c-format
 msgid "#Code: %.6d (0 bits)\n"
 msgstr "#Code : %.6d (0 bit)\n"
 
-#: bufr_dataset.c:1469 bufr_dataset.c:1718
+#: bufr_dataset.c:1470 bufr_dataset.c:1721
 #, c-format
 msgid "Code: %.6d "
 msgstr "Code : %.6d "
 
-#: bufr_dataset.c:1483 bufr_dataset.c:1746
+#: bufr_dataset.c:1484 bufr_dataset.c:1749
 #, c-format
 msgid "AFD: 0x%llx (%d bit) "
 msgid_plural "AFD: 0x%llx (%d bits) "
 msgstr[0] "AFD : 0x%llx (%d bit) "
 msgstr[1] "AFD : 0x%llx (%d bits) "
 
-#: bufr_dataset.c:1499
+#: bufr_dataset.c:1500
 #, c-format
 msgid "Warning: expecting string but is null: descriptor=%d\n"
 msgstr ""
 "Attention : chaîne de caractères attendue au lieu de la valeur nulle : "
 "descripteur=%d\n"
 
-#: bufr_dataset.c:1509
+#: bufr_dataset.c:1512
 #, c-format
 msgid "STR: \"%s\" (%d bit) "
 msgid_plural "STR: \"%s\" (%d bits) "
 msgstr[0] "STR : \\\"%s\\\" (%d bit) "
 msgstr[1] "STR : \\\"%s\\\" (%d bits) "
 
-#: bufr_dataset.c:1522
+#: bufr_dataset.c:1525
 #, c-format
 msgid "IEEE FP(%d bit) "
 msgid_plural "IEEE FP(%d bits) "
 msgstr[0] "IEEE FP(%d bit) "
 msgstr[1] "IEEE FP(%d bits) "
 
-#: bufr_dataset.c:1550
+#: bufr_dataset.c:1553
 msgid "NUM: "
 msgstr "NUM : "
 
-#: bufr_dataset.c:1573 bufr_dataset.c:1603
+#: bufr_dataset.c:1576 bufr_dataset.c:1606
 #, c-format
 msgid "MSNG --> %lld"
 msgstr "MSNG --> %lld"
 
-#: bufr_dataset.c:1575 bufr_dataset.c:1605
+#: bufr_dataset.c:1578 bufr_dataset.c:1608
 #, c-format
 msgid "%f --> %lld"
 msgstr "%f --> %lld"
 
-#: bufr_dataset.c:1587
+#: bufr_dataset.c:1590
 #, c-format
 msgid "%lld"
 msgstr "%lld"
 
-#: bufr_dataset.c:1612
+#: bufr_dataset.c:1615
 #, c-format
 msgid " (%d bit) "
 msgid_plural " (%d bits) "
 msgstr[0] " (%d bit) "
 msgstr[1] " (%d bits) "
 
-#: bufr_dataset.c:1621 bufr_dataset.c:1645
+#: bufr_dataset.c:1624 bufr_dataset.c:1648
 #, c-format
 msgid "INT: %lld "
 msgstr "INT : %lld "
 
-#: bufr_dataset.c:1629
+#: bufr_dataset.c:1632
 #, c-format
 msgid "--> %lld "
 msgstr "--> %lld "
 
-#: bufr_dataset.c:1635 bufr_dataset.c:1659
+#: bufr_dataset.c:1638 bufr_dataset.c:1662
 #, c-format
 msgid "(%d bit) "
 msgid_plural "(%d bits) "
 msgstr[0] "(%d bit) "
 msgstr[1] "(%d bits) "
 
-#: bufr_dataset.c:1653
+#: bufr_dataset.c:1656
 #, c-format
 msgid "-> %lld "
 msgstr "-> %lld "
 
-#: bufr_dataset.c:1667 bufr_dataset.c:1853
+#: bufr_dataset.c:1670 bufr_dataset.c:1856
 msgid "(0 bits) "
 msgstr "(0 bit) "
 
-#: bufr_dataset.c:1736
+#: bufr_dataset.c:1739
 #, c-format
 msgid "AFD: (%d bit) "
 msgid_plural "AFD: (%d bits) "
 msgstr[0] "AFD : (%d bit) "
 msgstr[1] "AFD : (%d bits) "
 
-#: bufr_dataset.c:1791
+#: bufr_dataset.c:1794
 #, c-format
 msgid "IVAL=%lld "
 msgstr "IVAL=%lld "
 
 # Informations de débogage
-#: bufr_dataset.c:1802
+#: bufr_dataset.c:1805
 msgid "FVAL=MISSING "
 msgstr "FVAL=MISSING "
 
-#: bufr_dataset.c:1804
+#: bufr_dataset.c:1807
 #, c-format
 msgid "FVAL=%E IVAL=%lld "
 msgstr "FVAL=%E IVAL=%lld "
 
-#: bufr_dataset.c:1814
+#: bufr_dataset.c:1817
 #, c-format
 msgid "DVAL=%E"
 msgstr "DVAL=%E"
 
-#: bufr_dataset.c:1821
+#: bufr_dataset.c:1824
 #, c-format
 msgid " (%d bit)"
 msgid_plural " (%d bits)"
 msgstr[0] " (%d bit)"
 msgstr[1] " (%d bits)"
 
-#: bufr_dataset.c:1831
+#: bufr_dataset.c:1834
 #, c-format
 msgid "IVAL=%lld INT: %lld (%d bit) "
 msgid_plural "IVAL=%lld INT: %lld (%d bits) "
 msgstr[0] "IVAL=%lld INT: %lld (%d bit) "
 msgstr[1] "IVAL=%lld INT: %lld (%d bits) "
 
-#: bufr_dataset.c:1845
+#: bufr_dataset.c:1848
 #, c-format
 msgid "IVAL=%lld (%d bit) "
 msgid_plural "IVAL=%lld (%d bits) "
 msgstr[0] "IVAL=%lld (%d bit) "
 msgstr[1] "IVAL=%lld (%d bits) "
 
-#: bufr_dataset.c:1889
+#: bufr_dataset.c:1895
 #, c-format
 msgid "STR: [%s] (%d bit) "
 msgid_plural "STR: [%s] (%d bits) "
 msgstr[0] "STR : [%s] (%d bit) "
 msgstr[1] "STR : [%s] (%d bits) "
 
-#: bufr_dataset.c:1925
+#: bufr_dataset.c:1932
 #, c-format
 msgid "DVAL=%E (%d bit)"
 msgid_plural "DVAL=%E (%d bits)"
 msgstr[0] "DVAL=%E (%d bit)"
 msgstr[1] "DVAL=%E (%d bits)"
 
-#: bufr_dataset.c:1935
+#: bufr_dataset.c:1942
 #, c-format
 msgid "FVAL=%E (%d bit)"
 msgid_plural "FVAL=%E (%d bits)"
 msgstr[0] "FVAL=%E (%d bit)"
 msgstr[1] "FVAL=%E (%d bits)"
 
-#: bufr_dataset.c:1984
+#: bufr_dataset.c:1991
 msgid "### Converting BUFR Message into Dataset\n"
 msgstr "### Conversion du message BUFR à l'ensemble de données\n"
 
-#: bufr_dataset.c:1992
+#: bufr_dataset.c:1999
 #, c-format
 msgid "Warning: master Table B version: %d less than message: %d\n"
 msgstr ""
 "Attention : la version de la table B maître : %d est moindre que celle du "
 "message : %d\n"
 
-#: bufr_dataset.c:2003
+#: bufr_dataset.c:2009
 #, c-format
 msgid "Warning: master Table B version: %d differs from message's: %d\n"
 msgstr ""
 "Attention : la version de la table B maître : %d est différente de celle du "
 "message : %d\n"
 
-#: bufr_dataset.c:2021
+#: bufr_dataset.c:2027
 msgid "Error: a BUFR_Tables is required to decode BUFR Message into Dataset\n"
 msgstr ""
 "Erreur : une table BUFR est requise pour pouvoir décoder le message BUFR "
 "vers l'ensemble de données\n"
 
-#: bufr_dataset.c:2081
+#: bufr_dataset.c:2087
 msgid "### Message is not compressed\n"
 msgstr "### Le message n'est pas compressé\n"
 
-#: bufr_dataset.c:2171
+#: bufr_dataset.c:2177
 msgid "### Message is compressed\n"
 msgstr "### Le message est compressé\n"
 
-#: bufr_dataset.c:2504
+#: bufr_dataset.c:2547
 #, c-format
 msgid "   R0=%lld (%d bit)"
 msgid_plural "   R0=%lld (%d bits)"
 msgstr[0] "   R0=%lld (%d bit)"
 msgstr[1] "   R0=%lld (%d bits)"
 
-#: bufr_dataset.c:2554
+#: bufr_dataset.c:2562
+#, c-format
+msgid "Warning: NBINC=%d is bigger than (%d bit)\n"
+msgid_plural "Warning: NBINC=%d is bigger than (%d bits)\n"
+msgstr[0] "Attention : NBINC=%d est plus grand que (%d bit)\n"
+msgstr[1] "Attention : NBINC=%d est plus grand que (%d bits)\n"
+
+#: bufr_dataset.c:2615
 #, c-format
 msgid "   R(%d)=%llx(%llx) (%d bit)"
 msgid_plural "   R(%d)=%llx(%llx) (%d bits)"
 msgstr[0] "   R(%d)=%llx(%llx) (%d bit)"
 msgstr[1] "   R(%d)=%llx(%llx) (%d bits)"
 
-#: bufr_dataset.c:2602
+#: bufr_dataset.c:2663
 #, c-format
 msgid " A0=%llx (%d bit)"
 msgid_plural " A0=%llx (%d bits)"
 msgstr[0] " A0=%llx (%d bit)"
 msgstr[1] " A0=%llx (%d bits)"
 
-#: bufr_dataset.c:2626
+#: bufr_dataset.c:2687
 #, c-format
 msgid " A(%d)=%llx"
 msgstr " A(%d)=%llx"
 
-#: bufr_dataset.c:2646
+#: bufr_dataset.c:2707
 #, c-format
 msgid "   A(%d)=%llx (%d bit)"
 msgid_plural "   A(%d)=%llx (%d bits)"
@@ -474,90 +476,90 @@ msgstr[0] "   A(%d)=%llx (%d bit)"
 msgstr[1] "   A(%d)=%llx (%d bits)"
 
 # delayed replication = répétition différée, source: WMO
-#: bufr_dataset.c:2726
+#: bufr_dataset.c:2787
 msgid "### Dataset not compressible, delayed replication count differs\n"
 msgstr ""
 "### L'ensemble de données n'est pas compressible, le compte de la répétition "
 "différée n'est pas le même\n"
 
-#: bufr_dataset.c:2852
+#: bufr_dataset.c:2913
 #, c-format
 msgid "Error: can't open Datafile %s\n"
 msgstr "Erreur : impossible d'ouvrir le fichier de données %s\n"
 
-#: bufr_dataset.c:2969
+#: bufr_dataset.c:3042
 #, c-format
 msgid "Loading: %s\n"
 msgstr "Chargement de : « %s »\n"
 
-#: bufr_dataset.c:2997
+#: bufr_dataset.c:3073
 #, c-format
 msgid "*** Input for: %d\n"
 msgstr "*** Entrée pour : %d\n"
 
-#: bufr_dataset.c:3011
+#: bufr_dataset.c:3087
 #, c-format
 msgid "Error: no more descriptors for data\n"
 msgstr "Erreur : plus de descripteurs pour les données\n"
 
-#: bufr_dataset.c:3023
+#: bufr_dataset.c:3099
 #, c-format
 msgid "Error: data descriptor %d mismatch with template %d\n"
 msgstr ""
 "Erreur : Le descripteur de données : %d ne correspond pas au gabarit : %d\n"
 
-#: bufr_dataset.c:3055
+#: bufr_dataset.c:3138
 #, c-format
 msgid "   *** skipping comment: '%s'"
 msgstr "   *** saut du commentaire : « %s »"
 
 # AF= Associated Fields
-#: bufr_dataset.c:3082
+#: bufr_dataset.c:3171
 #, c-format
 msgid "   *** has AF: %s -> %llx\n"
 msgstr "   *** contient des champs associés(AF) : %s -> %llx\n"
 
-#: bufr_dataset.c:3093
+#: bufr_dataset.c:3188
 #, c-format
 msgid "   *** found value: '%s'\n"
 msgstr "   *** valeur trouvée : « %s »\n"
 
 # Informations de débogage
-#: bufr_dataset.c:3146
+#: bufr_dataset.c:3251
 #, c-format
 msgid "   *** has value: '%s' -> '%s'\n"
 msgstr "   *** a la valeur : « %s » -> « %s »\n"
 
 # Informations de débogage
-#: bufr_dataset.c:3164
+#: bufr_dataset.c:3269
 #, c-format
 msgid "   *** has value: %s -> %d\n"
 msgstr "   *** a la valeur : « %s » -> « %d »\n"
 
 # Informations de débogage
-#: bufr_dataset.c:3176 bufr_dataset.c:3189
+#: bufr_dataset.c:3281 bufr_dataset.c:3294
 #, c-format
 msgid "   *** has value: %s -> %f\n"
 msgstr "   *** a la valeur : « %s » -> « %f »\n"
 
-#: bufr_dataset.c:3273
+#: bufr_dataset.c:3421
 #, c-format
 msgid "Warning: datafile bufr edition %d differs with template's %d\n"
 msgstr ""
 "Attention : Le numéro d'édition du fichier de données BUFR : %d diffère de "
 "celui du gabarit : %d\n"
 
-#: bufr_dataset.c:3655
+#: bufr_dataset.c:3807
 #, c-format
 msgid "Error: can't open input file %s\n"
 msgstr "Erreur : impossible d'ouvrir le fichier d'entrée : %s\n"
 
-#: bufr_dataset.c:3663
+#: bufr_dataset.c:3815
 #, c-format
 msgid "Error: can't open output file %s\n"
 msgstr "Erreur : impossible d'ouvrir le fichier de sortie : %s\n"
 
-#: bufr_dataset.c:3685
+#: bufr_dataset.c:3837
 #, c-format
 msgid "Saving message with %d subset\n"
 msgid_plural "Saving message with %d subsets\n"
@@ -609,7 +611,7 @@ msgstr ""
 msgid "   %d=%f npos=%d\n"
 msgstr "   %d=%f npos=%d\n"
 
-#: bufr_desc.c:171
+#: bufr_desc.c:175
 msgid ""
 "Error in bufr_dupl_descriptor(): cannot copy NULL in bufr_dupl_descriptor\n"
 msgstr ""
@@ -617,30 +619,30 @@ msgstr ""
 "la valeur nulle\n"
 
 # Information de débogage
-#: bufr_desc.c:557 bufr_desc.c:644 bufr_desc.c:724 bufr_desc.c:910
+#: bufr_desc.c:561 bufr_desc.c:648 bufr_desc.c:728 bufr_desc.c:914
 #, c-format
 msgid "Warning: cannot assign a value to descriptor %d\n"
 msgstr ""
 "Attention : impossible d'assigner une valeur pour le descripteur : %d\n"
 
-#: bufr_desc.c:576 bufr_desc.c:659
+#: bufr_desc.c:580 bufr_desc.c:663
 #, c-format
 msgid "Warning: The value %f of descriptor %d is out of range [%f,%f]\n"
 msgstr "Attention : la valeur %f du descripteur %d est hors limites [%f,%f]\n"
 
-#: bufr_desc.c:741
+#: bufr_desc.c:745
 #, c-format
 msgid "Warning: The value %d of descriptor %d is out of range [%.0f,%.0f]\n"
 msgstr ""
 "Attention : la valeur %d du descripteur %d est hors limites [%.0f,%.0f]\n"
 
 # Information de débogage
-#: bufr_desc.c:940
+#: bufr_desc.c:944
 msgid "Warning: cannot set value for descriptor:"
 msgstr "Attention : impossible d'assigner une valeur pour le descripteur : "
 
 # Information de débogage
-#: bufr_desc.c:943
+#: bufr_desc.c:947
 #, c-format
 msgid "with value=%s\n"
 msgstr "avec valeur=%s\n"
@@ -812,17 +814,17 @@ msgstr "Attention : bufr_putbits() max_nbbits=64 < nbbits=%d\n"
 msgid "bitno=%d  start=%x current=%x len=%d, at=%d, filled=%d max=%d\n"
 msgstr "bitno=%d  start=%x current=%x len=%d, at=%d, filled=%d max=%d\n"
 
-#: bufr_io.c:1470
+#: bufr_io.c:1473
 #, c-format
 msgid "### Reading BUFR edition: %d\n"
 msgstr "### Lecture de l'édition du BUFR : %d\n"
 
-#: bufr_io.c:1472
+#: bufr_io.c:1475
 #, c-format
 msgid "### Message length: %d\n"
 msgstr "### Longueur du message : %d\n"
 
-#: bufr_io.c:1508
+#: bufr_io.c:1511
 #, c-format
 msgid "### Section1 contains additionnal data length=%d octet\n"
 msgid_plural "### Section1 contains additionnal data length=%d octets\n"
@@ -833,14 +835,14 @@ msgstr[1] ""
 "### La section 1 contient des informations supplémentaires, longueur=%d "
 "octets\n"
 
-#: bufr_io.c:1519
+#: bufr_io.c:1522
 #, c-format
 msgid "Warning: length of Section 1 is %d, should have been %d\n"
 msgstr ""
 "Attention : la longueur de la section 1 est de : %d, elle aurait dû être "
 "de : %d\n"
 
-#: bufr_io.c:1654
+#: bufr_io.c:1657
 #, c-format
 msgid "### Section2 contains additionnal data length=%d octet\n"
 msgid_plural "### Section2 contains additionnal data length=%d octets\n"
@@ -851,11 +853,11 @@ msgstr[1] ""
 "### La section 2 contient des informations supplémentaires, longueur=%d "
 "octets\n"
 
-#: bufr_io.c:1789
+#: bufr_io.c:1792
 msgid "Warning: BUFR message not ending with 7777\n"
 msgstr "Attention : le message BUFR ne se termine pas par 7777\n"
 
-#: bufr_io.c:1821
+#: bufr_io.c:1824
 #, c-format
 msgid "### Decoding Section 3: contains %d item\n"
 msgid_plural "### Decoding Section 3: contains %d items\n"
@@ -926,8 +928,8 @@ msgstr[1] "Table B %d, extraite : (%d bits) %s\n"
 msgid ""
 "Warning: Table D descriptor %d is incomplete, got only %d of %d, rejected.\n"
 msgstr ""
-"Attention : Le descripteur de table D : « %d » est incomplet, seulement %d "
-"de %d, rejetée.\n"
+"Attention : Le descripteur de table D : « %d » est incomplet, seulement %d de "
+"%d, rejetée.\n"
 
 #: bufr_local.c:495
 #, c-format
@@ -1155,43 +1157,43 @@ msgstr ""
 "ERREUR, impossible de répéter les codes : %d et %d durant la duplication "
 "de : %d\n"
 
-#: bufr_sequence.c:690
+#: bufr_sequence.c:691
 msgid "### Checking template codes list\n"
 msgstr "### Vérification de la liste des codes du gabarit\n"
 
-#: bufr_sequence.c:698
+#: bufr_sequence.c:699
 #, c-format
 msgid "Error in bufr_check_sequence(): unsupported BUFR edition %d\n"
 msgstr ""
 "Erreur avec la fonction « bufr_check_sequence() » : édition BUFR %d non "
 "supportée\n"
 
-#: bufr_sequence.c:767
+#: bufr_sequence.c:768
 #, c-format
 msgid "Warning: %d is followed by %d (not a local descriptor)\n"
 msgstr "Attention : %d est suivi de %d (ceci n'est pas un descripteur local)\n"
 
-#: bufr_sequence.c:820
+#: bufr_sequence.c:821
 #, c-format
 msgid "Error: expecting Class 31021 after 204YYY but found: %d\n"
 msgstr ""
 "Erreur : la classe 31021 est attendue après 204YYY, mais : %d a été trouvé\n"
 
-#: bufr_sequence.c:826
+#: bufr_sequence.c:827
 #, c-format
 msgid "Error: expecting Class 31 after delayed replication but found: %d\n"
 msgstr ""
 "Erreur : la classe 31 est attendue après la répétition différée, mais %d a "
 "été trouvé\n"
 
-#: bufr_sequence.c:833
+#: bufr_sequence.c:834
 #, c-format
 msgid "Error: bad replication code count in dataset definition\n"
 msgstr ""
 "Erreur : compte erroné de code de répétition dans la définition de "
 "l'ensemble de données\n"
 
-#: bufr_sequence.c:839
+#: bufr_sequence.c:840
 #, c-format
 msgid "Warning: expecting local descriptor after 206YYY but found: %d\n"
 msgstr ""
@@ -1199,29 +1201,29 @@ msgstr ""
 "trouvé\n"
 
 # Clarifier
-#: bufr_sequence.c:872
+#: bufr_sequence.c:873
 #, c-format
 msgid "### Checking #Code Replication >> %.6d : {"
 msgstr ""
 
 # Clarifier
-#: bufr_sequence.c:1119
+#: bufr_sequence.c:1120
 #, c-format
 msgid "Error obtaining Repl Rank of %d = %d\n"
 msgstr ""
 
-#: bufr_sequence.c:1139
+#: bufr_sequence.c:1140
 #, c-format
 msgid "NDX=%d DESC=%d\n"
 msgstr "NDX=%d DESC=%d\n"
 
 # Clarifier
-#: bufr_sequence.c:1193
+#: bufr_sequence.c:1194
 #, c-format
 msgid "Warning: bitmap size %d != %d data present descriptors\n"
 msgstr ""
 
-#: bufr_sequence.c:1320
+#: bufr_sequence.c:1321
 #, c-format
 msgid ""
 "Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been %"
@@ -1237,26 +1239,31 @@ msgstr[1] ""
 "aurait dû être %d\n"
 
 # Inversion des arguments
-#: bufr_sequence.c:1332
+#: bufr_sequence.c:1333
 #, c-format
 msgid "### Setting local descriptor %.6d to %d bit\n"
 msgid_plural "### Setting local descriptor %.6d to %d bits\n"
 msgstr[0] "### Attribution de %2$d bit au descripteur local %1$.6d\n"
 msgstr[1] "### Attribution de %2$d bits au descripteur local %1$.6d\n"
 
+#: bufr_sequence.c:1349
+#, c-format
+msgid "### 201 %d datawidth=%d\n"
+msgstr ""
+
 # Clarifier
-#: bufr_sequence.c:1353
+#: bufr_sequence.c:1360
 #, c-format
 msgid "### 202 %d scale=%d\n"
 msgstr ""
 
 # Clarifier
-#: bufr_sequence.c:1364
+#: bufr_sequence.c:1371
 #, c-format
 msgid "### 203 %d reference=%d\n"
 msgstr ""
 
-#: bufr_sequence.c:1438
+#: bufr_sequence.c:1445
 #, c-format
 msgid "### Changing REF: %d to %d bit:"
 msgid_plural "### Changing REF: %d to %d bits:"
@@ -1264,32 +1271,32 @@ msgstr[0] "### REF : %d a désormais %d bit : "
 msgstr[1] "### REF : %d a désormais %d bits : "
 
 # Clarifier: overrided dans quel contexte ?, codetable ?
-#: bufr_sequence.c:1470
+#: bufr_sequence.c:1477
 msgid "codetable overrided\n"
 msgstr ""
 
 # codetable ? est-ce que table de code est correct ??
-#: bufr_sequence.c:1475
+#: bufr_sequence.c:1482
 #, fuzzy
 msgid "codetable entry not found\n"
 msgstr "l'entrée de la table de code n'a pu être trouvée\n"
 
-#: bufr_sequence.c:1481
+#: bufr_sequence.c:1488
 msgid "No value\n"
 msgstr "Aucune valeur\n"
 
-#: bufr_sequence.c:1603
+#: bufr_sequence.c:1610
 #, c-format
 msgid "Error: invalid delayed replication count code : %.6d\n"
 msgstr "Erreur : code de compte de répétition différée erroné : %.6d\n"
 
-#: bufr_sequence.c:1667
+#: bufr_sequence.c:1674
 #, c-format
 msgid "### Code Count: %d\n"
 msgstr "### Compte de code : %d\n"
 
 # DPBM ?
-#: bufr_sequence.c:1708
+#: bufr_sequence.c:1715
 #, c-format
 msgid "### Indexed DPBM Data Descriptor count: %d\n"
 msgstr ""
@@ -1306,63 +1313,57 @@ msgstr ""
 msgid "Warning: invalid Table D descriptor : %d\n"
 msgstr "Attention : descripteur de table D invalide : %d\n"
 
-# Ambigu: veut-on dire a la place: attention ceci n'est pas le descripteur de table B %d
-#: bufr_tables.c:673
-#, fuzzy, c-format
-msgid "Warning: Not table B descriptor %d\n"
-msgstr "Attention : Ceci n'est pas un descripteur de table B : %d\n"
-
-#: bufr_tables.c:695
+#: bufr_tables.c:689
 #, c-format
 msgid "Warning: Unknown BUFR descriptor: %d\n"
 msgstr "Attention : descripteur BUFR inconnu : %d\n"
 
-#: bufr_tables.c:740
+#: bufr_tables.c:734
 #, c-format
 msgid "Warning: Table D Code unknown: %d\n"
 msgstr "Attention : Code de table D inconnu : %d\n"
 
-#: bufr_tables.c:773
+#: bufr_tables.c:767
 msgid "Warning: Table D sequence not found\n"
 msgstr "Attention : la séquence de table D n'a pas été trouvée\n"
 
-#: bufr_tables.c:841
+#: bufr_tables.c:835
 #, c-format
 msgid "Warning: can't open Table B file %s\n"
 msgstr "Attention : impossible d'ouvrir le fichier de table B : %s\n"
 
-#: bufr_tables.c:922
+#: bufr_tables.c:917
 #, c-format
 msgid "Skipped invalid descriptor: %s\n"
 msgstr "Descripteur invalide ignoré : %s\n"
 
-#: bufr_tables.c:940
+#: bufr_tables.c:935
 #, c-format
 msgid "Skipped local descriptor: %s\n"
 msgstr "Descripteur local ignoré : %s\n"
 
-#: bufr_tables.c:968
+#: bufr_tables.c:963
 #, c-format
 msgid "Warning: error while loading Table B file: %s\n"
 msgstr "Attention : erreur lors du chargement du fichier de table B : %s\n"
 
-#: bufr_tables.c:971
+#: bufr_tables.c:966
 #, c-format
 msgid "Error reading descriptor: %d unit=\"%s\"\n"
 msgstr "Erreur lors de la lecture du descripteur : %d unit=\"%s\"\n"
 
-#: bufr_tables.c:978
+#: bufr_tables.c:973
 #, c-format
 msgid "Loaded descriptor: %s\n"
 msgstr "Descripteur chargé : %s\n"
 
-#: bufr_tables.c:1227
+#: bufr_tables.c:1222
 #, c-format
 msgid "Warning: can't open Table D file %s\n"
 msgstr "Attention : impossible d'ouvrir le fichier de table D : %s\n"
 
 # Underflow = Soupassement de capacité, source : Office de la langue française
-#: bufr_tables.c:1646
+#: bufr_tables.c:1641
 #, c-format
 msgid "Warning: UNDERFLOW with element %d : value = %e, giving %lld"
 msgstr ""
@@ -1370,7 +1371,7 @@ msgstr ""
 "donnant %lld"
 
 # Overflow= Dépassement de capacité, source : Office de la langue française
-#: bufr_tables.c:1659 bufr_tables.c:1769
+#: bufr_tables.c:1654 bufr_tables.c:1764
 #, c-format
 msgid "Warning: OVERFLOW with element %d (max=%lld) : value = %e, giving %lld"
 msgstr ""
@@ -1378,14 +1379,14 @@ msgstr ""
 "valeur = %e, donnant %lld"
 
 # Underflow = Soupassement de capacité, source : Office de la langue française
-#: bufr_tables.c:1757
+#: bufr_tables.c:1752
 #, c-format
 msgid "Warning: UNDERFLOW with element %d : value = %f, giving %lld"
 msgstr ""
 "Attention : SOUPASSEMENT DE CAPACITÉ avec l'élément %d : valeur = %f, "
 "donnant %lld"
 
-#: bufr_tables.c:2082
+#: bufr_tables.c:2077
 #, c-format
 msgid "TableD : %d\n"
 msgstr "Table D : %d\n"
@@ -1479,8 +1480,10 @@ msgstr "### Chargement du fichier gabarit terminé\n"
 
 #: bufr_template.c:777
 #, c-format
-msgid "### Template contains %d descriptors\n"
-msgstr "### Le gabarit contient %d descripteurs\n"
+msgid "### Template contains %d descriptor\n"
+msgid_plural "### Template contains %d descriptors\n"
+msgstr[0] "### Le gabarit contient %d descripteur\n"
+msgstr[1] "### Le gabarit contient %d descripteurs\n"
 
 #: bufr_value.c:160
 msgid "Error: cannot copy NULL in bufr_duplicate_value\n"
