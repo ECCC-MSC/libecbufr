@@ -71,6 +71,7 @@ typedef struct _oper_table
    unsigned char           local_nbits_follows;
    unsigned char           use_ieee_fp;
    int                     change_ref_value;
+   unsigned char           redefine_ccitt_ia5;
 
    LocationValueArray      current_location;
    EntryTableBArray        override_tableb;

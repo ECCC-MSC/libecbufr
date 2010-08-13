@@ -455,8 +455,8 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                if (bcv->value->af)  /* If there are Associated Fields */
                   {
                   BufrAF *af = bcv->value->af;
-                  sprintf( buf, _n("(0x%llx:%d bit)", 
-                                   "(0x%llx:%d bits)", af->nbits), 
+                  sprintf( buf, _n("(0x%lx:%d bit)", 
+                                   "(0x%lx:%d bits)", af->nbits), 
                            af->bits, af->nbits );
                   bufr_print_output( buf );
                   }
@@ -488,7 +488,7 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                      bufr_print_output( _("MSNG") );
                   else
                      {
-                     sprintf( buf, _("VALUE=%lld "), value );
+                     sprintf( buf, _("VALUE=%ld "), value );
                      bufr_print_output( buf );
                      }
                   }
@@ -681,8 +681,8 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                if (bcv->value->af)  /* If there are Associated Fields */
                   {
                   BufrAF *af = bcv->value->af;
-                  sprintf( buf, _n("(0x%llx:%d bit)", 
-                                   "(0x%llx:%d bits)", af->nbits), 
+                  sprintf( buf, _n("(0x%lx:%d bit)", 
+                                   "(0x%lx:%d bits)", af->nbits), 
                            af->bits, af->nbits );
                   bufr_print_output( buf );
                   }
@@ -714,7 +714,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                      bufr_print_output( _("MSNG") );
                   else
                      {
-                     sprintf( buf, "%lld ", value );
+                     sprintf( buf, "%ld ", value );
                      bufr_print_output( buf );
                      }
                   }

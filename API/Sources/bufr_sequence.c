@@ -1283,6 +1283,10 @@ BufrDDOp  *bufr_apply_Tables
       switch ( cb->encoding.type )
          {
          case TYPE_CCITT_IA5 :
+            if (ddo->redefine_ccitt_ia5 > 0)
+               {
+               cb->encoding.nbits = ddo->redefine_ccitt_ia5 * 8;
+               }
             break;
          case TYPE_NUMERIC :
             /* 

@@ -185,6 +185,7 @@ BufrDDOp *bufr_create_BufrDDOp( void )
    ddo->use_ieee_fp         =  0;
    ddo->change_ref_val_op   =  0;
    ddo->change_ref_value    =  0;
+   ddo->redefine_ccitt_ia5  =  0;
 
    ddo->flags               =  0;
 
@@ -467,6 +468,8 @@ int bufr_resolve_tableC_v4
             ddo->flags |= DDO_DEFINE_EVENT;
          break;
       case 8  :
+         ddo->redefine_ccitt_ia5 = y;
+         break;
       case 42 : 
       case 43 : 
          {
