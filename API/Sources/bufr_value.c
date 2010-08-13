@@ -1019,8 +1019,8 @@ uint64_t bufr_negative_ivalue( int64_t value, int nbits )
       {
       char errmsg[256];
 
-      sprintf( errmsg, _n("Warning: %lld needs at least %d bit for storage\n", 
-                          "Warning: %lld needs at least %d bits for storage\n", minbits), 
+      sprintf( errmsg, _n("Warning: %ld needs at least %d bit for storage\n", 
+                          "Warning: %ld needs at least %d bits for storage\n", minbits), 
                value, minbits );
       bufr_print_debug( errmsg );
       }
@@ -1137,7 +1137,7 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
             }
          else
             {
-            sprintf(  outstr, "%lld", lval );
+            sprintf(  outstr, "%ld", lval );
             }
          hasvalue = 1;
          break;
@@ -1382,7 +1382,7 @@ int bufr_value_is_missing( BufrValue* bv )
 		case VALTYPE_STRING:
 			{
 			int l;
-         char  *str;
+         const char *str;
 
          str = bufr_value_get_string( bv, &l ); 
          return  bufr_is_missing_string( str, l );

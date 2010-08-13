@@ -72,7 +72,7 @@ extern int            bufr_value_set_float      ( BufrValue *bv, float val );
 extern int            bufr_value_set_int32      ( BufrValue *bv, int32_t  val );
 extern int            bufr_value_set_int64      ( BufrValue *bv, int64_t  val );
 
-extern const char     *bufr_value_get_string     ( const BufrValue *bv, int *len );
+extern const char    *bufr_value_get_string     ( const BufrValue *bv, int *len );
 extern double         bufr_value_get_double     ( const BufrValue *bv );
 extern int64_t        bufr_value_get_int64      ( const BufrValue *bv );
 extern float          bufr_value_get_float      ( const BufrValue *bv );

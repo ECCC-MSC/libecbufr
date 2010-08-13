@@ -385,7 +385,7 @@ int bufr_callback_write_message(bufr_write_callback writecb,
                           "Error: cannot create BUFR message with a length of %d octets\n", 
                           bufr->len_msg), 
                bufr->len_msg  );
-      fprintf( stderr, errmsg );
+      fprintf( stderr, "%s", errmsg );
       return errno=EINVAL, -1;
       }
 
@@ -711,8 +711,8 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
 
    if (bufr_is_debug())
       {
-      sprintf( errmsg, _("bitno=%d  start=%x current=%x len=%d, at=%d, filled=%d max=%d\n"), 
-            bitno,  bufr->s4.data, ptrData, bufr->s4.len, ptrData-bufr->s4.data, bufr->s4.filled, bufr->s4.max_data_len );
+      sprintf( errmsg, _("bitno=%d  start=%x current=%x len=%d, at=%ld, filled=%d max=%d\n"), 
+            bitno,  (unsigned)bufr->s4.data, ptrData, bufr->s4.len, ptrData-bufr->s4.data, bufr->s4.filled, bufr->s4.max_data_len );
       bufr_print_debug( errmsg );
       }
 

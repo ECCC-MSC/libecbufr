@@ -506,7 +506,7 @@ static int check_match_encoding2decoding(void)
    i64 = bufr_ieee_encode_double( dmax );
    if (i64 != MAX_BITS_64)
       {
-      sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F64: %llx -> %E -> %llx\n"),
+      sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F64: %lx -> %E -> %lx\n"),
             MAX_BITS_64, dmax, i64 );
       bufr_print_debug( errmsg );
       error = -1;
@@ -514,7 +514,7 @@ static int check_match_encoding2decoding(void)
 #if DEBUG
    else if (bufr_is_debug())
       {
-      sprintf( errmsg, _("### IEEE 754 encoding/decoding matched F64: %llx -> %E -> %llx\n"),
+      sprintf( errmsg, _("### IEEE 754 encoding/decoding matched F64: %lx -> %E -> %lx\n"),
             MAX_BITS_64, dmax, i64 );
       bufr_print_debug( errmsg );
       }
