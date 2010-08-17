@@ -1749,8 +1749,9 @@ static int bufr_rd_section3(bufr_read_callback readcb, void *cd,
 static uint64_t bufr_rd_section4(bufr_read_callback readcb, void *cd,
                             BUFR_Message *bufr)
    {
-   uint64_t        len;
+   int64_t        len;
    unsigned char   c;
+   int64_t        total;
 
    bufr->s4.len = bufr_read_int3b( readcb, cd );
    if (bufr->s4.len < 0) return -1;
@@ -1758,7 +1759,23 @@ static uint64_t bufr_rd_section4(bufr_read_callback readcb, void *cd,
    /* discard */
 	if( 1 != bufr_read_octet( readcb, cd, &c ) ) return -1;
 
-   len = bufr->s4.len - bufr->s4.header_len;
+   total = bufr->s0.len + bufr->s1.len + bufr->s2.len + bufr->s3.len + bufr->s4.len + bufr->s5.len;
+   if (total != bufr->len_msg)
+      {
+      len = bufr->len_msg - (bufr->s0.len + bufr->s1.len + bufr->s2.len + bufr->s3.len + bufr->s5.len);
+      if (bufr_is_debug())
+         {
+         char   errmsg[256];
+         sprintf( errmsg, _("Warning: length of Section 4 is %d, should have been %ld\n"), 
+               bufr->s4.len, len );
+         bufr_print_debug( errmsg );
+         }
+      len = len - bufr->s4.header_len;
+      }
+   else
+      {
+      len = bufr->s4.len - bufr->s4.header_len;
+      }
 
    bufr_alloc_sect4( bufr, len );
 
