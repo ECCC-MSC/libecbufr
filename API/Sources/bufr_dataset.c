@@ -66,7 +66,7 @@ static int         bufr_get_af_compressed
 static DataSubset *bufr_allocate_datasubset  ( void );
 static void        bufr_fill_datasubset      ( DataSubset *subset, BUFR_Sequence *bsq );
 static int         bufr_load_header( FILE *fp, BUFR_Dataset *dts );
-static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts );
+static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno );
 static void        bufr_mkval_rest_sequence(BUFR_Tables   *tbls, BUFR_Sequence *bsq2, ListNode *node );
 
 
@@ -2904,6 +2904,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
    FILE          *fp;
    char           errmsg[256];
    int            status;
+   int            lineno;
 
    if (infile == NULL) return -1;
 
@@ -2915,8 +2916,8 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
       return -1;
       }
 
-   if (bufr_load_header( fp, dts ) > 0)
-      status = bufr_load_datasubsets( fp, dts );
+   if ((lineno = bufr_load_header( fp, dts )) > 0)
+      status = bufr_load_datasubsets( fp, dts, lineno );
 
    fclose ( fp ) ;
    if (status >= 0)
@@ -2953,7 +2954,7 @@ int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
    bufr_empty_datasubsets( dts );
 
    if ((status = bufr_load_header( fp, dts )) > 0)
-      status = bufr_load_datasubsets( fp, dts );
+      status = bufr_load_datasubsets( fp, dts, status );
    return status;
    }
 
@@ -2970,7 +2971,7 @@ int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
  * @author Vanh Souvanlasy
  * @ingroup io dataset internal
  */
-static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
+static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
    {
    char            *errmsg;
    char            *dstrptr;
@@ -3021,6 +3022,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
 
    while ( fgets(ligne,2048,fp) != NULL )
       {
+      ++lineno;
       if ( ligne[0] == '#' ) continue;
       if ( ligne[0] == '*' ) continue;
 
@@ -3171,7 +3173,15 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts )
             sprintf( errmsg, _("   *** has AF: %s -> %lx\n"), tok, afbits );
             bufr_print_debug( errmsg );
             }
-         cb->value->af->bits = afbits;
+
+         if (cb->value->af != NULL)
+            cb->value->af->bits = afbits;
+         else
+            {
+            sprintf( errmsg, _("Warning: can't set AF at line %d : %s"), lineno-1,  ligne );
+            bufr_print_debug( errmsg );
+            }
+
          len = strlen( ptr );
          while ((ptr[i] != ')') && (i < len)) ++i;
          if (ptr[i] == ')') i += 1;
@@ -3404,9 +3414,11 @@ static int bufr_load_header( FILE *fp, BUFR_Dataset *dts )
    char    ligne[2048];
    char    errmsg[256];
    char    *tok;
+   int     lineno=0;
 
    while ( fgets(ligne,2048,fp) != NULL )
       {
+      ++lineno;
       if ( ligne[0] == '#' ) continue;
       if ( ligne[0] == '*' ) continue;
 
@@ -3556,7 +3568,7 @@ static int bufr_load_header( FILE *fp, BUFR_Dataset *dts )
          {
          fseek( fp, - strlen(ligne), SEEK_CUR );
          if (strncmp( ligne, "DATASUBSET", 9 ) == 0 )
-            return 1;
+            return lineno;
          break;
          }
       }

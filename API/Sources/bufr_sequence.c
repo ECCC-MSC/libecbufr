@@ -1104,6 +1104,7 @@ BufrDDOp  *bufr_apply_Tables
       {
       cb = (BufrDescriptor *)node->data;
       bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+      if (x == 31) cb->flags |= FLAG_CLASS31;
 
       if (ddoi && bufr_is_marker_dpbm(cb->descriptor) && ddo->dpbm)
          {
@@ -1303,78 +1304,83 @@ BufrDDOp  *bufr_apply_Tables
                break;
                }
            
-            bufr_apply_op_crefval( ddo, cb, tmplt );
-
-            if (ddo->local_nbits_follows > 0)
+            if (ddo->change_ref_val_op > 0)
                {
-               if (bufr_is_local_descriptor( cb->descriptor ))
+               bufr_apply_op_crefval( ddo, cb, tmplt );
+               }
+            else
+               {
+               if (ddo->local_nbits_follows > 0)
                   {
-                  if (cb->encoding.nbits > 0)
+                  if (bufr_is_local_descriptor( cb->descriptor ))
                      {
-                     if (cb->encoding.nbits != ddo->local_nbits_follows)
+                     if (cb->encoding.nbits > 0)
                         {
-                        BufrDescriptor *cb1;
-                        ListNode *prev;
-                        int       new206;
-
-                        prev = lst_prevnode( node );
-                        cb1 = (BufrDescriptor *)prev->data;
-                        new206 = 206000 + ddo->local_nbits_follows;
-                        if (debug)
+                        if (cb->encoding.nbits != ddo->local_nbits_follows)
                            {
-                           sprintf( errmsg, _n("Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been %d\n", 
-                                               "Warning: local descriptor %.6d (%d bits) doesn't match %d, should have been %d\n", 
-                                               cb->encoding.nbits), 
-                                    cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
-                           bufr_print_debug( errmsg );
+                           BufrDescriptor *cb1;
+                           ListNode *prev;
+                           int       new206;
+   
+                           prev = lst_prevnode( node );
+                           cb1 = (BufrDescriptor *)prev->data;
+                           new206 = 206000 + ddo->local_nbits_follows;
+                           if (debug)
+                              {
+                              sprintf( errmsg, _n("Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been %d\n", 
+                                                  "Warning: local descriptor %.6d (%d bits) doesn't match %d, should have been %d\n", 
+                                                  cb->encoding.nbits), 
+                                       cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
+                              bufr_print_debug( errmsg );
+                              }
                            }
                         }
-                     }
-                  else
-                     {
-                     if (debug)
+                     else
                         {
-                        sprintf( errmsg, _n("### Setting local descriptor %.6d to %d bit\n", 
-                                            "### Setting local descriptor %.6d to %d bits\n", 
-                                            ddo->local_nbits_follows), 
-                                 cb->descriptor, ddo->local_nbits_follows );
-                        bufr_print_debug( errmsg );
+                        if (debug)
+                           {
+                           sprintf( errmsg, _n("### Setting local descriptor %.6d to %d bit\n", 
+                                               "### Setting local descriptor %.6d to %d bits\n", 
+                                               ddo->local_nbits_follows), 
+                                    cb->descriptor, ddo->local_nbits_follows );
+                           bufr_print_debug( errmsg );
+                           }
+                        cb->encoding.nbits = ddo->local_nbits_follows;
                         }
-                     cb->encoding.nbits = ddo->local_nbits_follows;
+                     }
+                  ddo->local_nbits_follows = 0;
+                  }
+               else if (ddo->add_nbits != 0)
+                  {
+                  cb->encoding.nbits += ddo->add_nbits;
+                  if (debug)
+                     {
+                     sprintf( errmsg, _("### 201 %d datawidth=%d\n"), 
+                              cb->descriptor, cb->encoding.nbits );
+                     bufr_print_debug( errmsg );
                      }
                   }
-               ddo->local_nbits_follows = 0;
-               }
-            else if (ddo->add_nbits != 0)
-               {
-               cb->encoding.nbits += ddo->add_nbits;
-               if (debug)
+   
+               if (ddo->multiply_scale != 0)
                   {
-                  sprintf( errmsg, _("### 201 %d datawidth=%d\n"), 
-                           cb->descriptor, cb->encoding.nbits );
-                  bufr_print_debug( errmsg );
+                  cb->encoding.scale += ddo->multiply_scale;
+                  if (debug)
+                     {
+                     sprintf( errmsg, _("### 202 %d scale=%d\n"), 
+                              cb->descriptor, cb->encoding.scale );
+                     bufr_print_debug( errmsg );
+                     }
                   }
-               }
 
-            if (ddo->multiply_scale != 0)
-               {
-               cb->encoding.scale += ddo->multiply_scale;
-               if (debug)
+               if (ddo->change_ref_value != 0)
                   {
-                  sprintf( errmsg, _("### 202 %d scale=%d\n"), 
-                           cb->descriptor, cb->encoding.scale );
-                  bufr_print_debug( errmsg );
-                  }
-               }
-
-            if (ddo->change_ref_value != 0)
-               {
-               cb->encoding.reference += ddo->change_ref_value;
-               if (debug)
-                  {
-                  sprintf( errmsg, _("### 203 %d reference=%d\n"), 
-                      cb->descriptor, cb->encoding.reference );
-                  bufr_print_debug( errmsg );
+                  cb->encoding.reference += ddo->change_ref_value;
+                  if (debug)
+                     {
+                     sprintf( errmsg, _("### 203 %d reference=%d\n"), 
+                         cb->descriptor, cb->encoding.reference );
+                     bufr_print_debug( errmsg );
+                     }
                   }
                }
             break;
@@ -1426,32 +1432,41 @@ int bufr_init_location( BufrDDOp *ddo, BufrDescriptor *cb )
 int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmplt )
    {
    char   errmsg[256];
-
-   if (cb->value == NULL) return 0;
+   int    debug=bufr_is_debug();
 
    switch ( cb->encoding.type )
       {
       case TYPE_NUMERIC :
          if (ddo->change_ref_val_op > 0)
             {
-            EntryTableB *tb1, *tb2;
-            float        value;
-            int          debug=bufr_is_debug();
             
-            value = bufr_value_get_float( cb->value );
-            cb->encoding.type = TYPE_CHNG_REF_VAL_OP;
-            cb->encoding.reference = 0;
-            cb->encoding.scale = 0;
-            cb->encoding.af_nbits = 0;
-            cb->encoding.nbits = ddo->change_ref_val_op;
-            if (debug)
+            if (cb->value == NULL)
                {
-               sprintf( errmsg, _n("### Changing REF: %d to %d bit:", 
+               cb->encoding.type = TYPE_CHNG_REF_VAL_OP;
+               cb->encoding.reference = 0;
+               cb->encoding.scale = 0;
+               cb->encoding.af_nbits = 0;
+               cb->encoding.nbits = ddo->change_ref_val_op;
+               if (debug)
+                  {
+                  sprintf( errmsg, _n("### Changing REF: %d to %d bit:", 
                                    "### Changing REF: %d to %d bits:", 
                                    ddo->change_ref_val_op), 
                         cb->descriptor, ddo->change_ref_val_op ); 
-               bufr_print_debug( errmsg );
+                  bufr_print_debug( errmsg );
+                  }
+
+               return 0;
                }
+            }
+      break;
+      case TYPE_CHNG_REF_VAL_OP :
+         if (ddo->change_ref_val_op > 0)
+            {
+            EntryTableB *tb1, *tb2;
+            float        value;
+
+            value = bufr_value_get_float( cb->value );
 
             if ( !bufr_is_missing_float(value) )
                {
