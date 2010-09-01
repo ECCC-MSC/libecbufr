@@ -754,9 +754,8 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
       }
 
 /*
- * calculer la longueur maximum de la section4 (non-compressee)
-
-*/
+ * compute section 4 maximum length
+ */
    blen = 0;
    nbits = 0;
    for (i = 0; i < nb_subsets ; i++)
@@ -3309,6 +3308,8 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
             default :
                break;
             }
+            bufr_init_location( ddo, cb );
+            bufr_apply_op_crefval( ddo, cb, dts->tmplte );
          }
     
       if (cb->flags & FLAG_CLASS31)
@@ -3641,7 +3642,7 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
       fprintf( fp, "HEADER_STRING=\"%s\"\n", dts->header_string );
    fprintf( fp, "BUFR_MASTER_TABLE=%d\n", dts->s1.bufr_master_table );
    fprintf( fp, "ORIG_CENTER=%d\n", BUFR_GET_ORIG_CENTRE(dts) );
-   if (dts->tmplte->edition >= 4)
+   if (dts->tmplte->edition >= 3)
       fprintf( fp, "ORIG_SUB_CENTER=%d\n", BUFR_GET_SUB_CENTRE(dts) );
    fprintf( fp, "UPDATE_SEQUENCE=%d\n", BUFR_GET_UPD_SEQUENCE(dts) );
    fprintf( fp, "DATA_CATEGORY=%d\n", BUFR_GET_DATA_CATEGORY(dts) );
