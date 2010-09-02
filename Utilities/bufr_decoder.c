@@ -675,6 +675,20 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   bufr_print_output( buf );
                   }
                }
+            else  if (bcv->encoding.type == TYPE_CCITT_IA5)
+               {
+               int fx = desc / 1000;
+               if ( fx == 205)
+                  sprintf( buf, "%-64s %-24s", _("Signify character") , "CCITT_IA5" );
+               else
+                  sprintf( buf, "%-64s %-24s", "" , "" );
+               bufr_print_output( buf );
+               }
+            else
+               {
+               sprintf( buf, "%-64s %-24s", "" , "" );
+               bufr_print_output( buf );
+               }
 
             if (bcv->value) /* If this descriptor has a value */
                {

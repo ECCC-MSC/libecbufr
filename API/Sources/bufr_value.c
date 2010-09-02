@@ -324,6 +324,7 @@ int bufr_value_set_string
    char         *value;
    ValueSTRING  *vstr=NULL;
    int           rtrn;
+   int           string_is_missing;
 
    rtrn = -1;
    if (bv == NULL) return rtrn;
@@ -356,7 +357,8 @@ int bufr_value_set_string
 
    rtrn = 1;
    i = 0;
-   if (str == NULL) str = old_str; /* reuse old string if new string is not available */
+   string_is_missing = 1;
+
    if (str)
       {
       int  len2;
@@ -365,11 +367,27 @@ int bufr_value_set_string
       if (len2 > len) 
          len2 = len;
       for (; i < len2 ; i++)
+         {
          value[i] = str[i];
+         if (str[i] != '\377')
+            string_is_missing = 0;
+         }
       }
 
-   for (; i < len ; i++)
-      value[i] = ' ';
+/*
+ * padding with blanks if has string
+ * if not pad with missing
+ */
+   if (string_is_missing == 0)
+      {
+      for (; i < len ; i++)
+         value[i] = ' ';
+      }
+   else
+      {
+      for (; i < len ; i++)
+         value[i] = '\377';
+      }
    value[len] = '\0';
    if ( old_str ) free( old_str );
 
@@ -1258,11 +1276,19 @@ int bufr_is_missing_int( int i )
  * @see bufr_value_is_missing
  * @ingroup descriptor
  */
-int bufr_is_missing_string( char *str, int len )
+int bufr_is_missing_string( const char *str, int len )
    {
    int  i;
    unsigned char c;
-
+/*
+ * skip trailing blanks if any
+ */
+   for (i = len; i > 1 ; i--)
+      {
+      c = (unsigned char)str[i-1];
+      if (c != 32) break;
+      }
+   len = i;
    for (i = 0; i < len ; i++)
       {
       c = (unsigned char)str[i];

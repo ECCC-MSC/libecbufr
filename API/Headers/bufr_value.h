@@ -92,7 +92,7 @@ extern int            bufr_value_is_missing     ( BufrValue *bv );
 extern int            bufr_is_missing_float     ( float );
 extern int            bufr_is_missing_double    ( double );
 extern int            bufr_is_missing_int       ( int i );
-extern int            bufr_is_missing_string    ( char *, int );
+extern int            bufr_is_missing_string    ( const char *, int );
 extern double         bufr_missing_double       ( void );
 extern float          bufr_missing_float        ( void );
 extern int            bufr_missing_int          ( void );
