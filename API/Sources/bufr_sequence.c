@@ -1493,12 +1493,12 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
                    */
                   arr_add( ddo->override_tableb, (char *)&tb1 ); 
                   if (debug)
-                     bufr_print_debug( _("codetable overrided\n") );
+                     bufr_print_debug( _("descriptor reference overrided\n") );
                   }
                else
                   {
                   if (debug)
-                     bufr_print_debug( _("codetable entry not found\n") );
+                     bufr_print_debug( _("descriptor not found\n") );
                   }
                }
             else
