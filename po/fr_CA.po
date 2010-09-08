@@ -1270,7 +1270,6 @@ msgid_plural "### Changing REF: %d to %d bits:"
 msgstr[0] "### REF : %d a désormais %d bit : "
 msgstr[1] "### REF : %d a désormais %d bits : "
 
-# Clarifier: overrided dans quel contexte ?, codetable ?
 #: bufr_sequence.c:1477
 msgid "codetable overrided\n"
 msgstr ""
@@ -1279,7 +1278,7 @@ msgstr ""
 #: bufr_sequence.c:1482
 #, fuzzy
 msgid "codetable entry not found\n"
-msgstr "l'entrée de la table de code n'a pu être trouvée\n"
+msgstr "descripteur introuvable\n"
 
 #: bufr_sequence.c:1488
 msgid "No value\n"
@@ -1497,3 +1496,7 @@ msgid "Warning: %lld needs at least %d bit for storage\n"
 msgid_plural "Warning: %lld needs at least %d bits for storage\n"
 msgstr[0] "Attention : %lld nécessite au moins %d bit pour l'enregistrement\n"
 msgstr[1] "Attention : %lld nécessite au moins %d bits pour l'enregistrement\n"
+
+# Clarifier: overrided dans quel contexte ?, codetable ?
+#~ msgid "descriptor's reference overrided\n"
+#~ msgstr "alteration du biais de descripteur"

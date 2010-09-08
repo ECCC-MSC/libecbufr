@@ -1615,21 +1615,79 @@ int bufr_leftest_bit(uint64_t val)
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-int32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
+uint32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
    {
-   int64_t ival;
+   uint32_t  ival, rem;
    uint64_t  maxval;
-   float    val_pow;
+   uint64_t  missing;
+   float     val_pow;
+   int       ival_pow;
+   double    val1;
+   float     fmin, fmax;
+   int       underflow=0, overflow=0;
+   int       delta;
 
-   if (bufr_is_missing_float( fval )) return -1;
+   if (be->nbits > 32)
+      {
+      char buffer[128];
 
+      sprintf( buffer, _("Warning: unsupported bitwidth %d (max=%d) for descriptor %d"),
+               be->nbits, 32, code );
+      bufr_print_debug( buffer );
+      return 0;
+      }
+
+   missing = bufr_missing_ivalue( be->nbits );
+   if (bufr_is_missing_float( fval )) return missing;
+/*
+ * compute value range
+ */
    maxval = (1ULL << be->nbits) - 1;
+   ival_pow = val_pow = pow(10.0,(double)be->scale);
+   fmin = be->reference / val_pow;
+   fmax = ((maxval-1) + be->reference) / val_pow;
 
-   val_pow = pow(10.0,(double)be->scale);
+   if (fval > fmax)
+      overflow = 1;
+   else if (fval < fmin)
+      underflow = 1;
+   else if (be->scale >= 0)
+      {
+      val1 = fval - (be->reference / val_pow);
+      ival = round(val1 * val_pow);
+      delta = maxval-ival;
+      if ( delta < be->reference )
+         {
+         ival = val1;
+         rem = round( (val1 - ival) * val_pow );
+         ival = ival * val_pow + rem;
+         }
+      else
+         {
+         if (fval > 0.0)
+            {
+            uint32_t sval;
+            ival = fval;
+            sval = ival * ival_pow;
+            rem = round( (fval - ival) * val_pow );
+            ival = sval - be->reference;
+            ival = ival + rem;
+            }
+         else
+            {
+            int32_t sval = round( fval * val_pow );
+            ival = sval - be->reference;
+            }
+         }
+      if (ival >= maxval) overflow = 1;
+      }
+   else
+      {
+      int sval = round(fval * val_pow);
+      ival = sval - be->reference;
+      }
 
-   ival = (int32_t)roundf(fval * val_pow);
-   ival = ival - be->reference;
-   if (ival < 0)
+   if (underflow)
       {
       char buffer[128];
       int32_t  minval;
@@ -1638,27 +1696,30 @@ int32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_UNDERFLOW;
-      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %e, giving %ld"),
-               code, fval, ival );
+      minval = (int32_t)ival - be->reference;
+      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %e, giving %d"),
+               code, fval, minval );
       bufr_print_debug( buffer );
-      ival = -1;
+      ival = maxval;
       }
-   if (ival >= maxval)
+   else if (overflow)
       {
       char buffer[128];
 
-      bufr_minimum_nbits = bufr_value_nbits( ival );
+      val1 = fval - fmax;
+      bufr_minimum_nbits = be->nbits + bufr_value_nbits( val1 * val_pow );
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_OVERFLOW;
-      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%lld) : value = %e, giving %ld"),
-               code, maxval, fval, ival );
+      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%lu) : value = %e, giving %lu"),
+               code, maxval, fval, missing );
       bufr_print_debug( buffer );
-      ival = -1;
+      ival = missing;
       }
 
    return ival;
    }
+
 
 /**
  * @english
@@ -1682,7 +1743,15 @@ double bufr_cvt_i64_to_dval(BufrValueEncoding *be, int64_t ival)
 
    val_pow = pow(10.0,(double)be->scale);
 
-   fval = (ival + (double)be->reference) / val_pow ;
+   if ((be->reference < 0) && (ival < (-be->reference)))
+      {
+      int64_t val = (int64_t)(ival + be->reference);
+      fval = (double)val / val_pow;
+      }
+   else
+      {
+      fval = (double)(ival + be->reference) / val_pow ;
+      }
 
    return fval;
    }
@@ -1700,19 +1769,30 @@ double bufr_cvt_i64_to_dval(BufrValueEncoding *be, int64_t ival)
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-float bufr_cvt_i32_to_fval(BufrValueEncoding *be, int32_t ival)
+float bufr_cvt_i32_to_fval(BufrValueEncoding *be, uint32_t ival)
    {
-   float fval;
-   float val_pow;
+   float     fval;
+   float     val_pow;
+   uint32_t  missing;
 
-   if (ival < 0) return bufr_get_max_float();
+   missing = bufr_missing_ivalue( be->nbits );
+   if (ival == missing) return bufr_get_max_float();
 
    val_pow = pow(10.0,(double)be->scale);
 
-   fval = (float)(ival + be->reference) / val_pow ;
+   if ((be->reference < 0) && (ival < (-be->reference)))
+      {
+      int32_t val = (int32_t)(ival + be->reference);
+      fval = (float)val / val_pow;
+      }
+   else
+      {
+      fval = (float)(ival + be->reference) / val_pow ;
+      }
 
    return fval;
    }
+
 
 /**
  * @english
@@ -1727,48 +1807,111 @@ float bufr_cvt_i32_to_fval(BufrValueEncoding *be, int32_t ival)
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-int64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double dval)
+uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
    {
-   int64_t  ival;
-   int64_t  maxval;
-   float val_pow=1.0;
+   uint64_t  ival, rem;
+   uint64_t  maxval;
+   uint64_t  missing;
+   double    val_pow;
+   int       ival_pow;
+   double    val1;
+   double    fmin, fmax;
+   int       underflow=0, overflow=0;
+   int       delta;
 
-   if (bufr_is_missing_double( dval )) return -1;
+   if (be->nbits > 32)
+      {
+      char buffer[128];
 
+      sprintf( buffer, _("Warning: unsupported bitwidth %d (max=%d) for descriptor %d"),
+               be->nbits, 32, code );
+      bufr_print_debug( buffer );
+      return 0;
+      }
+
+   missing = bufr_missing_ivalue( be->nbits );
+   if (bufr_is_missing_float( fval )) return missing;
+/*
+ * compute value range
+ */
    maxval = (1ULL << be->nbits) - 1;
+   ival_pow = val_pow = pow(10.0,(double)be->scale);
+   fmin = be->reference / val_pow;
+   fmax = ((maxval-1) + be->reference) / val_pow;
 
-   val_pow = pow(10.0,(double)be->scale);
+   if (fval > fmax)
+      overflow = 1;
+   else if (fval < fmin)
+      underflow = 1;
+   else if (be->scale >= 0)
+      {
+      val1 = fval - (be->reference / val_pow);
+      ival = round(val1 * val_pow);
+      delta = maxval-ival;
+      if ( delta < be->reference )
+         {
+         ival = val1;
+         rem = round( (val1 - ival) * val_pow );
+         ival = ival * val_pow + rem;
+         }
+      else
+         {
+         if (fval > 0.0)
+            {
+            uint64_t sval;
+            ival = fval;
+            sval = ival * ival_pow;
+            rem = round( (fval - ival) * val_pow );
+            ival = sval - be->reference;
+            ival = ival + rem;
+            }
+         else
+            {
+            int64_t sval = round( fval * val_pow );
+            ival = sval - be->reference;
+            }
+         }
+      if (ival >= maxval) overflow = 1;
+      }
+   else
+      {
+      int64_t sval = round(fval * val_pow);
+      ival = sval - be->reference;
+      }
 
-   ival = (int64_t)round(dval * val_pow);
-   ival = ival - be->reference;
-   if (ival < 0) {
+   if (underflow)
+      {
       char buffer[128];
       int64_t  minval;
-      minval = dval * val_pow;
+      minval = rint(fval * val_pow);
       bufr_minimum_reference = minval - 1;
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_UNDERFLOW;
-      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %f, giving %ld"),
-               code, dval, ival );
+      minval = (int64_t)ival - be->reference;
+      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %e, giving %ld"),
+               code, fval, minval );
       bufr_print_debug( buffer );
-      ival = -1;
+      ival = maxval;
       }
-   if (ival >= maxval) {
+   else if (overflow)
+      {
       char buffer[128];
 
-      bufr_minimum_nbits = bufr_value_nbits( ival );
+      val1 = fval - fmax;
+      bufr_minimum_nbits = be->nbits + bufr_value_nbits( val1 * val_pow );
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_OVERFLOW;
-      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%ld) : value = %e, giving %ld"),
-               code, maxval, dval, ival );
+      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%lu) : value = %e, giving %lu"),
+               code, maxval, fval, missing );
       bufr_print_debug( buffer );
-      ival = -1;
+      ival = missing;
       }
 
    return ival;
    }
+
 
 /**
  * @english

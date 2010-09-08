@@ -163,9 +163,9 @@ extern uint16_t       bufr_fxy_to_descriptor_i16  ( int f, int x, int y );
 extern uint16_t       bufr_descriptor_i32_to_i16  ( int desc );
 extern int            bufr_value_nbits            ( int64_t ival );
 extern int            bufr_leftest_bit            ( uint64_t val );
-extern int32_t        bufr_cvt_fval_to_i32        ( int desc, BufrValueEncoding *be, float fval );
-extern int64_t        bufr_cvt_dval_to_i64        ( int desc, BufrValueEncoding *be, double fval );
-extern float          bufr_cvt_i32_to_fval        ( BufrValueEncoding *be, int32_t ival );
+extern uint32_t       bufr_cvt_fval_to_i32        ( int desc, BufrValueEncoding *be, float fval );
+extern uint64_t       bufr_cvt_dval_to_i64        ( int desc, BufrValueEncoding *be, double fval );
+extern float          bufr_cvt_i32_to_fval        ( BufrValueEncoding *be, uint32_t ival );
 extern double         bufr_cvt_i64_to_dval        ( BufrValueEncoding *be, int64_t lval );
 
 extern int            bufr_get_tberror            ( BufrValueEncoding *be, int *reference, int *nbits );
