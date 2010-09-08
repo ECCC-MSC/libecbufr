@@ -26,5 +26,7 @@ extern char *str_oct2char          ( char *str, int *len );
 
 extern void  append_char_to_string ( char **str, int *size, int *pos, unsigned char c );
 
+extern void  str_trimchar          ( char *str, char c );
+
 
 #endif  /* _bufr_util_h_ */

@@ -209,3 +209,33 @@ char *str_schar2oct( char *str, int *len, int *bsize )
    *len = l;
    return tagstr;
    }
+
+/**
+ * @english
+ * @brief trim trailing characters from string of the same char
+ *
+ * cut away all characters that match character c starting from end of string
+ *
+ * @param str original source string 
+ * @param c character to remove
+ * @return none
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @ingroup internal
+ */
+void str_trimchar( char *str, char c )
+   {
+   int  len;
+
+   len = strlen( str ) - 1;
+   while (str[len] == c)
+      --len;
+   if ( str[len] == '.')
+      str[len] = '\0';
+   else
+      str[len+1] = '\0';
+   }
+

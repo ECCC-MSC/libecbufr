@@ -1189,7 +1189,8 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
             strcat(  outstr, "MSNG" );
          else
             {
-            sprintf(  outstr, "%E", dval );
+            sprintf(  outstr, "%f", dval );
+            str_trimchar( outstr, '0' );
             }
          hasvalue = 1;
          break;
@@ -1609,16 +1610,8 @@ int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrVa
  */
 void bufr_print_float( char *str, float fval )
    {
-   int  len;
-
    sprintf( str, "%f", fval );
-   len = strlen( str ) - 1;
-   while (str[len] == '0')
-      --len;
-   if ( str[len] == '.')
-      str[len] = '\0';
-   else
-      str[len+1] = '\0';
+   str_trimchar( str, '0' );
    }
 
 /**
