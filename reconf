@@ -8,6 +8,8 @@ rm -f configure
 autoreconf --force --install
 if [ -f configure ]; then
    echo "*** Done. You may now run configure"
+else
+	exit $?
 fi
 
 exit 0
