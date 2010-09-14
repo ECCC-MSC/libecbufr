@@ -1759,10 +1759,10 @@ static uint64_t bufr_rd_section4(bufr_read_callback readcb, void *cd,
    /* discard */
 	if( 1 != bufr_read_octet( readcb, cd, &c ) ) return -1;
 
-   total = bufr->s0.len + bufr->s1.len + bufr->s2.len + bufr->s3.len + bufr->s4.len + bufr->s5.len;
+   total = bufr->s0.len + bufr->s1.len + bufr->s1.data_len + bufr->s2.len + bufr->s3.len + bufr->s4.len + bufr->s5.len;
    if (total != bufr->len_msg)
       {
-      len = bufr->len_msg - (bufr->s0.len + bufr->s1.len + bufr->s2.len + bufr->s3.len + bufr->s5.len);
+      len = bufr->len_msg - (bufr->s0.len + bufr->s1.len + bufr->s1.data_len + bufr->s2.len + bufr->s3.len + bufr->s5.len);
       if (bufr_is_debug())
          {
          char   errmsg[256];
