@@ -150,7 +150,7 @@ double bufr_ieee_decode_double( uint64_t lval )
       {
       char errmsg[256];
 
-      sprintf( errmsg, _("### Decoded double: %llx ->  %E  (sign=%d exponent=%llx signific=%llx)\n"), 
+      sprintf( errmsg, _("### Decoded double: %lx ->  %E  (sign=%d exponent=%lx signific=%lx)\n"), 
                lval, dval, (sign<0)?1:0, exponent, signific );
       bufr_print_debug( errmsg );
       }
@@ -488,17 +488,20 @@ static int check_match_encoding2decoding(void)
    i32 = bufr_ieee_encode_single( flmax );
    if (i32 != MAX_BITS_32)
       {
-      sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F32: %x -> %E -> %x\n"),
+      if (bufr_is_debug())
+         {
+         sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F32: %x -> %E -> %x\n"),
             MAX_BITS_32, flmax, i32 );
-      bufr_print_debug( errmsg );
+         bufr_print_debug( errmsg );
+         }
       error = -1;
       }
 #if DEBUG
    else if (bufr_is_debug())
       {
       sprintf( errmsg, _("### IEEE 754 encoding/decoding matched F32: %x -> %E -> %x\n"),
-            MAX_BITS_32, flmax, i32 );
-      bufr_print_debug( errmsg );
+               MAX_BITS_32, flmax, i32 );
+         bufr_print_debug( errmsg );
       }
 #endif
 
@@ -506,17 +509,23 @@ static int check_match_encoding2decoding(void)
    i64 = bufr_ieee_encode_double( dmax );
    if (i64 != MAX_BITS_64)
       {
-      sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F64: %lx -> %E -> %lx\n"),
-            MAX_BITS_64, dmax, i64 );
-      bufr_print_debug( errmsg );
+      if (bufr_is_debug())
+         {
+         sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F64: %lx -> %E -> %lx\n"),
+               MAX_BITS_64, dmax, i64 );
+         bufr_print_debug( errmsg );
+         }
       error = -1;
       }
 #if DEBUG
    else if (bufr_is_debug())
       {
-      sprintf( errmsg, _("### IEEE 754 encoding/decoding matched F64: %lx -> %E -> %lx\n"),
-            MAX_BITS_64, dmax, i64 );
-      bufr_print_debug( errmsg );
+      if (bufr_is_debug())
+         {
+         sprintf( errmsg, _("### IEEE 754 encoding/decoding matched F64: %lx -> %E -> %lx\n"),
+               MAX_BITS_64, dmax, i64 );
+         bufr_print_debug( errmsg );
+         }
       }
 #endif
    return error;
@@ -607,6 +616,8 @@ static int check_sign_bit(void)
    uint32_t *ptrInt;
    uint32_t ival;
    uint64_t *ptrLong, lval;
+   int       got_error=0;
+   int       debug = bufr_is_debug();
 
    ptrInt = (uint32_t *) &fval;
    ptrLong = (uint64_t *) &dval;
@@ -615,35 +626,39 @@ static int check_sign_bit(void)
    ival = *ptrInt;
    if ((ival & SIGN_BIT_32)==0)
       {
-      bufr_print_debug( _("Failed: sign bit is not 1 on negative float value\n") );
-      return -1;
+      if (debug)
+         bufr_print_debug( _("Failed: sign bit is not 1 on negative float value\n") );
+      got_error = 1;
       }
 
    fval = 1.0;
    ival = *ptrInt;
    if ((ival & SIGN_BIT_32)!=0)
       {
-      bufr_print_debug( _("Failed: sign bit is not 0 on positive float value\n") );
-      return -1;
+      if (debug)
+         bufr_print_debug( _("Failed: sign bit is not 0 on positive float value\n") );
+      got_error = 1;
       }
 
    dval = -1.0;
    lval = *ptrLong;
    if ((lval & SIGN_BIT_64)==0)
       {
-      bufr_print_debug( _("Failed: sign bit is not 1 on double negative value\n") );
-      return 0;
+      if (debug)
+         bufr_print_debug( _("Failed: sign bit is not 1 on double negative value\n") );
+      got_error = 1;
       }
 
    dval = 1.0;
    lval = *ptrLong;
    if ((lval & SIGN_BIT_64)!=0)
       {
-      bufr_print_debug( _("Failed: sign bit is not 0 on double positive value\n") );
-      return 0;
+      if (debug)
+         bufr_print_debug( _("Failed: sign bit is not 0 on double positive value\n") );
+      got_error = 1;
       }
 
-   return 1;
+   return (got_error ? -1 : 1);
    }
 
 /**
@@ -870,15 +885,24 @@ int bufr_use_C_ieee754(int use)
  */
 static int check_C_ieee754_compliance(void)
    {
+   int got_error=0;
+
    if (bufr_is_debug())
       bufr_print_debug( _("### Checking Memory Layout of float and double for IEEE 754 ...\n") );
 
-   if (!check_type_size()) return 0;
-   if (check_sign_bit() < 0) return 0;
-   if (check_single_mem_layout() < 0) return 0;
-   if (check_double_mem_layout() < 0) return 0;
+   if (!check_type_size()) 
+      got_error = 1;
+   if (check_sign_bit() < 0)
+      got_error = 1;
+   if (check_single_mem_layout() < 0)
+      got_error = 1;
+   if (check_double_mem_layout() < 0)
+      got_error = 1;
 
-   if (check_match_encoding2decoding() < 0) return 0;
+   if (check_match_encoding2decoding() < 0);
+      got_error = 1;
+
+   if (got_error) return 0;
 
    if (bufr_is_debug())
       bufr_print_debug( _("### Checked: good, C float and double use IEEE 754\n") );
@@ -975,9 +999,12 @@ static int test_decoding_double(double dval)
       }
    else
       {
-      sprintf( errmsg, _("Warning: decoding of double differ with value %E != %E\n"), 
+      if (bufr_is_debug())
+         {
+         sprintf( errmsg, _("Warning: decoding of double differ with value %E != %E\n"), 
                dval, dval2 );
-      bufr_print_debug( errmsg );
+         bufr_print_debug( errmsg );
+         }
       return -1;
       }
    }
@@ -1017,9 +1044,12 @@ static int test_decoding_single(float fval)
       }
    else
       {
-      sprintf( errmsg, _("Warning: decoding of float differ with value %E != %E\n"), 
+      if (bufr_is_debug())
+         {
+         sprintf( errmsg, _("Warning: decoding of float differ with value %E != %E\n"), 
                fval, fval2 );
-      bufr_print_debug( errmsg );
+         bufr_print_debug( errmsg );
+         }
       return -1;
       }
    }
@@ -1055,9 +1085,12 @@ static int test_encoding_single(float fval)
       }
    else
       {
-      sprintf( errmsg, _("Warning: encoding of float differ with value %E != %E\n"), 
+      if (bufr_is_debug())
+         {
+         sprintf( errmsg, _("Warning: encoding of float differ with value %E != %E\n"), 
                fval, fval2 );
-      bufr_print_debug( errmsg );
+         bufr_print_debug( errmsg );
+         }
       return -1;
       }
    }
@@ -1093,9 +1126,12 @@ static int test_encoding_double(double fval)
       }
    else
       {
-      sprintf( errmsg, _("Warning: encoding of double differ with value %E != %E\n"), 
+      if (bufr_is_debug())
+         {
+         sprintf( errmsg, _("Warning: encoding of double differ with value %E != %E\n"), 
                fval, fval2 );
-      bufr_print_debug( errmsg );
+         bufr_print_debug( errmsg );
+         }
       return -1;
       }
    }
