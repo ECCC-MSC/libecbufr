@@ -165,7 +165,7 @@ BUFR_Tables *bufr_use_tables_list( LinkedList *list, int version )
    BUFR_Tables  *tbls;
    BUFR_Tables  *btn = NULL;
    BUFR_Tables  *ltn = NULL;
-   int           lv;
+   int           lv, bv;
 
    node = lst_firstnode( list );
    while ( node )
@@ -174,9 +174,18 @@ BUFR_Tables *bufr_use_tables_list( LinkedList *list, int version )
       if (tbls->master.version == version) return tbls;
       if (tbls->master.version > version)
          {
-         if (btn == NULL)  btn = tbls;
+         if (btn == NULL)  
+            {
+            bv = tbls->master.version;
+            btn = tbls;
+            }
+         else if (bv > tbls->master.version)
+            {
+            bv = tbls->master.version;
+            btn = tbls;
+            }
          }
-      if ( ltn == NULL )
+      else if ( ltn == NULL )
          {
          lv = tbls->master.version;
          ltn = tbls;
