@@ -1,3 +1,15 @@
+libecbufr (0.8.2b6) unstable; urgency=low
+
+  * Fixed bug: 591772, 640517
+
+ -- Vanh Souvanlasy <afsmvan@ibsb-01.cmc.ec.gc.ca>  Thu, 16 Sep 2010 15:47:58 -0400
+
+libecbufr (0.8.2b5) unstable; urgency=low
+
+  * Fixed bug: 638126
+
+ -- Vanh Souvanlasy <afsmvan@ibsb-01.cmc.ec.gc.ca>  Tue, 14 Sep 2010 11:09:05 -0400
+
 libecbufr (0.8.2b4) unstable; urgency=low
 
   * Fixed bug: 569075, 586425, 591772, 605472, 627077, 626906, 602783, 619404
