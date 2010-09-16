@@ -206,20 +206,25 @@ static void cleanup(void)
  */
 int main(int argc,char *argv[])
 {
+/*
+ * always dump in english US only for sanity reasons
+ */
+   read_cmdline( argc, argv );
+
+   bufr_set_debug_file( str_debug );
+
+   if (str_datafile != NULL)
+      putenv( "LC_ALL=en_US" );
+
    //Setup for internationalization
    bufr_begin_api();
    setlocale (LC_ALL, "");
    textdomain (PACKAGE);
-  
 
    if (argc == 1)
       {
       abort_usage( argv[0] );
       }
-
-   read_cmdline( argc, argv );
-
-   bufr_set_debug_file( str_debug );
 
 /*
  * charger les tables en memoire

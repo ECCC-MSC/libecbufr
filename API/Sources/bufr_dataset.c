@@ -27,6 +27,8 @@ This file is part of libECBUFR.
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <locale.h>
+#include <gettext.h>
 
 #include "private/bufr_util.h"
 #include "bufr_array.h"
@@ -3219,7 +3221,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
       else
          {
          ptr = ptr+i; 
-         tok = strtok_r( NULL, " \t\n\r,=", &ptr );
+         tok = strtok_r( NULL, " \t\n\r=", &ptr );
          }
 
       if (tok == NULL) 

@@ -196,20 +196,25 @@ static void cleanup(void)
  */
 int main(int argc,char *argv[])
 {
+   read_cmdline( argc, argv );
+   bufr_set_debug_file( str_debug );
+/*
+ * always dump in english US only for sanity
+ */
+   if (dumpmode)
+      {
+      putenv( "LC_ALL=en_US" );
+      }
+
    //Setup for internationalization
    bufr_begin_api();
    setlocale (LC_ALL, "");
    bindtextdomain ("bufr_codec", LOCALEDIR);
    textdomain ("bufr_codec");
 
-
-
    if (argc == 1)
       abort_usage( argv[0] );
 
-   read_cmdline( argc, argv );
-
-   bufr_set_debug_file( str_debug );
    if (str_output && !dumpmode)
       bufr_set_output_file( str_output );
 /*
