@@ -116,7 +116,7 @@ AC_CHECK_FUNC(sin, , MATH_LIBS="-lm")
 AC_CHECK_LIB(ieee, main, [MATH_LIBS="-lieee $MATH_LIBS"])
 
 dnl Checks for precise integer types
-AC_CHECK_HEADERS([stdint.h inttypes.h sys/int_types.h])
+AC_CHECK_HEADERS([stdint.h inttypes.h sys/int_types.h values.h])
 AC_CHECK_TYPES([uint64_t, uint128_t])
 
 
