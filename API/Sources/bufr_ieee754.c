@@ -22,6 +22,11 @@ This file is part of libECBUFR.
 #include <limits.h> 
 #include <inttypes.h>
 
+#include "config.h"
+#if HAVE_VALUES_H
+#include <values.h>
+#endif
+
 #include "bufr_io.h"
 #include "bufr_ieee754.h"
 #include "bufr_i18n.h"
@@ -454,13 +459,18 @@ void bufr_init_limits(void)
 
    initted_lim = 1;
 
+#ifdef MAXFLOAT
+   max_float = MAXFLOAT;
+#else
    max_float = bufr_ieee_decode_single ( MAX_BITS_32 );
-   max_double = bufr_ieee_decode_double( MAX_BITS_64 );
-
-#if 0
-   inf_float = bufr_ieee_decode_single ( EXPON_BITS_32 );
-   inf_double = bufr_ieee_decode_double( EXPON_BITS_64 );
 #endif
+
+#ifdef MAXDOUBLE
+   max_double = MAXDOUBLE;
+#else
+   max_double = bufr_ieee_decode_double( MAX_BITS_64 );
+#endif
+
    }
 
 /**
@@ -488,12 +498,14 @@ static int check_match_encoding2decoding(void)
    i32 = bufr_ieee_encode_single( flmax );
    if (i32 != MAX_BITS_32)
       {
+#if DEBUG
       if (bufr_is_debug())
          {
          sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F32: %x -> %E -> %x\n"),
             MAX_BITS_32, flmax, i32 );
          bufr_print_debug( errmsg );
          }
+#endif
       error = -1;
       }
 #if DEBUG
@@ -509,12 +521,14 @@ static int check_match_encoding2decoding(void)
    i64 = bufr_ieee_encode_double( dmax );
    if (i64 != MAX_BITS_64)
       {
+#if DEBUG
       if (bufr_is_debug())
          {
          sprintf( errmsg, _("Warning: IEEE 754 encoding/decoding mismatch F64: %lx -> %E -> %lx\n"),
                MAX_BITS_64, dmax, i64 );
          bufr_print_debug( errmsg );
          }
+#endif
       error = -1;
       }
 #if DEBUG
@@ -547,24 +561,30 @@ static void check_word_size(char *string, int size, int expected, int *failed)
    char errmsg[128];
    int  debug=bufr_is_debug();
 
+#if DEBUG
    if (debug)
       {
       sprintf( errmsg, _n("### Checking: %s size is %d byte:", "### Checking: %s size is %d bytes:", size), string, size );
       bufr_print_debug( errmsg );
       }
+#endif
 
    if (size == expected)
       {
+#if DEBUG
       if (debug) 
          bufr_print_debug( _("Ok\n") );
+#endif
       }
    else
       {
+#if DEBUG
       if (debug) 
          {
          sprintf( errmsg, _n("Failed: size should be %d byte\n", "Failed: size should be %d bytes\n", expected), expected );
          bufr_print_debug( errmsg );
          }
+#endif
       *failed = 1;
       }
    }
@@ -626,8 +646,10 @@ static int check_sign_bit(void)
    ival = *ptrInt;
    if ((ival & SIGN_BIT_32)==0)
       {
+#if DEBUG
       if (debug)
          bufr_print_debug( _("Failed: sign bit is not 1 on negative float value\n") );
+#endif
       got_error = 1;
       }
 
@@ -635,8 +657,10 @@ static int check_sign_bit(void)
    ival = *ptrInt;
    if ((ival & SIGN_BIT_32)!=0)
       {
+#if DEBUG
       if (debug)
          bufr_print_debug( _("Failed: sign bit is not 0 on positive float value\n") );
+#endif
       got_error = 1;
       }
 
@@ -644,8 +668,10 @@ static int check_sign_bit(void)
    lval = *ptrLong;
    if ((lval & SIGN_BIT_64)==0)
       {
+#if DEBUG
       if (debug)
          bufr_print_debug( _("Failed: sign bit is not 1 on double negative value\n") );
+#endif
       got_error = 1;
       }
 
@@ -653,8 +679,10 @@ static int check_sign_bit(void)
    lval = *ptrLong;
    if ((lval & SIGN_BIT_64)!=0)
       {
+#if DEBUG
       if (debug)
          bufr_print_debug( _("Failed: sign bit is not 0 on double positive value\n") );
+#endif
       got_error = 1;
       }
 
@@ -887,8 +915,10 @@ static int check_C_ieee754_compliance(void)
    {
    int got_error=0;
 
+#if DEBUG
    if (bufr_is_debug())
       bufr_print_debug( _("### Checking Memory Layout of float and double for IEEE 754 ...\n") );
+#endif
 
    if (!check_type_size()) 
       got_error = 1;
@@ -904,8 +934,10 @@ static int check_C_ieee754_compliance(void)
 
    if (got_error) return 0;
 
+#if DEBUG
    if (bufr_is_debug())
       bufr_print_debug( _("### Checked: good, C float and double use IEEE 754\n") );
+#endif
 
    return 1;
    }
@@ -924,12 +956,17 @@ static int check_C_ieee754_compliance(void)
 static int check_single_mem_layout(void)
    {
    int rtrn = 0;
-   int  i;
-   float  values[8] = { 0.0, 5.9E-39, 3.4E38, 0.0, 1.0, 0.15625, 1.18E-38, -750.15625 };
+   int  i, n;
+   float  values[9] = { 0.0, 5.9E-39, 3.4E38, 0.0, 1.0, 0.15625, 1.18E-38, -750.15625 };
 
    values[0] = nanf("char-sequence");
+   n = 8;
+#ifdef MAXFLOAT
+   values[n] = MAXFLOAT;
+   ++n;
+#endif
 
-   for (i = 0; i < 8 ; i++)
+   for (i = 0; i < n ; i++)
       {
       if (test_decoding_single( values[i] ) < 0) rtrn = -1;
       if (test_encoding_single( values[i] ) < 0) rtrn = -1;
@@ -952,11 +989,16 @@ static int check_single_mem_layout(void)
 static int check_double_mem_layout(void)
    {
    int rtrn = 0;
-   int  i;
-   double values[8] = { 0.0, 5.9E-39, 3.4E38, 0.0, 1.0, 0.15625, 1.18E-38, -750.15625 };
+   int  i, n;
+   double values[9] = { 0.0, 5.9E-39, 3.4E38, 0.0, 1.0, 0.15625, 1.18E-38, -750.15625 };
 
    values[0] = nan("char-sequence");
-   for (i = 0; i < 8 ; i++)
+   n = 8;
+#ifdef MAXDOUBLE
+   values[n] = MAXDOUBLE;
+   ++n;
+#endif
+   for (i = 0; i < n ; i++)
       {
       if (test_decoding_double( values[i] ) < 0) rtrn = -1;
       if (test_encoding_double( values[i] ) < 0) rtrn = -1;
