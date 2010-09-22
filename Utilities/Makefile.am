@@ -1,10 +1,10 @@
 bin_PROGRAMS = \
-	bufr_encoder bufr_decoder
+	bufr_encoder bufr_decoder bufr_filter
 
 exampledir = @docdir@/examples/
 example_DATA=$(SOURCES)
 
-EXTRA_DIST = bufr_encoder bufr_decoder
+EXTRA_DIST = bufr_encoder bufr_decoder bufr_filter
 
 SUBDIRS = po
 
@@ -13,6 +13,9 @@ bufr_encoder_SOURCES = \
 
 bufr_decoder_SOURCES = \
 	bufr_decoder.c
+
+bufr_filter_SOURCES = \
+	bufr_filter.c
 
 INCLUDES = -I../API/Headers
 
