@@ -59,6 +59,7 @@ static int         bufr_solve_replication( int value, int y2, int descriptor );
 static void        bufr_walk_sequence
                       ( BUFR_Sequence *bsq, void (*proc)(BufrDescriptor *, void * ), 
                         void *client_data  );
+static void        free_rep_cnt_stack ( LinkedList *stack );
 
 /**
  * @english
@@ -741,7 +742,11 @@ int bufr_check_sequence
          EntryTableD   *td;
 
          td = bufr_fetch_tableD( tbls, cb->descriptor );
-         if (td == NULL) return -1;
+         if (td == NULL) 
+            {
+            free_rep_cnt_stack( stack );
+            return -1;
+            }
          }        
 
       if (next_class_31)
@@ -830,7 +835,8 @@ int bufr_check_sequence
       node = lst_nextnode( node );
       }
 
-   lst_dellist( stack );
+   free_rep_cnt_stack( stack );
+   stack = NULL;
    if (next_31021 != 0)
       {
       sprintf( errmsg, _("Error: expecting Class 31021 after 204YYY but found: %d\n"), next_31021 );
@@ -861,6 +867,30 @@ int bufr_check_sequence
       }
 
    return 1;
+   }
+
+/**
+ * @english
+ *   deallocate element stored in the replication counter stack
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+static void free_rep_cnt_stack( LinkedList *stack )
+   {
+   ListNode *node;
+
+   node = lst_rmfirst( stack );
+   while ( node )
+      {
+      free( node->data );
+      lst_delnode( node );
+      node = lst_rmfirst( stack );
+      }
+   lst_dellist( stack );
    }
 
 /**
