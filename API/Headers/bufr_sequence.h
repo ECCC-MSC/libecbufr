@@ -101,9 +101,9 @@ extern void                bufr_add_descriptor_to_sequence ( BUFR_Sequence *, Bu
 
 extern BUFR_Sequence      *bufr_copy_sequence              ( BUFR_Sequence * );
 
-extern LinkedList         *bufr_expand_node_descriptor     ( LinkedList *, ListNode *, int, BUFR_Tables *, int * );
+extern LinkedList         *bufr_expand_node_descriptor     ( LinkedList *, ListNode *, int, BUFR_Tables *, int *, int * );
 extern int                 bufr_expand_sequence            ( BUFR_Sequence *lst, int flag, BUFR_Tables * );
-extern BUFR_Sequence      *bufr_expand_descriptor          ( int desc, int flag, BUFR_Tables * );
+extern BUFR_Sequence      *bufr_expand_descriptor          ( int desc, int flag, BUFR_Tables *, int *errflg );
 
 extern BufrDDOp           *bufr_apply_Tables               ( BufrDDOp *ddo, BUFR_Sequence *bcl, BUFR_Template *tmplt, ListNode *, int *err );
 extern int                 bufr_init_location              ( BufrDDOp *ddo, BufrDescriptor *bdsc );

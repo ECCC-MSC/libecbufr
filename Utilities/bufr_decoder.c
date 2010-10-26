@@ -223,6 +223,7 @@ int main(int argc,char *argv[])
    run_decoder();
 
    cleanup();
+   bufr_end_api();
    exit(0);
 }
 
@@ -343,6 +344,13 @@ static void run_decoder(void)
          bufr_print_output( buf );
          bufr_print_debug( buf );
          continue;
+         }
+
+      if (dts->data_flag & BUFR_FLAG_INVALID)
+         {
+         strcpy( buf, _("# *** Warning: invalid message coding ***\n") );
+         bufr_print_output( buf );
+         bufr_print_debug( buf );
          }
 /*
  * see if the Message contains Local Table Update

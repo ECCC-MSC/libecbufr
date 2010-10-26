@@ -80,6 +80,7 @@ int bufr_store_tables
    int             category;
    int             debug=bufr_is_debug();
    char            errmsg[256];
+   int             errflg = 0;
 
    if (debug)
       bufr_print_debug( _("### Checking if local Table Update Message is needed\n") );
@@ -179,8 +180,8 @@ int bufr_store_tables
       bufr_putbits( bufr, tcount, e1->encoding.nbits );
       descriptor = 300004;
       arr_add( desc_list, (char *)&descriptor );
-      sequence = bufr_expand_descriptor( descriptor, OP_RM_XPNDBL_DESC, tbls );
-      if (sequence == NULL)
+      sequence = bufr_expand_descriptor( descriptor, OP_RM_XPNDBL_DESC, tbls, &errflg );
+      if ((sequence == NULL)||(errflg != 0))
          {
          sprintf( errmsg, _("Error expanding descriptor: %d\n"), descriptor );
          bufr_print_debug( errmsg );
