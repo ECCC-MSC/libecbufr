@@ -291,7 +291,7 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int
                char errmsg[256];
                bufr_free_descriptorList( lst );
 
-               *errflg = 1;
+               if (errflg) *errflg = 1;
                sprintf( errmsg, _("Error: unknown descriptor in bufr_expand_desc %d\n") , 
                      code );
                bufr_print_debug( errmsg );
@@ -350,7 +350,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
          nnode = lst_nextnode( node );
          if (nnode == NULL) 
             {
-            *errflg = 1;
+            if (errflg) *errflg = 1;
             cb->flags |= FLAG_EXPANDED | FLAG_SKIPPED;
             return list;
             }
@@ -398,7 +398,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
             sprintf( errmsg, _("Error: delayed replication not followed by class 31 code=%d\n") , 
                      cb31->descriptor );
             bufr_print_debug( errmsg );
-            *errflg = 1;
+            if (errflg) *errflg = 1;
             *skip = -1;
             return list;
             }
@@ -413,7 +413,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
       sublist = bufr_expand_desc( cb->descriptor, flags, tbls, errflg );
       if (sublist == NULL) 
          {
-         *errflg = 1;
+         if (errflg) *errflg = 1;
          return NULL;
          }
       bsq = bufr_create_sequence( list );
@@ -427,7 +427,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
       *skip = -1;
       if (err < 0) 
          {
-         *errflg = 1;
+         if (errflg) *errflg = 1;
          return NULL;
          }
       }
@@ -555,7 +555,7 @@ static LinkedList *bufr_repl_descriptors
 
             sprintf( errmsg, _("ERROR, can't replicate codes: %d %d while duplicating: %d\n"), 
                   nbdesc, count, cb->descriptor );
-            *errflg = 1;
+            if (errflg) *errflg = 1;
             bufr_abort( errmsg );
             }
 /*
