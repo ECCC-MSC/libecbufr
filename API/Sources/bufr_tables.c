@@ -687,7 +687,6 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
          char buf[128];
 
          sprintf( buf, _("Warning: Unknown BUFR descriptor: %d\n"), desc );
-         bufr_print_output( buf );
          bufr_print_debug( buf );
          }
       }
