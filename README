@@ -61,6 +61,7 @@ The following tools (packages) are required in order to compile this library:
    doxygen
    libtool
    gettext (optional, for internationalisation, included in modern glibc's) 
+	autopoint (needed on newer Debian distributions)
 
 Before anything else, you should type "./reconf".  This will generate all needed
 files to configure and install the package.
