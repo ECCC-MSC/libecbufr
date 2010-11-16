@@ -2,6 +2,8 @@ libecbufr (0.8.2rc1) unstable; urgency=low
 
   * update release number
 
+ -- Vanh Souvanlasy <afsmvan@ibsb-01.cmc.ec.gc.ca>  Mon, 15 Nov 2010 14:05:14 -0400
+
 libecbufr (0.8.2b7) unstable; urgency=low
 
   * Fixed bug: 666333, 666822
