@@ -2127,8 +2127,13 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                {
 /*
  * terminate the loop and bail out nicely
-
 */
+					snprintf( errmsg, sizeof(errmsg),
+						_("Warning: premature end-of-data reading subset %d\n"), j);
+					bufr_print_debug( errmsg );
+					BUFR_SET_INVALID( msg );
+					dts->data_flag |= BUFR_FLAG_INVALID;
+
                node = NULL;
                j = nbsubset;
                continue;
@@ -2152,6 +2157,11 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 
                   if (bufr_get_desc_value( msg, cb31 ) < 0)
                      {
+							snprintf( errmsg, sizeof(errmsg),
+								_("Warning: premature end-of-data reading subset %d\n"), j);
+							bufr_print_debug( errmsg );
+							BUFR_SET_INVALID( msg );
+							dts->data_flag |= BUFR_FLAG_INVALID;
                      node = NULL;
                      j = nbsubset;
                      continue;
@@ -2242,29 +2252,38 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             }
 
          errcode = bufr_get_af_compressed( cb, nbsubset, msg, nodes );
-         if (errcode < 0) node = NULL;
+         if (errcode < 0)
+				{
+				BUFR_SET_INVALID( msg );
+				dts->data_flag |= BUFR_FLAG_INVALID;
+				node = NULL;
+				}
 
+			/* assert( errcode >= 0 ) */
          switch (cb->encoding.type)
             {
             case TYPE_CCITT_IA5 :
                errcode = bufr_get_ccitt_compressed( cb, nbsubset, msg, nodes );
-               if (errcode < 0) node = NULL;
                break;
             case TYPE_IEEE_FP :
                errcode = bufr_get_ieeefp_compressed( cb, nbsubset, msg, nodes );
-               if (errcode < 0) node = NULL;
                break;
             case TYPE_NUMERIC :
             case TYPE_CODETABLE :
             case TYPE_FLAGTABLE :
             case TYPE_CHNG_REF_VAL_OP :
                errcode = bufr_get_numeric_compressed( cb, nbsubset, msg, nodes );
-               if (errcode < 0) node = NULL;
                break; 
             default : 
                if (debug) bufr_print_debug( "\n" );
                break; 
             }
+         if (errcode < 0)
+				{
+				BUFR_SET_INVALID( msg );
+				dts->data_flag |= BUFR_FLAG_INVALID;
+				node = NULL;
+				}
 
 /*
  * apply post value operations on BufrDescriptor
