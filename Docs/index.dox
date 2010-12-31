@@ -250,6 +250,9 @@ Encoding a message without using Templates
 @example receive_tables.c
 Receiving Local Table information in a message and Decoding
 
+@example foreign_table.c
+Importing unknown table formats for decoding
+
 @example compress.c
 Compressing BUFR Messages
 @endenglish
