@@ -842,7 +842,7 @@ void bufr_vprint_output(const char* format, ...)
 		char *tbuf = malloc(rc+1);
 		if( tbuf != NULL )
 			{
-			vsnprintf(tbuf, sizeof(rc+1), format, ap);
+			vsnprintf(tbuf, rc+1, format, ap);
 			bufr_print_output(tbuf);
 			free(tbuf);
 			}
@@ -1047,7 +1047,7 @@ void bufr_vprint_debug(const char* format, ...)
 		char *tbuf = malloc(rc+1);
 		if( tbuf != NULL )
 			{
-			vsnprintf(tbuf, sizeof(rc+1), format, ap);
+			vsnprintf(tbuf, rc+1, format, ap);
 			bufr_print_debug(tbuf);
 			free(tbuf);
 			}
