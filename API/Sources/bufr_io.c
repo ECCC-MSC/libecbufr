@@ -32,6 +32,7 @@ This file is part of libECBUFR.
 #include <sys/types.h>
 #include <errno.h>
 #include <ctype.h>
+#include <stdarg.h>
 
 #include "private/bufr_util.h"
 #include "bufr_array.h"
@@ -45,8 +46,10 @@ This file is part of libECBUFR.
 
 static FILE *debug_fp=NULL;
 static char *debug_filename=NULL;
+static void (*udf_debug)(const char *msg) = NULL;
 static FILE *output_fp=NULL;
 static char *output_filename=NULL;
+static void (*udf_output)(const char *msg) = NULL;
 
 static int  debugmode=0;
 static int  verbosemode=0;
@@ -381,11 +384,10 @@ int bufr_callback_write_message(bufr_write_callback writecb,
       {
       char errmsg[256];
 
-      sprintf( errmsg, _n("Error: cannot create BUFR message with a length of %d octet\n", 
+      bufr_vprint_debug( _n("Error: cannot create BUFR message with a length of %d octet\n", 
                           "Error: cannot create BUFR message with a length of %d octets\n", 
                           bufr->len_msg), 
                bufr->len_msg  );
-      fprintf( stderr, "%s", errmsg );
       return errno=EINVAL, -1;
       }
 
@@ -509,13 +511,11 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
    int            nbit_take, nbit_left, nbit_shift;
    int            bitno ;
    uint64_t       bits;
-   char           errmsg[256];
 
    *errcode = 0;
    if (nbbits > 64)
       {
-      sprintf( errmsg, _("Warning: bufr_getbits( %d ), max_nbbits=64\n"), nbbits );
-      bufr_print_debug( errmsg );
+      bufr_vprint_debug( _("Warning: bufr_getbits( %d ), max_nbbits=64\n"), nbbits );
       *errcode = -2;
       return 0;
       }
@@ -525,8 +525,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
 
 	if( ptrData > (bufr->s4.data + bufr->s4.len) )
 		{
-      sprintf( errmsg, _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
-      bufr_print_debug( errmsg );
+      bufr_vprint_debug( _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
       *errcode = -1;
       return 0;
 		}
@@ -547,8 +546,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
       {
 	   if ( ptrData >= (bufr->s4.data + bufr->s4.len) )
 		   {
-         sprintf( errmsg, _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
-         bufr_print_debug( errmsg );
+         bufr_vprint_debug( _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
          *errcode = -1;
          return 0;
 		   }
@@ -576,8 +574,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
          {
 	      if( ptrData >= (bufr->s4.data + bufr->s4.len) )
 		      {
-            sprintf( errmsg, _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
-            bufr_print_debug( errmsg );
+            bufr_vprint_debug( _("Warning: bufr_getbits( %d ), out of bounds!\n"), nbbits);
             *errcode = -1;
             bufr->s4.bitno = bitno;
             bufr->s4.current = ptrData;
@@ -596,6 +593,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
 
    if (bufr_is_debug())
       {
+		char           errmsg[256];
       bufr_print_debug( " " );
       bufr_print_binary( errmsg, bits, nbbits );
       bufr_print_debug( errmsg );
@@ -711,9 +709,9 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
 
    if (bufr_is_debug())
       {
-      sprintf( errmsg, _("bitno=%d  start=%x current=%x len=%d, at=%ld, filled=%d max=%d\n"), 
-            bitno,  (unsigned)bufr->s4.data, ptrData, bufr->s4.len, ptrData-bufr->s4.data, bufr->s4.filled, bufr->s4.max_data_len );
-      bufr_print_debug( errmsg );
+      bufr_vprint_debug( _("bitno=%d  start=%x current=%x len=%d, at=%ld, filled=%d max=%d\n"), 
+            bitno,  (unsigned)bufr->s4.data, ptrData, bufr->s4.len,
+				ptrData-bufr->s4.data, bufr->s4.filled, bufr->s4.max_data_len );
       }
 
    if (bufr->s4.filled > bufr->s4.max_data_len) 
@@ -816,7 +814,50 @@ void bufr_put_bitstream ( BUFR_Message *bufr, const unsigned char *str, int nbbi
 
 /**
  * @english
- * @todo translate
+ * write a vprintf-formatted message to the output handler/file/stdout.
+ * @param format vprintf format to write
+ * @param ... vargs parameters
+ * @endenglish
+ * @francais
+ * ecrire un message de sortie
+ * @param   format :  message a afficher
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup error debug internal
+ * @see bufr_print_output
+ */
+void bufr_vprint_output(const char* format, ...)
+	{
+	int rc;
+	va_list ap;
+	char msg[PATH_MAX];
+
+	va_start(ap,format);
+	rc = vsnprintf(msg, sizeof(msg), format, ap);
+	if( rc >= sizeof(msg) )
+		{
+		/* not enough room in the fixed size buffer. This should be
+		 * rare, but it happens.
+		 */
+		char *tbuf = malloc(rc+1);
+		if( tbuf != NULL )
+			{
+			vsnprintf(tbuf, sizeof(rc+1), format, ap);
+			bufr_print_output(tbuf);
+			free(tbuf);
+			}
+		}
+	else if( rc > 0 )
+		{
+		bufr_print_output(msg);
+		}
+	va_end(ap);
+	}
+
+/**
+ * @english
+ * write a message to the output handler/file/stdout
+ * @param msg message to write
  * @endenglish
  * @francais
  * ecrire un message de sortie
@@ -827,10 +868,9 @@ void bufr_put_bitstream ( BUFR_Message *bufr, const unsigned char *str, int nbbi
  */
 void bufr_print_output(const char *msg)
    {
-/*
- * end of message means closing file pointer
-
-*/
+	/*
+	 * end of message means closing file pointer
+	*/
    if (msg == NULL)
       {
       if (output_fp)
@@ -838,21 +878,26 @@ void bufr_print_output(const char *msg)
          fclose( output_fp );
          output_fp = NULL;
          }
-      return;
       }
-
-   if (output_filename)
-      {
-      if (output_fp == NULL)
-         output_fp = fopen( output_filename, "a+" );
-      if (output_fp)
-         {
-         fprintf( output_fp, "%s", msg );
-         return;
-         }
-      }
-
-   fprintf( stdout, "%s", msg );
+	else if( udf_output )
+		{
+		udf_output( msg );
+		}
+	else if (output_filename || output_fp )
+		{
+		if (output_fp == NULL)
+			{
+			output_fp = fopen( output_filename, "a+" );
+			}
+		if (output_fp)
+			{
+			fputs( msg, output_fp );
+			}
+		}
+	else
+		{
+		fputs( msg, stdout );
+		}
    }
 
 /**
@@ -905,17 +950,15 @@ void bufr_abort(const char *msg)
    {
    if (udf_abort) 
       {
-/*
- * user override of the abort function
-
-*/
+		/*
+		 * user override of the abort function
+		*/
       (*udf_abort)( msg );
       return;
       } 
    else 
       {
-      fprintf( stderr, "%s\n", msg );
-      bufr_print_debug( msg );
+      bufr_vprint_debug( "%s\n", msg );
       exit(1);
       }
    }
@@ -939,39 +982,99 @@ void bufr_abort(const char *msg)
  */
 void bufr_print_debug(const char *msg)
    {
-/*
- * end of message means closing file pointer
-
-*/
+	/*
+	 * end of message means closing file pointer
+	*/
    if (msg == NULL)
       {
-      if (debug_fp) 
-         {
-         fclose( debug_fp );
-         debug_fp = NULL;
-         }
-      return;
-      }
-
-   if (debug_filename)
-      {
-      if (debug_fp == NULL)
-         debug_fp = fopen( debug_filename, "a+" );
-      else
-         fflush( debug_fp );
-
       if (debug_fp)
          {
-         fprintf( debug_fp, "%s", msg );
-#if DEBUG
          fclose( debug_fp );
          debug_fp = NULL;
-#endif
-         return;
          }
       }
-   fprintf( stderr, "%s", msg );
+	else if( udf_debug )
+		{
+		udf_debug( msg );
+		}
+	else if (debug_filename || debug_fp )
+		{
+		if (debug_fp == NULL)
+			{
+			debug_fp = fopen( debug_filename, "a+" );
+			}
+		if (debug_fp)
+			{
+			fputs( msg, debug_fp );
+
+			/* debug/error output shouldn't be buffered */
+			fflush( debug_fp );
+			}
+		}
+	else
+		{
+		fputs( msg, stderr );
+		}
    }
+
+/**
+ * @english
+ * write a vprintf-formatted message to the error/debug handler/file/stderr.
+ * @param format vprintf format to write
+ * @param ... vargs parameters
+ * @endenglish
+ * @francais
+ * ecrire un message d'erreur
+ * @param   format :  message a afficher
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup error debug internal
+ * @see bufr_print_output
+ */
+void bufr_vprint_debug(const char* format, ...)
+	{
+	int rc;
+	va_list ap;
+	char msg[PATH_MAX];
+
+	va_start(ap,format);
+	rc = vsnprintf(msg, sizeof(msg), format, ap);
+	if( rc >= sizeof(msg) )
+		{
+		/* not enough room in the fixed size buffer. This should be
+		 * rare, but it happens.
+		 */
+		char *tbuf = malloc(rc+1);
+		if( tbuf != NULL )
+			{
+			vsnprintf(tbuf, sizeof(rc+1), format, ap);
+			bufr_print_debug(tbuf);
+			free(tbuf);
+			}
+		}
+	else if( rc > 0 )
+		{
+		bufr_print_debug(msg);
+		}
+	va_end(ap);
+	}
+
+/**
+ * @english
+ * @note debug handlers have priority over debug files
+ * @param udebug function to call for any library debug output
+ * @endenglish
+ * @francais
+ * @todo translate
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup error
+ * @see bufr_set_debug_file, bufr_print_debug, bufr_vprint_debug
+ */
+void bufr_set_debug_handler( void (*udebug)(const char *msg) )
+	{
+	udf_debug = udebug;
+	}
 
 /**
  * @english
@@ -1009,6 +1112,23 @@ void bufr_set_debug_file(const char *filename)
    if (bufr_is_debug())
       debug_fp = fopen( debug_filename, "w" );
    }
+
+/**
+ * @english
+ * @note output handlers have priority over output files
+ * @param uoutput function to call for any library output
+ * @endenglish
+ * @francais
+ * @todo translate
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup error
+ * @see bufr_print_output, bufr_vprint_output, bufr_set_output_file
+ */
+void bufr_set_output_handler( void (*uoutput)(const char *msg) )
+	{
+	udf_output = uoutput;
+	}
 
 /**
  * @english
@@ -1469,11 +1589,8 @@ static int bufr_rd_section0(bufr_read_callback readcb, void *cd, BUFR_Message *b
 
    if (bufr_is_debug())
       {
-		char buffer[256];
-      sprintf( buffer, _("### Reading BUFR edition: %d\n"), bufr->edition );
-      bufr_print_debug( buffer );
-      sprintf( buffer, _("### Message length: %d\n"), bufr->len_msg );
-      bufr_print_debug( buffer );
+		bufr_vprint_debug( _("### Reading BUFR edition: %d\n"), bufr->edition );
+		bufr_vprint_debug( _("### Message length: %d\n"), bufr->len_msg );
       }
 
    return bufr->len_msg;
