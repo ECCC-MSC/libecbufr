@@ -709,7 +709,7 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
 
    if (bufr_is_debug())
       {
-      bufr_vprint_debug( _("bitno=%d  start=%x current=%x len=%d, at=%ld, filled=%d max=%d\n"), 
+      bufr_vprint_debug( _("bitno=%d  start=%x current=%p len=%d, at=%p, filled=%d max=%d\n"), 
             bitno,  (unsigned)bufr->s4.data, ptrData, bufr->s4.len,
 				ptrData-bufr->s4.data, bufr->s4.filled, bufr->s4.max_data_len );
       }
@@ -1590,7 +1590,7 @@ static int bufr_rd_section0(bufr_read_callback readcb, void *cd, BUFR_Message *b
    if (bufr_is_debug())
       {
 		bufr_vprint_debug( _("### Reading BUFR edition: %d\n"), bufr->edition );
-		bufr_vprint_debug( _("### Message length: %d\n"), bufr->len_msg );
+		bufr_vprint_debug( _("### Message length: %u\n"), bufr->len_msg );
       }
 
    return bufr->len_msg;
@@ -1884,7 +1884,7 @@ static uint64_t bufr_rd_section4(bufr_read_callback readcb, void *cd,
          {
          char   errmsg[256];
          sprintf( errmsg, _("Warning: length of Section 4 is %d, should have been %ld\n"), 
-               bufr->s4.len, len );
+               bufr->s4.len, (long int)len );
          bufr_print_debug( errmsg );
          }
       len = len - bufr->s4.header_len;
