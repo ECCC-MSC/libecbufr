@@ -50,7 +50,11 @@ This file is part of libECBUFR.
  * @return void
  * @endenglish
  * @francais
- * @todo translate to French
+ * Initialise les constantes mathématiques, appelle bufr_init_limits.
+ * Sert aussi à initialiser les éléments d'internationalisation.
+ * C'est la première fonction à appeler lors de l'utilisation de l'API BUFR.
+ * @warning Le fil d'exécution n'est pas sécurisé (not thread-safe)
+ * @return void 
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @ingroup api
@@ -84,7 +88,12 @@ void bufr_begin_api(void)
  * @return void
  * @endenglish
  * @francais
- * @todo translate to French
+ * Dernière fonction à appeler lors de l'utilisation de l'API BUFR.
+ * Libère la mémoire allouée utilisée par l'API.
+ * Ceci peut être une fonction nulle utilisée en conjonction avec bufr_begin_api.
+ * @warning Cette fonction est sujette à révision
+ * @warning Le fil d'exécution n'est pas sécurisé (not thread-safe)
+ * @return void
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup api
@@ -102,7 +111,7 @@ void bufr_end_api(void)
  * find the position of a descriptor in a data subset
  * @endenglish
  * @francais
- * @todo translate to French
+ * Trouver la position d'un descripteur dans un sous-jeu (subset) de données
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup descriptor dataset
@@ -146,7 +155,18 @@ int bufr_subset_find_descriptor( DataSubset *dts, int descriptor, int startpos )
  * 0, else nothing is found.
  * @endenglish
  * @francais
- * @todo translate to French
+ *   bufr_subset_find_values()
+ *   (DataSubset *dts, BufrDescValue *codes, int nb, int startpos)
+ * Trouver la position d'une séquence de descriptors avec la liste de codes.
+ * À utiliser lorsqu'on recherche une séquence de descripteurs particulière au sein d'une
+ * liste de codes. Ceci ne retourne que la première séquence trouvée (qui doit être en ordre)
+ * à partir du point de départ qui peut être spécifiée à tout endroit. Des valeurs peuvent
+ * être données dans les codes qui font partie des clés de recherche, et ces valeurs doivent
+ * être retrouvées dans les codes pour que l'appel à la fonction réussisse. Tous les codes
+ * dans la séquence de recherche doivent être trouvés pour que l'appel réussisse, aucune
+ * autre valeur ne peut être insérée.
+ * @warning Le fil d'exécution n'est pas sécurisé (not thread-safe)
+ * @return Int Une valeur positive ou égale à zéro indique le succès. 
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup dataset
@@ -242,16 +262,27 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
  * @english
  *    bufr_set_key_string(BufrDescValue *cv, int descriptor, first *values, int nbval)
  *    (BufrDescValue *cv, int descriptor, char **values, int nbval)
- * To define a search key which is specified by the descriptor whose type
- * is a string, and this call is thread-safe. The parameter â~@~\nbvalâ~@~] can
- * be defined as a single value to select or if more than one value are in
- * â~@~\nbvalâ~@~] then it is a list of values to select from. If it is coded
- * as NULL, then any value is chosen.
+ * To define a search key in the form of a character string for use on descriptors whose unit
+ * is CCITT IA5. The parameter nbval can be defined as a single
+ * value to select or, if more than one value are in nbval, then it is a list of values to
+ * select from. If it is coded as NULL, then any value is chosen.
+ * The search key defined by bufr_set_key_string may be used by bufr_subset_find_values().
+ * This call is thread-safe.
  * @warning Call bufr_vfree_DescValueto free storage after use.
  * @return void
  * @endenglish
  * @francais
- * @todo translate to French
+ *    bufr_set_key_string(BufrDescValue *cv, int descriptor, first *values, int nbval)
+ *    (BufrDescValue *cv, int descriptor, char **values, int nbval)
+ * Définir une clé de recherche sous la forme d'une chaîne de caractères afin d'effectuer
+ * une recherche sur des descripteurs dont l'unité est CCITT IA5. 
+ * Le paramètre nbval peut être défini par une valeur unique 
+ * ou, si plus d'une valeur sont contenues dans nbval il s'agit alors d'une liste de valeurs
+ * valides comme clés de sélection. Dans le cas où nbval est codé comme NULL, toute valeur rencontrée
+ * lors de la recherche est acceptée. La clé de recherche définie par bufr_set_key_string peut
+ * être utilisée par bufr_subset_find_values().
+ * Le fil d'exécution de cet appel est sécurisé (thread-safe).
+ * @warning Appelez bufr_vfree_DescValue pour libérer le stockage après usage.
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup descriptor
@@ -275,17 +306,27 @@ void bufr_set_key_string( BufrDescValue *cv, int descriptor, const char **values
  * @english
  *    bufr_set_key_int32(BufrDescValue *cv, int descriptor, first *values, int nbval)
  *    (BufrDescValue *cv, int descriptor, int *values, int nbval)
- * To define a search key which is specified by the descriptor whose type
- * is integer, and this call is thread-safe. The parameter â~@~\nbvalâ~@~] can
+ * To define a search key in the form of an integer for use on descriptors whose unit
+ * is represented by integers. The parameter nbval can
  * be defined as a single value to select, as a range of two within which
- * values are selected., or if more than two values are in â~@~\nbvalâ~@~] then
+ * values are selected, or if more than two values are in nbval, then
  * it is a list of values to select from. If it is coded as NULL, then any
- * value is chosen.
+ * value is chosen. This call is thread-safe.
  * @warning Call bufr_vfree_DescValueto free storage after use.
  * @return void
  * @endenglish
  * @francais
- * @todo translate to French
+ *    bufr_set_key_int32(BufrDescValue *cv, int descriptor, first *values, int nbval)
+ *    (BufrDescValue *cv, int descriptor, int *values, int nbval)
+ * Définir une clé de recherche sous la forme d'un entier afin d'effectuer une recherche sur des
+ * descripteurs dont l'unité est représentée par le type entier.
+ * Le paramètre nbval peut être défini par une valeur unique
+ * ou, si plus d'une valeur sont contenues dans nbval il s'agit alors d'une liste de valeurs
+ * valides comme clés de sélection. Dans le cas où nbval est codé comme NULL, toute valeur rencontrée
+ * lors de la recherche est acceptée. La clé de recherche définie par bufr_set_key_int32 peut
+ * être utilisée par bufr_subset_find_values().
+ * Le fil d'exécution de cet appel est sécurisé (thread-safe).
+ * @warning Appelez bufr_vfree_DescValue pour libérer le stockage après usage.
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup descriptor
@@ -310,16 +351,26 @@ void bufr_set_key_int32( BufrDescValue *cv, int descriptor, int *values, int nbv
  * @english
  *    bufr_set_key_flt32(BufrDescValue *cv, int descriptor, first *values, int nbval)
  *    (BufrDescValue *cv, int descriptor, float *values, int nbval)
- * To define a search key which is specified by the descriptor whose type
- * is floating-point. The parameter â~@~\nbvalâ~@~] can be defined as a single
- * value to select, as a range of two within which values are selected, or
- * if more than two values are in â~@~\nbvalâ~@~] then it is a list of values
- * to select from. If it is coded as NULL, then any value is chosen.
+ * To define a search key in the form of an float for use on descriptors whose unit
+ * is represented by floats. The parameter nbval can
+ * be defined as a single value to select, as a range of two within which
+ * values are selected, or if more than two values are in nbval, then
+ * it is a list of values to select from. If it is coded as NULL, then any
+ * value is chosen.
+ * This call is thread-safe.
  * @warning Call bufr_vfree_DescValueto free storage after use.
  * @return void
  * @endenglish
  * @francais
- * @todo translate to French
+ * Définir une clé de recherche sous la forme d'un float afin d'effectuer une recherche sur des
+ * descripteurs dont l'unité est représentée par le type float.
+ * Le paramètre nbval peut être défini par une valeur unique
+ * ou, si plus d'une valeur sont contenues dans nbval il s'agit alors d'une liste de valeurs
+ * valides comme clés de sélection. Dans le cas où nbval est codé comme NULL, toute valeur rencontrée
+ * lors de la recherche est acceptée. La clé de recherche définie par bufr_set_key_int32 peut
+ * être utilisée par bufr_subset_find_values().
+ * Le fil d'exécution de cet appel est sécurisé (thread-safe).
+ * @warning Appelez bufr_vfree_DescValue pour libérer le stockage après usage.
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup descriptor
@@ -345,7 +396,8 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
  * define a key with a value representing time or location to search in datasubset
  * @endenglish
  * @francais
- * @todo translate to French
+ * définir une clé représentant une valeur de coordonnée spatiale ou temporelle
+ * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup decode descriptor
