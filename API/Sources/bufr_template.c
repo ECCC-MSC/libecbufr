@@ -559,7 +559,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
       bufr_print_debug( errmsg );
       }
 
-   fp = fopen ( filename, "r" ) ;
+   fp = fopen ( filename, "rb" ) ;
    if (fp == NULL) 
       {
       sprintf( errmsg, _("Error: can't open template file %s\n"), filename );
