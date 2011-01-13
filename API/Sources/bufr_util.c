@@ -239,3 +239,36 @@ void str_trimchar( char *str, char c )
       str[len+1] = '\0';
    }
 
+#if defined(__MINGW32__)
+char *mock_strtok_r( char *str, char *deli, char **pptr )
+   {
+   char *ptr;
+   int   len;
+   char *tok;
+
+   if (pptr == NULL) return NULL;
+   if (str != NULL)
+      ptr = str;
+   else
+      ptr = *pptr;
+   if (ptr == NULL) return NULL;
+
+   len = strspn( ptr, deli );
+   ptr += len;
+   tok = ptr;
+   len = strcspn( ptr, deli );
+   if (ptr[len] == '\0')
+      {
+      *pptr = NULL;
+      }
+   else
+      {
+      ptr[len] = '\0';
+      ptr += len+1;
+      *pptr = ptr;
+      }
+
+   if (tok[0] == '\0') return NULL;
+   return tok;
+   }
+#endif
