@@ -421,10 +421,20 @@ int bufr_callback_write_message(bufr_write_callback writecb,
 static ssize_t bufr_write_fn( void *client_data, size_t len, const char *buffer)
 	{
 	/* write to a file descriptor, handling short writes correctly */
+   int olen;
 	int wrote = 0;
+
 	while( len > 0 )
 		{
-		size_t rc = fwrite( buffer, 1, len, (FILE*) client_data );
+		size_t rc;
+
+#if defined(__MINGW32__)
+      olen = (len > 1024) ? 1024 : len;
+#else
+      olen = len;
+#endif
+
+		rc = fwrite( buffer, 1, olen, (FILE*) client_data );
 		if( rc <= 0 )
 			{
 			/* EAGAIN happens when non-blocking I/O is used, EINTR
@@ -1398,7 +1408,16 @@ static int bufr_seek_msg_start( bufr_read_callback readcb, void *cd, char **tags
 bailout:
    free( str );
 
-	if( notfound ) errno = ENOMSG;
+	if( notfound ) 
+      {
+#ifdef ENOMSG
+      errno = ENOMSG;
+#else
+#ifdef EILSEQ
+      errno = EILSEQ;
+#endif
+#endif
+      }
    return rtrn;
    }
 
@@ -1496,11 +1515,24 @@ int bufr_callback_read_message( bufr_read_callback readcb, void *cd,
  */
 static ssize_t bufr_read_fn( void *client_data, size_t len, char *buffer)
 	{
+#if defined(__MINGW32__)
+   int iolen=1024;
+   char iobuf[1024];
+#endif
 	/* read from a stream, handling short writes correctly */
 	int got = 0;
 	while( len > 0 )
 		{
+#if defined(__MINGW32__)
+      if (len < iolen) iolen = len;
+      size_t rc = fread( iobuf, 1, iolen, (FILE*) client_data );
+      if (rc > 0)
+         {
+         memcpy( buffer, iobuf, iolen );
+         }
+#else
 		size_t rc = fread( buffer, 1, len, (FILE*) client_data );
+#endif
 		if( rc == 0 ) break;	/* EOF */
 		if( rc <= 0 )
 			{
