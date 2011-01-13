@@ -30,7 +30,7 @@ This file is part of libECBUFR.
 #include <locale.h>
 #include <gettext.h>
 
-#include "private/bufr_util.h"
+#include "bufr_util.h"
 #include "bufr_array.h"
 #include "bufr_linklist.h"
 #include "bufr_io.h"
@@ -77,7 +77,7 @@ static void        bufr_mkval_rest_sequence(BUFR_Tables   *tbls, BUFR_Sequence *
  * instantiate a DataSubset object
  * @endenglish
  * @francais
- * @todo translate to French
+ * creer un nouveau objet de type DataSubset
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup dataset
@@ -96,16 +96,21 @@ static DataSubset *bufr_allocate_datasubset(void)
  * @english
  *    dts = bufr_create_dataset( tmplt )
  *    (BUFR_Template *tmplt)
- * This function initialises an empty structure for storing values using a
- * template (a dataset is how a BUFR message appears when it is decoded).
- * This would be used in encoding only and it allows us to manage the list
- * of values (elements) that need to be stored within the BUFR message.
- *
+ * This function creates a data structure for storing BUFR message's values 
+ * in the decoded form. For data viewing or placing a set of values for encoding.
+ * The returned structure will hold only data defined by the specified template
  * @param tmplt  pointer to a BUFR_Template
  * @return BUFR_Dataset
  * @endenglish
  * @francais
- * @todo translate to French
+ *    dts = bufr_create_dataset( tmplt )
+ *    (BUFR_Template *tmplt)
+ * Cette fonction creer une structure de donnees pour contenir les valeurs
+ * d'un message BUFR sous la forme non-encode, pour consulter les donnees ou pour
+ * inserer les valeurs pour l'encodage.
+ * La structure retourne ne pourra contenir que les donnees defini par le gabarit (Template)
+ * @param tmplt  un pointeur a BUFR_Template
+ * @return BUFR_Dataset
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @ingroup dataset
@@ -143,11 +148,12 @@ BUFR_Dataset *bufr_create_dataset  ( BUFR_Template *tmplt )
 
 /**
  * @english
- * free memory used by an instance of BUFR_Dataset 
+ * free memory allocation of a BUFR_Dataset 
  * @param     dts : pointer to a BUFR_Dataset
  * @endenglish
  * @francais
- * @todo translate to French
+ * liberer l'espace memoire d'un BUFR_Dataset
+ * @param     dts : adresse pointeur a un BUFR_Dataset
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup dataset
@@ -171,16 +177,19 @@ void bufr_free_dataset ( BUFR_Dataset *dts )
  * @english
  *    bufr_get_dataset_template(dts)
  *    (BUFR_Dataset *dts)
- * This call returns a template object contained within the decoded
- * message. A message can then contain not only local element tables but
- * template objects. 
+ * This return a read only reference to a BUFR_template used by 
+ * the BUFR message stored within a BUFR_Dataset structure.
  * @warning What is returned here should not be freed, it is only a
  * reference.
  * @param dts pointer to a BUFR_Dataset
  * @return BUFR_Template
  * @endenglish
  * @francais
- * @todo translate to French
+ *    bufr_get_dataset_template(dts)
+ *    (BUFR_Dataset *dts)
+ * Cette fonction retourne un pointeur du BUFR_template associe
+ * au BUFR_Dataset.
+ * @warning Ne pas liberer ou alterer le contenu du pointeur 
  * @endfrancais
  * @author  Vanh Souvanlasy
  * @ingroup dataset template
@@ -194,11 +203,9 @@ BUFR_Template *bufr_get_dataset_template   ( BUFR_Dataset *dts )
  * @english
  *    pos = bufr_create_datasubset( dts )
  *    (BUFR_Dataset *dts)
- * This adds a new data subset to a dataset. This is used in an encoder
- * with templates when making a new BUFR message. One could consider the
- * overall dataset to be broken up into subsets based upon how they would
- * be bundled and unbundled for distribution (e.g. for bulletins for GTS
- * distribution).
+ * This adds a new datasubset to a dataset. A datasubset is a storage
+ * for values of descriptors sequence as defined by its template. 
+ * This is used for encoding a new BUFR message with multiple datasubset.
  * @param dts pointer to a BUFR_Dataset
  * @return int
  * @endenglish
@@ -265,17 +272,16 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
  * @english
  *    bufr_expand_datasubset(dts, i)
  *    (BUFR_Dataset *dts, int pos) 
- * Expands any unexpanded Table D or replications and expands delayed
- * replications whose counter has just been set but not yet used for
- * expansion. Parameters are dataset and the position of datasubset that
- * needs expansion.
+ * Expands a descriptors sequence of a datasubset by resolving any Table D,
+ * replications or delayed replications once the delayed replication 
+ * counter has been set (value of descriptor 31001 that follows)
  *
- * Redo expansion of datasubset once an inner DRC has been newly set in
- * value of descriptor 31001
+ * @param dts pointer to a BUFR_Dataset
+ * @param i   the position of datasubset to expand
+ *
  * @warning Once a delayed replication has been expanded, it can no longer
  * be reset.
- * param dss pointer to a DataSubset to copy
- * @return int, Returns the new number of descriptors within the subset that have
+ * @return int, the new number of descriptors within the subset that have
  * been expanded. If an error, -1 is returned.
  * @endenglish
  * @francais
@@ -364,8 +370,7 @@ static DataSubset *bufr_duplicate_datasubset( DataSubset *dss )
  *
  * This sequence must share the same template as the Dataset
  * This is used internally for decoding but may be used for encoding also.
- * Its purpose is to add a new data subset into a new data subset.
-
+ *
  * @param dts pointer to a BUFR_Dataset
  * @param bsq pointer to a BUFR_Sequence to be add, once added, its memory management
  * belongs to the dataset, it should not be freed from outside
@@ -432,11 +437,8 @@ static void bufr_fill_datasubset( DataSubset *subset, BUFR_Sequence *bsq )
  * @english
  *    sscount = bufr_count_datasubset( dts )
  *    (BUFR_Dataset *dts)
- * This call returns the number of data subsets in the BUFR message (useful
- * in forecast data, e.g. for each time-frame , for each station, etc). It
- * may be used in Scribe by station, usually returning a value of at least
- * one, but returning zero if there is no valid data. The source of this
- * information is from Section 3 of the BUFR message.
+ * This call returns the number of data subsets in the BUFR message.
+ * as indicated in section 3.
  * @param dts pointer to a BUFR_Dataset
  * @return the number of DataSubset inside a Dataset
  * @endenglish
@@ -456,10 +458,7 @@ int bufr_count_datasubset( BUFR_Dataset *dts )
 /**
  * @english
  *
- * The subset parameter is an array in which we can go into and get a
- * position and obtain a value for that position. This is a tuple of BUFR
- * descriptor with values. This combines descriptors from Section 3 and the data from
- * Section 4.
+ * return a pointer to a BufrDescriptor located at a position in the data subset.
  * @warning The returned structure should not be freed; it will be freed
  * when the entire dataset is freed.
  * @param dts pointer to a DataSubset
@@ -2950,7 +2949,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
 
    if (infile == NULL) return -1;
 
-   fp = fopen ( infile, "r" ) ;
+   fp = fopen ( infile, "rb" ) ;
    if (fp == NULL) 
       {
       sprintf( errmsg, _("Error: can't open Datafile %s\n"), infile );
@@ -3861,7 +3860,7 @@ int bufr_genmsgs_from_dump
 
    debug = bufr_is_debug();
 
-   fpi = fopen ( infile, "r" ) ;
+   fpi = fopen ( infile, "rb" ) ;
    if (fpi == NULL) 
       {
       sprintf( errmsg, _("Error: can't open input file %s\n"), infile );
@@ -3869,7 +3868,7 @@ int bufr_genmsgs_from_dump
       return -1;
       }
 
-   fpo = fopen ( outfile, "w" ) ;
+   fpo = fopen ( outfile, "wb" ) ;
    if (fpo == NULL) 
       {
       sprintf( errmsg, _("Error: can't open output file %s\n"), outfile );

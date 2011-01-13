@@ -36,7 +36,7 @@ This file is part of libECBUFR.
 #include "bufr_dataset.h"
 #include "bufr_tables.h"
 #include "bufr_local.h"
-#include "private/bufr_util.h"
+#include "bufr_util.h"
 #include "bufr_i18n.h"
 
 static int             *bufr_sequence_2intarr  ( BUFR_Sequence *bsq, int *len );

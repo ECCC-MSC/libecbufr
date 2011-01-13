@@ -34,7 +34,7 @@ This file is part of libECBUFR.
 #include <ctype.h>
 #include <stdarg.h>
 
-#include "private/bufr_util.h"
+#include "bufr_util.h"
 #include "bufr_array.h"
 #include "bufr_tables.h"
 #include "bufr_io.h"

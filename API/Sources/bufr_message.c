@@ -32,7 +32,7 @@ This file is part of libECBUFR.
 #include <string.h>
 #include <sys/types.h>
 
-#include "private/bufr_util.h"
+#include "bufr_util.h"
 #include "bufr_array.h"
 #include "bufr_tables.h"
 #include "bufr_message.h"

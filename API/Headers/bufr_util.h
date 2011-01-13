@@ -28,5 +28,14 @@ extern void  append_char_to_string ( char **str, int *size, int *pos, unsigned c
 
 extern void  str_trimchar          ( char *str, char c );
 
+#if defined(__MINGW32__)
+
+#ifndef strtok_r
+extern  char *mock_strtok_r( char *str, char *deli, char **pptr );
+#define strtok_r   mock_strtok_r
+#endif
+
+#endif
+
 
 #endif  /* _bufr_util_h_ */

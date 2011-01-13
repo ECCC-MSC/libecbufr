@@ -21,7 +21,7 @@ This file is part of libECBUFR.
 #include <stdio.h>
 #include <string.h>
 #include "check.h"
-#include "private/bufr_util.h"
+#include "bufr_util.h"
 #include "check_libecbufr.h"
 
 

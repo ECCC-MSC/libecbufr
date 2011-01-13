@@ -32,7 +32,7 @@ This file is part of libECBUFR.
 #include <ctype.h>
 #include <errno.h>
 #include "bufr_array.h"
-#include "private/bufr_util.h"
+#include "bufr_util.h"
 #include "bufr_io.h"
 #include "bufr_ieee754.h"
 #include "bufr_value.h"
@@ -828,7 +828,7 @@ static EntryTableBArray bufr_tableb_read
 
 */
 
-   fp = fopen ( filename, "r" ) ;
+   fp = fopen ( filename, "rb" ) ;
    if (fp == NULL)
       {
       sprintf( buf, _("Warning: can't open Table B file %s\n"), filename );
@@ -1215,7 +1215,7 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
    if (filename == NULL) return NULL;
 
 
-   fp = fopen ( filename, "r" ) ;
+   fp = fopen ( filename, "rb" ) ;
    if (fp == NULL)
 		{
       sprintf( ligne, _("Warning: can't open Table D file %s\n"), filename );

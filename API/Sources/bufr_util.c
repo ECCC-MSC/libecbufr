@@ -22,7 +22,7 @@ This file is part of libECBUFR.
 #include <stdlib.h>
 #include <string.h>
 
-#include "private/bufr_util.h"
+#include "bufr_util.h"
 
 /**
  * @english
