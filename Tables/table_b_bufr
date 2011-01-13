@@ -1393,6 +1393,7 @@
 020054  TRUE DIR. FROM PHENOMENON OR CLDS MOVING    DEG TRUE     0          0     9
 020055  STATE OF SKY IN THE TROPICS                 CODE TABLE   0          0     4
 020056  CLOUD PHASE                                 CODE TABLE   0          0     3
+020058  VISIBILITY SEAWARDS FROM A COASTAL STATION  M           -1          0    13
 020059  MINIMUM HORIZONTAL VISIBILITY               M           -1          0     9
 020060  PREVAILING HORIZONTAL VISIBILITY            M           -1          0    10
 020061  RUNWAY VISUAL RANGE (RVR)                   M            0          0    12
