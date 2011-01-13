@@ -50,7 +50,7 @@ START_TEST (test_bufr_read_fn_core)
  test_bytes[9]='#';
  
  //File creation
- f=fopen(test_file,"w");
+ f=fopen(test_file,"wb");
  fwrite(test_bytes, 1, tb_len, f);
  fclose(f);
 
@@ -65,7 +65,7 @@ START_TEST (test_bufr_read_fn_core)
 
  for (int i=0; i<nb; i++)
     {
-    f=fopen(test_file,"r");
+    f=fopen(test_file,"rb");
     return_code = bufr_read_fn(f, nb_cases[i], result);
 
     error=ferror(f); //Checking if there was an error with the read.

@@ -17,6 +17,7 @@ This generates multiple OUTPUT-n.bufr files
 #include <locale.h>
 #include "bufr_i18n.h"
 #include "gettext.h"
+#include "bufr_util.h"
 
 #define   EXIT_ERROR    5
 
@@ -200,14 +201,14 @@ static int filter_file (BufrDescValue *dvalues, int nbdv)
 /*
  * open a file for reading
  */
-   fp = fopen( str_ibufr, "r" );
+   fp = fopen( str_ibufr, "rb" );
    if (fp == NULL)
       {
       fprintf( stderr, "Error: can't open file \"%s\"\n", str_ibufr );
       exit(-1);
       }
 
-   fpO = fopen( str_obufr, "w" );
+   fpO = fopen( str_obufr, "wb" );
    if (fpO == NULL)
       {
       fprintf( stderr, "Error: can't open file \"%s\"\n", str_obufr );
@@ -287,7 +288,7 @@ static int resolve_search_values( BufrDescValue *dvalues, int nb, BUFR_Tables *t
    BufrDescValue *dv;
    EntryTableB   *e;
    char          *str = NULL, *ptr, *tok;
-   caddr_t        iarr, farr;
+   ArrayPtr       iarr, farr;
    ValueType      vtype;
    int            len;
    long           ival;

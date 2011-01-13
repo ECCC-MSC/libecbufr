@@ -279,7 +279,7 @@ static void run_decoder(void)
 /*
  * open a file for reading
  */
-   fpBufr = fopen( str_ibufr, "r" );
+   fpBufr = fopen( str_ibufr, "rb" );
    if (fpBufr == NULL)
       {
       bufr_free_tables( file_tables );

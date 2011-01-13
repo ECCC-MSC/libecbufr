@@ -310,7 +310,7 @@ static void run_tests(void)
 /*
  * open a file for writing
  */
-      fpBufr = fopen( str_obufr, "w" );
+      fpBufr = fopen( str_obufr, "wb" );
 
 /*
  * save local table to output BUFR file if requested
