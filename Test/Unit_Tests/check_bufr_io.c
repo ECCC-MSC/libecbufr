@@ -32,13 +32,14 @@ This file is part of libECBUFR.
 START_TEST (test_bufr_read_fn_core)
 {
  FILE  *f;                 //File to read
- size_t tb_len=10;         //Length of test bytes
+ int    tb_len=10;         //Length of test bytes
  char   test_bytes[tb_len];//Input bytes
  char   result[tb_len];    //bytes read
  int    return_code;
  char  *test_file="test_bufr_read_fn.txt";
  int    nb=6;             //number of cases
- size_t nb_cases[nb];     //Number of bytes to read
+ int    nb_cases[nb];     //Number of bytes to read
+ int    nb_rtrn[nb];      //Number of bytes returned
  int    fail_index=-1;    // When -1, it means it didn't fail.
  int    error=0;
 
@@ -70,20 +71,25 @@ START_TEST (test_bufr_read_fn_core)
 
     error=ferror(f); //Checking if there was an error with the read.
 
+    nb_rtrn[i] = nb_cases[i];
     if (nb_cases[i] > tb_len)//When reading more than the whole file, 
        {                     //consider only the file length to verify
-       nb_cases[i]=tb_len;   //if it was correctly read.
+       nb_rtrn[i]=tb_len;   //if it was correctly read.
+       }
+    if (nb_cases[i] < 0) 
+       {
+       nb_rtrn[i]=0;
        }
 
     if (error)          // When there is an error, nothing was read.
        {
-       nb_cases[i]=0;
+       nb_rtrn[i]=0;
        }
 
-    fail_unless (return_code == nb_cases[i],"Read failed, return code is: %d, should be: %d", return_code, nb_cases[i]);
+    fail_unless (return_code == nb_rtrn[i],"Read failed, return code is: %d, should be: %d", return_code, nb_rtrn[i]);
 
     // Comparing each bytes 
-    for (int j=0; j<nb_cases[i]; j++)
+    for (int j=0; j<nb_rtrn[i]; j++)
        {
        if (result[j]!=test_bytes[j])
           {
