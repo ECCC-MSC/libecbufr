@@ -428,12 +428,7 @@ static ssize_t bufr_write_fn( void *client_data, size_t len, const char *buffer)
 		{
 		size_t rc;
 
-#if defined(__MINGW32__)
-      olen = (len > 1024) ? 1024 : len;
-#else
-      olen = len;
-#endif
-
+      olen = (len > BUFSIZ) ? BUFSIZ : len;
 		rc = fwrite( buffer, 1, olen, (FILE*) client_data );
 		if( rc <= 0 )
 			{
@@ -1513,28 +1508,20 @@ int bufr_callback_read_message( bufr_read_callback readcb, void *cd,
  * @author Chris Beauregard
  * @ingroup internal
  */
-static ssize_t bufr_read_fn( void *client_data, size_t len, char *buffer)
+static ssize_t bufr_read_fn( void *client_data, size_t ilen, char *buffer)
 	{
-#if defined(__MINGW32__)
-   int iolen=1024;
-   char iobuf[1024];
-#endif
+   int  iolen, len;
+   char iobuf[BUFSIZ];
+
 	/* read from a stream, handling short writes correctly */
 	int got = 0;
+   len = ilen;
 	while( len > 0 )
 		{
-#if defined(__MINGW32__)
-      if (len < iolen) iolen = len;
+      iolen = (len > BUFSIZ) ? BUFSIZ : len;
       size_t rc = fread( iobuf, 1, iolen, (FILE*) client_data );
-      if (rc > 0)
-         {
-         memcpy( buffer, iobuf, iolen );
-         }
-#else
-		size_t rc = fread( buffer, 1, len, (FILE*) client_data );
-#endif
 		if( rc == 0 ) break;	/* EOF */
-		if( rc <= 0 )
+		if( rc < 0 )
 			{
 			/* EAGAIN happens when non-blocking I/O is used, EINTR
 			 * happens when a signal triggers. Neither of them should
@@ -1544,6 +1531,10 @@ static ssize_t bufr_read_fn( void *client_data, size_t len, char *buffer)
 			errno = 0;
 			continue;
 			}
+      if (rc > 0)
+         {
+         memcpy( buffer, iobuf, iolen );
+         }
 		got += rc;
 		len -= rc;
 		buffer += rc;
