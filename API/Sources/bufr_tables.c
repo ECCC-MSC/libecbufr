@@ -1475,6 +1475,26 @@ static void bufr_copy_EntryTableD
  * @todo translate
  * @endenglish
  * @francais
+ * liberer une entree de table D
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+void bufr_free_EntryTableD( EntryTableD *r )
+   {
+   if (r != NULL)
+      {
+		if (r->description != NULL)  free( r->description );
+		if (r->descriptors != NULL)  free( r->descriptors );
+		free( r );
+      }
+   }
+
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
  * detruire une table D
  * @param     tabled : la table a detruire
  * @endfrancais
@@ -1493,9 +1513,7 @@ static void bufr_tabled_free(EntryTableDArray tabled)
       r = pe ? *pe : NULL;
       if ( r != NULL)
          {
-         if (r->description != NULL)  free( r->description );
-         if (r->descriptors != NULL)  free( r->descriptors );
-         free( r );
+			bufr_free_EntryTableD( r );
          }
       }
    arr_free( &tabled );

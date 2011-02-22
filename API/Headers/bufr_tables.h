@@ -138,6 +138,7 @@ extern void           bufr_tableb_free            ( EntryTableBArray tableb );
 extern void           bufr_set_tables_category    ( BUFR_Tables *, int cat, const char *desc );
 
 extern EntryTableD   *bufr_new_EntryTableD        ( int desc, const char *name, int len, int *descs, int count );
+extern void           bufr_free_EntryTableD       ( EntryTableD *r );
 extern EntryTableB   *bufr_new_EntryTableB        ( void );
 extern void           bufr_free_EntryTableB       ( EntryTableB *r );
 extern void           bufr_copy_EntryTableB       ( EntryTableB *dest, EntryTableB *src );
