@@ -27,6 +27,8 @@ binary-indep: install
 	make DESTDIR=$(PKGDIR)/debian/libecbufr install
 	dh_installinfo
 	dh_compress
+	dh_makeshlibs
+	dh_shlibdeps
 	install -d debian/libecbufr/DEBIAN
 	dh_installdeb
 	dh_gencontrol
