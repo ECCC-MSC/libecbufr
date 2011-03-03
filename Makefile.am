@@ -39,7 +39,7 @@ endif
 install-data-local:
 	if test -d /etc/ld.so.conf.d/; then \
 		$(mkinstalldirs) $(DESTDIR)/etc/ld.so.conf.d/ ; \
-		echo @libdir@ > $(DESTDIR)/etc/ld.so.conf.d/@PACKAGE@.conf ; \
+		echo '@libdir@/@PACKAGE@@PACKAGE_VERSION@' > $(DESTDIR)/etc/ld.so.conf.d/@PACKAGE@.conf ; \
 	fi
 
 pkg: make_debsrcpkg all
