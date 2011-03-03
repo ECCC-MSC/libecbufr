@@ -33,6 +33,15 @@ libecbufr.pc: Makefile
 
 endif
 
+# library is installed in a "non-standard" location, and we
+# want the linker search path to pick it up. For older distros
+# we'd have to modify /etc/ld.so.conf directly. This is cleaner.
+install-data-local:
+	if test -d /etc/ld.so.conf.d/; then \
+		$(mkinstalldirs) $(DESTDIR)/etc/ld.so.conf.d/ ; \
+		echo @libdir@ > $(DESTDIR)/etc/ld.so.conf.d/@PACKAGE@.conf ; \
+	fi
+
 pkg: make_debsrcpkg all
 	./make_debsrcpkg @PACKAGE_NAME@ @PACKAGE_VERSION@
 	cd debpackage && dpkg-source -x @PACKAGE_NAME@_@PACKAGE_VERSION@.dsc
