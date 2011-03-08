@@ -28,6 +28,7 @@ This file is part of libECBUFR.
 #include <stdlib.h>
 #include <math.h>
 #include <errno.h>
+#include <assert.h>
 
 #include "bufr_array.h"
 #include "bufr_linklist.h"
@@ -261,7 +262,7 @@ static void bufr_copy_DescValue
    
    if (src->nbval > 0)
       {
-      bufr_valloc_DescValue( dest, src->nbval );
+      bufr_vgrow_DescValue( dest, src->nbval );
 
       for (i = 0; i < src->nbval ; i++)
          dest->values[i] = bufr_duplicate_value( src->values[i] );
@@ -281,6 +282,7 @@ static void bufr_copy_DescValue
  * @ingroup descriptor internal
  * @see bufr_init_DescValue()
  * @see bufr_valloc_DescValue()
+ * @see bufr_vgrow_DescValue()
  */
 void bufr_vfree_DescValue ( BufrDescValue *desc )
    {
@@ -678,9 +680,8 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
       tok = strtok_r( kptr, " \t\n,=", &ptr );
       if (tok == NULL) continue;
       icode = atoi(tok);
+		bufr_init_DescValue( &code );
       code.descriptor = icode ;
-      code.values = NULL;
-      code.nbval = 0;
 
       tok = strtok_r( NULL, " \t\n,=", &ptr );
       if (tok)
@@ -691,18 +692,9 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
             tok = strtok_r( NULL, "\t\n,=", &ptr );
             while ( tok )
                {
-               if (code.values == NULL)
-                  {
-                  code.nbval  = 1;
-                  code.values = (BufrValue **)malloc( code.nbval * sizeof(BufrValue *) );
-                  }
-               else
-                  {
-                  code.nbval  += 1;
-                  code.values = (BufrValue **)realloc( code.values, code.nbval* sizeof(BufrValue *) );
-                  }
-               vpos = code.nbval - 1;
-               code.values[vpos] = NULL;
+               vpos = code.nbval;
+					bufr_vgrow_DescValue( &code, code.nbval + 1 );
+					assert( code.values[vpos] == NULL );
                if (e != NULL)
                   {
                   vtype = bufr_encoding_to_valtype( &(e->encoding) ); 
@@ -749,6 +741,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
          }
 
       arr_add( sequence, (char *)&code );
+		/* note: this copies the allocated values, so don't free &code. */
       }
 
    fclose ( fp ) ;
@@ -862,18 +855,51 @@ int bufr_save_template( const char *filename, BUFR_Template *tmplt )
  * @author Vanh Souvanlasy
  * @see bufr_init_DescValue()
  * @see bufr_vfree_DescValue()
+ * @see bufr_vgrow_DescValue()
  * @ingroup template
  */
 void bufr_valloc_DescValue     ( BufrDescValue *bdv, int nb_values )
    {
-   int i;
-
-   bdv->values = (BufrValue **)malloc( sizeof(BufrValue *) * nb_values );
-   bdv->nbval  = nb_values;
-
-   for (i = 0; i < nb_values ; i++)
-      bdv->values[i] = NULL;
+	bufr_vgrow_DescValue( bdv, nb_values );
    }
+
+/**
+ * @english
+ * Grow an array of values for descriptor.
+ * @param bdv pointer to BufrDescValue object
+ * @param nb_values  values count inside bdv
+ * @return zero on success, negative on failure.
+ * @note It rarely makes sense to shrink a BufrDescValue values array.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Chris Beauregard
+ * @see bufr_init_DescValue()
+ * @see bufr_vfree_DescValue()
+ * @see bufr_valloc_DescValue()
+ * @ingroup template
+ */
+int bufr_vgrow_DescValue     ( BufrDescValue *bdv, int nb_values )
+   {
+   int i;
+	BufrValue** newbv;
+
+	if( nb_values < bdv->nbval ) return errno=EINVAL, -1;	/* no shrinking */
+	if( bdv->nbval == nb_values ) return 0;
+
+   newbv = (BufrValue **)realloc( bdv->values, sizeof(BufrValue *) * nb_values );
+	if( newbv==NULL ) return -1;
+
+	bdv->values = newbv;
+   for (i = bdv->nbval; i < nb_values ; i++)
+		{
+      bdv->values[i] = NULL;
+		}
+
+   bdv->nbval = nb_values;
+	return 0;
+	}
 
 /**
  * @english

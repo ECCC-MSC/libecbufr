@@ -83,6 +83,7 @@ extern int              bufr_compare_template       ( BUFR_Template *, BUFR_Temp
 
 extern void             bufr_init_DescValue         ( BufrDescValue *dscv );
 extern void             bufr_valloc_DescValue       ( BufrDescValue *dscv, int nb_values );
+extern int              bufr_vgrow_DescValue        ( BufrDescValue *dscv, int nb_values );
 extern void             bufr_vfree_DescValue        ( BufrDescValue *dscv );
 
 #ifdef __cplusplus
