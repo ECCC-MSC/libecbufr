@@ -31,14 +31,4 @@
 ###   Section 5
 ###      length               : 4
 ###
-Warning: Unknown BUFR descriptor: 1204
-Warning: Unknown BUFR descriptor: 2196
-Warning: Unknown BUFR descriptor: 1195
-Warning: Unknown BUFR descriptor: 20194
-Warning: Unknown BUFR descriptor: 20215
-Warning: Unknown BUFR descriptor: 20196
-Warning: Unknown BUFR descriptor: 20206
-Warning: Unknown BUFR descriptor: 20197
-Warning: Unknown BUFR descriptor: 20193
-Warning: Unknown BUFR descriptor: 12199
 Error: can't decode messages
