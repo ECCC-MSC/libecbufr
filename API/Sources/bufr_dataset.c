@@ -901,22 +901,26 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
    char        errmsg[256];
    int         debug = bufr_is_debug();
    uint64_t    missing, msng;
+   int         nb_msng;
 
    missing = bufr_missing_ivalue( bcv->encoding.nbits );
 
    nb_subsets = bufr_count_datasubset( dts );
-
 /*
  * find 1st valid min and max , not missing
-
-*/
+ */
+   nb_msng = 0;
    imin = imax = bufr_value2bits( bcv );
    for (i = 0; i < nb_subsets ; i++)
       {
       subset = bufr_get_datasubset( dts, i );
       bcv = bufr_datasubset_get_descriptor( subset, j );
       ival = bufr_value2bits( bcv );
-      if (ival == missing) continue;
+      if (ival == missing) 
+         {
+         ++nb_msng;
+         continue;
+         }
       if (imin == missing)
          {
          imin = imax = ival;
@@ -925,7 +929,10 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
       if (ival < imin) imin = ival;
       if (ival > imax) imax = ival;
       }
-   if (imin == imax) 
+/*
+ * same value for all subsets, ie all missing or a value
+ */
+   if (((imin == imax)&&(nb_msng == 0))||(nb_msng == nb_subsets))
       {
       bufr_putbits( msg, imin, bcv->encoding.nbits );  /* REF */
       bufr_putbits( msg, 0, 6 );                       /* NBINC */
