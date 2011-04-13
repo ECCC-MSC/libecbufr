@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
 	ssize_t msglen = 0;
 
    bufr_begin_api();
+	bufr_set_verbose( 1 );
+	bufr_set_debug( 1 );
 
 	putenv("BUFR_TABLES=../Tables/");
 
@@ -76,8 +78,17 @@ int main(int argc, char *argv[])
 		bufr_expand_datasubset(dts,n);
 
 		dss = bufr_get_datasubset( dts, n );
+		assert( dss != NULL );
 
-		msg = bufr_encode_message(dts,1);
+		n = bufr_subset_find_descriptor( dss, 4004, 0 );
+		if ( n >= 0)
+			{
+			BufrDescriptor* bcv = bufr_datasubset_get_descriptor( dss, n );
+			assert(bcv != NULL);
+			bufr_descriptor_set_ivalue( bcv, 2011 );
+			}
+
+		msg = bufr_encode_message(dts,0);
 		assert( msg != NULL );
 
 		bufr_sect2_set_data(msg, sect2, sizeof(sect2));
@@ -99,7 +110,7 @@ int main(int argc, char *argv[])
 		 * to byte padding.
 		 */
 		assert( msg->s2.data != NULL );
-		assert( strlen(msg->s2.data) == sizeof(sect2) );
+		assert( strlen(msg->s2.data)+1 == sizeof(sect2) );	/* count NUL */
 		assert( !strncmp(sect2,msg->s2.data,sizeof(sect2)) );
 
 		bufr_free_message( msg );

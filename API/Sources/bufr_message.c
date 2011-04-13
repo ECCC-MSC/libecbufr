@@ -297,6 +297,11 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
    r->s2.len = r->s2.header_len + len2;
 
    r->s1.flag  |= 1;  /* has optional section */
+
+	/* HACK: if section 2 changes, it's necessary to recalculate
+	 * the overall message length.
+	 */
+	bufr_end_message(r);
    }
 
 /**
@@ -340,7 +345,7 @@ void bufr_init_header(BUFR_Message *bufr, int edition)
       bufr->s1.len        = bufr->s1.header_len + 1;
       }
 
-   bufr->s2.header_len           = 5;
+   bufr->s2.header_len           = 4;
    bufr->s2.len                  = 0;
 
    bufr->s3.header_len           = 7;
