@@ -2148,7 +2148,7 @@ ssize_t bufr_memwrite_message(char *mem, size_t mem_len, BUFR_Message *bufr)
 	cd.pos = 0;
 	cd.max_len = mem_len;
 	rc = bufr_callback_write_message( bufr_memwrite_fn, (void*) &cd, bufr );
-	if( rc <= 0 ) return rc;
+	if( rc < 0 ) return rc;
 	return cd.pos;
    }
 
