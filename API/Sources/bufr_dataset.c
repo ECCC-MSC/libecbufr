@@ -2611,8 +2611,8 @@ static int bufr_get_numeric_compressed
                           "Warning: NBINC=%d is bigger than (%d bits)\n", 
                           cb->encoding.nbits), 
                nbinc, cb->encoding.nbits );
-
-      nbinc = 0; 
+/* let it continue, this allow to see the message partially  */
+/*    nbinc = 0; */
       bufr_print_debug( errmsg );
       }
 /*
