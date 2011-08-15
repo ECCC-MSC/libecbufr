@@ -305,6 +305,8 @@ void bufr_copy_value( BufrValue *dest, const BufrValue *src )
  * be padded/truncated to len.
  * @param len maximum number of bytes from str to copy. If less than len
  * bytes are available in str, the set string will be padded with spaces.
+ * Note that len should normally be the datawidth of the descriptor. The
+ * encoder will try to compensate if necessary, but results may vary.
  * @return zero on success, non-zero on failure
  * @endenglish
  * @francais
@@ -901,7 +903,8 @@ double bufr_value_get_double( const BufrValue *bv )
  * 
  * This function will only work for string types of BufrValue. Note that
  * this returns a pointer to the internal string value, which may change or
- * become invalidated due to changes elsewhere.
+ * become invalidated due to changes elsewhere. Note that BUFR strings
+ * are stored space-filled to the descriptor data width.
  * 
  * @param bv pointer to BufrValue structure to query
  * @param len pointer into which to return the length of the string

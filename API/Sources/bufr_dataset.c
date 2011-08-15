@@ -1213,6 +1213,29 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
       }
    }
 
+/*
+ * @english
+ * Return zero if string a is equivalent to string b according to
+ * BUFR conventions. Which means ignore space-filling on the right,
+ * and anything over the encoding length is truncated.
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup internal
+ */
+static int strbufrcmp(const char* a, const char* b, int alen, int blen,
+	int enclen)
+	{
+	if( alen > enclen ) alen = enclen;
+	if( blen > enclen ) blen = enclen;
+	while(alen > 0 && a[alen-1]==' ') alen --;
+	while(blen > 0 && b[blen-1]==' ') blen --;
+	if (alen != blen) return alen - blen;
+	return strncmp(a, b, alen);
+	}
+
 /**
  * bufr_put_ccitt_compressed
  * @english
@@ -1253,10 +1276,10 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
       subset = bufr_get_datasubset( dts, i );
       bcv = bufr_datasubset_get_descriptor( subset, j );
       strval = bufr_value_get_string( bcv->value, &blen );
-      if (blen0 != blen) 
-         differs = 1;
-      if (strncmp( strval0, strval, blen0 ) != 0)
-         differs = 1;
+		if( strbufrcmp(strval0, strval, blen0, blen, bcv->encoding.nbits))
+			{
+			differs = 1;
+			}
       }
 /*
  * compression of CCITT_IA5 increase by 1 element + 6
@@ -1267,7 +1290,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
    strval = bufr_value_get_string( bcv->value, &blen );
    if (differs == 0)
       {
-      bufr_putstring( msg, strval, bcv->encoding.nbits/8 );
+		bufr_put_padstring( msg, strval, blen, bcv->encoding.nbits/8);
       bufr_putbits( msg, 0, 6 );              /* NBINC */
       if (debug)
          {
@@ -1282,7 +1305,6 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
       {
       BufrValue *bv = bufr_create_value( VALTYPE_STRING );
       bufr_value_set_string( bv, NULL, bcv->encoding.nbits/8 );
-      bufr_putstring( msg, bufr_value_get_string( bv, &blen ), bcv->encoding.nbits/8 );
       bufr_putbits( msg, bcv->encoding.nbits/8, 6 );              /* NBINC */
       if (debug)
          {
@@ -1299,7 +1321,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
          subset = bufr_get_datasubset( dts, i );
          bcv = bufr_datasubset_get_descriptor( subset, j );
          strval = bufr_value_get_string( bcv->value, &blen );
-         bufr_putstring( msg, strval, bcv->encoding.nbits/8 );
+			bufr_put_padstring( msg, strval, blen, bcv->encoding.nbits/8);
          if (debug)
             {
             sprintf( errmsg, "   R(%d)=", i+1 );
@@ -1519,7 +1541,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             sprintf( errmsgl, _n("STR: \"%s\" (%d bit) ", "STR: \"%s\" (%d bits) ", bd->encoding.nbits), strval, bd->encoding.nbits );
             bufr_print_debug( errmsgl );
             }
-         bufr_putstring( bufr, strval, bd->encoding.nbits/8 );
+         bufr_put_padstring( bufr, strval, blen, bd->encoding.nbits/8 );
          if (bv) 
             {
             bufr_free_value( bv );

@@ -635,6 +635,46 @@ void bufr_putstring( BUFR_Message *bufr, const char *str, int len)
 
 /**
  * @english
+ * 
+ * Encode a string up to len bytes using exactly enclen bytes. Note that
+ * if len<enclen, the string will be space-padded on the right according
+ * to BUFR string encoding practices.
+ * @param bufr Message being encoded
+ * @param str string to encode
+ * @param len length of string in bytes (not including trailing NUL)
+ * @param enclen number of bytes to encode, including any padding
+ * @endenglish
+ * @francais
+ * @todo translate
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup internal
+ */
+void bufr_put_padstring( BUFR_Message *bufr, const char *str, int len, int enclen)
+   {
+   int i;
+   unsigned char  c;
+
+	if (len > enclen) len = enclen;
+
+   for ( i = 0 ; i < len; i++ )
+      {
+      c = (unsigned char)str[i];
+      bufr_putbits( bufr, (uint64_t)c, 8 );
+      }
+
+	/* WMO 306: "Where UNITS are given as CCITT IA5, data shall be
+	coded as character data left justified within the field width
+	indicated using CCITT International Alphabet No. 5, and blank
+	filled to the full field width indicated." */
+   for ( ; i < enclen; i++ )
+      {
+      bufr_putbits( bufr, (uint64_t)' ', 8 );
+      }
+   }
+
+/**
+ * @english
  * @todo translate
  * @endenglish
  * @francais
