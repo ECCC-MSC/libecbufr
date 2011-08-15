@@ -1276,7 +1276,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
       subset = bufr_get_datasubset( dts, i );
       bcv = bufr_datasubset_get_descriptor( subset, j );
       strval = bufr_value_get_string( bcv->value, &blen );
-		if( strbufrcmp(strval0, strval, blen0, blen, bcv->encoding.nbits))
+		if( strbufrcmp(strval0, strval, blen0, blen, bcv->encoding.nbits/8))
 			{
 			differs = 1;
 			}
