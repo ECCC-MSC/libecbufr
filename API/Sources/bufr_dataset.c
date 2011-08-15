@@ -1305,6 +1305,7 @@ static void bufr_put_ccitt_compressed(BUFR_Message *msg, BUFR_Dataset *dts, int 
       {
       BufrValue *bv = bufr_create_value( VALTYPE_STRING );
       bufr_value_set_string( bv, NULL, bcv->encoding.nbits/8 );
+		bufr_putstring( msg, bufr_value_get_string( bv, &blen ), bcv->encoding.nbits/8 );
       bufr_putbits( msg, bcv->encoding.nbits/8, 6 );              /* NBINC */
       if (debug)
          {
