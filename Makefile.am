@@ -4,7 +4,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 # automake <=1.9 doesn't have docdir
 docdir=@datadir@/doc/@PACKAGE_NAME@
-doc_DATA = AUTHORS ChangeLog COPYING INSTALL NEWS README TODO
+doc_DATA = AUTHORS ChangeLog COPYING INSTALL NEWS README TODO ChangeLog.bzr
 
 EXTRA_DIST = reconf configure make_debpkg
 
@@ -16,6 +16,9 @@ if HAVE_PKGCONFIG
 # pkg-config file makes it a lot easier to build against libecbufr
 pcdir=@prefix@/lib/pkgconfig
 pc_DATA = libecbufr.pc
+
+ChangeLog.bzr:
+	/usr/bin/bzr log --gnu-changelog > $@
 
 libecbufr.pc: Makefile
 	echo 'prefix=@prefix@' > $@
