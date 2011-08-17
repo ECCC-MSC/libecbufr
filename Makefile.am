@@ -18,7 +18,7 @@ pcdir=@prefix@/lib/pkgconfig
 pc_DATA = libecbufr.pc
 
 ChangeLog.bzr:
-	/usr/bin/bzr log --gnu-changelog > $@
+	/usr/bin/bzr log --long > $@
 
 libecbufr.pc: Makefile
 	echo 'prefix=@prefix@' > $@
