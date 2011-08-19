@@ -353,10 +353,12 @@ This file is part of libECBUFR.
 
 /**
  * @english
- *  search an elements in the dynamic array
+ *  search an elements in the sorted dynamic array
  *  and return the address of the element if it's found
  *  compar returns -1, 0, 1 depending if its first argument
  *  is smaller, equal to or bigger than its second.
+ * Note that the array must have been sorted via the same
+ * comparison function or results will be undefined.
  * @param   ArrayPtr array  :  pointer to array
  * @param  void *vaddr: element we are searching
  * @param  int (*compar)(void *, void *)
@@ -367,6 +369,7 @@ This file is part of libECBUFR.
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup data_structures internal
+ * @see arr_find
  */
  ArrayItemPtr
  arr_search( ArrayPtr obj, const void *vaddr, int (*compar)( const void *, const void * ) )
@@ -377,6 +380,39 @@ This file is part of libECBUFR.
     if ((arr->eles == NULL)||(arr->count==0)) return NULL;
 
     return( (char *)bsearch( (void *)vaddr, (void *)arr->eles, 
+	     (int)arr->count, arr->size, compar ) );
+    }
+
+/**
+ * @english
+ *  search an elements in the dynamic array
+ *  and return the address of the element if it's found
+ *  compar returns -1, 0, 1 depending if its first argument
+ *  is smaller, equal to or bigger than its second.
+ * Note that this function performs a linear search. While
+ * slower than arr_search, it doesn't require the array
+ * to have been sorted with any specific comparison function.
+ * @param   ArrayPtr array  :  pointer to array
+ * @param  void *vaddr: element we are searching
+ * @param  int (*compar)(void *, void *)
+ * @return  ArrayItemPtr
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup data_structures internal
+ * @see arr_search
+ */
+ ArrayItemPtr
+ arr_find( ArrayPtr obj, const void *vaddr, int (*compar)( const void *, const void * ) )
+    {
+    Array *arr=(Array *)obj;
+
+    if( arr == NULL ) return NULL;
+    if ((arr->eles == NULL)||(arr->count==0)) return NULL;
+
+    return( (char *)lfind( (void *)vaddr, (void *)arr->eles, 
 	     (int)arr->count, arr->size, compar ) );
     }
 

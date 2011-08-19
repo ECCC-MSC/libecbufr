@@ -54,6 +54,7 @@ typedef ArrayPtr IntArray;
  extern ArrayPtr     arr_share      ( ArrayPtr );
  extern int          arr_size       ( ArrayPtr );
  extern ArrayItemPtr arr_search     ( ArrayPtr, const void *, int (*compar)(const void *, const void *) );
+ extern ArrayItemPtr arr_find     ( ArrayPtr, const void *, int (*compar)(const void *, const void *) );
  extern void         arr_sort       ( ArrayPtr, int (*compar)(const void *, const void *) );
  extern int          arr_set        ( ArrayPtr, int pos, const void *elem );
  extern void         arr_free_string( ArrayPtr * );
