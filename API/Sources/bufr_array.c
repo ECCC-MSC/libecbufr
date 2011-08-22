@@ -20,6 +20,7 @@ This file is part of libECBUFR.
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <search.h>
 
 #include "bufr_array.h"
 #include "bufr_i18n.h"
@@ -408,12 +409,14 @@ This file is part of libECBUFR.
  arr_find( ArrayPtr obj, const void *vaddr, int (*compar)( const void *, const void * ) )
     {
     Array *arr=(Array *)obj;
+	 int c;
 
     if( arr == NULL ) return NULL;
     if ((arr->eles == NULL)||(arr->count==0)) return NULL;
 
+	 c = (int)arr->count;
     return( (char *)lfind( (void *)vaddr, (void *)arr->eles, 
-	     (int)arr->count, arr->size, compar ) );
+	     &c, arr->size, compar ) );
     }
 
 
