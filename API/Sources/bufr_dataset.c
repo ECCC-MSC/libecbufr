@@ -3162,12 +3162,35 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
          bufr_print_debug( errmsg );
          break;
          }
-
+/*
+ * current matching descriptor may be skipped but there could
+ * be a valid descriptor needing this value further down
+ */
       if ((icode == cb->descriptor)&&(cb->flags & FLAG_SKIPPED))
          {
-         node = lst_nextnode( node );
-         continue;
+         BufrDescriptor  *cb1 = cb;
+         ListNode        *node1;
+         node1 = lst_nextnode( node );
+         while (node1)
+            {
+            cb1 = (BufrDescriptor *)node1->data;
+            if (cb1->flags & FLAG_SKIPPED)
+               node1 = lst_nextnode( node1 );
+            else 
+               break;
+            }
+         if (cb1->descriptor != icode)
+            {
+            node = lst_nextnode( node );
+            continue;
+            }
+         else
+            {
+            node = node1;
+            cb = cb1;
+            }
          }
+
       if (icode != cb->descriptor)
          {
          sprintf( errmsg, _("Error: data descriptor %d mismatch with template %d\n"), 
