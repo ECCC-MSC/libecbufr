@@ -117,9 +117,9 @@ AC_PROG_MAKE_SET
 AC_GNU_SOURCE
 
 # AC_PROG_RANLIB is rendered obsolete by AC_PROG_LIBTOOL
-AC_PROG_RANLIB
+#AC_PROG_RANLIB
 # seems AC_PROG_LIBTOOL not available on IRIX, and should be commented 
-#AC_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 
 AC_PATH_PROG(DOXYGEN, doxygen, no)
 AC_CHECK_PROG(HAVE_PKGCONFIG, pkg-config, yes)
