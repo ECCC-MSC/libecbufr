@@ -10,6 +10,7 @@ BUFR_TABLES=../Tables ./decode_net
 @endenglish
 @francais
 @todo decode_net.c description should be translated
+@endfrancais
 */
 
 #include <stdio.h>
