@@ -2188,6 +2188,26 @@ int bufr_is_table_b( int code )
 
 /**
  * @english
+ *   check if a BUFR qualifier
+ * @param desc descriptor to check
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup tables
+ */
+int bufr_is_qualifier( int desc )
+   {
+   int f, x;
+   f = desc / 100000;
+	if( f!=0 ) return 0;
+   x = (desc / 1000)%100;
+	return x>=1 && x<=9;
+   }
+
+/**
+ * @english
  *   check if a given descriptor is a valid 
  *   within acceptable defined parameters
  *   of FXXYYY

@@ -1,10 +1,11 @@
 /**
-@example decode_sqlite.c
+@example decode_sqlite_quals.c
 @english
-Decode datasets into a SQLite database
+Decode datasets into a SQLite database using qualifier information
+from RTMD.
 @endenglish
 @francais
-@todo decode_sqlite.c description should be translated
+@todo decode_sqlite_quals.c description should be translated
 @endfrancais
 @author Chris Beauregard
 */
@@ -31,10 +32,10 @@ static int get_value_as_string( BufrDescriptor *bcv, char* str ) {
 			sprintf( str, "%lld ", value );
 		} else if (bcv->value->type == VALTYPE_FLT32) {
 			float value = bufr_descriptor_get_fvalue( bcv );
-			sprintf( str, "%E", value );
+			sprintf( str, "%g", (double)value );
 		} else if (bcv->value->type == VALTYPE_FLT64) {
 			double value = bufr_descriptor_get_dvalue( bcv );
-			sprintf( str, "%E", value );
+			sprintf( str, "%g", value );
 		} else if (bcv->value->type == VALTYPE_STRING) {
 			int len;
 			char *s = bufr_descriptor_get_svalue( bcv, &len );
@@ -47,7 +48,10 @@ static int get_value_as_string( BufrDescriptor *bcv, char* str ) {
 
 static void usage() {
 	printf( "Usage:\n"
-		"decode_sqlite -d <sqlfile> [-c <qual1>] ... [-c <qualn>] <bufrfile>\n");
+		"decode_sqlite -j -d <sqlfile> [-c <qual1>] ... [-c <qualn>] <bufrfile>\n");
+	printf( "-d <sqlfile>   SQLite database file\n" );
+	printf( "-c <qualn>     Qualifier to place in own column\n" );
+	printf( "-j             Don't create rows for column qualifiers\n" );
 }
 
 int main(int argc, char *argv[]) {
@@ -60,19 +64,19 @@ int main(int argc, char *argv[]) {
    BUFR_Message  *msg;
    int            rtrn;
    int            count;
-   char           filename[256];
 	sqlite3* sqldb = NULL;
 	sqlite3_stmt* insertion = NULL;
 	int c;
 	char sql[16000];	/* FIXME: yeah, harcoded limits...
 	                      * I'm writing code on a train.
 	                      */
+	int just_data = 0;
 	char* qual_cols[256];
 	int nqual_cols = 0;
 	char* errmsg;
    DataSubset    *subset;
    int            sscount, cvcount;
-   int            i, j, k;
+   int            i, j, k, m;
    BufrDescriptor      *bcv;
 
 	/*
@@ -84,16 +88,28 @@ int main(int argc, char *argv[]) {
 
 	sprintf( sql, "CREATE TABLE IF NOT EXISTS bufr( ");
 
-   while ( (c = getopt( argc, argv, "hd:c:" )) != -1 )
+   while ( (c = getopt( argc, argv, "hjd:c:" )) != -1 )
        switch (c)
        {
            case 'h':
 				  usage();
               exit(0);
+				  break;
 
+			  case 'j':
+			     just_data = 1;
+				  break;
            case 'c':
 			     /* qualifier column as argument in optarg... it becomes
 					* part of the sql */
+              if( !bufr_is_qualifier(atoi(optarg)) ) {
+				     fprintf(stderr,"%s is not a qualifier!\n", optarg);
+					  exit(1);
+				  }
+				  /* FIXME: if this wasn't just an example, we'd
+				   * use the element type to generate a proper type-safe
+					* schema.
+					*/
 				  sprintf( buf, "qual%s TEXT, ", optarg );
 				  strcat( sql, buf );
 				  qual_cols[nqual_cols++] = optarg;	/* static, in argv */
@@ -178,6 +194,13 @@ int main(int argc, char *argv[]) {
 			/* loop through each of them */
 			for (i = 0; i < sscount ; i++) {
 				/*
+				 * This is necessary to "build" the qualifier lists for
+				 * the elements. Effectively, the datasubset needs to be
+				 * flattened and walked.
+				 */
+				bufr_expand_datasubset( dts, i );
+
+				/*
 				 * get a pointer of a DataSubset of each
 				 */
 				subset = bufr_get_datasubset( dts, i );
@@ -195,54 +218,69 @@ int main(int argc, char *argv[]) {
 					 */
 					bcv = bufr_datasubset_get_descriptor( subset, j );
 					
-					if (bcv->flags & FLAG_SKIPPED) {
-						/* Table D expansions, etc. Nothing with a value */
+					if (bcv->flags & FLAG_SKIPPED ) {
+						/* Table D expansions, etc. Nothing with a useful value */
 						continue;
-					} else {
+					}
 
-						/* see if it's a column */
-						int iscol = 0;
-						sprintf( buf, "%06d", bcv->descriptor );
+					/* qualifiers which go into columns don't need their own
+					 * rows in this mode.
+					 */
+					if( just_data ) {
 						for( k = 0; k < nqual_cols; k ++ ) {
-							if( !strcmp( qual_cols[k], buf) ) {
+							if( bcv->descriptor == atoi(qual_cols[k]) ) break;
+						}
+						if( k < nqual_cols ) continue;
+					}
+
+					/* map all the desired qualifiers to their appropriate
+					 * columns.
+					 */
+					for( k = 0; k < nqual_cols; k ++ ) {
+						int qdesc = atoi(qual_cols[k]);
+
+						/* in case it's not in the qualifier list... */
+						sqlite3_bind_null( insertion, k+1 );
+
+						/* search the descriptor qualifier list for a match */
+						for( m = 0; bcv->meta && m < bcv->meta->nb_qualifiers; m ++ ) {
+							if( qdesc == bcv->meta->qualifiers[m]->descriptor ) {
 								/* it's a column... get the value and bind it to
 								 * the appropriate parameter. It'll stick around
 								 * until we insert something.
 								 */
-								if( get_value_as_string( bcv, buf ) ) {
+								if( get_value_as_string( bcv->meta->qualifiers[m], buf ) ) {
 									sqlite3_bind_text( insertion, k+1, buf, -1,
 										SQLITE_TRANSIENT );
-								} else {
-									sqlite3_bind_null( insertion, k+1 );
 								}
-								iscol = 1;
 								break;
 							}
 						}
-						if( iscol ) continue;
-
-						/* insert into the database */
-						sprintf(buf,"%06d", bcv->descriptor);
-						sqlite3_bind_text( insertion, nqual_cols+1, buf, -1,
-							SQLITE_TRANSIENT );	/* descriptor */
-
-						if( get_value_as_string( bcv, buf ) ) {
-							sqlite3_bind_text( insertion, nqual_cols+2, buf, -1,
-								SQLITE_TRANSIENT );	/* value */
-						} else {
-							sqlite3_bind_null( insertion, nqual_cols+2 ); /* value */
-						}
-
-						{
-							int rc;
-							do {
-								rc = sqlite3_step( insertion );
-							} while( rc == SQLITE_ROW );
-						}
-
-						/* this doesn't clear bindings */
-						sqlite3_reset( insertion );
 					}
+
+					/* bind the descriptor and value to the query */
+
+					sprintf(buf, "%06d", bcv->descriptor);
+					sqlite3_bind_text( insertion, nqual_cols+1, buf, -1,
+						SQLITE_TRANSIENT );	/* descriptor */
+
+					if( get_value_as_string( bcv, buf ) ) {
+						sqlite3_bind_text( insertion, nqual_cols+2, buf, -1,
+							SQLITE_TRANSIENT );	/* value */
+					} else {
+						sqlite3_bind_null( insertion, nqual_cols+2 ); /* value */
+					}
+
+					/* insert into the database */
+					{
+						int rc;
+						do {
+							rc = sqlite3_step( insertion );
+						} while( rc == SQLITE_ROW );
+					}
+
+					/* this doesn't clear bindings */
+					sqlite3_reset( insertion );
 				}
 			}
 

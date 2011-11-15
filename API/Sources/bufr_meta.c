@@ -31,6 +31,7 @@ This file is part of libECBUFR.
 
 #include "bufr_io.h"
 #include "bufr_meta.h"
+#include "bufr_desc.h"
 #include "bufr_value.h"
 
 
@@ -54,17 +55,20 @@ BufrRTMD  *bufr_create_rtmd( int count )
    BufrRTMD     *bm;
    int           i;
 
-   bm = (BufrRTMD *)malloc(sizeof(BufrRTMD));
-   bm->nb_nesting = count;
-   bm->nesting = (int *)malloc( count * sizeof(int) );
-   for (i = 0; i < bm->nb_nesting ; i++)
-      bm->nesting[i] = 0;
-
-   bm->tlc = NULL;
-   bm->nb_tlc = 0;
+   bm = (BufrRTMD *)calloc(1,sizeof(BufrRTMD));
+	if( bm == NULL ) return NULL;
+	if( count > 0 )
+		{
+		bm->nb_nesting = count;
+		bm->nesting = (int *)calloc( count, sizeof(int) );
+		if( bm->nesting == NULL )
+			{
+			free(bm);
+			return NULL;
+			}
+		}
 
    bm->pos_template = -1;
-   bm->len_expansion = 0;
 
    return bm;
    }
@@ -124,7 +128,7 @@ void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
       dest->nesting = (int *)malloc( src->nb_nesting * sizeof(int) );
       dest->nb_nesting = src->nb_nesting;
       }
-
+	
    for (i = 0; i < src->nb_nesting ; i++ )
       dest->nesting[i] = src->nesting[i];
 
@@ -134,9 +138,24 @@ void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
       dest->tlc = (LocationValue *)malloc( src->nb_tlc * sizeof(LocationValue) );
       dest->nb_tlc = src->nb_tlc;
       }
-
+	
    for (i = 0; i < src->nb_tlc ; i++ )
+		{
       dest->tlc[i] = src->tlc[i];
+		}
+
+	if( dest->nb_qualifiers != src->nb_qualifiers )
+		{
+      if ( dest->qualifiers ) free( dest->qualifiers );
+      dest->qualifiers = (BufrDescriptor**)calloc( src->nb_qualifiers,
+			sizeof(BufrDescriptor*) );
+      dest->nb_qualifiers = src->nb_qualifiers;
+		}
+
+   for (i = 0; i < src->nb_qualifiers ; i++ )
+		{
+      dest->qualifiers[i] = src->qualifiers[i];
+		}
    }
 
 /**
@@ -167,6 +186,12 @@ void bufr_free_rtmd( BufrRTMD *rtmd )
       rtmd->tlc = NULL;
       }
    rtmd->nb_tlc = 0;
+   if (rtmd->qualifiers)
+      {
+      free( rtmd->qualifiers );
+      rtmd->qualifiers = NULL;
+      }
+   rtmd->nb_qualifiers = 0;
 
    free( rtmd );
    }
@@ -209,22 +234,6 @@ void bufr_print_rtmd_repl( char *outstr, BufrRTMD *rtmd )
    strcat( outstr, "}" );
    }
 
-/**
- * @english
- *
- * This call prints out all metadata which includes replication values, heights
- * of sensors, time allocation, values that define the loops.
- * 
- * @return void
- * @param outstr  output string buffer (need at least 4k)
- * @param rtmd pointer to an BufrRTMD
- * @endenglish
- * @francais
- * @todo translate to French
- * @endfrancais
- * @author Vanh Souvanlasy
- * @ingroup io meta debug
- */
 void bufr_print_rtmd_data( char *outstr, BufrRTMD *rtmd )
    {
    int i;
@@ -248,6 +257,41 @@ void bufr_print_rtmd_data( char *outstr, BufrRTMD *rtmd )
       strcat( outstr, "}" );
       }
    }
+
+/**
+ * @english
+ *
+ * This call prints out all active qualifiers for the descriptor.
+ * 
+ * @return void
+ * @param outstr  output string buffer (need at least 4k)
+ * @param rtmd pointer to an BufrRTMD
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup io meta debug
+ */
+void bufr_print_rtmd_qualifiers( char *outstr, BufrRTMD *rtmd )
+	{
+   int i;
+   char buf[128];
+   char buf1[128];
+
+   if (rtmd->nb_qualifiers>0)
+      {
+      strcat( outstr, "{" );
+      for (i = 0; i < rtmd->nb_qualifiers ; i++ )
+         {
+         if (i >= 1) strcat( outstr, "," );
+			bufr_print_value( buf1, rtmd->qualifiers[i]->value );
+         sprintf( buf, "%d=%s", rtmd->qualifiers[i]->descriptor, buf1 );
+         strcat( outstr, buf );
+         }
+      strcat( outstr, "}" );
+      }
+	}
 
 /**
  * @english

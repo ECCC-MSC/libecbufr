@@ -23,7 +23,9 @@ rtf-en html-en: libecbufr-dox-en.conf $(DOXFILES)
 rtf-fr html-fr: libecbufr-dox-fr.conf $(DOXFILES)
 	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
 
-rtf html: libecbufr-dox.conf $(DOXFILES)
+rtf: html
+
+html: libecbufr-dox.conf $(DOXFILES)
 	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
 
 # rather than trying to keep two configs in sync, derive the French from

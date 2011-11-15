@@ -156,6 +156,7 @@ extern BufrDataType   bufr_descriptor_to_datatype ( BUFR_Tables *, EntryTableB *
 extern int            bufr_parse_columns          ( const char *ligne, int *column, int limit );
 extern int            bufr_is_local_descriptor    ( int desc );
 extern int            bufr_is_table_b             ( int code );
+extern int            bufr_is_qualifier           ( int desc );
 extern int            bufr_is_descriptor          ( int desc );
 
 extern void           bufr_descriptor_to_fxy      ( int desc, int *f, int *x, int *y );

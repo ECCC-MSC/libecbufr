@@ -29,6 +29,7 @@ This file is part of libECBUFR.
 #include <ctype.h>
 #include <locale.h>
 #include <gettext.h>
+#include <errno.h>
 
 #include "bufr_util.h"
 #include "bufr_array.h"
@@ -268,6 +269,112 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
    return pos;
    }
 
+int bufr_expand_qualifiers( DataSubset* dss )
+   {
+   int            i, j, count;
+   BufrDescriptor     **pbcd;
+	BufrDescriptor **quals;	/* scratchpad */
+	int nb_quals = 0;
+
+	if( dss==NULL ) return errno=EINVAL, -1;
+
+   pbcd = (BufrDescriptor **)arr_get( dss->data, 0 );
+	if( pbcd == NULL ) return -1;
+
+   count = bufr_datasubset_count_descriptor( dss );
+	if( count <= 0 ) return 0;
+
+	quals = calloc(count,sizeof(BufrDescriptor *));
+	if( quals == NULL ) return 0;
+
+   for (i = 0; i < count ; i++)
+      {
+		if( !bufr_is_table_b(pbcd[i]->descriptor) ) continue;
+
+		/* Any current valid flag indicates something where
+		 * qualifiers aren't relevant.
+		 * NOTE: don't add new flags without checking this assumption.
+		 */
+		if( pbcd[i]->flags ) continue;
+
+		/* Assign copy of current qualifier list to the descriptor.
+		 * This may require allocating new (empty) RTMD.
+		 */
+		if( nb_quals>0 )
+			{
+			BufrDescriptor* bd = pbcd[i];
+			if( bd->meta == NULL ) bd->meta = bufr_create_rtmd(0);
+			if( bd->meta == NULL ) break;
+
+			if( bd->meta->qualifiers ) free(bd->meta->qualifiers);
+
+			bd->meta->qualifiers
+				= (BufrDescriptor**)calloc(nb_quals, sizeof(BufrDescriptor*));
+			bd->meta->nb_qualifiers = 0;
+			if( bd->meta->qualifiers )
+				{
+				for( j = 0; j < nb_quals; j ++ )
+					{
+					if( quals[j] && quals[j]->value
+							&& !bufr_value_is_missing(quals[j]->value) )
+						{
+						bd->meta->qualifiers[bd->meta->nb_qualifiers++] = quals[j];
+						}
+					}
+				}
+			}
+
+		/* If we've got a qualifier, we need to add it into the list
+		 * or cancel it
+		 */
+		if( bufr_is_qualifier(pbcd[i]->descriptor) && pbcd[i]->value )
+			{
+			/* see if there's already an instance in the list. If so,
+			 * we replace/cancel it. Note that we search backwards, like
+			 * a stack. Recently seen qualifiers will normally be the
+			 * first to be cancelled. Qualifiers near the start of the
+			 * sequence are almost never cancelled.
+			 */
+			int qpos;
+			for( qpos = nb_quals-1; qpos >= 0; qpos -- )
+				{
+				if( pbcd[qpos]==NULL ) continue;
+				if( pbcd[i]->descriptor == quals[qpos]->descriptor ) break;
+				}
+
+			/* Not in list. We'll append to the list, or we'll end up
+			 * ignoring it if it's missing.
+			 */
+			if( qpos<0 ) qpos = nb_quals;
+
+			if( bufr_value_is_missing(pbcd[i]->value) )
+				{
+				/* cancel the existing qualifier, if any, and fill in
+				 * the resulting "hole".
+				 */
+				quals[qpos] = NULL;
+				if( qpos < nb_quals )
+					{
+					nb_quals --;
+					for(j = qpos; j < nb_quals; j ++ )
+						{
+						quals[j] = quals[j+1];
+						}
+					}
+				}
+			else
+				{
+				quals[qpos] = pbcd[i];
+				if( qpos == nb_quals ) nb_quals ++;
+				}
+			}
+      }
+
+	free(quals);
+	return i;
+   }
+
+
 /**
  * @english
  *    bufr_expand_datasubset(dts, i)
@@ -275,6 +382,8 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
  * Expands a descriptors sequence of a datasubset by resolving any Table D,
  * replications or delayed replications once the delayed replication 
  * counter has been set (value of descriptor 31001 that follows)
+ *
+ * In addition, this calculates the qualifier list in the RTMD.
  *
  * @param dts pointer to a BUFR_Dataset
  * @param i   the position of datasubset to expand
@@ -329,6 +438,8 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
    lst_dellist( bsq->list );
    bsq->list = NULL;
    bufr_free_sequence( bsq );
+
+	bufr_expand_qualifiers( dss );
 
    return bufr_datasubset_count_descriptor( dss );
    }

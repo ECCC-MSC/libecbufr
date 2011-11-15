@@ -56,6 +56,7 @@ typedef struct
    float value;
    } LocationValue;
 
+struct bufr_desc;
 typedef struct
    {
    int           *nesting;
@@ -64,6 +65,8 @@ typedef struct
    int            nb_tlc;
    int            pos_template;
    int            len_expansion;
+	struct bufr_desc** qualifiers;	/* same as BufrDescriptor */
+	int            nb_qualifiers;
    } BufrRTMD;
 
 typedef ArrayPtr LocationEncodingArray;
@@ -76,6 +79,7 @@ extern void          bufr_free_rtmd       ( BufrRTMD * );
 
 extern void          bufr_print_rtmd_data      ( char *outstr, BufrRTMD *bm );
 extern void          bufr_print_rtmd_repl      ( char *outstr, BufrRTMD *bm );
+extern void          bufr_print_rtmd_qualifiers( char *outstr, BufrRTMD *bm );
 extern void          bufr_print_rtmd_location  ( char *outstr, int desc, BufrRTMD *bm );
 extern float         bufr_fetch_rtmd_location ( int descriptor, BufrRTMD *bm );
 
