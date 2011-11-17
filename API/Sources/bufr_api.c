@@ -215,9 +215,16 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
          {
          val2 = bufr_fetch_rtmd_location( desc1, cb->meta );
          if (val1 == val2) 
+				{
             ++j;
+				}
+			else
+				{
+				continue;
+				}
          }
-      else if (cb->descriptor == codes[j].descriptor) 
+
+      if (cb->descriptor == codes[j].descriptor) 
          {
          if (codes[j].nbval > 0)
             {
@@ -233,11 +240,21 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
                         break;
                         }
                      }
+						if( j>=codes[j].nbval )
+							{
+							jj = -1;
+							}
                   }
                else if (codes[j].nbval == 2)
                   {
                   if (bufr_between_values( codes[j].values[0], cb->value, codes[j].values[1] ) == 0)
+							{
                      ++j;
+							}
+						else
+							{
+							jj = -1;
+							}
                   }
                }
             }
@@ -247,7 +264,9 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
             }
          if (jj == -1) jj = i;
          if (j == nb)
+				{
             return jj;
+				}
          }
       else
          {

@@ -199,6 +199,20 @@ int main(int argc, char *argv[])
 			assert(bufr_descriptor_get_ivalue(bcv)==279);
 
 			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
+
+			/* matches the second instance */
+			k = 0;
+			ivalues[0] = 291;
+			bufr_set_key_int32( &(codes[k++]), 12001, ivalues, 1 );
+
+			n = bufr_subset_find_values( dss, codes, k, 0 );
+			assert( n >= 0 );
+			bcv = bufr_datasubset_get_descriptor( dss, n );
+			assert(bcv != NULL);
+			assert( bcv->descriptor == 12001 );
+			assert(bufr_descriptor_get_ivalue(bcv)==291);
+
+			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
 			}
 		bufr_free_message( msg );
 	}
