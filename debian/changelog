@@ -1,3 +1,10 @@
+libecbufr (0.8.4) unstable; urgency=low
+
+  * update release number
+  * Fixed bug: 826868 843931 891754
+
+ -- Vanh Souvanlasy <afsmvan@ibsb-01.cmc.ec.gc.ca>  Fri, 18 Nov 2011 16:29:39 -0500
+
 libecbufr (0.8.2rc2) unstable; urgency=low
 
   * update release number
