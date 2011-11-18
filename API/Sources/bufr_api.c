@@ -39,6 +39,7 @@ This file is part of libECBUFR.
 #include "bufr_i18n.h"
 
 #define   TLC_FLAG_BIT      0x80000
+#define   QUAL_FLAG_BIT      0x40000
 
 
 /**
@@ -175,106 +176,192 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
    {
    BufrDescriptor  **pcb, *cb;
    int         count;
-   int         i, j, k, jj;
-   int         desc1, j1;
-   float       val1, val2;
+   int         i, j, lj, k, jj;
    double      scale;
    double      epsilon;
+	int nb_tlc = 0, nb_qual = 0, nb_desc = 0;
+	BufrDescValue* tlc = NULL;
+	BufrDescValue* qual = NULL;
+	BufrDescValue* desc = NULL;
 
    if (dts == NULL) return -1;
    count = arr_count( dts->data );
+	if( count == 0 ) return -1;
+
    if (startpos < 0) 
       startpos = 0;
    else if (startpos >= count) 
       return -1;
    if (nb == 0) return startpos;
 
+	/* Break the query keys into three lists. We check TLC and qualifiers
+	 * against every element, and check descriptors sequentially.
+	 */
+	for( j = 0; j < nb; j ++ )
+		{
+		if( codes[j].descriptor & TLC_FLAG_BIT )
+			{
+			/* NOTE: we're overallocating, but we're nicely bounded by nb */
+			if( tlc == NULL ) tlc = calloc(nb,sizeof(BufrDescValue));
+			if( tlc == NULL ) return -1;
+			memcpy(&tlc[nb_tlc], &codes[j], sizeof(BufrDescValue));
+			tlc[nb_tlc].descriptor &= ~TLC_FLAG_BIT;
+			nb_tlc ++;
+			}
+		else if( codes[j].descriptor & QUAL_FLAG_BIT )
+			{
+			if( qual == NULL ) qual = calloc(nb,sizeof(BufrDescValue));
+			if( qual == NULL ) return -1;
+			memcpy(&qual[nb_qual], &codes[j], sizeof(BufrDescValue));
+			qual[nb_qual].descriptor &= ~QUAL_FLAG_BIT;
+			nb_qual ++;
+			}
+		else
+			{
+			if( desc == NULL ) desc = calloc(nb,sizeof(BufrDescValue));
+			if( desc == NULL ) return -1;
+			memcpy(&desc[nb_desc++], &codes[j], sizeof(BufrDescValue));
+			}
+		}
+
+	/* Basic strategy for searching and handling searching failures...
+	 * When we find a "first" match for the sequence, we want jj to
+	 * indicate this starting position. j indicates which descriptor in
+	 * the search list we're currently supposed to see in the subset, and
+	 * this gets incremented for each subsequent match.
+	 * We return jj once we've found all nb_desc descriptors.
+	 * When we fail a match, jj has to be cleared. _But_ we don't want
+	 * to just continue the search at the current "i" position. We
+	 * actually want to bounce back to jj+1, which is accomplished
+	 * by assigning i=jj and letting the loop increment.
+	 * Note that the trivial case, nb_desc==0, pretty much bypasses the
+	 * loop and we return startpos.
+	 */
+
    pcb = (BufrDescriptor **)arr_get( dts->data, 0 );
-   j = 0;
-   jj = -1;
-   j1 = 0;
-   if (codes[j].descriptor & TLC_FLAG_BIT)
-      {
-      desc1 = codes[j].descriptor & ~TLC_FLAG_BIT;
-      val1 = bufr_value_get_float( codes[j].values[0] );
-      }
-   for (i = startpos; i < count ; i++)
+   lj = j = 0;
+   jj = startpos;
+   for (i = startpos; j < nb_desc && i + nb_desc <= count ; i++)
       {
       cb = pcb[i];
-      if (cb->encoding.scale == 0)
-         scale = 1.0;
-      else
-         scale = pow( 10.0, (double)cb->encoding.scale );
-      epsilon = 0.5 / scale;
-      if ((j1 != j) && (codes[j].descriptor & TLC_FLAG_BIT))
-         {
-         desc1 = codes[j].descriptor & ~TLC_FLAG_BIT;
-         val1 = bufr_value_get_float( codes[j].values[0] );
-         }
-      if (codes[j].descriptor & TLC_FLAG_BIT)
-         {
-         val2 = bufr_fetch_rtmd_location( desc1, cb->meta );
-         if (val1 == val2) 
-				{
-            ++j;
-				}
-			else
-				{
-				continue;
-				}
-         }
 
-      if (cb->descriptor == codes[j].descriptor) 
-         {
-         if (codes[j].nbval > 0)
-            {
-            if (cb->value)
-               {
-               if (codes[j].nbval != 2)
-                  {
-                  for (k = 0 ; k < codes[j].nbval ; k++)
-                     {
-                     if (bufr_compare_value( cb->value, codes[j].values[k], epsilon ) == 0)
-                        {
-                        ++j;
-                        break;
-                        }
-                     }
-						if( j>=codes[j].nbval )
-							{
-							jj = -1;
-							}
-                  }
-               else if (codes[j].nbval == 2)
-                  {
-                  if (bufr_between_values( codes[j].values[0], cb->value, codes[j].values[1] ) == 0)
-							{
-                     ++j;
-							}
-						else
-							{
-							jj = -1;
-							}
-                  }
-               }
-            }
-         else
-            {
-            ++j;
-            }
-         if (jj == -1) jj = i;
-         if (j == nb)
+		/* this is a cheap test... do it before we check the lists */
+      if (cb->descriptor != desc[j].descriptor) 
+			{
+			if( jj>=0 ) i = jj;
+			jj = -1;
+			j = 0;
+			continue;
+			}
+
+		/* check TLC. Note that if we're looking for a TLC code and the
+		 * descriptor has no meta-data, it becomes a fail.
+		 */
+		for( k=0; cb->meta && k<nb_tlc; k++ )
+			{
+			float v1 = bufr_value_get_float( tlc[k].values[0] );
+			float v2 = bufr_fetch_rtmd_location( tlc[k].descriptor, cb->meta );
+         if( v1 != v2 )
 				{
-            return jj;
+				break;
 				}
-         }
-      else
-         {
-         j = 0;
-         jj = -1;
-         }
+			}
+		if( k<nb_tlc )
+			{
+			if( jj>=0 ) i = jj;
+			jj = -1;
+			j = 0;
+			continue;
+			}
+
+		/* check qualifiers. Note that if we're looking for a TLC code and the
+		 * descriptor has no meta-data, it becomes a fail.
+		 */
+		for( k=0; cb->meta && k<nb_qual; k++ )
+			{
+			BufrDescriptor* qd = bufr_fetch_rtmd_qualifier( qual[k].descriptor,
+				cb->meta);
+			if( qd == NULL ) break;
+
+			scale = cb->encoding.scale ? pow(10, (double)cb->encoding.scale) : 1;
+			epsilon = 0.5 / scale;
+				
+			if( bufr_compare_value( qd->value, qual[k].values[0], epsilon ) )
+				{
+				break;
+				}
+			}
+		if( k<nb_qual )
+			{
+			if( jj>=0 ) i = jj;
+			jj = -1;
+			j = 0;
+			continue;
+			}
+
+		/* If we got here, all our qualifiers match. Now it's just straight
+		 * value checking. If there's no value defined for the match, it's
+		 * obviously good. Otherwise, we get into the weeds.
+		 */
+
+		/* if we find a match, j should be incremented. If it isn't, no match,
+		 * and we don't have to pepper failure handling in all our conditions.
+		 */
+		lj = j;
+
+		scale = cb->encoding.scale ? pow(10, (double)cb->encoding.scale) : 1;
+		epsilon = 0.5 / scale;
+
+		if (desc[j].nbval > 0)
+			{
+			if (cb->value)
+				{
+				if (desc[j].nbval != 2)
+					{
+					for (k = 0 ; k < desc[j].nbval ; k++)
+						{
+						if (bufr_compare_value( cb->value, desc[j].values[k],
+								epsilon ) == 0)
+							{
+							++j;
+							break;
+							}
+						}
+					}
+				else if (desc[j].nbval == 2)
+					{
+					if (bufr_between_values( desc[j].values[0], cb->value,
+							desc[j].values[1] ) == 1)
+						{
+						++j;
+						}
+					}
+				}
+			}
+		else
+			{
+			++j;
+			}
+
+		if( lj == j )
+			{
+			/* j never got incremented, which means we failed to match */
+			if( jj>=0 ) i = jj;
+			jj = -1;
+			j = 0;
+			}
+		else
+			{
+			/* we had a match */
+			if( jj<0 ) jj = i;
+			}
       }
-   return -1;
+
+	if( desc ) free(desc);
+	if( qual ) free(qual);
+	if( tlc ) free(tlc);
+
+   return (j==nb_desc) ? jj : -1;
    }
 
 /**
@@ -412,7 +499,11 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
 /**
  * bufr_set_key_location
  * @english
- * define a key with a value representing time or location to search in datasubset
+ * define a key with a value representing time or location to search
+ * in datasubset
+ * @note BufrDescValue structures initialized by this function shouldn't
+ * be used outside of key search operations.
+ * @warning Call bufr_vfree_DescValueto free storage after use.
  * @endenglish
  * @francais
  * définir une clé représentant une valeur de coordonnée spatiale ou temporelle
@@ -428,4 +519,36 @@ void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
 
    cv->values[0] = bufr_create_value( VALTYPE_FLT32 );
    bufr_value_set_float( cv->values[0], value );
+   }
+
+/**
+ * @english
+ * define a key with a value representing qualifier to search for
+ * in datasubset.
+ * @note Qualifier values are the last entry in the datasubset. If you need
+ * to search for a qualifier value which might have been derived from a
+ * replication increment, you need to use a time/location key via
+ * bufr_set_key_location().
+ * @note BufrDescValue structures initialized by this function shouldn't
+ * be used outside of key search operations.
+ * @note If value is "missing", results are undefined.
+ * @warning Call bufr_vfree_DescValueto free storage after use.
+ * @param cv descriptor/value to allocation
+ * @param descriptor descriptor to search for
+ * @param value what we're looking for. Will be copied.
+ * @endenglish
+ * @francais
+ * définir une clé représentant une valeur de coordonnée spatiale ou temporelle
+ * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup decode descriptor
+ */
+void bufr_set_key_qualifier( BufrDescValue *cv, int descriptor, 
+	const BufrValue* value)
+   {
+   cv->descriptor = descriptor | QUAL_FLAG_BIT;
+   bufr_valloc_DescValue( cv, value ? 1 : 0 );
+
+	if( value ) cv->values[0] = bufr_duplicate_value( value );
    }

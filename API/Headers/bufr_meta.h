@@ -82,6 +82,8 @@ extern void          bufr_print_rtmd_repl      ( char *outstr, BufrRTMD *bm );
 extern void          bufr_print_rtmd_qualifiers( char *outstr, BufrRTMD *bm );
 extern void          bufr_print_rtmd_location  ( char *outstr, int desc, BufrRTMD *bm );
 extern float         bufr_fetch_rtmd_location ( int descriptor, BufrRTMD *bm );
+extern struct bufr_desc*		bufr_fetch_rtmd_qualifier( int descriptor, BufrRTMD *bm );
+
 
 #ifdef __cplusplus
 }

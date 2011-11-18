@@ -44,6 +44,10 @@ extern   int     bufr_subset_find_values     ( DataSubset *dts, BufrDescValue *d
 
 extern   void    bufr_set_key_location       ( BufrDescValue *cv, int descriptor, float value );
 
+extern   void    bufr_set_key_qualifier       ( BufrDescValue *cv,
+                                                int descriptor,
+																const BufrValue* value );
+
 extern   void    bufr_set_key_flt32          ( BufrDescValue *cv, int descriptor, float *values, int nbval );
 
 extern   void    bufr_set_key_int32          ( BufrDescValue *cv, int descriptor, int *values,   int nbval );

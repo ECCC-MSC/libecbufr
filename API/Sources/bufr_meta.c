@@ -366,3 +366,39 @@ float bufr_fetch_rtmd_location( int descriptor, BufrRTMD *rtmd )
       }
    return bufr_missing_float();
    }
+
+/**
+ * @english
+ *
+ * Fetch the value of a descriptor's qualifier.
+ *
+ * @note This only works
+ *
+ * @param desc  the descriptor to look for
+ * @param rtmd pointer to an BufrRTMD
+ * @return float value of metadata
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup decode descriptor
+ */
+struct bufr_desc* bufr_fetch_rtmd_qualifier( int descriptor, BufrRTMD *rtmd )
+   {
+   int i;
+
+   if (rtmd == NULL) return NULL;
+
+   if (rtmd->nb_qualifiers)
+      {
+      for (i = 0; i < rtmd->nb_qualifiers ; i++ )
+         {
+         if (rtmd->qualifiers[i]->descriptor == descriptor)
+				{
+            return rtmd->qualifiers[i];
+				}
+         }
+      }
+   return NULL;
+   }
