@@ -27,10 +27,8 @@ html: libecbufr-dox.conf $(DOXFILES)
 	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
 
 rtf-en: html-en
-	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
 
 rtf-fr: html-fr
-	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
 
 rtf: html
 
