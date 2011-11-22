@@ -45,37 +45,37 @@
    204002 
    031021 VALUE=8 
 #  301011 
-   004001 (0x0:0 bits)VALUE=2009 
-   004002 (0x0:0 bits)VALUE=3 
-   004003 (0x0:0 bits)VALUE=21 
+   004001 (0x0:2 bits)VALUE=2009 
+   004002 (0x0:2 bits)VALUE=3 
+   004003 (0x0:2 bits)VALUE=21 
 #  301013 
-   004004 (0x0:0 bits)VALUE=10 
-   004005 (0x0:0 bits)VALUE=10 
-   004006 (0x0:0 bits)VALUE=5 
+   004004 (0x0:2 bits)VALUE=10 
+   004005 (0x0:2 bits)VALUE=10 
+   004006 (0x0:2 bits)VALUE=5 
 #  301021 
-   005001 (0x0:0 bits)VALUE=42.25500
-   006001 (0x0:0 bits)VALUE=-2.04167
-   007004 (0x0:0 bits)VALUE=20320.0
-   010053 (0x0:0 bits)VALUE=11282
-   008009 (0x3:0 bits)VALUE=0 
-   011001 (0x0:0 bits)VALUE=233 
-   011002 (0x0:0 bits)VALUE=31.9
-   002064 (0x3:0 bits)VALUE=0 
-   011100 (0x3:0 bits)VALUE=212.0
-   011101 (0x3:0 bits)MSNG
-   011102 (0x3:0 bits)MSNG
-   011103 (0x3:0 bits)MSNG
-   011104 (0x3:0 bits)VALUE=15 
-   012101 (0x0:0 bits)VALUE=221.25
-   013002 (0x1:0 bits)VALUE=0.00000
-   013003 (0x0:0 bits)VALUE=4 
+   005001 (0x0:2 bits)VALUE=42.25500
+   006001 (0x0:2 bits)VALUE=-2.04167
+   007004 (0x0:2 bits)VALUE=20320.0
+   010053 (0x0:2 bits)VALUE=11282
+   008009 (0x3:2 bits)VALUE=0 
+   011001 (0x0:2 bits)VALUE=233 
+   011002 (0x0:2 bits)VALUE=31.9
+   002064 (0x3:2 bits)VALUE=0 
+   011100 (0x3:2 bits)VALUE=212.0
+   011101 (0x3:2 bits)MSNG
+   011102 (0x3:2 bits)MSNG
+   011103 (0x3:2 bits)MSNG
+   011104 (0x3:2 bits)VALUE=15 
+   012101 (0x0:2 bits)VALUE=221.25
+   013002 (0x1:2 bits)VALUE=0.00000
+   013003 (0x0:2 bits)VALUE=4 
 #  101000 {R=0}
    031000 {R=0} VALUE=1 
-   012103 {R=1} (0x0:0 bits)VALUE=197.75
-   033026 (0x3:0 bits)VALUE=7 
+   012103 {R=1} (0x0:2 bits)VALUE=197.75
+   033026 (0x3:2 bits)VALUE=7 
 #  101000 {R=0}
    031000 {R=0} VALUE=1 
-   020042 {R=1} (0x0:0 bits)VALUE=0 
+   020042 {R=1} (0x0:2 bits)VALUE=0 
    103000 {R=0} 
    031000 {R=0} VALUE=0 
 #  020043 {R=0}
@@ -83,16 +83,16 @@
 #  020045 {R=0}
 #  101000 {R=0}
    031000 {R=0} VALUE=1 
-   033025 {R=1} (0x3:0 bits)VALUE=3 
+   033025 {R=1} (0x3:2 bits)VALUE=3 
 #  103000 {R=0}
    031001 {R=0} VALUE=1 
-   011075 {R=1} (0x3:0 bits)VALUE=0.30
-   011076 {R=1} (0x3:0 bits)VALUE=0.70
-   011039 {R=1} (0x3:0 bits)VALUE=7 
+   011075 {R=1} (0x3:2 bits)VALUE=0.30
+   011076 {R=1} (0x3:2 bits)VALUE=0.70
+   011039 {R=1} (0x3:2 bits)VALUE=7 
 #  102000 {R=0}
    031000 {R=0} VALUE=1 
-   011037 {R=1} (0x0:0 bits)VALUE=18 
-   011077 {R=1} (0x3:0 bits)VALUE=1200 
+   011037 {R=1} (0x0:2 bits)VALUE=18 
+   011077 {R=1} (0x3:2 bits)VALUE=1200 
    103000 {R=0} 
    031000 {R=0} VALUE=0 
 #  011034 {R=0}

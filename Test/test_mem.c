@@ -89,9 +89,9 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                if (bcv->value->af)  /* If there are Associated Fields */
                   {
                   BufrAF *af = bcv->value->af;
-                 sprintf( buf, _n("(0x%lx:%d bit)",
-                                   "(0x%lx:%d bits)", af->nbits),
-                           af->bits, af->nbits );
+                 sprintf( buf, _n("(0x%llx:%d bit)",
+                                   "(0x%llx:%d bits)", af->nbits),
+                           (unsigned long long)af->bits, af->nbits );
 
                   bufr_print_output( buf );
                   }
@@ -131,7 +131,7 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                         }
                      else
                         {
-                        sprintf( buf, _("VALUE=%ld "), value );
+                        sprintf( buf, _("VALUE=%lld "), (long long)value );
                         }
                      bufr_print_output( buf );
                      }
