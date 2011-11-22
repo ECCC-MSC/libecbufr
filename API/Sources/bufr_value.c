@@ -36,6 +36,7 @@ This file is part of libECBUFR.
 #include "bufr_value.h"
 #include "private/bufr_priv_value.h"
 #include "bufr_i18n.h"
+#include "bufr_util.h"
 
 
 /**
@@ -1040,9 +1041,9 @@ uint64_t bufr_negative_ivalue( int64_t value, int nbits )
       {
       char errmsg[256];
 
-      sprintf( errmsg, _n("Warning: %ld needs at least %d bit for storage\n", 
-                          "Warning: %ld needs at least %d bits for storage\n", minbits), 
-               value, minbits );
+      sprintf( errmsg, _n("Warning: %lld needs at least %d bit for storage\n", 
+                          "Warning: %lld needs at least %d bits for storage\n", minbits), 
+               (long long)value, minbits );
       bufr_print_debug( errmsg );
       }
 
@@ -1158,7 +1159,7 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
             }
          else
             {
-            sprintf(  outstr, "%ld", lval );
+            sprintf(  outstr, "%lld", (long long)lval );
             }
          hasvalue = 1;
          break;

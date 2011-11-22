@@ -1728,8 +1728,9 @@ uint32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_OVERFLOW;
-      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%lu) : value = %e, giving %lu"),
-               code, maxval, fval, missing );
+      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%llu) : value = %e, giving %llu"),
+               code, (unsigned long long)maxval, fval,
+					(unsigned long long)missing );
       bufr_print_debug( buffer );
       ival = missing;
       }
@@ -1906,8 +1907,8 @@ uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_UNDERFLOW;
       minval = (int64_t)ival - be->reference;
-      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %e, giving %ld"),
-               code, fval, minval );
+      sprintf( buffer, _("Warning: UNDERFLOW with element %d : value = %e, giving %lld"),
+               code, fval, (long long)minval );
       bufr_print_debug( buffer );
       ival = maxval;
       }
@@ -1920,8 +1921,9 @@ uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
       bufr_errtbe = *be;
       bad_descriptor = code;
       bufr_errcode = BUFR_TB_OVERFLOW;
-      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%lu) : value = %e, giving %lu"),
-               code, maxval, fval, missing );
+      sprintf( buffer, _("Warning: OVERFLOW with element %d (max=%llu) : value = %e, giving %llu"),
+               code, (unsigned long long)maxval, fval,
+					(unsigned long long)missing );
       bufr_print_debug( buffer );
       ival = missing;
       }

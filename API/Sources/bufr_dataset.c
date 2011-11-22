@@ -1052,8 +1052,8 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
          bufr_print_debug( "   " );
          if (bufr_print_dscptr_value( errmsg, bcv ))
             bufr_print_debug( errmsg );
-         sprintf( errmsg, _n(" -> R0=0x%lx (%d bit) ", " -> R0=0x%lx (%d bits) ", bcv->encoding.nbits), 
-               imin, bcv->encoding.nbits );
+         sprintf( errmsg, _n(" -> R0=0x%llx (%d bit) ", " -> R0=0x%llx (%d bits) ", bcv->encoding.nbits), 
+               (unsigned long long)imin, bcv->encoding.nbits );
          bufr_print_debug( errmsg );
          sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6 ), 0, 6 );
          bufr_print_debug( errmsg );
@@ -1071,8 +1071,8 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
          bufr_print_debug( "   " );
          if (bufr_print_dscptr_value( errmsg, bcv ))
             bufr_print_debug( errmsg );
-         sprintf( errmsg, _n(" -> R0=0x%lx (%d bit) ", " -> R0=0x%lx (%d bits) ", bcv->encoding.nbits), 
-               imin, bcv->encoding.nbits );
+         sprintf( errmsg, _n(" -> R0=0x%llx (%d bit) ", " -> R0=0x%llx (%d bits) ", bcv->encoding.nbits), 
+               (long long)imin, bcv->encoding.nbits );
          bufr_print_debug( errmsg );
          sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), nbinc, 6 );
          bufr_print_debug( errmsg );
@@ -1092,7 +1092,7 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
             bufr_print_debug( "   " );
             if (bufr_print_dscptr_value( errmsg, bcv ))
                bufr_print_debug( errmsg );
-            sprintf( errmsg, _n(" -> R(%d)=0x%lx (%d bit)\n", " -> R(%d)=0x%lx (%d bits)\n", nbinc), i+1, ival, nbinc );
+            sprintf( errmsg, _n(" -> R(%d)=0x%llx (%d bit)\n", " -> R(%d)=0x%llx (%d bits)\n", nbinc), i+1, (unsigned long long)ival, nbinc );
             bufr_print_debug( errmsg );
             }
          }
@@ -1157,8 +1157,8 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, uval, 64 );     /* REF */
          if (debug)
             {
-            sprintf( errmsg, _n("   %E -> R0=%lx (%d bit) ", "   %E -> R0=%lx (%d bits) ", 64), 
-                  dval0, uval, 64 );
+            sprintf( errmsg, _n("   %E -> R0=%llx (%d bit) ", "   %E -> R0=%llx (%d bits) ", 64), 
+                  dval0, (unsigned long long)uval, 64 );
             bufr_print_debug( errmsg );
             sprintf( errmsg, _n("NBINC=0 (%d bit)\n", "NBINC=0 (%d bits)\n", 6), 6 );
             bufr_print_debug( errmsg );
@@ -1170,8 +1170,8 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, uval, 32 );     /* REF */
          if (debug)
             {
-            sprintf( errmsg, _n("   %E -> R0=%lx (%d bit) ", "   %E -> R0=%lx (%d bits) ", 32), 
-                  fval0, uval, 32 );
+            sprintf( errmsg, _n("   %E -> R0=%llx (%d bit) ", "   %E -> R0=%llx (%d bits) ", 32), 
+                  fval0, (unsigned long long)uval, 32 );
             bufr_print_debug( errmsg );
             sprintf( errmsg, _n("NBINC=0 (%d bit)\n", "NBINC=0 (%d bits)\n", 6), 6);
             bufr_print_debug( errmsg );
@@ -1188,8 +1188,8 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, 8, 6 );         /* NBINC */
          if (debug)
             {
-            sprintf( errmsg, _n("   %E -> R0=0x%lx (%d bit) ", "   %E -> R0=0x%lx (%d bits) ", 64), 
-                  dval0, uval, 64 );
+            sprintf( errmsg, _n("   %E -> R0=0x%llx (%d bit) ", "   %E -> R0=0x%llx (%d bits) ", 64), 
+                  dval0, (unsigned long long)uval, 64 );
             bufr_print_debug( errmsg );
             sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), 8, 6);
             bufr_print_debug( errmsg );
@@ -1202,8 +1202,8 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
          bufr_putbits( msg, 4, 6 );         /* NBINC */
          if (debug)
             {
-            sprintf( errmsg, _n("   %E -> R0=0x%lx (%d bit) ", "   %E -> R0=0x%lx (%d bits) ", 32), 
-                  fval0, uval, 32);
+            sprintf( errmsg, _n("   %E -> R0=0x%llx (%d bit) ", "   %E -> R0=0x%llx (%d bits) ", 32), 
+                  fval0, (unsigned long long)uval, 32);
             bufr_print_debug( errmsg );
             sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), 4, 6);
             bufr_print_debug( errmsg );
@@ -1221,7 +1221,8 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
             bufr_putbits( msg, uval, 64 );
             if (debug)
                {
-               sprintf( errmsg, _n("   %E -> R(%d)=0x%lx (%d bit)\n", "   %E -> R(%d)=0x%lx (%d bits)\n", 64), dval, i+1, uval, 64 );
+               sprintf( errmsg, _("   %E -> R(%d)=0x%llx (%d bits)\n"),
+											  dval, i+1, (unsigned long long)uval, 64 );
                bufr_print_debug( errmsg );
                }
             }
@@ -1232,7 +1233,8 @@ static void bufr_put_ieeefp_compressed( BUFR_Message *msg, BUFR_Dataset *dts, in
             bufr_putbits( msg, uval, 32 );
             if (debug)
                {
-               sprintf( errmsg, _n("   %E ->  R(%d)=0x%lx (%d bit)\n", "   %E ->  R(%d)=0x%lx (%d bits)\n", 32), fval, i, uval, 32 );
+               sprintf( errmsg, _("   %E ->  R(%d)=0x%llx (%d bits)\n"),
+						fval, i, (unsigned long long)uval, 32 );
                bufr_print_debug( errmsg );
                }
             }
@@ -1284,8 +1286,8 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
       bufr_putbits( msg, 0, 6 );                       /* NBINC */
       if (debug)
          {
-         sprintf( errmsg, _n("   AF0=0x%lx (%d bit) ", "   AF0=0x%lx (%d bits) ", bcv->value->af->nbits), 
-                     umin, bcv->value->af->nbits);
+         sprintf( errmsg, _n("   AF0=0x%llx (%d bit) ", "   AF0=0x%llx (%d bits) ", bcv->value->af->nbits), 
+                     (unsigned long long)umin, bcv->value->af->nbits);
          bufr_print_debug( errmsg );
          sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), 0, 6 );
          bufr_print_debug( errmsg );
@@ -1299,8 +1301,8 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
       bufr_putbits( msg, nbinc, 6 );          /* NBINC */
       if (debug)
          {
-         sprintf( errmsg, _n("   AF0=0x%lx (%d bit) ", "   AF0=0x%lx (%d bits) ", bcv->encoding.nbits), 
-                     umin, bcv->encoding.nbits );
+         sprintf( errmsg, _n("   AF0=0x%llx (%d bit) ", "   AF0=0x%llx (%d bits) ", bcv->encoding.nbits), 
+                     (unsigned long long)umin, bcv->encoding.nbits );
          bufr_print_debug( errmsg );
          sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), nbinc, 6 );
          bufr_print_debug( errmsg );
@@ -1316,7 +1318,7 @@ static void bufr_put_af_compressed( BUFR_Message *msg, BUFR_Dataset *dts, BufrDe
             bufr_putbits( msg, uval, nbinc );     /* Inc 's */
             if (debug)
                {
-               sprintf( errmsg, _n("   0x%lx -> AF(%d)=0x%lx (%d bit)\n", "   0x%lx -> AF(%d)=0x%lx (%d bits)\n", nbinc), uval2, i+1, uval, nbinc );
+               sprintf( errmsg, _n("   0x%llx -> AF(%d)=0x%llx (%d bit)\n", " 0x%llx -> AF(%d)=0x%llx (%d bits)\n", nbinc), (unsigned long long)uval2, i+1, (unsigned long long)uval, nbinc );
                bufr_print_debug( errmsg );
                }
             }
@@ -1622,8 +1624,10 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
       {
       if (isdebug)
          {
-         sprintf( errmsg, _n("AFD: 0x%lx (%d bit) ", "AFD: 0x%lx (%d bits) ", bd->value->af->nbits), 
-               bd->value->af->bits, bd->value->af->nbits );
+         sprintf( errmsg,
+				_n("AFD: 0x%llx (%u bit) ", "AFD: 0x%llx (%u bits) ",
+						bd->value->af->nbits), 
+				(long long)(bd->value->af->bits), (unsigned)(bd->value->af->nbits));
          bufr_print_debug( errmsg );
          }
       bufr_putbits( bufr, bd->value->af->bits, bd->value->af->nbits );
@@ -1703,7 +1707,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                   }
                if (isdebug)
                   {
-                  sprintf( errmsg, "%ld", ival );
+                  sprintf( errmsg, "%llu", (unsigned long long)ival );
                   bufr_print_debug( errmsg );
                   }
                }
@@ -1714,9 +1718,9 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                if (isdebug)
                   {
                   if (bufr_is_missing_float( fval ))
-                     sprintf( errmsg, _("MSNG --> %ld"), ival );
+                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ival );
                   else
-                     sprintf( errmsg, _("%f --> %ld"), fval, ival );
+                     sprintf( errmsg, _("%f --> %llu"), fval, (unsigned long long)ival );
                   bufr_print_debug( errmsg );
                   }
                }
@@ -1727,9 +1731,9 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                if (isdebug)
                   {
                   if (bufr_is_missing_double( dval ))
-                     sprintf( errmsg, _("MSNG --> %ld"), ival );
+                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ival );
                   else
-                     sprintf( errmsg, _("%f --> %ld"), dval, ival );
+                     sprintf( errmsg, _("%f --> %llu"), dval, (unsigned long long)ival );
                   bufr_print_debug( errmsg );
                   }
                }
@@ -1741,7 +1745,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                ival = bufr_value_get_int64( bd->value );
                if (isdebug)
                   {
-                  sprintf( errmsg, _("%ld"), ival );
+                  sprintf( errmsg, _("%llu"), (unsigned long long)ival );
                   bufr_print_debug( errmsg );
                   }
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
@@ -1757,9 +1761,9 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                if (isdebug)
                   {
                   if (bufr_is_missing_double( fval ))
-                     sprintf( errmsg, _("MSNG --> %ld"), ival );
+                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ival );
                   else
-                     sprintf( errmsg, _("%f --> %ld"), dval, ival );
+                     sprintf( errmsg, _("%f --> %llu"), dval, (unsigned long long)ival );
                   bufr_print_debug( errmsg );
                   }
                }
@@ -1775,15 +1779,15 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          ival = bufr_value_get_int32( bd->value );
          if (isdebug)
             {
-            sprintf( errmsg, _("INT: %ld "), ival );
+            sprintf( errmsg, _("INT: %llu "), (unsigned long long)ival );
             bufr_print_debug( errmsg );
             }
-         if (ival < 0)
+         if (ival < 0)	/* FIXME: can't happen! ival is uint64_t! */
             {
             ival = bufr_negative_ivalue( ival, bd->encoding.nbits );
             if (isdebug)
                {
-               sprintf( errmsg, _("--> %ld "), ival );
+               sprintf( errmsg, _("--> %llu "), (unsigned long long)ival );
                bufr_print_debug( errmsg );
                }
             }
@@ -1799,7 +1803,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          ival = bufr_value_get_int32( bd->value );
          if (isdebug)
             {
-            sprintf( errmsg, _("INT: %ld "), ival );
+            sprintf( errmsg, _("INT: %llu "), (unsigned long long)ival );
             bufr_print_debug( errmsg );
             }
          if (isdebug)
@@ -1877,13 +1881,15 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
 */
    if ( bd->value == NULL ) 
       {
+      bufr_print_debug( "\n" );
+      bufr_print_debug( NULL );
       return 0;
       }
 
    if (isdebug)
       {
       sprintf( errmsg, _n("AFD: (%d bit) ", "AFD: (%d bits) ", bd->encoding.af_nbits), 
-            bd->encoding.af_nbits );
+            (int)bd->encoding.af_nbits );
       bufr_print_debug( errmsg );
       }
 
@@ -1892,8 +1898,10 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
       bd->value->af->bits = bufr_getbits( bufr, bd->value->af->nbits, &errcode );
       if (isdebug)
          {
-         sprintf( errmsg, _n("AFD: 0x%lx (%d bit) ", "AFD: 0x%lx (%d bits) ",  bd->value->af->nbits), 
-               bd->value->af->bits, bd->value->af->nbits );
+         sprintf( errmsg,
+				_n("AFD: 0x%llx (%u bit) ", "AFD: 0x%llx (%u bits) ",
+						bd->value->af->nbits), 
+				(long long)(bd->value->af->bits), (unsigned)(bd->value->af->nbits));
          bufr_print_debug( errmsg );
          }
       if ( errcode < 0 ) return errcode;
@@ -1935,7 +1943,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             bufr_value_set_int32( bd->value, val );
             if (isdebug)
                {
-               sprintf( errmsg, _("IVAL=%ld "), val );
+               sprintf( errmsg, _("IVAL=%lld "), (long long)val );
                bufr_print_debug( errmsg );
                }
             }
@@ -1948,7 +1956,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                if (bufr_is_missing_float( fval ))
                   strcpy( errmsg, _("FVAL=MISSING ") );
                else
-                  sprintf( errmsg, _("FVAL=%E IVAL=%ld "), fval, ival );
+                  sprintf( errmsg, _("FVAL=%E IVAL=%llu "), fval, (unsigned long long)ival );
                bufr_print_debug( errmsg );
                }
             }
@@ -1975,8 +1983,8 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          val = bufr_cvt_ivalue( ival, bd->encoding.nbits );
          if (isdebug)
             {
-            sprintf( errmsg, _n("IVAL=%ld INT: %ld (%d bit) ", "IVAL=%ld INT: %ld (%d bits) ", bd->encoding.nbits), 
-                  ival, val, bd->encoding.nbits );
+            sprintf( errmsg, _n("IVAL=%llu INT: %lld (%d bit) ", "IVAL=%llu INT: %lld (%d bits) ", bd->encoding.nbits), 
+                  (unsigned long long)ival, (long long)val, bd->encoding.nbits);
             bufr_print_debug( errmsg );
             }
          bufr_value_set_int32( bd->value, val );
@@ -1989,7 +1997,7 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          if (ival == ival2) ival = -1;
          if (isdebug)
             {
-            sprintf( errmsg, _n("IVAL=%ld (%d bit) ", "IVAL=%ld (%d bits) ", bd->encoding.nbits), ival, bd->encoding.nbits );
+            sprintf( errmsg, _n("IVAL=%llu (%d bit) ", "IVAL=%llu (%d bits) ", bd->encoding.nbits), (unsigned long long)ival, bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
          bufr_value_set_int32( bd->value, ival );
@@ -2726,8 +2734,8 @@ static int bufr_get_numeric_compressed
    imin = bufr_getbits( msg, cb->encoding.nbits, &errcode );
    if (debug)
       {
-      sprintf( errmsg, _n("   R0=%ld (%d bit)", "   R0=%ld (%d bits)", cb->encoding.nbits), 
-            imin, cb->encoding.nbits );
+      sprintf( errmsg, _n("   R0=%llu (%d bit)", "   R0=%llu (%d bits)", cb->encoding.nbits), 
+            (unsigned long long)imin, cb->encoding.nbits );
       bufr_print_debug( errmsg );
       }
    if ( errcode < 0 ) return errcode;
@@ -2794,7 +2802,7 @@ static int bufr_get_numeric_compressed
          bufr_descriptor_set_bitsvalue( cb2, ival2 );
          if (debug)
             {
-            sprintf( errmsg, _n("   R(%d)=%lx(%lx) (%d bit)", "   R(%d)=%lx(%lx) (%d bits)", nbinc), i+1, ival2, ival, nbinc );
+            sprintf( errmsg, _n("   R(%d)=%llx(%llx) (%d bit)", " R(%d)=%llx(%llx) (%d bits)", nbinc), i+1, (unsigned long long)ival2, (unsigned long long)ival, nbinc );
             bufr_print_debug( errmsg );
             if (bufr_print_dscptr_value( errmsg, cb2 ))
                bufr_print_debug( errmsg );
@@ -2842,8 +2850,8 @@ static int bufr_get_af_compressed
    imin = bufr_getbits( msg, cb->value->af->nbits, &errcode );
    if (debug)
       {
-      sprintf( errmsg, _n(" A0=%lx (%d bit)", " A0=%lx (%d bits)", cb->value->af->nbits), 
-            imin, cb->value->af->nbits );
+      sprintf( errmsg, _n(" A0=%llx (%d bit)", " A0=%llx (%d bits)", cb->value->af->nbits), 
+            (unsigned long long)imin, cb->value->af->nbits );
       bufr_print_debug( errmsg );
       }
    if (errcode < 0) return errcode;
@@ -2866,7 +2874,7 @@ static int bufr_get_af_compressed
          cb2->value->af->bits = imin;
          if (debug && cb2->value)
             {
-            sprintf( errmsg, _(" A(%d)=%lx"), i+1, imin );
+            sprintf( errmsg, _(" A(%d)=%llx"), i+1, (unsigned long long)imin );
             bufr_print_debug( errmsg );
             bufr_print_debug( "\n" );
             }
@@ -2886,7 +2894,7 @@ static int bufr_get_af_compressed
          cb2->value->af->bits = ival;
          if (debug)
             {
-            sprintf( errmsg, _n("   A(%d)=%lx (%d bit)", "   A(%d)=%lx (%d bits)", nbinc), i+1, ival, nbinc );
+            sprintf( errmsg, _n("   A(%d)=%llx (%d bit)", "   A(%d)=%llx (%d bits)", nbinc), i+1, (unsigned long long)ival, nbinc );
             bufr_print_debug( errmsg );
             bufr_print_debug( "\n" );
             }
@@ -3369,18 +3377,22 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
 
       if (ptr[i] == '(')  /* AF bits */
          {
-         uint64_t  afbits;
+			unsigned long long afbits;
          int j;
 
          tok = strtok_r( NULL, " \t\n\r():", &ptr );
-         sscanf( tok, "%lx", &afbits );
+         sscanf( tok, "%llx", &afbits );
          if (debug)
             {
-            sprintf( errmsg, _("   *** has AF: %s -> %lx\n"), tok, afbits );
+            sprintf( errmsg, _("   *** has AF: %s -> %llx\n"), tok, afbits );
             bufr_print_debug( errmsg );
             }
 
          if (cb->value->af != NULL)
+				/* FIXME: may overflow; C99 guarantees
+				 * sizeof(unsigned long long) >= sizeof(uint64_t), rather than
+				 * sizeof(unsigned long long) == sizeof(uint64_t)
+				 */
             cb->value->af->bits = afbits;
          else
             {
