@@ -10,22 +10,10 @@ fi
 NAME=$1
 TARGET_VERNO=$2
 
-mtype=`uname -m`
-stype=`uname -s`
-case  $stype  in
-Linux  ) rel=`cat /proc/version | awk '{split($3,a,"."); b=a[1]a[2]; print b; }'`;
-         export HOSTTYPE="linux$rel-$mtype" ;
-         ;;
-esac
-export HOSTARCH=$HOSTTYPE
-export HOSTARCH=i386
-
-TARGET=`pwd`
-
+TARGET=${PWD}
 SRCTARGET=${NAME}-${TARGET_VERNO}
 PKGDIR=${TARGET}/debpackage
 SRCPKGDIR=${PKGDIR}/${SRCTARGET}
-TARGET_FN=${SRCTARGET}_i386.deb
 
 # cleanup old stuff
 rm -rf ${PKGDIR}
@@ -46,7 +34,7 @@ Source: libecbufr
 Section: libs
 Priority: optional
 Maintainer: libecbufr-dev
-Standards-Version: ${TARGET_VERNO}
+Homepage: https://launchpad.net/libecbufr
 
 Package: libecbufr
 Architecture: any
@@ -55,6 +43,7 @@ Conflicts: libecbufr
 Replaces: libecbufr
 Suggests: libcgi-formbuilder-perl
 Description: Environment Canada BUFR Library
+Homepage: https://launchpad.net/libecbufr
 EOFDEB
 
 cd ${PKGDIR}
