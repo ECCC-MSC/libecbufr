@@ -17,16 +17,22 @@ install-data-local: $(DOCDIRS)
 	$(mkinstalldirs) $(DESTDIR)$(docdir)
 	cp -fR $(DOCDIRS) $(DESTDIR)$(docdir)
 
-rtf-en html-en: libecbufr-dox-en.conf $(DOXFILES)
+html-en: libecbufr-dox-en.conf $(DOXFILES)
 	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
 
-rtf-fr html-fr: libecbufr-dox-fr.conf $(DOXFILES)
+html-fr: libecbufr-dox-fr.conf $(DOXFILES)
 	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
-
-rtf: html
 
 html: libecbufr-dox.conf $(DOXFILES)
 	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
+
+rtf-en: html-en
+	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
+
+rtf-fr: html-fr
+	(cat $<; $(DOXOPTS)) | $(DOXYGEN) -
+
+rtf: html
 
 # rather than trying to keep two configs in sync, derive the French from
 # the English.
