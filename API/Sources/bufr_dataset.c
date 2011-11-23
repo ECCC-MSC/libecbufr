@@ -1590,7 +1590,9 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    float           fval;
    double          dval;
    int             blen;
-   uint64_t        ival;
+   uint64_t        ui64val;
+   int32_t         i32val;
+   int64_t         i64val;
    char            errmsg[256];
    int             isdebug=bufr_is_debug();
    BufrValue      *bv;
@@ -1673,8 +1675,8 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          if (bd->encoding.nbits == 64)
             {
             dval = bufr_value_get_double( bd->value );
-            ival = bufr_ieee_encode_double( dval );
-            bufr_putbits( bufr, ival, bd->encoding.nbits );
+            ui64val = bufr_ieee_encode_double( dval );
+            bufr_putbits( bufr, ui64val, bd->encoding.nbits );
             if (isdebug)
                {
                sprintf( errmsg, "%E", dval );
@@ -1684,8 +1686,8 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          else
             {
             fval = bufr_value_get_float( bd->value );
-            ival = bufr_ieee_encode_single( fval );
-            bufr_putbits( bufr, ival, 32 );
+            ui64val = bufr_ieee_encode_single( fval );
+            bufr_putbits( bufr, ui64val, 32 );
             if (isdebug)
                {
                sprintf( errmsg, "%E", fval );
@@ -1700,40 +1702,48 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             {
             if (bd->value->type == VALTYPE_INT32)
                {
-               ival = bufr_value_get_int32( bd->value );
+               i32val = bufr_value_get_int32( bd->value );
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
                   {
-                   ival = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), (float)ival );
+                  ui64val = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), (float)i32val );
+                  }
+               else if (i32val < 0)
+                  {
+                  ui64val = bufr_missing_ivalue(  bd->encoding.nbits );
+                  }
+               else
+                  {
+                  ui64val = i32val;
                   }
                if (isdebug)
                   {
-                  sprintf( errmsg, "%llu", (unsigned long long)ival );
+                  sprintf( errmsg, "%llu", (unsigned long long)ui64val );
                   bufr_print_debug( errmsg );
                   }
                }
             else if (bd->value->type == VALTYPE_FLT32)
                {
                fval = bufr_value_get_float( bd->value );
-               ival = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), fval );
+               ui64val = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), fval );
                if (isdebug)
                   {
                   if (bufr_is_missing_float( fval ))
-                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ival );
+                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ui64val );
                   else
-                     sprintf( errmsg, _("%f --> %llu"), fval, (unsigned long long)ival );
+                     sprintf( errmsg, _("%f --> %llu"), fval, (unsigned long long)ui64val );
                   bufr_print_debug( errmsg );
                   }
                }
             else if (bd->value->type == VALTYPE_FLT64)
                {
                dval = bufr_value_get_double( bd->value );
-               ival = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), dval );
+               ui64val = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), dval );
                if (isdebug)
                   {
                   if (bufr_is_missing_double( dval ))
-                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ival );
+                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ui64val );
                   else
-                     sprintf( errmsg, _("%f --> %llu"), dval, (unsigned long long)ival );
+                     sprintf( errmsg, _("%f --> %llu"), dval, (unsigned long long)ui64val );
                   bufr_print_debug( errmsg );
                   }
                }
@@ -1742,28 +1752,32 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             {
             if (bd->value->type == VALTYPE_INT64)
                {
-               ival = bufr_value_get_int64( bd->value );
+               i64val = bufr_value_get_int64( bd->value );
                if (isdebug)
                   {
-                  sprintf( errmsg, _("%llu"), (unsigned long long)ival );
+                  sprintf( errmsg, _("%ll"), (long long)i64val );
                   bufr_print_debug( errmsg );
                   }
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
                   {
 /* FAILSAFE: INT type may have reference or scale */
-                  ival = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), (double)ival );
+                  ui64val = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), (double)i64val );
+                  }
+               else
+                  {
+                  ui64val = i64val;
                   }
                }
             else
                {
                dval = bufr_value_get_double( bd->value );
-               ival = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), dval );
+               ui64val = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), dval );
                if (isdebug)
                   {
                   if (bufr_is_missing_double( fval ))
-                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ival );
+                     sprintf( errmsg, _("MSNG --> %llu"), (unsigned long long)ui64val );
                   else
-                     sprintf( errmsg, _("%f --> %llu"), dval, (unsigned long long)ival );
+                     sprintf( errmsg, _("%f --> %llu"), dval, (unsigned long long)ui64val );
                   bufr_print_debug( errmsg );
                   }
                }
@@ -1773,37 +1787,41 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             sprintf( errmsg, _n(" (%d bit) ", " (%d bits) ", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
-         bufr_putbits( bufr, ival, bd->encoding.nbits );
+         bufr_putbits( bufr, ui64val, bd->encoding.nbits );
          break;
       case TYPE_CHNG_REF_VAL_OP :
-         ival = bufr_value_get_int32( bd->value );
+         i32val = bufr_value_get_int32( bd->value );
          if (isdebug)
             {
-            sprintf( errmsg, _("INT: %llu "), (unsigned long long)ival );
+            sprintf( errmsg, _("INT: %ll "), (long long)i32val );
             bufr_print_debug( errmsg );
             }
-         if (ival < 0)	/* FIXME: can't happen! ival is uint64_t! */
+         if (i32val < 0)	
             {
-            ival = bufr_negative_ivalue( ival, bd->encoding.nbits );
+            ui64val = bufr_negative_ivalue( i32val, bd->encoding.nbits );
             if (isdebug)
                {
-               sprintf( errmsg, _("--> %llu "), (unsigned long long)ival );
+               sprintf( errmsg, _("--> %llu "), (unsigned long long)ui64val );
                bufr_print_debug( errmsg );
                }
             }
+         else 
+            {
+            ui64val = i32val;
+            }
          if (isdebug)
             {
             sprintf( errmsg, _n("(%d bit) ", "(%d bits) ", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
-         bufr_putbits( bufr, ival, bd->encoding.nbits );
+         bufr_putbits( bufr, ui64val, bd->encoding.nbits );
          break;
       case TYPE_CODETABLE :
       case TYPE_FLAGTABLE :
-         ival = bufr_value_get_int32( bd->value );
+         i32val = bufr_value_get_int32( bd->value );
          if (isdebug)
             {
-            sprintf( errmsg, _("INT: %llu "), (unsigned long long)ival );
+            sprintf( errmsg, _("INT: %ll "), (long long)i32val );
             bufr_print_debug( errmsg );
             }
          if (isdebug)
@@ -1811,7 +1829,15 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             sprintf( errmsg, _n("(%d bit) ", "(%d bits) ", bd->encoding.nbits), bd->encoding.nbits );
             bufr_print_debug( errmsg );
             }
-         bufr_putbits( bufr, ival, bd->encoding.nbits );
+         if  (i32val < 0)
+            {
+            ui64val = bufr_missing_ivalue( bd->encoding.nbits );
+            }
+         else
+            {
+            ui64val = i32val;
+            }
+         bufr_putbits( bufr, ui64val, bd->encoding.nbits );
          break;
       default :
          if (isdebug)
