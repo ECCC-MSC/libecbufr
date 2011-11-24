@@ -53,7 +53,6 @@ extern void           bufr_put_padstring   ( BUFR_Message *bufr,
                                              const char *str, int len,
 															int enclen);
 extern int            bufr_getstring       ( BUFR_Message *bufr, char *str, int len );
-extern void           bufr_put_padstring   ( BUFR_Message *bufr, const char *str, int len, int enclen );
 
 extern int            bufr_decode_sect3    ( BUFR_Message *bufr );
 
