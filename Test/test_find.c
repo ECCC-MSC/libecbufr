@@ -48,6 +48,20 @@ static int set_value( DataSubset* dss, int desc, int start, int value )
 	return n;
 	}
 
+static int cmpinstance( void* i, BufrDescriptor* bv )
+	{
+	int* instance = (int*)i;
+	return --(*instance);
+	}
+
+static int cmpless( void* i, BufrDescriptor* bv )
+	{
+	int value = *(int*)i;
+	if( bv->value == NULL ) return -1;
+	if( bufr_value_is_missing(bv->value) ) return -1;
+	return !(bufr_descriptor_get_ivalue(bv) < value);
+	}
+
 int main(int argc, char *argv[])
    {
 	const char sect2[] = "Hi Yves!";
@@ -152,6 +166,7 @@ int main(int argc, char *argv[])
 			DataSubset    *dss;
 			BufrDescriptor* bcv;
 			int k, n, len;
+			int instance;
 			const char* s;
 			float          fvalues[5];
 			int            ivalues[5];
@@ -211,6 +226,48 @@ int main(int argc, char *argv[])
 			assert(bcv != NULL);
 			assert( bcv->descriptor == 12001 );
 			assert(bufr_descriptor_get_ivalue(bcv)==291);
+
+			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
+
+			/* match third instance of 12001.
+			 * This is an example of using completely arbitrary criteria to
+			 * check a value. In this case, it's against a counter, but it
+			 * could be anything.
+			 */
+			k = 0;
+			instance = 3;
+			bufr_set_key_callback( &(codes[k++]), 12001, cmpinstance, &instance );
+
+			n = bufr_subset_find_values( dss, codes, k, 0 );
+			assert( n >= 0 );
+			bcv = bufr_datasubset_get_descriptor( dss, n );
+			assert(bcv != NULL);
+			assert( bcv->descriptor == 12001 );
+			assert(bufr_descriptor_get_ivalue(bcv)==45);
+
+			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
+
+			/* match third instance of 12001 (i.e. first value less than 200) */
+			k = 0;
+			instance = 200;
+			bufr_set_key_callback( &(codes[k++]), 12001, cmpless, &instance );
+
+			n = bufr_subset_find_values( dss, codes, k, 0 );
+			assert( n >= 0 );
+			bcv = bufr_datasubset_get_descriptor( dss, n );
+			assert(bcv != NULL);
+			assert( bcv->descriptor == 12001 );
+			assert(bufr_descriptor_get_ivalue(bcv)==45);
+
+			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
+
+			/* match fails */
+			k = 0;
+			instance = 10;
+			bufr_set_key_callback( &(codes[k++]), 12001, cmpless, &instance );
+
+			n = bufr_subset_find_values( dss, codes, k, 0 );
+			assert( n < 0 );
 
 			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
 			}

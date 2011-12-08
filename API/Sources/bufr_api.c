@@ -39,8 +39,14 @@ This file is part of libECBUFR.
 #include "bufr_i18n.h"
 
 #define   TLC_FLAG_BIT      0x80000
-#define   QUAL_FLAG_BIT      0x40000
+#define   QUAL_FLAG_BIT     0x40000
+#define   CB_FLAG_BIT       0x20000
 
+typedef struct {
+	BufrValue val;
+	int (*valcmp)(void* data, BufrDescriptor* bd);
+	void* data;
+} ValueCallback;
 
 /**
  * @english
@@ -246,7 +252,7 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
       cb = pcb[i];
 
 		/* this is a cheap test... do it before we check the lists */
-      if (cb->descriptor != desc[j].descriptor) 
+      if (cb->descriptor != (desc[j].descriptor&(~CB_FLAG_BIT))) 
 			{
 			if( jj>=0 ) i = jj;
 			jj = -1;
@@ -309,11 +315,21 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
 		 */
 		lj = j;
 
-		scale = cb->encoding.scale ? pow(10, (double)cb->encoding.scale) : 1;
-		epsilon = 0.5 / scale;
-
-		if (desc[j].nbval > 0)
+		if( desc[j].descriptor&CB_FLAG_BIT && desc[j].nbval>0 )
 			{
+			/* callback match */
+			ValueCallback* bv = (ValueCallback*) desc[j].values[0];
+			if( 0 == bv->valcmp(bv->data, cb) )
+				{
+				/* callback returned zero, so it's a match */
+				++j;
+				}
+			}
+		else if (desc[j].nbval > 0)
+			{
+			scale = cb->encoding.scale ? pow(10, (double)cb->encoding.scale) : 1;
+			epsilon = 0.5 / scale;
+
 			if (cb->value)
 				{
 				if (desc[j].nbval != 2)
@@ -397,6 +413,7 @@ void bufr_set_key_string( BufrDescValue *cv, int descriptor, const char **values
    {
    int i;
 
+	bufr_init_DescValue(cv);
    cv->descriptor = descriptor;
    bufr_valloc_DescValue( cv, nbval );
    if (nbval <= 0) return;
@@ -441,6 +458,7 @@ void bufr_set_key_int32( BufrDescValue *cv, int descriptor, int *values, int nbv
    {
    int i;
 
+	bufr_init_DescValue(cv);
    cv->descriptor = descriptor;
 
    bufr_valloc_DescValue( cv, nbval );
@@ -485,6 +503,7 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
    {
    int i;
 
+	bufr_init_DescValue(cv);
    cv->descriptor = descriptor;
    bufr_valloc_DescValue( cv, nbval );
    if (nbval <= 0) return;
@@ -514,6 +533,7 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
  */
 void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
    {
+	bufr_init_DescValue(cv);
    cv->descriptor = descriptor | TLC_FLAG_BIT;
    bufr_valloc_DescValue( cv, 1 );
 
@@ -547,8 +567,59 @@ void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
 void bufr_set_key_qualifier( BufrDescValue *cv, int descriptor, 
 	const BufrValue* value)
    {
+	bufr_init_DescValue(cv);
    cv->descriptor = descriptor | QUAL_FLAG_BIT;
    bufr_valloc_DescValue( cv, value ? 1 : 0 );
 
 	if( value ) cv->values[0] = bufr_duplicate_value( value );
    }
+
+/**
+ * @english
+ * define a key with a comparison callback. This is matched at the same "rank"
+ * as a regular key value, but the callback can also check qualifiers and
+ * other meta-data. The callback should return zero for a match.
+ *
+ * This type of search key is useful for matching against flag/code tables
+ * where more than one option might be acceptable.
+ *
+ * @note BufrDescValue structures initialized by this function shouldn't
+ * be used outside of key search operations.
+ * @warning Call bufr_vfree_DescValue to free storage after use.
+ * @param cv descriptor/value to allocation
+ * @param descriptor descriptor to search for
+ * @param valcmp callback function pointer
+ * @param data first parameter passed to callback function
+ * @endenglish
+ * @francais
+ * @todo translate.
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup decode descriptor
+ */
+void bufr_set_key_callback( BufrDescValue *cv, int descriptor,
+	int (*valcmp)(void* data, BufrDescriptor* bd), void* data)
+	{
+	ValueCallback* bv;
+
+	bufr_init_DescValue(cv);
+   cv->descriptor = descriptor | CB_FLAG_BIT;
+
+	bv = calloc(1,sizeof(ValueCallback));
+	if( bv )
+		{
+		/* NOTE: this only works because the library _allows_ undefined
+		 * types and knows enough not to mess with the contents. In the
+		 * good 'ol days we'd just stick the pointer into a 32 or 64 bit integer,
+		 * but it's no longer safe to make assumptions about that sort of thing.
+		 */
+		bv->val.type = VALTYPE_UNDEFINE;
+		bv->val.af = NULL;
+
+		bv->valcmp = valcmp;
+		bv->data = data;
+
+		bufr_valloc_DescValue( cv, 1 );
+		cv->values[0] = (BufrValue*) bv;
+		}
+	}
