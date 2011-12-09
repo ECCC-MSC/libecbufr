@@ -41,6 +41,7 @@ This file is part of libECBUFR.
 #define   TLC_FLAG_BIT      0x80000
 #define   QUAL_FLAG_BIT     0x40000
 #define   CB_FLAG_BIT       0x20000
+#define   FLAG_BITS (TLC_FLAG_BIT|QUAL_FLAG_BIT|CB_FLAG_BIT)
 
 typedef struct {
 	BufrValue val;
@@ -219,6 +220,7 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
 			if( qual == NULL ) qual = calloc(nb,sizeof(BufrDescValue));
 			if( qual == NULL ) return -1;
 			memcpy(&qual[nb_qual], &codes[j], sizeof(BufrDescValue));
+			/* Note: leave CB_FLAG_BIT alone */
 			qual[nb_qual].descriptor &= ~QUAL_FLAG_BIT;
 			nb_qual ++;
 			}
@@ -252,7 +254,7 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
       cb = pcb[i];
 
 		/* this is a cheap test... do it before we check the lists */
-      if (cb->descriptor != (desc[j].descriptor&(~CB_FLAG_BIT))) 
+      if (cb->descriptor != (desc[j].descriptor&(~FLAG_BITS))) 
 			{
 			if( jj>=0 ) i = jj;
 			jj = -1;
@@ -280,19 +282,29 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
 			continue;
 			}
 
-		/* check qualifiers. Note that if we're looking for a TLC code and the
-		 * descriptor has no meta-data, it becomes a fail.
-		 */
-		for( k=0; cb->meta && k<nb_qual; k++ )
+		/* check qualifiers (and non TLC meta-data) */
+		for( k=0; k<nb_qual; k++ )
 			{
-			BufrDescriptor* qd = bufr_fetch_rtmd_qualifier( qual[k].descriptor,
-				cb->meta);
-			if( qd == NULL ) break;
+			if( qual[k].descriptor & CB_FLAG_BIT )
+				{
+				ValueCallback* bv = (ValueCallback*) qual[k].values[0];
+				if( bv== NULL || bv->valcmp(bv->data, cb) ) break;
+				}
+			else if(cb->meta)
+				{
+				BufrDescriptor* qd = bufr_fetch_rtmd_qualifier(
+					qual[k].descriptor&(~FLAG_BITS), cb->meta);
+				if( qd == NULL ) break;
 
-			scale = cb->encoding.scale ? pow(10, (double)cb->encoding.scale) : 1;
-			epsilon = 0.5 / scale;
-				
-			if( bufr_compare_value( qd->value, qual[k].values[0], epsilon ) )
+				scale = cb->encoding.scale ? pow(10,(double)cb->encoding.scale) : 1;
+				epsilon = 0.5 / scale;
+					
+				if( bufr_compare_value( qd->value, qual[k].values[0], epsilon ) )
+					{
+					break;
+					}
+				}
+			else
 				{
 				break;
 				}
@@ -577,7 +589,7 @@ void bufr_set_key_qualifier( BufrDescValue *cv, int descriptor,
 /**
  * @english
  * define a key with a comparison callback. This is matched at the same "rank"
- * as a regular key value, but the callback can also check qualifiers and
+ * as a descriptor key value, but the callback can also check qualifiers and
  * other meta-data. The callback should return zero for a match.
  *
  * This type of search key is useful for matching against flag/code tables
@@ -604,6 +616,62 @@ void bufr_set_key_callback( BufrDescValue *cv, int descriptor,
 
 	bufr_init_DescValue(cv);
    cv->descriptor = descriptor | CB_FLAG_BIT;
+
+	bv = calloc(1,sizeof(ValueCallback));
+	if( bv )
+		{
+		/* NOTE: this only works because the library _allows_ undefined
+		 * types and knows enough not to mess with the contents. In the
+		 * good 'ol days we'd just stick the pointer into a 32 or 64 bit integer,
+		 * but it's no longer safe to make assumptions about that sort of thing.
+		 */
+		bv->val.type = VALTYPE_UNDEFINE;
+		bv->val.af = NULL;
+
+		bv->valcmp = valcmp;
+		bv->data = data;
+
+		bufr_valloc_DescValue( cv, 1 );
+		cv->values[0] = (BufrValue*) bv;
+		}
+	}
+
+/**
+ * @english
+ * Define a meta-data key with a comparison callback. The callback is run
+ * against every descriptor and would normally check meta-data such as
+ * qualifiers. There is no descriptor argument since no specific descriptor
+ * is being tested. The callback should return zero for a match.
+ *
+ * Note that this key is intended to test against meta-data, but since
+ * the base descriptor is being used other tests (i.e. "not missing") are
+ * also feasible.
+ *
+ * @note BufrDescValue structures initialized by this function shouldn't
+ * be used outside of key search operations.
+ * @warning Call bufr_vfree_DescValue to free storage after use.
+ * @param cv descriptor/value to allocation
+ * @param descriptor descriptor to search for
+ * @param valcmp callback function pointer
+ * @param data first parameter passed to callback function
+ * @endenglish
+ * @francais
+ * @todo translate.
+ * @endfrancais
+ * @author Chris Beauregard
+ * @ingroup decode descriptor
+ */
+void bufr_set_key_meta_callback( BufrDescValue *cv,
+	int (*valcmp)(void* data, BufrDescriptor* bd), void* data)
+	{
+	ValueCallback* bv;
+
+	bufr_init_DescValue(cv);
+
+	/* Note that we use the qualifier bit flag... it doesn't really
+	 * matter which, so much. We have no "real" descriptor.
+	 */
+   cv->descriptor = CB_FLAG_BIT | QUAL_FLAG_BIT;
 
 	bv = calloc(1,sizeof(ValueCallback));
 	if( bv )

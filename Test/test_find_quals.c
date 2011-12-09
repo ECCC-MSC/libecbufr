@@ -48,6 +48,16 @@ static int set_value( DataSubset* dss, int desc, int start, int value )
 	return n;
 	}
 
+static int isminute( void* i, BufrDescriptor* bv )
+	{
+	int m = (int)i;
+	BufrDescriptor* minute;
+	if( bv->meta == NULL ) return -1;
+	minute = bufr_fetch_rtmd_qualifier( 4005, bv->meta );
+	if( minute == NULL ) return -1;
+	return bufr_descriptor_get_ivalue(minute) != m;
+	}
+
 int main(int argc, char *argv[])
    {
 	const char sect2[] = "Hi Yves!";
@@ -225,6 +235,23 @@ int main(int argc, char *argv[])
 
 			n = bufr_subset_find_values( dss, codes, k, 0 );
 			assert( n < 0 );
+
+			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
+
+			/* should match the second instance of 12001, again, but
+			 * this time with a callback-based test.
+			 */
+			k = 0;
+
+			bufr_set_key_int32( &(codes[k++]), 12001, NULL, 0 );
+			bufr_set_key_meta_callback( &(codes[k++]),isminute,(void*)12);
+
+			n = bufr_subset_find_values( dss, codes, k, 0 );
+			assert( n >= 0 );
+			bcv = bufr_datasubset_get_descriptor( dss, n );
+			assert(bcv != NULL);
+			assert( bcv->descriptor == 12001 );
+			assert(bufr_descriptor_get_ivalue(bcv)==291);
 
 			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
 
