@@ -289,13 +289,14 @@ int bufr_expand_qualifiers( DataSubset* dss )
 
    for (i = 0; i < count ; i++)
       {
-		if( !bufr_is_table_b(pbcd[i]->descriptor) ) continue;
-
-		/* Any current valid flag indicates something where
-		 * qualifiers aren't relevant.
+		/* For some descriptors, qualifiers aren't terribly useful. It
+		 * probably wouldn't _hurt_ to track qualifiers, but it does end
+		 * up being a waste of memory. Replication values aren't really
+		 * directly interesting, and quality flags are more appropriately
+		 * qualified by the elements they reference.
 		 * NOTE: don't add new flags without checking this assumption.
 		 */
-		if( pbcd[i]->flags ) continue;
+		if( pbcd[i]->flags & (FLAG_CLASS31|FLAG_CLASS33) ) continue;
 
 		/* Assign copy of current qualifier list to the descriptor.
 		 * This may require allocating new (empty) RTMD.
