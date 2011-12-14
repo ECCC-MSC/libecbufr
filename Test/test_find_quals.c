@@ -255,6 +255,23 @@ int main(int argc, char *argv[])
 
 			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
 
+			/* should match the second instance of 12001, again, but
+			 * this time with a simpler value test.
+			 */
+			k = 0;
+
+			bufr_set_key_int32( &(codes[k++]), 12001, NULL, 0 );
+			bufr_set_key_qualifier_int32( &(codes[k++]),4005,12);
+
+			n = bufr_subset_find_values( dss, codes, k, 0 );
+			assert( n >= 0 );
+			bcv = bufr_datasubset_get_descriptor( dss, n );
+			assert(bcv != NULL);
+			assert( bcv->descriptor == 12001 );
+			assert(bufr_descriptor_get_ivalue(bcv)==291);
+
+			for ( i = 0; i < k ; i++ ) bufr_vfree_DescValue( &(codes[i]) );
+
 			}
 		bufr_free_message( msg );
 	}

@@ -575,6 +575,7 @@ void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup decode descriptor
+ * @see bufr_set_key_qualifier_int32, bufr_set_key_qualifier_flt32
  */
 void bufr_set_key_qualifier( BufrDescValue *cv, int descriptor, 
 	const BufrValue* value)
@@ -584,6 +585,74 @@ void bufr_set_key_qualifier( BufrDescValue *cv, int descriptor,
    bufr_valloc_DescValue( cv, value ? 1 : 0 );
 
 	if( value ) cv->values[0] = bufr_duplicate_value( value );
+   }
+
+/**
+ * @english
+ * define a key with a value representing qualifier to search for
+ * in datasubset.
+ * @note Qualifier values are the last entry in the datasubset. If you need
+ * to search for a qualifier value which might have been derived from a
+ * replication increment, you need to use a time/location key via
+ * bufr_set_key_location().
+ * @note BufrDescValue structures initialized by this function shouldn't
+ * be used outside of key search operations.
+ * @note If value is "missing", results are undefined.
+ * @warning Call bufr_vfree_DescValueto free storage after use.
+ * @param cv descriptor/value to allocation
+ * @param descriptor descriptor to search for
+ * @param value what we're looking for. Will be copied.
+ * @endenglish
+ * @francais
+ * définir une clé représentant une valeur de coordonnée spatiale ou temporelle
+ * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup decode descriptor
+ * @see bufr_set_key_qualifier, bufr_set_key_qualifier_flt32
+ */
+void bufr_set_key_qualifier_int32( BufrDescValue *cv, int descriptor, 
+	int value)
+   {
+	bufr_init_DescValue(cv);
+   cv->descriptor = descriptor | QUAL_FLAG_BIT;
+   bufr_valloc_DescValue( cv, 1 );
+	cv->values[0] = bufr_create_value( VALTYPE_INT32 );
+	bufr_value_set_int32( cv->values[0], value );
+   }
+
+/**
+ * @english
+ * define a key with a value representing qualifier to search for
+ * in datasubset.
+ * @note Qualifier values are the last entry in the datasubset. If you need
+ * to search for a qualifier value which might have been derived from a
+ * replication increment, you need to use a time/location key via
+ * bufr_set_key_location().
+ * @note BufrDescValue structures initialized by this function shouldn't
+ * be used outside of key search operations.
+ * @note If value is "missing", results are undefined.
+ * @warning Call bufr_vfree_DescValueto free storage after use.
+ * @param cv descriptor/value to allocation
+ * @param descriptor descriptor to search for
+ * @param value what we're looking for. Will be copied.
+ * @endenglish
+ * @francais
+ * définir une clé représentant une valeur de coordonnée spatiale ou temporelle
+ * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup decode descriptor
+ * @see bufr_set_key_qualifier, bufr_set_key_qualifier_flt32
+ */
+void bufr_set_key_qualifier_flt32( BufrDescValue *cv, int descriptor, 
+	float value)
+   {
+	bufr_init_DescValue(cv);
+   cv->descriptor = descriptor | QUAL_FLAG_BIT;
+   bufr_valloc_DescValue( cv, 1 );
+	cv->values[0] = bufr_create_value( VALTYPE_FLT32 );
+	bufr_value_set_float( cv->values[0], value );
    }
 
 /**
