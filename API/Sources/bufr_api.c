@@ -249,7 +249,7 @@ int bufr_subset_find_values( DataSubset *dts, BufrDescValue *codes, int nb, int 
    pcb = (BufrDescriptor **)arr_get( dts->data, 0 );
    lj = j = 0;
    jj = startpos;
-   for (i = startpos; j < nb_desc && i + nb_desc <= count ; i++)
+   for (i = startpos; j < nb_desc && i < count ; i++)
       {
       cb = pcb[i];
 
