@@ -1203,7 +1203,7 @@ void bufr_tableb_free(EntryTableBArray tableb)
  */
 static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const char *filename)
    {
-   int desclen;
+   int desclen = 0;
    FILE *fp ;
    char ligne[4096] ;
    EntryTableD  *etb;
@@ -1211,6 +1211,7 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
    int  descriptors[1024];
    char *tok;
    int  column[20];
+	char description[sizeof(ligne)];
 
    if (filename == NULL) return NULL;
 
@@ -1227,7 +1228,7 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
       addr_tabled = (EntryTableDArray)arr_create( 50, sizeof(EntryTableD *), 10 );
 
    desclen = 0;
-   while ( fgets(ligne,4096,fp) != NULL )
+   while ( fgets(ligne,sizeof(ligne),fp) != NULL )
       {
       if ( ligne[0] == '*' )
          {
@@ -1243,12 +1244,37 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
                desclen = 0;
                }
             }
+			
+			/* In practice, descriptions are actually in the comment
+			 * section immediately before the actual template.
+			 * Accumulate those comments as a description if it's not
+			 * provided in another fashion.
+			 */
+			if( desclen == 0 )
+				{
+				size_t l = strspn(ligne,"* \t\r\n");
+				char* p = ligne[l] ? &ligne[l] : NULL;
+				if( p )
+					{
+					size_t s = strlen(description);
+					size_t l = strlen(p);
+					while(p[l-1]=='\n' || p[l-1]=='\r' ) p[(l--)-1] = 0;
+					if( s + l + 2 < sizeof(description) )
+						{
+						if( description[0] ) strcat(description," ");
+						strcat(description,p);
+						}
+					}
+				else
+					{
+					description[0] = 0;
+					}
+				}
+
          continue ;
          }
 
       if ( ligne[0] == '#' ) continue ; /* comments */
-      if ( ligne[0] == '*' ) continue ; /* comments */
-
       if ( ligne[0] != '3' ) continue ; /* for table D , F=3 */
 
       tok = strtok( ligne+desclen, " \t\n" );
@@ -1263,9 +1289,13 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
          }
       if (count > 1)
          {
-         etb = bufr_new_EntryTableD( descriptors[0], ligne, desclen, descriptors+1, count-1 );
+         etb = bufr_new_EntryTableD( descriptors[0],
+				desclen ? ligne : description,
+				desclen ? desclen : strlen(description),
+				descriptors+1, count-1 );
          arr_add( addr_tabled, (char *)&etb );
          }
+			description[0] = 0;
       }
    fclose ( fp ) ;
 
