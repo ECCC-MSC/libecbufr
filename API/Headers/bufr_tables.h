@@ -135,6 +135,7 @@ extern int            bufr_load_m_tableD          ( BUFR_Tables *, const char *f
 
 extern void           bufr_merge_tables           ( BUFR_Tables *dest, BUFR_Tables *source );
 extern void           bufr_tableb_free            ( EntryTableBArray tableb );
+extern void           bufr_tabled_free            ( EntryTableDArray tabled );
 extern void           bufr_set_tables_category    ( BUFR_Tables *, int cat, const char *desc );
 
 extern EntryTableD   *bufr_new_EntryTableD        ( int desc, const char *name, int len, int *descs, int count );

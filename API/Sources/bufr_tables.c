@@ -56,8 +56,6 @@ static EntryTableBArray        bufr_tableb_read       ( EntryTableBArray addr_ta
                                                 char *desc, int *cat, int *version );
 static EntryTableDArray       bufr_tabled_read       ( EntryTableDArray addr_tabled, const char *filename);
 
-static void            bufr_tabled_free       ( EntryTableDArray tabled );
-
 static int             compare_tableb         ( const void *p1, const void *p2);
 static int             compare_tabled         ( const void *p1, const void *p2);
 static int             compare_tabled_seq     (const void *p1, const void *p2);
@@ -1531,7 +1529,7 @@ void bufr_free_EntryTableD( EntryTableD *r )
  * @author Vanh Souvanlasy
  * @ingroup tables
  */
-static void bufr_tabled_free(EntryTableDArray tabled)
+void bufr_tabled_free(EntryTableDArray tabled)
    {
    int count, i;
    EntryTableD *r, **pe;
