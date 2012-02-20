@@ -644,6 +644,8 @@ static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
 /**
  * @english
  * find and return a table B entry
+ * @note Checks both the master and local tables no irrespective of whether
+ * it's a master or local descriptor.
  * @param  desc: descriptor to be found
  * @endenglish
  * @francais
@@ -694,6 +696,8 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
 /**
  * @english
  * find and return a Table D entry
+ * @note Checks both the master and local tables no irrespective of whether
+ * it's a master or local descriptor.
  * @param  desc : descriptor to be found
  * @endenglish
  * @francais
