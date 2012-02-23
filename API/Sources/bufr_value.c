@@ -42,6 +42,10 @@ This file is part of libECBUFR.
 /**
  * @english
  * @brief create a new BufrValue structure
+ *
+ * Note that you need to take care when creating values to ensure that the
+ * chosen type can represent any of the values you might assign. In particular,
+ * be aware that integer types represent -1 as "missing".
  * 
  * @param type the kind of value to create (see ValueType enum)
  * @return pointer to newly allocated BufrValue or NULL on failure
