@@ -485,11 +485,11 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                         {
                         char str[256];
                         bufr_print_binary( str, value, bcv->encoding.nbits );
-                        sprintf( buf, _("BITS=%s "), str );
+                        sprintf( buf, _("BITS=%s"), str );
                         }
                      else
                         {
-                        sprintf( buf, _("VALUE=%d "), value );
+                        sprintf( buf, _("VALUE=%d"), value );
                         }
                      bufr_print_output( buf );
                      }
@@ -501,7 +501,7 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
                      bufr_print_output( _("MSNG") );
                   else
                      {
-                     sprintf( buf, _("VALUE=%lld "), (long long)value );
+                     sprintf( buf, _("VALUE=%lld"), (long long)value );
                      bufr_print_output( buf );
                      }
                   }

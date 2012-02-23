@@ -35,7 +35,7 @@
 ###
 ## Subset 1 : 6 descriptors
 #  101000 {R=0}
-   031001 {R=0} VALUE=4 
+   031001 {R=0} VALUE=4
    001204 {R=1} VALUE=AAAA
    001204 {R=2} VALUE=BBBB
    001204 {R=3} VALUE=CCCC
