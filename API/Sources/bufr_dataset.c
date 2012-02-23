@@ -1976,7 +1976,10 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             }
          else if (bd->value->type == VALTYPE_FLT32)
             {
-            fval = bufr_cvt_i32_to_fval( &(bd->encoding), ival );
+            if (ival == ival2)
+               fval = bufr_missing_float();
+            else
+               fval = bufr_cvt_i32_to_fval( &(bd->encoding), ival );
             bufr_value_set_float( bd->value, fval );
             if (isdebug)
                {
@@ -1989,7 +1992,10 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             }
          else if (bd->value->type == VALTYPE_FLT64)
             {
-            dval = bufr_cvt_i64_to_dval( &(bd->encoding), ival );
+            if (ival == ival2)
+               dval = bufr_missing_double();
+            else
+               dval = bufr_cvt_i64_to_dval( &(bd->encoding), ival );
             bufr_value_set_double( bd->value, dval );
             if (isdebug)
                {
