@@ -17,6 +17,9 @@ test1file ()
 			fi
 			if [ ! $TEST_BATCH ]; then
 				exit 1
+			else
+				echo "Renaming ${TMPOUT} to ${OUT}"
+				mv ${TMPOUT} ${OUT}
 			fi
 		fi
 	else
