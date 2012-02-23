@@ -478,7 +478,10 @@ void bufr_set_key_int32( BufrDescValue *cv, int descriptor, int *values, int nbv
 
    for (i = 0; i < nbval ; i++)
       {
-      cv->values[i] = bufr_create_value( VALTYPE_INT32 );
+		if( bufr_is_missing_int(values[i]) )
+			cv->values[i] = bufr_create_value( VALTYPE_FLT32 );
+		else
+			cv->values[i] = bufr_create_value( VALTYPE_INT32 );
       bufr_value_set_int32( cv->values[i], values[i] );
       }
    }
@@ -617,7 +620,10 @@ void bufr_set_key_qualifier_int32( BufrDescValue *cv, int descriptor,
 	bufr_init_DescValue(cv);
    cv->descriptor = descriptor | QUAL_FLAG_BIT;
    bufr_valloc_DescValue( cv, 1 );
-	cv->values[0] = bufr_create_value( VALTYPE_INT32 );
+	if( bufr_is_missing_int(value) )
+		cv->values[0] = bufr_create_value( VALTYPE_FLT32 );
+	else
+		cv->values[0] = bufr_create_value( VALTYPE_INT32 );
 	bufr_value_set_int32( cv->values[0], value );
    }
 
