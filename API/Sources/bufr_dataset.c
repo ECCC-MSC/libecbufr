@@ -1756,7 +1756,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
                i64val = bufr_value_get_int64( bd->value );
                if (isdebug)
                   {
-                  sprintf( errmsg, _("%ll"), (long long)i64val );
+                  sprintf( errmsg, _("%lld"), (long long)i64val );
                   bufr_print_debug( errmsg );
                   }
                if ((bd->encoding.reference != 0)||(bd->encoding.scale != 0))
@@ -1794,7 +1794,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          i32val = bufr_value_get_int32( bd->value );
          if (isdebug)
             {
-            sprintf( errmsg, _("INT: %ll "), (long long)i32val );
+            sprintf( errmsg, _("INT: %lld "), (long long)i32val );
             bufr_print_debug( errmsg );
             }
          if (i32val < 0)	
@@ -1822,7 +1822,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          i32val = bufr_value_get_int32( bd->value );
          if (isdebug)
             {
-            sprintf( errmsg, _("INT: %ll "), (long long)i32val );
+            sprintf( errmsg, _("INT: %lld "), (long long)i32val );
             bufr_print_debug( errmsg );
             }
          if (isdebug)
@@ -3203,7 +3203,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
 
    char          *tok;
    int            icode;
-   int32_t        ival32;
+   int64_t        ival64;
    float          fval;
    double         dval;
    char          *kptr = NULL, *ptr;
@@ -3509,19 +3509,23 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
                   }
                break;
             case VALTYPE_INT32 :
+            case VALTYPE_INT64 :
                if (strcmp( tok, "MSNG" ) != 0)
                   {
                   if ((cb->encoding.type == TYPE_FLAGTABLE) && bufr_str_is_binary( tok ))
-                     ival32 = bufr_binary_to_int( tok );
+                     ival64 = bufr_binary_to_int( tok );
                   else
-                     ival32 = atol(tok);
+                     ival64 = atol(tok);
                   }
                else
-                  ival32 = -1;
-               bufr_descriptor_set_ivalue( cb, ival32 );
+                  ival64 = bufr_missing_int();
+
+					bufr_descriptor_set_ivalue( cb, ival64 );
+
                if (debug)
                   {
-                  sprintf( errmsg, _("   *** has value: %s -> %d\n"), tok, ival32 );
+                  sprintf( errmsg, _("   *** has value: %s -> %lld\n"),
+							tok, (long long)ival64 );
                   bufr_print_debug( errmsg );
                   }
                break;
