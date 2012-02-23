@@ -27,6 +27,7 @@ This file is part of libECBUFR.
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <assert.h>
 
 #include "bufr_io.h"
 #include "bufr_ddo.h"
@@ -364,22 +365,27 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
          else
             return VALTYPE_FLT32;
       case TYPE_NUMERIC :
-          if ((be->scale == 0)&&(be->reference == 0)) 
+			 /* FIXME: we can't allow negative ref values because we're presently
+			  * using -1 as "missing". See
+			  * https://bugs.launchpad.net/libecbufr/+bug/939600.
+			  * But there's no reason positive integer values can't be
+			  * represented entirely with INT32, as long as we count it in
+			  * the right place.
+			  */
+          if ( be->scale == 0 && be->reference >= 0 ) 
             {
-            if (be->nbits <= 8)
+				int rb = bufr_value_nbits(be->reference);
+            if (be->nbits + rb <= 8)
                return VALTYPE_INT32; 
-            else if (be->nbits <= 32)
+            else if (be->nbits + rb <= 32)
                return VALTYPE_INT32;
-            else
+            else if(be->nbits + rb <= 64)
                return VALTYPE_INT64;
             }
-         else
-            {
-            if (be->nbits < 31)
-               return VALTYPE_FLT32;
-            else
-               return VALTYPE_FLT64;
-            }
+			if (be->nbits < 31)
+				return VALTYPE_FLT32;
+			else
+				return VALTYPE_FLT64;
       case TYPE_CODETABLE :
       case TYPE_FLAGTABLE :
          if (be->nbits <= 8)
@@ -387,7 +393,10 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
          else if (be->nbits <= 32)
             return VALTYPE_INT32;
          else
+				{
+				assert(be->nbits <= 64);
             return VALTYPE_INT64;
+				}
       case TYPE_CHNG_REF_VAL_OP :
          return VALTYPE_INT32;
       default :
