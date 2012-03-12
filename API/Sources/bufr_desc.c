@@ -555,7 +555,8 @@ int bufr_descriptor_get_range ( BufrDescriptor *cb, double *min, double *max )
 int bufr_descriptor_set_fvalue ( BufrDescriptor *cb , float fval )
    {
    int rtrn;
-   double  min, max;
+   double  dmin, dmax;
+   float   min, max;
 
 
    rtrn = -1;
@@ -579,8 +580,10 @@ int bufr_descriptor_set_fvalue ( BufrDescriptor *cb , float fval )
       return rtrn;
       }
 
-   if (bufr_descriptor_get_range( cb, &min, &max ) > 0 )
+   if (bufr_descriptor_get_range( cb, &dmin, &dmax ) > 0 )
       {
+      min = (float)dmin;
+      max = (float)dmax;
       if ((fval >= min)&&(fval <= max))
          {
          rtrn = bufr_value_set_float( cb->value, fval );
@@ -724,8 +727,9 @@ int bufr_descriptor_set_dvalue ( BufrDescriptor *cb , double dval )
 int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
    {
    int rtrn;
-   double  min, max;
+   double  dmin, dmax;
    char    errmsg[256];
+   int32_t  min, max;
 
    rtrn = -1;
 
@@ -746,8 +750,10 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
       return rtrn;
       }
 
-   if (bufr_descriptor_get_range( cb, &min, &max ) > 0 )
+   if (bufr_descriptor_get_range( cb, &dmin, &dmax ) > 0 )
       {
+      min = (int32_t) dmin;
+      max = (int32_t) dmax;
       if ((ival >= min)&&(ival <= max))
          {
          rtrn = bufr_value_set_int32( cb->value, ival );
@@ -757,7 +763,7 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
          rtrn = bufr_value_set_int32( cb->value, -1 );
          if ( ival != -1 )
             {
-            sprintf( errmsg, _("Warning: The value %d of descriptor %d is out of range [%.0f,%.0f]\n"), 
+            sprintf( errmsg, _("Warning: The value %d of descriptor %d is out of range [%d,%d]\n"), 
                      ival, cb->descriptor, min, max );
             bufr_print_debug( errmsg );
             }
