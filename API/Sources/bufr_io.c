@@ -178,6 +178,8 @@ static int bufr_wr_section0(bufr_write_callback writecb,
 static int bufr_wr_section1(bufr_write_callback writecb,
                                 void *cd, BUFR_Message *bufr)
    {
+	int c;
+
 	if( writecb == NULL ) return errno=EINVAL, -1;
 
    bufr_write_int3b( writecb, cd, bufr->s1.len );  /* octet 1 - 3 */
@@ -240,7 +242,6 @@ static int bufr_wr_section1(bufr_write_callback writecb,
 
 /*
  * write reserved octet(s) if any
-
 */
    if ((bufr->edition >= 2)&&(bufr->s1.data_len > 0))
       {
@@ -248,10 +249,13 @@ static int bufr_wr_section1(bufr_write_callback writecb,
 
       if (writecb( cd, len, bufr->s1.data ) != len) return -1;
       }
-   else if ((bufr->edition == 2)||(bufr->edition == 3))
-      {
+	
+	/* write any padding octets... should be at most one */
+	c = bufr->s1.header_len + bufr->s1.data_len;
+	while( c++ < bufr->s1.len )
+		{
       bufr_write_octet( writecb, cd, 0 ); /* filler */
-      }
+		}
 
    return 0;
    }
@@ -1686,6 +1690,18 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
       if ((bufr->edition >= 2)&&(c > bufr->s1.len))
          {
          bufr->s1.data_len = c - bufr->s1.header_len;
+			bufr->s1.len = c;
+
+			/* This really shouldn't happen, but if someone is sloppy with the
+			 * extra data it could happen. Add an extra padding byte and hope
+			 * the writer did, too */
+			if( bufr->s1.len % 2 )
+				{
+				bufr->s1.len ++;
+				bufr_vprint_debug(_("Warning: padding section1 to %d octets"),
+					bufr->s1.len);
+				}
+
          if (bufr_is_verbose())
             {
             sprintf( errmsg, _n("### Section1 contains additionnal data length=%d octet\n",
@@ -1705,7 +1721,6 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
          return -1;
          }
       }
-
 
 	if( 1 != bufr_read_octet( readcb, cd, &octet ) ) return -1;
    bufr->s1.bufr_master_table = octet;
@@ -1791,11 +1806,14 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
 		if( bufr->s1.data == NULL ) return -1;
       if (readcb( cd, len, bufr->s1.data ) != len ) return -1;
       }
-   else if ((bufr->edition == 2)||(bufr->edition == 3))
-      {
+	
+	c = bufr->s1.header_len + bufr->s1.data_len;
+	while( c++ < bufr->s1.len )
+		{
       /* discard padding octets */
+		/* Note: there should only ever be at most one */
       if( 1 != bufr_read_octet( readcb, cd, &octet ) ) return -1;
-      }
+		}
 
    return bufr->s1.len;
    }
@@ -1939,10 +1957,10 @@ static uint64_t bufr_rd_section4(bufr_read_callback readcb, void *cd,
    /* discard */
 	if( 1 != bufr_read_octet( readcb, cd, &c ) ) return -1;
 
-   total = bufr->s0.len + bufr->s1.len + bufr->s1.data_len + bufr->s2.len + bufr->s3.len + bufr->s4.len + bufr->s5.len;
+   total = bufr->s0.len + bufr->s1.len + bufr->s2.len + bufr->s3.len + bufr->s4.len + bufr->s5.len;
    if (total != bufr->len_msg)
       {
-      len = bufr->len_msg - (bufr->s0.len + bufr->s1.len + bufr->s1.data_len + bufr->s2.len + bufr->s3.len + bufr->s5.len);
+      len = bufr->len_msg - (bufr->s0.len + bufr->s1.len + bufr->s2.len + bufr->s3.len + bufr->s5.len);
       if (bufr_is_debug())
          {
          char   errmsg[256];

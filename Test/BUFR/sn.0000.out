@@ -1,0 +1,37 @@
+### Message header            : "####018002403####\012JUGE86\040KKCI\040200845\015\015\012"
+### BUFR Edition              : 3
+###          length           : 2382
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 22
+###      data length          : 5
+###      BUFR master table    : 0
+###      originating center   : 7
+###      sub center           : 8
+###      update sequence number : 0
+###      Data category        : 13
+###      Data subcategory     : 1
+###      master table version : 13
+###      local table version  : 0
+###      Year                 : 12
+###      Month                : 3
+###      Day                  : 20
+###      Hour                 : 8
+###      Min                  : 45
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 10
+###      datasubsets          : 1
+###      octet 7              : 0
+###         compression       : No
+###         other data
+###   Section 4
+###      length               : 2338
+###   Section 5
+###      length               : 4
+###
+Error: can't decode messages

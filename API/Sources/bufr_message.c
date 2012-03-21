@@ -158,6 +158,12 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
    print_proc( str );
    sprintf( str, _("###      length               : %d\n"),      bufr->s1.len   );
    print_proc( str );
+	if( bufr->s1.data_len>0 )
+		{
+		sprintf( str, _("###      data length          : %d\n"),
+			bufr->s1.data_len   );
+		print_proc( str );
+		}
    sprintf( str, _("###      BUFR master table    : %d\n"),      bufr->s1.bufr_master_table );
    print_proc( str );
    if (bufr->edition == 2)
