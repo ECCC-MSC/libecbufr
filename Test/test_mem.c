@@ -284,6 +284,8 @@ int main(int argc, char *argv[])
 			{
 			pos += rtrn;
 
+			bufr_print_message( msg, bufr_print_output );
+
          if (useTables->master.version != msg->s1.master_table_version)
             useTables = bufr_use_tables_list( tables_list, msg->s1.master_table_version );
 			/* 
@@ -293,13 +295,14 @@ int main(int argc, char *argv[])
 			dts = bufr_decode_message( msg, useTables ); 
 			if (dts == NULL) 
 				{
-				fprintf( stderr, _("Error: can't decode messages\n") );
+				/* make sure it goes to the output file, just like the
+				 * decoder...
+				 */
+				bufr_vprint_output( _("Error: can't decode messages\n") );
 				bufr_free_message( msg );
-				free( mem );
 				continue;
 				}
 
-			bufr_print_message( msg, bufr_print_output );
 			bufr_show_dataset( dts, useTables );
 			bufr_free_dataset( dts );
 			}
