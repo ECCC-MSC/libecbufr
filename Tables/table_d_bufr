@@ -1,114 +1,171 @@
+*
 *                           BUFR TABLE "D"
 *                           =============
 *
-** THIS FILE AVAILABLE IN ENGLISH UNDER THE NAME table_d_bufr_e
 *
-** VERSION 014.057 09 Juin 2010
-** Synchronisation avec WMO TABLED en vigeur le 15 mars 2010 dans www.wmo.int
+** VERSION 017.069 23 January 2011
+** Add 311011
 **
-** Pas encore dans la table de WMO
-** 301029 301030 301070 301074 301075 301076 
-** 305001 305002 305004 305010 305016 305017
-** 306021 306022 306024
-** 307030 307031 307041 307042 307043 307044 307059 307060 307061 307062
+** VERSION 017.068 17 January 2011
+** Modify 311010
+**
+** VERSION 017.067 12 January 2011
+** Modify 348002
+**
+** VERSION 017.066 11 January 2011
+** Coordinate with WMO TABLED...316041-316048 removed from Validation section
+** Version Sync
+**
+** VERSION 016.065 19 December 2011
+** Add new HWOS template number 348004
+**
+** VERSION 016.064 30 November 2011
+** Version Sync
+**
+** VERSION 016.063 12 October 2011
+** Version Sync
+**
+** VERSION 016.062 29 June 2011
+** Coordinate with WMO TABLED effective May 04 2011 in www.wmo.int
+**
+** Marked as Depreciated in WMO table.
+** 304035 310027 340006
+** Pre-operational to operational 
+** 310058 310059 310061
+** Validation to ops 
+** 340007 340008 340009 340010
+** Added 
+** 304037 310028 310062
+**
+** VERSION 015.061 02 May 2011
+** Version Sync
+**
+** VERSION 015.060 01 April 2011
+** Coordinate with WMO TABLED effective Mar 24 2011 in www.wmo.int
+**
+** No longer in WMO table. Marked as Depreciated 
+** 301029 301030 301070 301074 301075 301076
+** 305001 305002 305004 305010 305016 305017 306021 306022 306024
+** 307030 307031 307041 307042 307043 307044 
+** 307059 307060 307061 307062
 ** 309040 309041 309042 309043 309044 
 ** 316020 316021 316026 316027
 **
-** Pre-operationel a operationel 
-** 301089 304035 304036 
+** Pre-operational to operational
+** 301089 
+** 304035 304036 
 ** 307045 307046 307047 307048 307049 307050 307051 307052 307053 307054 307055 307056
-** 307091 310018 310019 310027 316071 316072 316073 316074 316075 316076 316077 316078 
-** 316070 316080 316081 322028 340005 
-** 302084 302085 302089 302175 307079 307096 312070
+** 307091 
+** 310018 310019 310027 310060 
+** 316071 316072 316073 316074 316075 316076 316077 316078 
+** 316079 316080 316081 
+** 322028 340005 
 **
-** VERSION 014.056 26 fevrier 2010
-** Modifier 348003
+** Added 
+** 302084 302085 302089 302175 
+** 306027 
+** 306028 306029 306030 306031 
+** 307079 
+** 307096 312070
 **
-** VERSION 014.055 28 octobre 2009
-** Modifier 348002 348003
+** VERSION 014.059 06 January 2011
+** Modify 348002
+*
+** VERSION 014.058 08 December 2010
+**  Add 307079
+*
+** VERSION 014.057 07 September 2010
+** Version Sync
+*
+** VERSION 014.056 26 February 2010
+**  Modify 348003
 **
-** VERSION 014.054 04 mai 2009
-** Ajout 348002 348003
+** VERSION 014.055 28 October 2009
+** Modify 348002 348003
+**
+** VERSION 014.054 04 May 2009
+** Add 348002 348003
 ** Ajout 301089 304035 304036 307045 307046 307047 307048
 ** 307049 307050 307051 307052 307053 307054 307054 307056
 ** 307059 307091 310018 310019 310027 310060 316071 316072
 ** 316073 316074 316075 316076 316077 316078 316079 316080
 ** 316081 322028 340005
 *
-** VERSION 013.053 29 avril 2009
-** Synchronisation au numero de version pas de changement a la table D
+** VERSION 013.053 29 April 2009
+** Version Sync
 *
-** VERSION 013.052 02 decembre 2008
-** Synchronisation au numero de version pas de changement a la table D
+** VERSION 013.052 02 December 2008
+** Version Sync
 *
-** VERSION 013.051 16 juin 2008
-** Synchronisation au numero de version pas de changement a la table D
+** VERSION 013.051 16 June 2008
+** Version Sync
 *
-** VERSION 013.050 14 avril 2008
-** Synchronisation au numero de version pas de changement a la table D
+** VERSION 013.050 14 April 2008
+** Version Sync
 *
-** VERSION 013.049 17 mar 2008
-** Synchronisation au numero de version pas de changement a la table D
+** VERSION 013.049 17 March 2008
+** Version Sync
 *
-** Version 013.048 20 janvier 2008
+** Version 013.048 20 January 2008
 ** Addition of 302192 302193 302194 348001
-*** Version 013.047 12 decembre 2007
-** Ajout de 301005 301014 301027 301028 301092 301093 301125
-** Ajout de 301031 301032 301033 301034 301035 301036 301037 301038 301039 301040 301041 301042 301043 301044 301045 301046 301047 301048
-** Ajout de 301052 301053 301054 301055 301056 301057 301058 301059 301060 301066 307071 307072 307073 307080 307081 307082 307083 307084 307086 307090
-** Ajout de 308009 308010 308011 308012 308013 309054 312055 312056 312057 312058 312059 312060 312061 315003 321030
-** Ajout de 316030 316031 316032 316033 316034 316035 316036 316037 316038 316039 316040 316050 316052
 *
-** Version 012.046 01 aout 2007
-*  Synchronisation au numero de version pas de changement a la table D
+** Version 013.047 12 December 2007
+** Addition of 301005 301014 301027 301028 301092 301093 301125
+** Addition of 301031 301032 301033 301034 301035 301036 301037 301038 301039 301040 301041 301042 301043 301044 301045 301046 301047 301048
+** Addition of 301052 301053 301054 301055 301056 301057 301058 301059 301060 301066 307071 307072 307073 307080 307081 307082 307083 307084 307086 307090
+** Addition of 308009 308010 308011 308012 308013 309054 312055 312056 312057 312058 312059 312060 312061 315003 321030
+** Addition of 316030 316031 316032 316033 316034 316035 316036 316037 316038 316039 316040 316050 316052
 *
-** Version 012.045 14 mai 2007
-*  Synchronisation au numero de version pas de changement a la table D
+** Version 012.046 01 Aug 2007
+*  Version Sync
 *
-** Version 012.044 7 decembre 2006
-** Mise a jour avec les documents de l'OMM
-
-** Ajout de 301110 301111 301113 301114 301120 301121 301122 301123 302049 302050 303040 303050 303051 303052 303053 303054 306019 309031 309050 309051 309052 309053 309060 309061 309062 309063 309064 309065 309066 310026 310029 310030 311007 311008 311009 312045 312050 312051 312052 312053
-** ajout de IASI : 340001 340002 340003 340004
-** Correction de 313043 316011 310025
+** Version 012.045 14 May 2007
+*  Version Sync
 *
-** Version 012.043 28 novembre 2006
-*  Synchronisation au numero de version pas de changement a la table D
+** Version 012.044 7 December 2006
+** Updated to incorporate the WMO modifications
+** Addition of 301110 301111 301113 301114 301120 301121 301122 301123 302049 302050 303040 303050 303051 303052 303053 303054 306019 309031 309050 309051 309052 309053 309060 309061 309062 309063 309064 309065 309066 310026 310029 310030 311007 311008 311009 312045 312050 312051 312052 312053
+** addition of IASI : 340001 340002 340003 340004
+** Correction of 313043 316011 310025
 *
-** Version 012.042  27 Avril 2006
-*  Synchronisation au numero de version pas de changement a la table D
+** Version 012.043  28 November 2006
+* Version number synchronization, no change to the contents of table D
 *
-** Version 012.041  27 Janvier 2006
-*  Synchronisation au numero de version pas de changement a la table D
+** Version 012.042 27 April 2006
+* Version number synchronization, no change to the contents of table D
 *
-** Version 012.040  05 Janvier 2006
-*  Synchronisation au numero de version pas de changement a la table D
+** Version 012.041 27 January 2006
+* Version number synchronization, no change to the contents of table D
 *
-** Version 012.039  15 decembre 2005
-*  Synchronisation au numero de version pas de changement a la table D
+** Version 012.040 05 January 2006
+* Version number synchronization, no change to the contents of table D
 *
-** Version 011.038  14 juillet 2005
-* Synchronisation au numero de version pas de changement a la table D
+** Version 012.039 15 December 2005
+* Version number synchronization, no change to the contents of table D
+* 
+** Version 011.038 14 July 2005
+* Version number synchronization, no change to the contents of table D
 *
-** Version 011.037  5 mai 2005
-*  312045 001007 002019 001096 025061 005040 301011 301013 301021 007002 012180 012181 012182 012183 012184 012185 002174 021086 012186 021087 012187 033043
+** Version 011.037 5 May 2005
+* 312045 001007 002019 001096 025061 005040 301011 301013 301021 007002 012180 012181 012182 012183 012184 012185 002174 021086 012186 021087 012187 033043
 *
-** Version 011.036  17 fevrier 2005
-* Synchronisation au numero de version pas de changement a la table D
+** Version 011.036  17 FEBRUARY 2005
+* Version number synchronization, no change to the contents of table D
 *
-** Version 011.035  30 Mars 2004
-*  Y. Pelletier*  Pas de changement de contenu. Nous introduisons un changement dans
-*  le schéma de numérotation de version.  Dorénavant, les numéros de
-*  version de la table D seront synchronisés avec ceux de la table B,
-*  même s'il n'y a eu aucun changement de contenu dans la table D.
-*  Cela permet de garantir la compatibilité entre les tables B et D.
-*  Cette manière de procéder semble aussi être plus proche des 
-*  instructions données au sujet de la numérotation des versions
-*  dans le standard BUFR de l'OMM.
+** Version 011.035  30 March 2004
+*  Y. Pelletier
+*  No contents change. We introduce a change in the version numbering
+*  scheme.  From now on, Table D major and minor version numbers will be
+*  synchronized with Table B version numbers, even if there is no change
+*  to the contents of Table D. This will serve as a guarantee of compatibility
+*  between Table B and D.  This way of doing things also seems to follow
+*  more accurately the directions given by the WMO BUFR standard regarding
+*  version numbering.
+*    
 *
-** Version 010.001, 21 octobre 2003
+** Version 011.001, 21 octobre 2003
 * --------------------------------
-* Mise a jour OMM  (Y Pelletier)
+* WMO update (Y Pelletier)
 * 301004 301090 301091
 * 302069 302070 302071 302072 302073 302074 302075 302076 302077 302078
 * 302079 302080 302081 302082 302083
@@ -121,17 +178,18 @@
 *
 * 22 novembre 2002
 *    ajout de codes pour les donnees d'ozone SBUV ( Jose Garcia )
-** 15 janvier 2002 
-*    effacer des espaces superflus et errones dans l'entree 310013 (Yves Pelletier) 
-*    corriger l'entree 321028 (Jose Garcia)
 *
-* VERSION 009.001, 7 NOVEMBRE 2001
+* January 15 2002:
+*	 remove erroneous white space in entry 310013 (Yves Pelletier)
+*        correct entry 321028 (Jose Garcia)
+*
+* VERSION 009.001, NOVEMBER 7 2001
 * --------------------------------
 *
-* MISE A JOUR OMM VERSION 9,  7 NOVEMBRE 2001
+* UPDATED TO WMO VERSION 9, DATED NOVEMBER 7 2001
 *
-* DORENAVANT LES TABLES D BUFR ET CREX NE SONT PLUS IDENTIQUES. 
-* LES ENTREES SUIVANTES SONT DONC DEFINIES DIFFEREMMENT ENTRE BUFR ET CREX.
+* FROM NOW ON BUFR AND CREX TABLES D ARE NO LONGER IDENTICAL.
+* FOLLOWING ENTRIES ARE THUS DEFINED DIFFERENTLY BETWEEN BUFR AND CREX.
 *
 * 300010 302013 305003 305006 305007 305008 305009 305011 305018 306001 306004
 * 306005 307003 307004 307012 307013 307014 307015 307016 307017 307018 309001
@@ -139,24 +197,24 @@
 * 309015 309016 309017 309018 309019 309020 309030 311004 316003 316004 316005
 * 316006 316007 316008 316009 316010 316011 316022 335007
 *
-* LES AUTRES ENTREES RESTENT IDENTIQUES ENTRE LES 2 TABLES. 
+* OTHER ENTRIES REMAIN IDENTICAL BETWEEN THE 2 TABLES. 
 *
-* NOUVEAU DESCRIPTEUR LOCAL POUR DECODAGE DES GOES SATWIND
+* NEW LOCAL DESCRIPTOR TO DECODE GOES SATWIND 
 *
 * 310195
 *
-** VERSION 008.000, 8 NOVEMBRE 2000
+** VERSION 008.000, NOVEMBER 8 2000
 ** --------------------------------
 *
-*  MISE A JOUR OMM VERSION 8, DATEE 8 NOV. 2000
+*  UPDATED TO WMO VERSION 8, DATED NOVEMBER 8 2000
 *
-* NOUVEAUX DESCRIPTEURS BUFR 
-* 
+* NEW BUFR DESCRIPTORS
+*
 * 301046 304032 304033 304034 310015 310016 310020 310021 310022 312026 312027
 * 312028 312030 312031 312032 312033 321021 321022 321023 321024 321025 321026
-* 321027 321028 
+* 321027 321028
 *
-* NOUVEAUX DESCRIPTEURS CREX
+* NEW CREX DESCRIPTORS
 *
 * 301029 301030 301070 301074 301075 301076 305001 305002 305003 305004 305006
 * 305007 305008 305009 305010 305011 305016 305017 305018 307031 307041 307042
@@ -164,16 +222,17 @@
 * 309044 316020 316021 316022 316026 316027 335001 335002 335003 335004 335005
 * 335006 335007 335010
 **
-** VERSION 007.000, 16 MARS 1998
+** VERSION 007.000, 16 MARCH 1998
 ** ------------------------------
 *
-*  MISE A JOUR OMM VERSION 7, DATEE 4 NOV. 1998
+*  UPDATED TO WMO VERSION 7, DATED 4 NOV. 1998
 *
-** VERSION 006.000, 22 JUILLET 1998, CORRECTION
-** --------------------------------------------
 *
-* AJOUT DE DESCRIPTEURS DE LA MISE A JOUR DU 5 NOV. 1997, PRECEDEMMENT OMIS:
-* 
+** VERSION 006.000, 22 JULY 1998, CORRECTION
+** -----------------------------------------
+*
+* ADDITION OF DESCRIPTORS PREVIOUSLY OMITTED FROM 5 NOV. 1997 UPDATE.
+*
 * 301045 301047 301048 301049 301055 302006 302013 303033 304030 304031
 * 306020 306021 306022 306023 306024 307009 307011 307012 307013 307014
 * 307015 307016 307017 307018 307020 307021 308007 309020 310005 310006
@@ -181,493 +240,515 @@
 * 316004 316005 316006 316007 316008 316009 316010 316011
 *
 *
-** VERSION 005.000, 15 AVRIL 1997
-** ------------------------------*
-** VERSION 004.000, 25 OCTOBRE 1995
+** VERSION 005.000, 15 APRIL 1997
+** ------------------------------
+*
+** VERSION 004.000, 25 OCTOBER 1995
 ** --------------------------------
 *
-** VERSION 003.000, 15 JUNE 1995
+** VERSION 003.000, 15 JUNE 1995 
 ** -----------------------------
 *
-* INCLUT LE SUPPLEMENT 7B, AOUT 1994
+* UP TO AND INCLUDING SUPPLEMENT 7B, AUGUST 1994
 *
 *
 *
-* CETTE TABLE EST CONFORME AUX DESCRIPTEURS DU MANUEL DES CODES,
-* VOLUME I, PARTIE B (CODES BINAIRES), PUBLICATION #306,
-* ORGANISATION MÉTÉOROLOGIQUE MONDIALE ET RÉGULIÈREMENT MISE À JOUR.
-*
-* DES DESCRIPTEURS LOCAUX SERONT ABOUTÉS SI NÉCESSAIRE. CETTE TABLE EST
-* MISE À JOUR PAR LE CENTRE MÉTÉOROLOGIQUE CANADIEN. ON RETROUVERA LA
-* VERSION COURANTE DANS /home/ops/afsi/sio/datafiles/constants SOUS LE
-* NOM DE "table_d_bufr_e" (SUR CASTOR, POLLUX ET ASA).
-*
-* LE NUMÉRO DE VERSION DU FICHIER "table_d_bufr_f" EST DE LA FORME XXX.YYY,
-*
-*  OU XXX FAIT RÉFÉRENCE AU NUMÉRO DE VERSION DE LA TABLE PRINCIPALE DE
-*  BUFR (PRESENTEMENT 5) TEL QUE DÉFINI DANS LA SECTION 1, OCTET 11. XXX
-*  EST DÉTERMINÉ PAR L'ORGANISATION MÉTÉOROLOGIQUE MONDIALE.
+* THIS TABLE COMPLIES WITH THE MANUAL ON CODES, VOLUME I, PART B
+* (BINARY CODES), PUBLICATION #306, WORLD METEOROLOGICAL ORGANISATION
+* AND IS REGULARLY UPDATED.
 * 
-*  YYY FAIT RÉFÉRENCE AU NUMÉRO DE VERSION DES TABLES LOCALES UTILISÉES
-*  POUR COMPLETER LA TABLE PRINCIPALE, TEL QUE DÉFINI DANS LA SECTION 1,
-*  OCTET 12. YYY EST DÉTERMINÉ PAR LE CENTRE MÉTÉOROLOGIQUE CANADIEN. NOUS
-*  N'AVONS PAS DEFINI DE DESCRIPTEURS LOCAUX A CE JOUR.
-* 
-* POUR TOUT RENSEIGNEMENT/CORRECTION/AJOUT, VEUILLEZ CONTACTER
-* 
+* LOCAL DESCRIPTORS WILL BE APPENDED IF NEEDED. THIS TABLE IS MAINTAINED
+* BY THE CANADIAN METEOROLOGICAL CENTRE. IT IS COINED "table_d_bufr_e"
+* IN /users/dor/afsi/sio/datafiles/constants ON CASTOR AND POLLUX. ALSO
+* AVAILABLE ON NEC SUPER COMPUTERS)
+*
+* THE VERSION NUMBER OF THE FILE "table_d_bufr" HAS THE FORM XXX.YYY WHERE
+*
+* XXX REFERS TO THE VERSION NUMBER OF THE BUFR MASTER TABLE (CURRENTLY 5),
+* AS DEFINED IN SECTION 1, OCTET 11. XXX IS DETERMINED BY THE WORLD 
+* METEOROLOGICAL ORGANISATION.
+*
+* YYY REFERS TO THE VERSION NUMBER OF THE LOCAL TABLE USED TO AUGMENT THE
+* THE MASTER TABLE IN USE, AS DEFINED IN SECTION 1, OCTET 12. YYY IS
+* UPDATED BY THE CANADIAN METEOROLOGICAL CENTRE. NO LOCAL DESCRIPTORS HAVE
+* BEEN DEFINED YET. 
+*
+* FOR INFORMATION/CORRECTION/ADDITION, PLEASE CONTACT
+*
 * Yves Pelletier
-* CENTRE MÉTÉOROLOGIQUE CANADIEN
-* DIVISION DE L'IMPLANTATION ET DES SERVICES OPÉRATIONNELS
-* 2121 VOIE DE SERVICE NORD
-* ROUTE TRANS-CANADIENNE
-* DORVAL (QUÉBEC)
+* CANADIAN METEOROLOGICAL CENTRE
+* IMPLEMENTATION AND OPERATIONAL SERVICES DIVISION
+* 2121 SERVICE ROAD NORTH
+* TRANS-CANADA HIGHWAY
+* DORVAL (QUEBEC)
 * H9P 1J3
 *
 * (514) 421-4615
-*       421-4679 (TÉLÉCOPIE)
-* e-mail: yves.pelletier@ec.gc.ca
+*       421-4679 (FAX)
+* INTERNET: Yves.Pelletier@ec.gc.ca
 *
 * =============================================================
 * =============================================================
 *
 *BUFR TABLE ENTRIES SEQUENCES
 *
-**Table A categorie
+** table A catagory
 300002 000002 000003
-**Descripteurs parties F,X et Y
+** F,X and Y part descriptors
 300003 000010 000011 000012
-**Nom d'element, nom d'unite, signe de l'echelle, echelle, signe de reference, valeur de reference, largeur des donnees
+** element name, units name, scale sign, scale, reference sign, reference value, data width
 300004 300003 000013 000014 000015 000016 000017 000018 000019 000020
-**descripteur D a definir, reproduction retardee, descripteur
+** table D descriptor to be defined, delayed replication, descriptor
 300010 300003 101000 031001 000030
 *
 *
 *LOCATION AND IDENTIFICATION SEQUENCES
 *
-**numero de bloc et station OMM
+** WMO block and station number
 301001 001001 001002
-**numero de region/sous-region OMM, identificateur de bouee/plateforme
+** WMO region number/sub-area, buoy/platform identifier
 301002 001003 001004 001005
-**Indicatif d'appel du bateau, direction et vitesse de plateforme d'observation
+** Ship's call sign, direction and speed of moving observing platform
 301003 001011 001012 001013
-**Identification de station de surface
+**Surface station identification
 301004 001001 001002 001015 002001
-**origine et sequence de l'identification
+**Origin and identification sequence
 301005 001035 001034
-**Annee,mois,jour
+**Year,month,day
 301011 004001 004002 004003
-**heure,minute
+**Hour,minute
 301012 004004 004005
-**heure,minute,seconde
+**Hour,minute,second
 301013 004004 004005 004006
-**Periode de temps
+**Time period
 301014 102002 301011 301012
-**Latitude/longitude (haute precision)
+**Latitude/longitude (high accuracy)
 301021 005001 006001
-**Latitude/longitude (haute precision), hauteur de la station
+**Latitude/longitude (high accuracy), height of station
 301022 005001 006001 007001
-**Latitude/longitude (basse precision)
+**Latitude/longitude (course accuracy)
 301023 005002 006002
-**Latitude/longitude (basse precision), hauteur de la station
+**Latitude/longitude (course accuracy), height of station
 301024 005002 006002 007001
-**Latitude/longitude (basse precision),heure,temps
+**Latitude/longitude (course accuracy),day,time
 301025 301023 004003 301012
-**Latitude/longitude (haute precision), periode de temps en jours/heures/minutes
+**Latitude/longitude (high accuracy),time period in days,hours and minutes
 301026 301021 004003 004003 004004 004004 004005 004005
-**Description de la caracteristique en trois ou deux dimensions
+**Description of a feature in 3-D or 2-D
 301027 008007 101000 031001 301028 008007
-**Section horizontale de la caracteristique decrite comme un polygone, cercle, ligne ou point
+**Horizontal section of a feature decribed as a polygon, circle, line or point
 301028 008040 033042 007010 101000 031002 301023 019007 008040
-**(Déprécié)Identification
+**(Depreciated)Identification
 301029 001018 002001 301011
-**(Déprécié)Identification avec location physicale
+**(Depreciated)Identification with physical location
 301030 001018 002001 301011 301024
-**Numero de bloc et de station OMM, type de station,date,heure,latitude/longitude (haute precision),hauteur de la station
+**WMO block and station number,type of station,date,time,latitude/longitude (high accuracy),height of station
 301031 301001 002001 301011 301012 301022
-**Numero de bloc et de station OMM, type de station,date,heure,latitude/longitude (basse precision),hauteur de la station
+**WMO block and station number,type of station,date,time,latitude/longitude (course accuracy),height of station
 301032 301001 002001 301011 301012 301024
-**Bouee/plateforme fixe (latitude/longitude-haute precision)
+**Buoy/platform--fixed (latitude/longitude-high accuracy)
 301033 001005 002001 301011 301012 301021
-**Bouee/plateforme fixe (latitude/longitude-basse precision)
+**Buoy/platform--fixed (latitude/longitude-course accuracy)
 301034 001005 002001 301011 301012 301023
-**Bouee/plateforme -mobile
+**Buoy/platform--moving
 301035 001005 001012 001013 002001 301011 301012 301023
-**Bateau
+**Ship
 301036 301003 002001 301011 301012 301023
-**Station terrestre pour les sondages verticaux (latitude/longitude-haute precision)
+**Land station for vertical soundings (latitude/longitude-high accuracy)
 301037 301001 002011 002012 301011 301012 301022
-**Station terrestre pour les sondages verticaux (latitude/longitude-course precision)
+**Land station for vertical soundings (latitude/longitude-course accuracy)
 301038 301001 002011 002012 301011 301012 301024
-**Bateau pour les sondages verticaux
+**Ship for vertical soundings
 301039 301003 002011 002012 301011 301012 301023
-**Indicatif d'appel et de deplacement du bateau, type de radiosonde et methode de calcul,date,heure,latitude/longitude (basse precision)
+**Ship's call sign and motion,radiosonde type and computational method,date,time,latitude/longitude (course accuracy)
 301040 301003 002011 002012 301011 301012 301024
-**Identificateur du satellite,donnees instrumentales satellitaire utilisees dans le traitement,technique de traitement des donnees de satellite utilisee,date,heure
+**Satellite identifier,satellite instrument data used in processing,satellite data processing technique used,date,time
 301041 001007 002021 002022 301011 301012
-**Identificateur du satellite,donnees instrumentales satellitaire utilisees dans le traitement,technique de traitement des donnees de satellite utilisee,latitude/longitude (haute precision)
+**Satellite identifier,satellite instrument data used in processing,satellite data processing technique used,latitude/longitude (high accuracy)
 301042 301041 301021
-**Identificateur du satellite,methode informatique de mouvement des nuages,date,heure,latitude/longitude (haute precision)
+**Satellite identifier,cloud motion computational method,date,time,latitude/longitude (high accuracy)
 301043 001007 002023 301011 301013 301021
-**Identificateur du satellite,methode informatique d'integration de l'humidite moyenne,date,heure,latitude/longitude (haute precision)
+**Satellite identifier,integrated mean humidity computational method,date,time,latitude/longitude (high accuracy)
 301044 001007 002024 301011 301013 301021
-**Emplacement et vitesse du satellite
+**Satellite location and velocity
 301045 301011 301012 201138 202131 004006 201000 202000 304030 304031
-**Identificateur du satellite,direction du mouvement de la plateforme mobile d'observation,identificateur du capteur du satellite,fonction du modele geophysique pour la diffusion du vent,identification du logiciel,resolution transversale et azimuthale, nombre d'orbite
+**Satellite identifier,direction of motion of moving observational platform,satellite sensor identifier,wind scatterometer geophysical model 
+**function,software identification,cross and alongtrack resolution,orbit number
 301046 001007 001012 002048 021119 025060 202124 002026 002027 202000 005040
-**Entete de produit ERS
+**ERS product header
 301047 001007 025060 001033 001034 001012 301045 002021 301011 301012 201138 202131 004006 201000 202000 301023
-**Parametres du radar
+**Radar parameters
 301048 002104 002121 002113 002026 002027 002111 002140 202127 001013 202126 007001 202000 025010 021064
-**Donnees faisceau du radar
+**Radar beam data
 301049 002111 002112 021062 021063 021065
-**Numero de vol de l'aeronef,systeme de navigation,date,heure,latitude/longitude (haute precision),phase de vol aeronef
+**Aircraft flight number,navigational system,date,time,latitude/longitude (high accuracy),phase of aircraft flight
 301051 001006 002061 301011 301012 301021 008004
-**Identificateur de bouee/plateforme,type de station,date,heure,latitude/longitude (haute precision),direction de deplacement de plateforme mobile d'observation,vitesse de derive de la plateforme (haute precision)
+**Buoy/platform identifier,type of station,date,time,latitude/longitude (high accuracy),direction of motion of moving observational platform,
+**platform drift speed (high acc)
 301055 001005 002001 301011 301012 301021 001012 001014
-**Emplacement(s) du radar
+
+**Universal template for representation of lightning data
+301058 301011 301013 004007 301021 020111 020112 020113 020114 020115 020116 020117 020118 020119 020120 020121 020122 020123 020124 020125 020023 020126 101000 031002 301059 202136 201136 201000 202000
+**Identification of sensor site and intrumentation for lightning detection
+301059 301001 001011 002001 002184 002189 002036
+
+**Radar location(s)
 301062 101000 031001 301001
-**Identification ACARS
+**ACARS identification
 301065 001006 001008 002001 002002 002005 002062 002070 002065
-**Emplacement des ACARS
+**ACARS location
 301066 301011 301013 301023 007004 002064 008004
-**(Déprécié)Instrumentation d'ozone-spectrophotometre Brewer
+**(Depreciated)Ozone instrumentation-Brewer spectrophotometer
 301070 002143 002142 002144
-**Identificateur de satellite/Resolution a la generation
+**Satellite identifier/Generating resolution
 301071 001007 001031 002020 002028 002029
-**Identification de satellite
+**Satellite identification
 301072 301071 301011 301013 301021
-**(Déprécié)Instrumentationd'ozone-spectrophotometre Dobson
+**(Depreciated)Ozone instrumentation-Dobson spectrophotometer
 301074 002143 002142 002145 002146
-**(Déprécié)Identification de sondage
+**(Depreciated)Sounding identification
 301075 301001 001015 301024 008021 301011 301012
-**(Déprécié)Instrumentation de sondage d'ozone
+**(Depreciated)Ozone sounding instrumentation
 301076 002011 002143 002142
-**Identification de station nationale
+**National station identification
 301089 001101 001102
-**Identification de la station de surface fixe; heure, coordonnees verticales et horizontales
+**Fixed surface station identification; time,horizontal and vertical coordinates
 301090 301004 301011 301012 301021 007030 007031
-**Instrumentation de la station de surface
+**Surface station instrumentation
 301091 002180 002181 002182 002183 002184 002179 002186 002187 002188 002189
-**Identification de la station de surface mobile; heure,coordonnees verticales et horizontales
+**Mobile surface station identification,time,horizontal and vertical coordinates
 301092 001011 001003 002011 301011 301012 301021 007030 007031 033024
-**Identification du bateau, mouvement,date,heure, coordonnees verticales et horizontales
+**Ship identification, movement,date/time,horizontal and vertical coordinates
 301093 301036 007030 007031
-**Identification du site de lancement et instrumentation pour les mesures du vent
+**Identification of launch site and instrumentation for wind measurements
 301110 301001 001011 002011 002014 002003
-**Identification du site de lancement et instrumentation pour P, T, U et mesures du vent
+**Identification of launch site and instrumentation for P, T, U and wind measurements
 301111 301001 001011 002011 002013 002014 002003
-**Identification du point de lancement et instrumentation de la catasonde
+**Identifiaction of launch point and instrumentation of dropsonde
 301112 001006 002011 002013 002014 002003
-**Date/heure de lancement
+**Date/time of launch
 301113 008021 301011 301013
-**Coordonnees verticales et horizontales du site de lancement
+**Horizontal and vertical coordinates of launch site
 301114 301021 007030 007031 007007 033024
-**Entete abregee de radiosonde et information de lancement
+**Radiosonde abbreviated header and launch information
 301120 301001 001094 002011 301121
-**Information du point de lancement de radiosonde
+**Radiosonde launch point information
 301121 008041 301122 301021 007031 007007
-**Date/heure (precis au centieme de seconde)
+**Date/time (to hundreths of a second)
 301122 301011 301012 201135 202130 004006 202000 201000
-**Information d'entete complete de radiosonde
+**Radiosonde full header information
 301123 102002 008041 001062 301001 001094 002011 001018 001095 025061 025068 001082 001083 001081 002067 002066 002014 025067 025065 025066 002095 002096 002097 002016 002083 002080 002081 001093 002084 002085 002086 002082 008041 301011
-**Information d'entete ASCAT
+**ASCAT header information
 301125 001033 001034 025060 001007 002019 001012
 *
 * METEOROLOGICAL SEQUENCES COMMON TO SURFACE DATA
 *
-**Pression au niveau de la station,pression reduite au niveau de la mer,changement de pression 3-hr,caracteristique de la tendance de pression
+**Pressure at station level,pressure reduced to mean sea level,3hr pressure change,characteristic of pressure tendency
 302001 010004 010051 010061 010063
-**Station haute altitude (pression,geopotentielle)
+**High altitude station (pressure,geopotential)
 302002 010004 007004 010003 010061 010063
-**Vitesse et direction du vent a 10m,temperature et point de rosee a 2m,humidite relative,visibilite horizontale,temps present,temps passe (1&2)
+**10m wind speed and direction,2m temperature and dewpoint,relative humidity,horizontal visibility,present weather,past weather (1&2)
 302003 011011 011012 012004 012006 013003 020001 020003 020004 020005
-**Information general de nuages
+**General cloud information
 302004 020010 008002 020011 020013 020012 020012 020012
-**Signification verticale,quantite et type de nuages,hauteur de la base des nuages
+**Vertical significance,cloud amount and type,height of base of cloud
 302005 008002 020011 020012 020013
-**Pression au niveau de la station,pression reduite au niveau de la mer,changement de pression 24-hr,caracteristiques de la tendance de pression
+**Pressure at station level,pressure reduced to mean sea level,24hr pressure change,characteristic of pressure tendancy
 302006 010004 010051 010062 010063
-**Station basse altitude
+**Low altitude station
 302011 302001 302003 302004
-**Station haute altitude (pression,vent,temperature,humidite,visibilite,temps,nuages)
+**High altitude station (pressure,wind,temperature,humidity,visibility,weather,cloud)
 302012 302002 302003 302004
-**Pression et changement de pression,vent,temperature,humidite,visibilite,temps,information de la couche de nuages
+**Pressure and presure change,wind,temperature,humidity,visibility,weather,cloud layer information
 302013 302006 302003 101000 031001 302005
-**Direction,periode et hauteur des vagues
+**Direction, period and height of waves
 302021 022001 022011 022021
-**Direction,periode et hauteur des vagues de vent
+**Direction, period and height of wind waves
 302022 022002 022012 022022
-**Direction,periode et hauteur de la houle
+**Direction, period and height of swell waves
 302023 022003 022013 022023
-**Vagues de vent et houle (2 systemes de houle)
+**Wind and swell waves (2 systems of swell)
 302024 302022 101022 302023
-**Donnees de pression
+**Pressure data
 302031 302001 010062 007004 010009
-**Donnees de temperature et d'humidite
+**Temperature and humidity data
 302032 007032 012101 012103 013003
-**Donnees de visibilite
+**Visibility data
 302033 007032 020001
-**Precipitation derniere 24h
+**Precipitation past 24hrs
 302034 007032 013023
-**Donnee synoptique de base instantannee
+**Basic synoptic instantaneous data
 302035 302032 302033 302034 007032 302004 101000 031001 302005
-**Nuages avec base sous de niveau de la station
+**Clouds with bases below station level
 302036 105000 031001 008002 020011 020012 020014 020017
-**Etat du sol,profondeur de neige,temperature minimum au sol
+**State of ground, snow depth, ground minimum temperature
 302037 020062 013013 012113
-**Temps present/passe
+**Present and past weather
 302038 020003 004024 020004 020005
-**Donnees ensoleillement (1h et 24h)
+**Sunshine data (from 1hr and 24hr period)
 302039 004024 014031
-**Mesure de precipitation
+**Precipitation measurement
 302040 007032 102002 004024 013011
-**Donnees extremes de temperature
+**Extreme temperature data
 302041 007032 004024 004024 012111 004024 004024 012112
-**Donnees de vent
+**Wind data
 302042 007032 002002 008021 004025 011001 011002 008021 103002 004025 011043 011041
-**Donnees synoptiques de base de periode
+**Basic synoptic period data
 302043 302038 101002 302039 302040 302041 302042 007032
-**Donnees d'evaporation
+**Evaporation data
 302044 004024 002004 013033
-**Donnees de rayonnement (periode 1h et 24h)
+**Radiation data (from 1hr and 24hr period)
 302045 004024 014002 014004 014016 014028 014029 014030
-**Changement de temperature
+**Temperature change
 302046 004024 004024 012049
-**Direction de la derive des nuages
+**Direction of cloud drift
 302047 102003 008002 020054
-**Direction et elevation des nuages
+**Direction and elevation of cloud
 302048 005021 007021 020012 005021 007021
-**Information des nuages rapporte avec les sondages verticaux
+**Cloud information reported with vertical soundings
 302049 008002 020011 020013 020012 020012 020012 008002
-**Observation en surface par radiosonde
+**Radiosonde surface observation
 302050 008041 005021 007005 202130 006021 202000 008041 201131 202129 002115 010004 002115 013003 202000 201000 002115 011001 011002 002115 102002 012101 004024 002115 012103 012102 101003 020012 020011 020013 101002 020003
-**Pression,geopotentielle,temperature thermometre sec,ecart-type temperature,temperature max/min dernier 24h,pression de vapeur,nombre total d'entrees manquantes
+**Pressure,geopotential,dry-bulb temperature,standard deviation temperature,max/mim temperature past 24hrs,vapor pressure,total number of missing entries
 302051 010004 010051 007004 010003 012004 012051 012016 012017 013004 102004 008051 008020
-**Donnees de temperature et d'humidite pour un bateau
+**Temperature and humidity data for ship
 302052 007032 007033 012101 002039 012102 012103 013003
-**Donnees de visibilite pour bateau
+**Visibility data for ship
 302053 007032 007033 020101
-**Donnees instantanees pour bateau
+**Ship instantaneous data
 302054 302052 302053 007033 302034 007032 302004 101000 031001 302005
-**Givrage et glace
+**Icing and ice
 302055 020031 020032 020033 020034 020035 020036 020037 020038
-**Temperature de l'eau/mer
+**Sea/water temperature
 302056 002038 007063 022043 007063
-**Donnees marine de bateau
+**Ship marine data
 302057 302056 302021 302024
-**Donnees extremes de temperature de bateau
+**Ship extreme temperature data
 302058 007032 007033 004024 004024 012111 004024 004024 012112
-**Donnees de vent de bateau
+**Ship wind data
 302059 007032 007033 002002 008021 004025 011001 011002 008021 103002 004025 011043 011041
-**Donnees de periode de bateau
+**Ship period data
 302060 302038 302040 302058 302059
-**Phenomene meteo dangereux
+**Dangerous weather phenomena
 302066 020023 020024 020027 020054 020023 020027 020054 020025 020026 020027 020040 020066 020027 020021 020067 020027
-**Donnees de visibilite
+**Visibility data
 302069 007032 007033 033041 020001
-**Donnees de vent
+**Wind data
 302070 007032 007033 011001 011002 011043 011041 011016 011017
-**Donnees de vent ( periode 1h)
+**Wind data from 1hr period
 302071 007032 007033 008021 004025 011001 011002 008021 103002 004025 011043 011041 004025 011016 011017
-**Donnes de temperature et humidite
+**Temperature and humidity data
 302072 007032 007033 012101 012103 013003
-**Donnes de nuages
+**Cloud data
 302073 020010 105004 008002 020011 020012 033041 020013
-**Temps present/passe
+**Present and past weather
 302074 020003 004025 020004 020005
-**Intensite de precipitation, taille d'element de precipitation
+**Intensity of precipitation, size of precipitation element
 302075 008021 004025 013055 013058 008021
-**Precipitation, opacite et autres phenomenes
+**Precipitation, obsuration and other phenomena
 302076 020021 020022 026020 020023 020024 020025 020026
-**Donnees extremes de temperature
+**Extreme temperature data
 302077 007032 007033 004025 012111 012112 007032 004025 012112
-**Etat du sol et mesure de profondeur de neige
+**State of ground and snow depth measurment
 302078 002176 020062 002177 013013
-**Mesure de precipitation
+**Precipitation measurement
 302079 007032 002175 002178 004025 013011
-**Mesure d'evaporation
+**Evaporation measurement
 302080 002185 004025 013033
-**Donnees totales de soleil
+**Total sunshine data
 302081 004025 014031
-**Donnees de rayonnement
+**Radiation data
 302082 004025 014002 014004 014016 014028 014029 014030
-**Statistiques du premier ordre des donnees P, W, T, U
+**First order statistics of P, W, T, U data
 302083 004025 008023 010004 011001 011002 012101 013003 008023
-**Donnees instantannees de la sequence 307096
-302084 302031 302072 103000 031000 101005 307063 007061 101000 031000 302069 007032 007033 105000 031000 020031 020032 002038 022043 302021 101000 031000 302078 012113 101000 031000 302004 105000 031001 008002 020011 020012 033041 020013 302036 101000 031000 302047 008022 101000 031000 302048
-****Donnees de periode de la sequence 307096
+**Instantaneous data of sequence 307096
+302084 302031 302072 103000 031000 101005 307063 007061 101000 031000 302069 007032 007033 105000 031000 020031 020032 002038 022043 302021 101000 031000 302078 012113 101000 031000 302004 105000 031001 008002 020011 020012 033041 020013 302036 101000 031000 302047 008022 101000 031000 302048 
+**Period data of sequence 307096
 302085 105000 031000 020003 103002 004024 020004 020005 101000 031000 302075 102000 031000 004025 302076 102000 031000 004025 013059 007032 007033 008021 004025 011001 011002 008021 103003 004025 011043 011041 004025 011016 011017 302077 007033 302041 106000 031000 007032 002175 002178 102005 004024 013011 007032 103000 031000 002185 101002 302044 102000 031000 101002 302039 102000 031000 101002 101000 031000 302046 101000 031000 302083 033005 033006
-****Information de locuste
+**Locust information
 302089 020101 020102 020103 020104 020105 020106 020107 020108
 **
 302175 008021 004025 013155 013058 008021
 *
 *METEOROLOGICAL SEQUENCES COMMON TO VERTICAL SOUNDINGS DATA
 *
-**Geopotentielle,direction et vitesse du vent
+**Geopotential,wind direction and speed
 303001 007003 011001 011002
-**Pression,direction et vitesse du vent
+**Pressure,wind direction and speed
 303002 007004 011001 011002
-**Pression,geopotentielle,temperature et point de rosee
+**Pressure,geopotential,temperature and dew point
 303003 007004 010003 012001 012003
-**Pression,geopotentielle,temperature,point de rosee,direction et vitesse du vent
+**Pressure,geopotential,temperature,dew point wind direction and speed
 303004 303003 011001 011002
-**Geopotentielle,signification verticale sondage,direction et vitesse du vent
+**Geopotential,vertical sounding significance,wind direction and speed
 303011 007003 008001 011001 011002
-**Pression,signification verticale sondage,direction et vitesse du vent
+**Pressure,vertical sounding significance wind direction and speed
 303012 007004 008001 011001 011002
-**Pression,signification verticale sondage,geopotentielle,temperature,humidite relative,direction et vitesse du vent
+**Pressure,vertical sounding significance,geopotential,temperature,relative humidity, wind direction and speed
 303013 007004 008001 010003 012001 013003 011001 011002
-**Pression,signification verticale sondage,geopotentielle,temperature,point de rosee,direction et vitesse du vent
+**Pressure,vertical sounding significance,geopotential,temepetature,dew point,wind direction and speed
 303014 007004 008001 010003 012001 012003 011001 011002
-**Couche de pression
+**Pressure layer
 303021 007004 007004 204007 031021
-**Qualite de couche,geopotentielle (epaisseur moyenne de couche)
+**Layer quality,geopotential (layer mean thickness)
 303022 303021 010003 204000
-**Qualite de couche, temperature (epaisseur moyenne)
+**Layer quality, temperature (layer mean)
 303023 303021 012001 204000
-**Qualite de couche,eau de precipitation
+**Layer quality,precipitation water
 303024 303021 013016 204000
-**Canaux satellitaire, temperature de brillance
+**Satellite channel,brightness temperature
 303025 002025 204007 031021 012063 204000
-**Pression,signification verticale sondage,temperature
+**Pressure,vertical significance,temperature
 303026 007004 008003 204007 031021 012001 204000
-**Pression,geopotentielle
+**Pressure,geopotential
 303027 007004 204007 031021 010003 204000
-**Pression,signification verticale sondage,elevation (zenith local),elevation solaire,qualificatif terre/mer,temperature de surface (skin)
+**Pressure,vertical significance,elevation(local zenith),solar elevation,land/sea qualifier,skin temperature
 303031 007004 008003 007021 007022 008012 012061
-**Quantite de nuage,pression au sommet des nuages
+**Cloud amount,pressure at top of cloud
 303032 020011 020016
-**Couverture nuageuse (totale),pression au sommet des nuages
+**Cloud cover(total),pressure at top of cloud
 303033 020010 020016
-**Information sur la duree et la fin du vol de la radiosonde
+**Radiosonde duration of flight and termination information
 303040 008041 004025 004026 301021 301122 201131 202129 025069 007004 013003 202000 201000 002013 012101 010009 102002 008040 035035
-**Sequence de vent
+**Wind sequence
 303041 002152 002023 007004 011001 011002 002153 002154 012071
-**Donnees de vent a un niveau de pression avec la position de radiosonde
+**Wind data at a pressure level with radiosonde position
 303050 004086 008042 007004 005015 006015 011001 011002
-**Donnees de cisaillement du vent a un niveau de pression avec la position de radiosonde
+**Wind shear data at a pressure level with radiosonde position
 303051 004086 008042 007004 005015 006015 011061 011062
-**Donnees de vent a un niveau de hauteur avec la position de radiosonde
+**Wind data at a height level with radiosonde position
 303052 004086 008042 007009 005015 006015 011001 011002
-**Donnees de cisaillement du vent a un niveau de hauteur avec la position de radiosonde
+**Wind shear data at a height with radiosonde position
 303053 004086 008042 007009 005015 006015 011061 011062
-**Temperature,point de rose et donnees de vent a un niveau de pression avec la position de radiosonde
+**Temperature, dew point and wind data at a pressure level with radiosonde position
 303054 004086 008042 007004 010009 005015 006015 012101 012103 011001 011002
 *
 * METEOROLOGICAL SEQUENCES COMMON TO SATELLITE OBSERVATIONS
 *
-**Signification verticale sondage,pression,temperature,direction et vitesse du vent
+**Vertical significance,pressure,temperature,wind direction and speed
 304001 008003 010004 012001 011001 011002
-**Signification verticale sondage,pression,direction et vitesse du vent
+**Vertical significance,pressure,wind direction and speed
 304002 008003 010004 011001 011002
-**Signification verticale sondage,temperature
+**Vertical significance,temperature
 304003 008003 012001
-**Signification verticale sondage,pression,couverture nuageuse (totale),temperature
+**Vertical significance,pressure,cloud cover(total),temperature
 304004 008003 010004 020010 012001
-**Methode informatique d'integration de l'humidite moyenne,couche de pression,humidite relative
+**Integrated mean humidity computational method,pressure layer,relative humidity
 304005 002024 007004 007004 013003
-**Radiation d'ondes longues entrante/sortant, radiation d'ondes courtes
+**Outgoing and incoming long-wave radiation,outgoing short-wave radiation
 304006 014001 014001 014003
-**Information GOES-I/M
+**GOES-I/M information
 304011 002163 002164 008012 007024 002057 008021 004001 004002 004003 004004 008021 004024 110004 008021 004004 004005 004006 008021 004004 004005 004006 011001 011002 103010 002163 007004 012001
-**Emplacement de la plateforme
+**Location of platform
 304030 027031 028031 010031
-**vitesse de la plateforme
+**Speed of platform
 304031 001041 001042 001043
-**Fraction nuage
+**Cloud fraction
 304032 002153 002154 020081 020082 020012
-**Radiance de ciel clair
+**Clear sky radiance
 304033 002152 002166 002167 002153 002154 012075 012076 012063
-**Latitude/longitude (haute precision),altitude solaire,numero du champ visuel,couverture nuageuse (totale),pression au sommet des nuages,table d'information de la qualite,nombre de couches recuperees
+**Latitiude/longitude (high accuracy),solar elevation,field-of-view number,cloud cover (total),pressure at top
+**of cloud, quality information table,number of retrieved layers
 304034 102004 027001 028001 007022 005043 020010 020016 033003 010040
-**Toutes les donnees de rayonnement de ciel
+**(Depreciated)All sky radiance data
 304035 002153 002154 012063 008001 012063 008001 012063 008001 008003 012063 008003 012063 008003 012063 008003
-**Couverture de nuage 
+**Cloud coverage
 304036 020082 008012 020082 008012 020081 008003 020081 008003 020081 008003 020081 008003
+**All sky radiance data
+304037 002153 002154 012063 008011 012063 008011 012063 008011 008003 012063 008003 012063 008003 012063
 *
 * METEOROLOGICAL OR HYDROLOGICAL SEQUENCES COMMON TO HYDROLOGICAL OBSERVATIONS
 *
-**(Déprécié) mesure singulier SADC-HYCOS
+**(Depreciated)SADC-HYCOS single measurement
 305001 011001 011002 013060 013071
-**(Déprécié) mesure environmental SADC-HYCOS
+**(Depreciated)SADC-HYCOS environmental measurement 
 305002 301012 012001 013003 014051 013060 013072 013080 013081 013082 013083 013084
-**Definition du tableau de mesure SADC-HYCOS
+**SADC-HYCOS measurement array definition
 305003 301012 004065 101000 031001 305001
-**(Déprécié) Rapport SADC-HYCOS
+**(Depreciated)SADC-HYCOS report
 305004 301030 305002 305003
-**Mesure de MEDHYCOS
+**MEDHYCOS measurement
 305006 013072 013082 013019 012001 013073 013060
-**Rapport de MEDHYCOS
+**MEDHYCOS report
 305007 301029 301012 004065 101000 031001 305006
-**Mesure de AOCHYCOS-Chad
+**AOCHYCOS-Chad measurement 
 305008 305006 012030
-**Rapport de AOCHYCOS-Chad
+**AOCHYCOS-Chad report
 305009 301029 301012 004065 101000 031001 305008
-**(Déprécié) Mesure MEDHYCOS type 2
+**(Depreciated)MEDHYCOS measurement type 2
 305010 305008 002091 002091
-**Rapport de MEDHYCOS (type 2)
+**MEDHYCOS report type 2
 305011 301029 301012 004065 101000 031001 305010
-**(Déprécié) Parametres meteorologique associe avec les donnees hydrologique
+**(Depreciated)Meteorological parameters associated with hydrological data
 305016 014021 007004 013003 011002 011001 011041 011043
-**(Déprécié) Mesure de qualite d'eau
+**(Depreciated)Water quality measurement
 305017 013080 013081 013083 013085 013084
-**Rapport MEDHYCOS avec les donnees de meteorologie et de qualite d'eau
+**MEDHYCOS report with meteorology and water quality data
 305018 301029 301012 004065 103000 031001 305008 305016 305017
 *
 * METEOROLOGICAL OR OCEANOGRAPHIC SEQUENCES COMMON TO OCEANOGRAPHIC OBSERVATIONS
 *
-**Indicateur de numerisation,profondeur sous surface de l'eau,tempertature eau/mer subsurface
+**Indicator for digitization,depth below sea surface,subsurface sea temperature
 306001 002032 102000 031001 007062 022042
-**Methode de mesure du courant,direction et vitesse du courant
+**Method of current measurement,direction and speed of current
 306002 002031 022004 022031
-**Instrumentation de vent,direction et vitesse du vent a 10m, temperature thermometre sec a 2m
+**Wind instrumentation,wind direction and speed (10m),dry-bulb temperature (2m)
 306003 002002 011011 011012 012004
-**Indicateur de numerisation,methode/mesure de salinite/profondeur,profondeur sous surface de l'eau,tempertature eau/mer subsurface,salinite
+**Indicator for digitization,method of salinity/depth measurement,depth below sea surface,subsurface sea temperature,salinity
 306004 002032 002033 103000 031001 007062 022043 022062
-**Methode de mesure du courant,profondeur sous surface de l'eau,direction et vitesse du courant
+**Method of current measurement,depth below sea surface,direction and speed of current
 306005 002031 103000 031001 007062 022004 022031
-**Caracteristiques des parametres de sondage sous-marin
+**Underwater sounding (optional) parameters
 306006 306003 306002 022063
-**Parametres du bloc de piece de rechange de bouee
+**Buoy spare block parameters
 306007 001012 001014 306008 004024 027003 028003
-**Parametres d'instrumentation de bouee
+**Buoy instrumentation parameters
 306008 002034 002035 002036
-**Identification de rapport de maree, controles de niveau d'eau, increments de temps
+**Tide report identification, water level checks, time increments
 306019 001075 301011 301012 022042 022120 022121 004015 004065
-**(Amorti-voir 306019) Identification de rapport de maree, controles de niveau d'eau, periode de temps ou
-**displacement, increments de temps
+**(Depreciated-see 30619)Tide report identification, water level checks, time period or displacement time increments
 306020 001075 301011 301012 022042 022120 022121 004075 004065
-**(Déprécié)Parametres meteorologique dans la station maree
+**(Depreciated)Meteorological parameters in tide station
 306021 001075 301011 301012 022122 022123 012001 303002
-**(Déprécié)Elevation de maree
+**(Depreciated)Tidal Elevation
 306022 001075 301011 301012 022038 022039
-**Nom de la station ou du site,latitude/longitude (basse precision),date/heure,hauteur de la maree par rapport a l'horizon fondemental local,elevation meteorologique residuelle de la maree,verification du niveau de l'eau de l'observatoire de la maree automatise et manuel
+**Station or site name,latitude/longitude(course accuracy),date/time,tidal level with respect to local chart datum,meterorological 
+**residual tidal elevation,tide station automated and manual water level check
 306023 001015 301023 301011 301012 022038 022039 022120 022121
-**(Déprécié)Serie de l'elevation de maree
+**(Depreciated)Tidal elevation series
 306024 306020 102006 022038 022039
+**Sequence for representation of DART buoy identification, transmitter ID, type of tsunameter and the time the message is transmitted tothe ground system
+306027 001005 001050 001051 001052 002047 301011 301013
+**Sequence for representation of time of observation and DART buoy position daily report
+306028 301001 301013 301021
+**Sequence for representation of tsunameter sampling information for water column heights in the time series report
+306029 025170 025171 025172
+**Sequence for representation of DART buoy standard hourly report
+306030 111000 033002 301011 301013 025025 025025 025026 022185 004065 101004 022182
+**Sequence for representation of DART buoy tsunami event reports and extended tsunami event reports
+306031 001053 301011 301013 301011 301013 022185 022182 004016 004066 101000 022184
 *
 * SURFACE REPORT SEQUENCES (LAND)
 *
-**Station de basse altitude (latitude/longitude-haute precision)
+**Low altitude station (latitude/longitude-high accuracy)
 307001 301031 302011
-**Station de basse altitude (latitude/longitude-basse precision)
+**Low altitude station (latitude/longitude-course accuracy)
 307002 301032 302011
-**Station de basse altitude (latitude/longitude-haute precision'information de couche de nuage-couches illimitees)
+**Low altitude station (latitude/longitude-high accuracy,cloud layer information-unlimited layers)
 307003 307001 101000 031001 302005
-**Station de basse altitude (latitude/longitude-basse precision,information de couche de nuage-couches illimitees)
+**Low altitude station (latitude/longitude-course accuracy,cloud layer information-unlimited layers)
 307004 307002 101000 031001 302005
-**Station de basse altitude (latitude/longitude-haute precision,information de couche de nuage-quatre couches)
+**Low altitude station (latitude/longitude-high accuracy,cloud layer information-four layers)
 307005 307001 101004 302005
-**Station de basse altitude (latitude/longitude-basse precision,information de couche de nuage-quatre couches)
+**Low altitude station (latitude/longitude-course accuracy,cloud layer information-four layers)
 307006 307002 101004 302005
-**Station d'haute altitude (latitude/longitude-haute precision)
+**High altitude station (latitude/longitude-high accuracy)
 307007 301031 302012
-**Station d'haute altitude (latitude/longitude-basse precision)
+**High altitude station (latitude/longitude-course accuracy)
 307008 301032 302012
-**Type d'identification,date/heure,latitude/longitude-haute precision,hauteur,rapport synoptique de base
+**Identification type,date/time,latitude/longitude-high accuracy,height,basic surface report
 307009 301031 302013
-**Partie principale de donnees pour la representation de code METAR/SPECI dans BUFR
+**Main part of data for representation of METAR/SPECI code in BUFR
 307011 001063 002001 301011 301012 301024 007006 011001 011016 011017 011002 011041 007006 012001 012003 010052 020009
 **DvWW
 307012 103000 031001 008023 005021 020001
@@ -675,575 +756,657 @@
 307013 106000 031001 001064 008014 020061 008014 020061 020018
 **w'w
 307014 101000 031001 020019
-**Groupe(s) de nuage
+**Clouds group(s)
 307015 101000 031001 302005 020002
 **REw'w
 307016 101000 031001 020020
-**Cisaillement du vent sur les pistes
+**Wind shear on runway(s)
 307017 101000 031001 011070
-**Type de tendance atterissage prevue
+**Trend-type landing forecast
 307018 008016 102000 031001 008017 301012 104000 031001 007006 011001 011002 011041 020009 101000 031001 020001 101000 031001 020019
-**METAR/SPECI court
+**Short METAR/SPECI
 307020 307011 307014 307016
-**Sequence totale pour la representation de code METAR/SPECI dans BUFR
+**Total sequence for representation of METAR/SPECI code in BUFR
 307021 307011 307012 307013 307014 307015 307016 307017 307018 307015
-**Donnee GNNS au sol
+**Ground based GNSS data
 307022 001015 301011 301012 301022 008021 004025 010004 012001 013003 033038 008022 106025 002020 001050 005021 007021 015031 015032 008060 015033 015034 008060 015033 015034 015035 201131 202129 013016 202000 201000 015011
-**(Déprécié)Donnees d'ozone-l'observation seule
+**(Depreciated)Ozone data-single observation
 307030 015001 015002
-**(Déprécié)Donnees d'ozone-les observations moyenne
+**(Depreciated)Ozone data-averaged observations
 307031 008022 008023 015001 008023 015001 008023 015002
-**(Déprécié)Les mesures d'ozone en totale par un spectrophotometre Brewer base sur une observation seulle
+**(Depreciated)Total ozone measurement from a Brewer ground-based spectrophotometer obtained from a single observation
 307041 301001 001015 301024 301011 301012 301070 307030
-**(Déprécié)Les mesures d'ozone en totale par un spectrophotometre Brewer base sur les observations moyenne
+**(Depreciated)Total ozone measurement from a Brewer ground-based spectrophotometer obtained from a averaged observations
 307042 301001 001015 301024 301011 301012 008021 004025 301070 307031
-**(Déprécié)Les mesures d'ozone en totale par un spectrophotometre Dobson base sur une observation seulle
+**(Depreciated)Total ozone measurement from a Dobson ground-based spectrophotometer obtained from a single observation
 307043 301001 001015 301024 301011 301012 301074 307030
-***(Déprécié)Les mesures d'ozone en totale par un spectrophotometre Dobson base sur les observations moyenne
+**(Depreciated)Total ozone measurement from a Dobson ground-based spectrophotometer obtained from a averaged observations
 307044 301001 001015 301024 301011 301012 008021 004025 301074 307031
-**Partie principale du METAR/SPECI remplacant 307011
+**Main part of METAR/SPECI replacing 307011
 307045 001063 008079 002001 301011 301012 301023 007030 007031 007032 011001 011016 011017 008054 011083 011084 011002 008054 011085 011086 011041 008054 007032 012023 012024 007032 010052 020009
-**Visibilite du METAR/SPECI
+**METAR/SPECI visibility
 307046 020060 102000 031001 005021 020059
-**Nuages METAR/SPECI/TAF
+**METAR/SPECI/TAF clouds
 307047 105000 031001 008002 020011 020012 020013 020092 020002 020091
-**Tendance prevue remplacant 307018
+**Trend type forecast replacing 307018
 307048 008016 102000 031001 008017 301012 112000 031000 007032 011001 008054 011083 011084 011002 008054 011085 011086 011041 008054 007032 020009 101000 031000 020060 307014 307047
-**Conditions de la mer WTsTs/SS'
+**Sea conditions WTsTs/SS'
 307049 102000 031000 022043 022021
-**Etat de la piste RrRrErErCrererBrBr
+**Runway state RrRrErErCrererBrBr
 307050 101000 031000 020085 102000 031001 001064 020085 105000 031001 001064 020086 020087 020088 020089
-**Partie principal du METAR/SPECI remplacant 307021
+**Main part of METAR/SPECI data replacing 307021
 307051 307045 307046 307013 307014 307047 307016 307017 307049 307050 101000 031000 307048
-**Identification de prevision pour l'aerodrome et interval de temps
+**Aerodrome forecast identification and time interval
 307052 001063 008039 301011 301012 008079 008039 301011 301012 008039 301011 301012 301023 007030 007031
-**Temps prevue a l'aerodrome
+**Forecast weather at an aerodrome
 307053 007032 011001 008054 011083 011084 011002 008054 011085 011086 011041 008054 007032 020009 020060 307014 307047
-**Prevision de temperature extreme
+**Forecast of extreme temperatures
 307054 007032 008039 004003 004004 008023 012023 008039 004003 004004 008023 012023 008023 007032
-**Indicateur de changement et changement de prevision
+**Change indicator and forecast changes
 307055 033045 008016 008039 004003 301012 008039 004003 301012 307053
-**Prevision d'aerodrome
+**Aerodrome forecast
 307056 307052 307053 307054 101000 301001 307055
-**(Déprécié)METAR/SPECI complete (remplacant 307021)
+**(Depreciated)Full METAR/SPECI (replacing 307021)
 307059 307045 307046 307013 307014 307047 307016 307017 307049 307050 101000 031001 307048
-**(Déprécié)Temperature de sol au dessous de la surface de terre
+**(Depreciated)Soil temperature below land surface
 307060 007061 012030
-**(Déprécié)Donnees de temperature de sol a un nombre de profondeurs pas depasser cinq, la position de precision haute
+**(Depreciated)Soil temperature data at a number of depths not exceeding five, high accuracy position
 307061 301031 101005 307060
-**(Déprécié)Donnees de temperature de sol a un nombre de profondeurs pas depasser cinq, la position de precision basse
+**(Depreciated)Soil temperature data at a number of depths not exceeding five, course accuracy position
 307062 301032 101005 307060
-**Donnees de temperature de sol avec une echelle de 2 au dessous de la surface de terre
+**Soil temperature data with a scale of 2 below land surface
 307063 007061 012130
-**Valeurs mensuelles d'une station-donnees du mois CLIMAT
+**Monthly values of a land station-CLIMAT data of the month
 307071 301090 004074 004023 008023 010004 010051 007004 010009 007032 012101 002051 004051 012118 004052 012119 013004 008023 012151 007032 102005 008050 008020 014032 014033 008050 008020 102018 008052 008022 007032 008053 004003 012152 008053 004003 012153 008053 004003 008023 012101 008053 004003 008023 012101 008023 007032 002002 008053 004003 011046 008053 004003 004004 004023 007032 013060 013051 004053 008050 008020 102006 008052 008022 008053 004003 013052 007032
-**Normales mensuelles d'une station
+**Monthly normals from a land station
 307072 004001 004001 004002 004003 004004 004074 004022 008023 010004 010051 007004 010009 007032 012101 002051 004051 012118 004052 012119 013004 012151 007032 014032 008023 004001 004001 004002 004003 004004 004022 007032 008023 013060 004053 008023 102008 008050 008020
-**Representation des donnees du mois reel CLIMAT et pour les normales mensuelles
+**Representation of CLIMAT data of the actual month and for monthly normals
 307073 307071 307072
-**Rapports synoptiques d'une station de surface fixe adaptee aux donnees SYNOP et pour les donnees maritime des stations cotieres
+**Synoptic reports from a fixed land station suitable for SYNOP data and for maritime data from coastal stations
 307079 301090 302031 302035 302036 101000 031000 302047 008002 101000 031000 302048 302037 102000 031000 022061 020058 101000 031000 302056 101000 031000 302055 302043 302044 101000 031001 302045 101000 031000 302046
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SYNOP
+**Sequence for representation of synoptic reports from a fixed land station suitable for SYNOP data
 307080 301090 302031 302035 302036 302047 008002 302048 302037 302043 302044 101002 302045 302046
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SYNOP en coformite avec les pratiques d'etablissement des rapports dans RA I
+**Sequence for representation of synoptic reports from a fixed land station suitable for SYNOP data in compliance with reporting practices in RA I
 307081 301090 302031 302035 302036 302047 008002 302048 302037 012122 013056 013057 020101 020102 020103 020104 020105 020106 020107 020108 302043 302044 101002 302045 302046
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SYNOP en coformite avec les pratiques d'etablissement des rapports dans RA II
+**Sequence for representation of synoptic reports from a fixed land station suitable for SYNOP data in compliance with reporting practices in RA II
 307082 301090 302031 302035 302036 302047 008002 302048 302037 012121 012122 302043 302044 101002 302045 302046
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SYNOP en coformite avec les pratiques d'etablissement des rapports dans RA III
+**Sequence for representation of synoptic reports from a fixed land station suitable for SYNOP data in compliance with reporting practices in RA III
 307083 301090 302031 302035 302036 302047 008002 302048 302037 012122 302043 302044 101022 302045 302046
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SYNOP en coformite avec les pratiques d'etablissement des rapports dans RA IV
+**Sequence for representation of synoptic reports from a fixed land station suitable for SYNOP data in compliance with reporting practices in RA IV
 307084 301090 302031 302035 302036 302047 008002 302048 302037 020055 101000 031001 205001 302043 302044 101002 302045 302046
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SYNOP en coformite avec les pratiques d'establissement des rapports dans RA VI
+**Sequence for representation of synoptic reports from a fixed land station suitable for SYNOP data in compliance with reporting practices in RA VI
 307086 301090 302031 302035 302036 008002 302037 302066 302043 302044 101002 302045
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SYNOP MOBIL
+**Sequence for representation of synoptic reports from a mobile land station suitable for SYNOP MOBIL data
 307090 301092 302031 302035 302036 302047 008002 302048 302037 302043 302044 101002 302045 302046
-**Gabarit BUFR pour les observations de surface d'une periode d'une heure avec identification de station nationale et OMM
+**BUFR template for surface observations from 1hr period with national and WMO station identification
 307091 301089 301090 008010 301091 302001 007004 010009 302072 103000 031000 101005 307063 007061 101000 031000 302069 007032 007033 105000 031000 020031 020032 002038 022043 302021 101000 031000 302078 101000 031000 302073 101000 031000 302074 101000 031000 302075 102000 031000 004025 302076 302071 302077 007033 101000 031000 302079 007032 101000 031000 302080 101000 031000 302081 101000 031000 302082 102000 031000 004025 013059 101000 031000 302083 033005 033006
-**Gabarit BUFR pour la representation des donnees SYNOP avec l'information supplementaire sur les observations d'une heure
+**BUFR template for represnetation of SYNOP data with supplementary information on one-hour  observations
 307096 301090 301089 008010 301091 302084 302085 033005 033006
 *
 * SURFACE REPORT SEQUENCES (SEA)
 *
-**Bouee/plateforme fixe (latitude/longitude-haute precision)
+**Buoy/platform - fixed (latitude/longitude-high accuracy)
 308001 301033 302011 022042
-**Bouee/plateforme fixe (latitude/longitude-course precision)
+**Buoy/platform - fixed (latitude/longitude-course accuracy)
 308002 301034 302011 022042
-**Bouee/plateforme - mobile
+**Buoy/platform - moving
 308003 301035 302011 022042
-**Bateau
+**Ship
 308004 301036 302011 022042
-**Rapport de base de bateau, vagues de vent et houle
+**Basic ship report,wind and swell waves
 308005 308004 302024
-**Parametres facultatifs de la section 1 de bouee
+**Buoy section 1 optional parameters
 308006 010004 010061 010063 011001 011002 012004 013003 022042
-**Identification,type de mouvement,date/heure,latitude/longitude-haute precision,rapport de surface de base, profondeur sour surface de l'eau,temperature de l'eau/mer
+**Identification,movement type,date/time,latitude/longitude-high accuracy,basic surface report,depth below sea/water surface,sea/water temperature
 308007 301055 302011 007062 022042
-**Sequence pour la representation des rapports synoptiques provenant d'une station terreste fixe adaptee aux donnees SHIP
+**Sequence for representation of synoptic reports from a sea station suitable for SHIP data
 308009 301093 302001 302054 008002 302055 302057 302060
-**Gabarit TRACKOB
+**TRACKOB template
 308010 001011 113000 031001 301011 301012 301021 004080 022049 004080 022059 004080 022005 002042 022032 002042 004080
-**Valeurs mensuelles d'une station meteorologique d'ocean -CLIMAT SHIP
+**Monthly values from an ocean weather station - CLIMAT SHIP
 308011 001011 002001 301011 301012 301023 007030 007031 004074 004023 008023 010051 007032 007033 012101 013004 007032 007033 302056 008023 004003 004004 004023 007032 013060 013051 004053 007032
-**Normales mensuelles d'une station meteorologique d'ocean
+**Monthly normals from an ocean weather station
 308012 004001 004001 004002 004003 004004 004074 004022 008023 010051 007032 007033 012101 013004 007032 007033 302056 008023 004001 004001 004002 004003 004004 004022 007032 008023 013060 004053 008023
-**Representation des donnees CLIMAT SHIP du mois reel et pour les normales mensuelles
+**Representation of CLIMAT SHIP data of the actual month and for monthly normals
 308013 308011 308012
 *
 * VERTICAL SOUNDING SEQUENCES ( CONVENTIONAL DATA)
 *
-**Profil de vent vertical (station terreste,latitude/longitude-haute precision,vents aux hauteurs)
+**Vertical wind profile (land station,latitude/longitude-high accuracy,winds at heights)
 309001 301037 101000 031001 303011
-**Profil de vent vertical (station terreste,latitude/longitude-basse precision,vents aux hauteurs)
+**Vertical wind profile (land station,latitude/longitude-course accuracy,winds at heights)
 309002 301038 101000 031001 303011
-**Profil de vent vertical (station terreste,latitude/longitude-haute precision,vents aux niveaux de pression)
+**Vertical wind profile (land station,latitude/longitude-high accuracy,winds at pressure levels)
 309003 301037 101000 031001 303012
-**Profil de vent vertical (station terreste,latitude/longitude-basse precision,vents aux niveaux de pression)
+**Vertical wind profile (land station,latitude/longitude-course accuracy,winds at pressure levels)
 309004 301038 101000 031001 303012
-**Sondage vertical avec l'humidite relative (station terreste,latitude/longitude-haute precision)
+**Vertical sounding with relative humidity (land station,latitude/longitude-high accuracy)
 309005 301037 302004 101000 031001 303013
-**Sondage vertical avec l'humidite relative (station terreste,latitude/longitude-basse precision)
+**Vertical sounding with relative humidity (land station,latitude/longitude-course accuracy)
 309006 301038 302004 101000 031001 303013
-**Sondage vertical avec point de rose (station terreste,latitude/longitude-haute precision)
+**Vertical sounding with dew point data (land station,latitude/longitude-high accuracy)
 309007 301037 302004 101000 031001 303014
-**Sondage vertical avec point de rose (station terreste,latitude/longitude-basse precision)
+**Vertical sounding with dew point data (land station,latitude/longitude-course accuracy)
 309008 301038 302004 101000 031001 303014
-**Profil de vent vertical (bateau,vents aux hauteurs)
+**Vertical wind profile (ship,winds at heights)
 309011 301039 101000 031001 303011
-**Profil de vent vertical (bateau,vents aux niveaux de pression)
+**Vertical wind profile (ship,winds at pressure levels)
 309012 301039 101000 031001 303012
-**Sondage vertical avec l'humidite relative (bateau)
+**Vertical sounding with relative humidity (ship)
 309013 301039 302004 101000 031001 303013
-**Sondage vertical avec point de rose (bateau)
+**Vertical sounding with dew point data (ship)
 309014 301039 302004 101000 031001 303014
-**Profil de vent vertical (bateau,hauteur de la station,vents aux hauteurs)
+**Vertical wind profile (ship,height of station,winds at heights)
 309015 301040 101000 031001 303011
-**Profil de vent vertical (bateau,hauteur de la station,vents aux niveaux de pression)
+**Vertical wind profile (ship,height of station,winds at pressure levels)
 309016 301040 101000 031001 303012
-**Sondage vertical avec l'humidite relative (bateau,hauteur de la station)
+**Vertical sounding with relative humidity (ship,height of station)
 309017 301040 302004 101000 031001 303013
-**Sondage vertical avec point de rose (bateau,hauteur de la station)
+**Vertical sounding with dew point data (ship,height of station)
 309018 301040 302004 101000 031001 303014
-**Profileur de vent - sondage de donnees de vent
+**Wind profiler - wind data sounding
 309019 301031 002003 101000 031001 303011
-**Profileur de vent - coordonnees cartesiennes
+**Wind profiler - cartesian coordinates
 309020 301031 002003 104000 031001 007003 011003 011004 011005
-**Sonde d'ozone - donnees de vol
+**Ozone sonde flight data
 309030 015004 015005 104000 031001 004015 008006 007004 015003
-**Sonde d'ozone - donnees de vol
+**Ozone sonde flight data
 309031 015004 015005 104000 031001 004025 008006 007004 015003
-**(Déprécié)Sondage d'ozone pas couplee d'un spectrophotometer
+**(Depreciated)Ozone sounding not coupled to a ground based spectrophotometer
 309040 301075 301076 309030
-**(Déprécié)Sondage d'ozone couplee aux mesures d'un spectrophotometer Brewer (valeur seule)
+**(Depreciated)Ozone sounding coupled to measurements from a Brewer ground-based spectrophotometer(single value)
 309041 307041 301075 301076 309030
-**(Déprécié)Sondage d'ozone couplee aux mesures d'un spectrophotometer Brewer (valeur moyene)
+**(Depreciated)Ozone sounding coupled to measurements from a Brewer ground-based spectrophotometer(averaged value)
 309042 307042 301075 301076 309030
-**(Déprécié)Sondage d'ozone couplee aux mesures d'un spectrophotometer Dobson (valeur seule)
+**(Depreciated)Ozone sounding coupled to measurements from a Dobson ground-based spectrophotometer(single value)
 309043 307043 301075 301076 309030
-**(Déprécié)Sondage d'ozone couplee aux mesures d'un spectrophotometer Dobson (valeur moyene)
+**(Depreciated)Ozone sounding coupled to measurements from a Dobson ground-based spectrophotometer(averaged value)
 309044 307044 301075 301076 309030
-**Sequence pour la representation des types de donnees d'observation PILOT, PILOT SHIP et PILOT MOBIL avec pression comme coordonnee verticale
+**Sequence for representation of PILOT, PILOT SHIP and PILOT MOBIL observation type data with pressure as the vertical coordinate
 309050 301110 301113 301114 101000 031002 303050 101000 031001 303051
-**Sequence pour la representation des types de donnees d'observation PILOT, PILOT SHIP et PILOT MOBIL avec hauteur comme coordonnee verticale
+**Sequence for representation of PILOT, PILOT SHIP and PILOT MOBIL observation type data with height as the vertical coordinate
 309051 301110 301113 301114 101000 031002 303052 101000 031001 303053
-**Sequence pour la representation des types de donnees d'observation TEMP, TEMP SHIP et TEMP MOBIL
+**Sequence for representation of TEMP, TEMP SHIP and TEMP MOBIL observation type data
 309052 301111 301113 301114 302049 022043 101000 031002 303054 101000 031001 303051
-**Sequence pour la representation des types de donnees d'observation TEMP DROP
+**Sequence for representation of TEMP DROP observation type data
 309053 301112 301113 301114 101000 031002 303054 101000 031001 303051
-**Sequence pour la representation des types de donnees d'observation CLIMAT TEMP et CLIMAT TEMP SHIP
+**Sequence for representation of CLIMAT TEMP and CLIMAT TEMP SHIP data
 309054 301001 001011 301011 301012 301021 007030 007031 007007 004023 004059 115000 031001 008001 008023 007004 010009 012101 012103 008023 011001 011002 008023 011019 008050 008020 008050 008020
-**Enregistrement complet de radiosonde et d'observation de surface
+**Radiosonde complete registration and surface observation
 309060 301123 301121 302050 303040
-**PTU brut
+**Raw PTU
 309061 301120 008041 301122 201131 202129 025069 007004 202000 201000 033007 033035 033015 013009 033007 033035 033015 002013 012101 033007 033035 033015
-**Vent brut GPS non-filtre
+**Raw GPS unsmoothed wind
 309062 301120 008041 301122 005001 033035 033015 006001 033035 033015 007007 033035 033015 011003 033035 033015 011004 033035 033015 033007
-**Vent brut GPS filtre
+**Raw GPS smoothed wind
 309063 301120 008041 301122 005001 033035 033015 006001 033035 033015 007007 033035 033015 011003 033035 033015 011004 033035 033015 033007
-**PTU traite
+**Processed PTU
 309064 301120 008041 301122 201131 202129 104002 025069 007004 033035 033015 013003 033035 033015 202000 201000 104002 002013 012101 033035 033015 012103 033035 033015 010009 033035 033015
-**GPS traite
+**Processed GPS
 309065 301120 008041 301122 005001 033035 033015 006001 033035 033015 007007 033035 033015 011003 033035 033015 011004 033035 033015
-**Niveaux standards et significatifs
+**Standard and significant levels
 309066 301120 008041 301122 008040 201131 202129 025069 007004 013003 202000 201000 002013 012101 012103 010009 010007 011002 011001
 *
 * VERTICAL SOUNDING SEQUENCES (SATELLITE DATA)
 *
-**Satellite - temperature de brillance
+**Satellite brightness temperature
 310001 301042 303031 303032 101026 303025
-**Satellite - bas niveau
+**Satellite - low level
 310002 301042 303031 303032 101009 303023
-**Satellite - niveau eleve
+**Satellite - high level
 310003 301042 303031 303032 101006 303023
-**Satellite- eau precipitable
+**Satellite precipitable water
 310004 301042 303031 303032 101003 303024
-**Identification,methode,date/heure/terre/mer,temperature de surface (skin),nuages,canaux satellitaire et temperature de brillance
+**Identification,method,date/time/land/sea,skin temperature,cloud,satellite channel and brightness temperature
 310005 301042 303031 303033 101000 031001 303025
-**Identification,methode,date/heure/terre/mer,temperature de surface (skin),nuages,la temperature moyenne de couche
+**Identification,method,date/time/land/sea,skin temperature,cloud,layer mean temperature
 310006 301042 303031 303033 101000 031001 303023
-**Identification,methode,date/heure/terre/mer,temperature de surface (skin),eau precipitable
+**Identification,method,date/time/land/sea,skin temperature,cloud,precipitable water
 310007 301042 303031 303033 101000 031001 303024
-**Rapport ATOVS HIR
+**ATOVS HIR report
 310008 310011 101019 310012 002150 025079 025080 033032 014045
-**Rapport ATOVS AMSUA
+**ATOVS AMSUA report
 310009 310011 101015 310012
-**Rapport ATOVS AMSUB/MHS
+**ATOVS AMSUB/MHS report
 310010 310011 101005 310012
-**Variables de champs de vision ATOVS
+**ATOVS field of view variables
 310011 008070 001033 001034 008070 001033 001034 001007 002048 005040 025075 201133 005041 201000 005043 025070 033030 033031 004001 004002 004003 004004 004005 202131 201138 004006 201000 202000 005001 006001 202126 007001 202000 007024 005021 007025 005022 033033 002151 012064 002151 012064 002151 012064 002151 012064
-**Variables canaux ATOVS
+**ATOVS channel variables
 310012 002150 025076 025077 025078 033032 201132 202129 012063 202000 201000
-**Rapport AVHRR (GAC)
+**AVHRR (GAC) report
 310013 001007 005040 004001 004002 004003 004004 004005 004006 005001 006001 007025 005043 025085 201131 202129 002150 008023 008072 014027 008072 014027 002150 008023 008072 014027 008072 014027 002150 008023 008072 014027 008072 014027 202000 201000 201132 202129 002150 008023 008072 012063 008072 012063 002150 008023 008072 012063 008072 012063 008023 008072 012063 008072 012063 002150 008023 008072 012063 008072 012063 202000 201000
-**Satellite - donnees geostationnaires de vent
+**Satellite - geostationary wind data
 310014 301072 303041 304011
-**Donnees de rayonnement Meteosat
+**Meteosat radiance data
 310015 301072 007024 010002 303041 101003 304032 002152 002024 007004 007004 013003 101003 304033
-**Donnees de rayonnement Meteosat (deuxieme generation)
+**Meteosat second generation (MSG) radiance data
 310016 301072 007024 010002 303041 101012 304032 002152 002024 007004 007004 013003 101012 304033
-**Donnees d'ozone
+**GOME Ozone data
 310018 001007 005040 004001 004043 004004 004005 004006 207002 026030 207000 005002 006002 033072 007025 005022 207002 015001 207000 008003 207001 010004 207000 008003 008003 033042 207001 007004 207000 207002 015001 207000 008003 207002 020081 207000 020065 008029 207004 015030 207000 008075
-**Donnees d'ozone
+**SBUV-2 Ozone data
 310019 001007 002019 301011 301013 301023 007025 008021 007025 008021 007025 008021 008029 005040 008075 008003 010004 008003 207002 015001 207000 033070 015030 207002 020081 207000 008003 033042 007004 207002 015001 207000 008003 113021 007004 007004 207002 008021 015005 008021 015005 033007 207000 008026 101020 025143 008026 008043 109015 007004 008090 207006 015008 207000 008090 207002 033007 207000 008043 033071 108008 202124 201107 002071 201000 202000 207002 020081 207000
-**Donnees d'ozone recuperees
+**Retrieved ozone data
 310020 310022 301011 301013 301021 304034 310021
-**Densite d'ozone integre de couche de pression et hauteur
+**Pressure layer integrated ozone density and height
 310021 108000 031001 201131 202129 007004 007004 202000 201000 015020 010002
-**Identification de satellite,instrument,centre originateur,type de produit pour les gaz atmospheriques recuperes
+**Satellite id,instrument,originating centre,product type for retrieved atmospheric gases
 310022 001007 002019 001033 002172
-**Donnees satellitaire geostationnaires de rayonnement (multi canaux)
+**Geostationary multi-channel satellite radiance data
 310023 301072 030021 030022 008012 007024 007025 010002 101012 304032 105002 002152 002024 007004 007004 013003 101012 304033
-**Donnees satellitaire geostationnaires de rayonnement (trois canaux)
+**Geostationary three-channel satellite radiance data
 310024 301072 030021 030022 008012 007024 007025 010002 101003 304032 105002 002152 002024 007004 007004 013003 101003 304033
-**Article de donnees de la temperature SSMIS
+**SSMIS temperaturedata record
 310025 001007 008021 004001 004002 004003 004004 004005 201138 202131 004006 202000 201000 201132 005041 201000 201129 005043 201000 005002 006002 013040 020029 104024 005042 012163 021083 021084 115003 004001 004002 004003 201142 202131 004026 202000 201000 005001 006001 201138 202129 007001 202000 201000 008021 004001 004002 004003 004004 004005 005040 101003 012070 025054 101004 025055 008007 104028 005002 006002 002111 005021 
-**Satellite- donnees occultation radio
+**Satellite radio occulation data
 310026 310022 025060 008021 301011 301012 201138 202131 004006 202000 201000 033039 033007 304030 304031 002020 001050 202127 304030 202000 304031 201133 202131 004016 202000 201000 301021 304030 010035 005021 010036 113000 031002 301021 005021 108000 031001 002121 007040 015037 008023 201125 015037 201000 008023 033007 108000 031002 007007 015036 008023 201123 015036 201000 008023 033007 116000 031002 007009 010004 012001 013001 008023 201120 010004 201000 201122 012001 201000 201123 013001 201000 008023 033007 008003 007009 010004 008023 201120 010004 201000 008023 033007
-**Tout le produit de rayonnement de ciel de sequence principale
+**(Depreciated)All sky radiance product main sequence
 310027 301071 301011 301013 301021 030021 030022 010002 304036 002152 002167 101011
-**Couche, hauteur d'ozone, temperature et vapeur d'eau
+**All sky radiance product main sequence
+310028 301071 301011 301013 301021 030021 030022 010002 304036 002152 002167 101011 304037 
+**Layer, ozone height, temperature and water vapour
 310029 110000 031001 201138 202130 007004 007004 202000 201000 015020 010002 012101 013098
-**Reportage d'instruments MIPAS ou GOMOS
+**MIPAS or GOMOS instruments reporting
 310030 310022 301011 301013 301021 304034 310029
-**Rapports IC colocalises par satellite avec trois instruments
+**Satellite collocated IC reports with 3 instruments
 310050 310051 310052 101000 031002 310053 101004 310054 020010 310052 101015 310053 310052 101005 310053
-**Position de satellite et les temperatures d'instruments
+**Satellite position and instrument temperatures
 310051 001007 005040 201133 005041 201000 201132 025070 201000 202126 007001 202000 007025 005022 102009 002151 012064
-**Type d'instrument de satellite et position
+**Satellite instrument type and position
 310052 002019 301011 301012 202131 201138 004006 201000 202000 301021 007024 005021 005043
-**Canaux satellitaires et temperatures de brillance avec un ensemble des canaux augmente
+**Satellite channels and brightness temperatures with expanded channel set
 310053 201134 005042 201000 025076 033032 012163
-**Canaux satellitaires visibles et albedos avec un ensemble des canaux augmentes
+**Satellite visible channels and albedos with expanded channel set
 310054 201134 005042 201000 025076 033032 201131 202129 102002 008023 014027 008023 202000 201000
-**Rayonnement satellitaire/composants des canaux principaux
+**Satellite radiance/channel principle components
 310055 310051 310052 102020 025076 025052 101000 031002 025050
+**NPP CrIS radiance data
+310060 001007 001033 002019 002020 301011 301012 207003 004006 207000 304030 301021 007024 005021 007025 005022 008075 201133 005041 201000 005045 005043 005040 201129 007002 201000 202127 201125 021166 201000 202000 008012 020010 020014 002166 033075 103003 008076 033076 033077 008076 033078 033003 104000 031002 201133 005042 201000 014044
+**ATMS data
+310061 001007 001033 001034 002019 002020 301011 301012 207003 004006 207000 005040 005041 005043 033079 033080 033078 301021 201129 007002 210000 007024 005021 007025 005022 025075 107000 031002 005042 002153 002154 002104 012066 012163 033081
+*
 *
 * SINGLE LEVEL REPORT SEQUENCES ( CONVENTIONAL DATA)
 *
-**Rapports aeronautiques
+**Aircraft reports
 311001 301051 007002 012001 011001 011002 011031 011032 011033 020041
-**Rapports ACARS
+**ACARS reports
 311002 301065 301066 311003 311004
-**Variables standard rapportees ACARS
+**ACARS standard reported variables
 311003 010070 011001 011002 012001 013002
-**Variables supplementaires rapportees ACARS
+**ACARS supplementary reported variables
 311004 101000 031000 011034 101000 031000 011035 101000 031000 011075 101000 031000 011076 101000 031000 033025 101000 031000 033026
-**Rapports standards AMDARS
+**Standard AMDARS reports
 311005 001008 001023 301021 301011 301013 007010 008009 011001 011002 011031 011036 012101 033025
-**Donnees AMDAR ou donnees d'aeronef pour un niveau sans latitude/longitude
+**AMDAR data or aircraft data for one level without latitude/longitude
 311006 007010 011001 011002 002064 012101 012103
-**Donnees d'aeronef pour un niveau avec latitude/longitude
+**Aircraft data for one level with latitude/longitude indicated
 311007 007010 301021 011001 011002 002064 012101 012103
-**Profil de descente/ascente de l'aeronef sans latitude/longitude a chaque niveau
+**Aircraft ascent/descent profile without latitude/longitude indicated at each level
 311008 001008 301011 301013 301021 008004 101000 031001 311006
-**Profil de descente/ascente de l'aeronef avec latitude/longitude a chaque niveau
+**Aircraft ascent/descent profile with latitude/longitude given for each level
 311009 001008 301011 301013 301021 008004 101000 031001 311007
 *
 * SINGLE LEVEL REPORT SEQUENCES (SATELLITE DATA)
 *
-**Identificateur du satellite,instrumentation,emplacement,date/heure,pression au sommet des nuages,temperature,vents
+**Satellite identifier,instrumentation,location,date/time,cloud top pressure,temperature,wind
 312001 301043 304001
-**Identificateur du satellite,instrumentation,emplacement,date/heure,pression au sommet des nuages,pression,vents
+**Satellite identifier,instrumentation,location,date/time,cloud top pressure,wind
 312002 301043 304002
-**Identificateur du satellite,instrumentation,emplacement,date/heure,temperature de surface
+**Satellite identifier,instrumentation,location,date/time,surface temperature
 312003 301042 304003
-**Identificateur du satellite,instrumentation,emplacement,date/heure,couverture nuageuse
+**Satellite identifier,instrumentation,location,date/time,cloud cover
 312004 301042 304004
-**Identificateur du satellite,instrumentation,emplacement,date/heure,hauteur du sommet des nuages
+**Satellite identifier,instrumentation,location,date/time,height of top of cloud
 312005 301042 020014
-**Identificateur du satellite,instrumentation,emplacement,date/heure,humidite relative moyenne dans la couche
+**Satellite identifier,instrumentation,location,date/time,layer mean relative humidity
 312006 301044 304005
-**Identificateur du satellite,instrumentation,emplacement,date/heure,radiation
+**Satellite identifier,instrumentation,location,date/time,radiation
 312007 301042 304006
-**Information orbitale, partie I
+**Orbital information, part I
 312010 001007 005040 002021 005041 004001 004043
-**Information orbitale, partie II
+**Orbital information, part II
 312011 202131 201149 004006 201000 202126 010002 202000 005043 005053
-**Temperature de brillance HIRS - canaux 1 a 19
+**HIRS brightness temperatures - channels 1-19
 312012 202129 201132 101019 012063 201000 202000
-**Temperature de brillance HIRS - canal 20
+**HIRS brightness temperatures - channels 20
 312013 005042 202129 201135 012063 201000 202000
-**Donnees satellitaires HIRS
+**HIRS satellite data
 312014 312010 312011 105056 301023 005042 005052 312012 312013
-**Temperature de brillance MSU - canaux 1 a 4
+**MSU brightness temperatures - channels 1-4
 312015 109011 301023 005042 005052 202129 201132 101004 012063 202000 201000
-**Donnees satellitaires MSU
+**MSU satellite data
 312016 312010 312011 312015
-**Temperature de brillance SSU - canaux 1 a 3
+**SSU brightness temperatures - channels 1-3
 312017 109008 301023 005042 005052 202129 201132 101003 012063 202000 201000
-**Donnees satellitaires SSU
+**SSU satellite data
 312018 312010 312011 312017
-**Produit de diffusiometre d'onde avec un changement de largeur pour la frequence de la bande (spectrale)
+**Wave scatterometer product with width change for wave number (spectral)
 312019 301047 301048 015015 029002 021076 106012 201129 006030 201000 102012 005030 021075 021066
-**Produit diffusiometre d'onde
+**Wave scatterometer product
 312020 301047 301048 015015 029002 021076 104012 006030 102012 005030 021075 021066
-**Produit diffusiometre de vent
+**Wind scatterometer product
 312021 301047 101003 301049 011012 011011 021067
-**Produit altimetre radar
+**Radar altimeter product
 312022 301047 008022 011012 011050 022070 022026 312041 010050 021068 021071 021072 021073 312042 021062 015011
-**Produit temperature de la mer ATSR
+**ATSR sea surface temperature product
 312023 301047 103003 008022 012061 022050 021069 021085
-**Produit diffusiometre d'onde augmente
+**Wave scatterometer product enhanced
 312024 312020 008060 008022 008060 008022 025014 022101 022097 022098 022099 022100
-**Produit diffusiometre d'onde augmente (avec un changement de largeur pour la frequence de la bande (spectrale))
+**Wave scatterometer enhanced product ( with change of width for wave number (spectral)
 312025 312019 008060 008022 008060 008022 025014 022101 022097 022098 022099 022100
-**Donnees QUIKSCAT
+**QUIKSCAT data
 312026 301046 301011 301013 301023 312031 101004 312030 021110 301023 321027 021111 301023 321027 021112 301023 321027 021113 301023 321027
-**Produit ATSR SST (SADIST-2)
+**ATSR SST product (SADIST-2)
 312027 301047 105009 301023 007021 012061 007021 012061 021085 021070
-**Donnees SEAWINDS QUIKSCAT
+**SEAWINDS QUIKSCAT data
 312028 301046 301011 301013 301023 008025 201136 004006 201000 312031 312032 101004 312030 101002 312033 021110 301023 321028 021111 301023 321028 021112 301023 321028 021113 301023 321028
-**Direction et vitesse du vent a 10 m, incertitude formelle dans la direction/vitesse du,vraisemblance calculee pour solution
+**Wind speed and direction at 10m,formal uncertainty in wind speed and direction,likelihood computed for solution
 312030 201130 202129 011012 202000 201000 011052 201135 202130 011011 202000 201000 011053 021104
-**Resolution azimutal de nombre de rangee,resolution transversale de nombre de cellule,qualite de cellules de vecteur de vent SEAWINDS, direction et vitesse de vent du modele a 10 m,nombre d'ambiguites de vecteurs,index de vecteurs vent selectionnes,nombre total de mesures de sigma-0
+**Along-track row number,cross-track cell number,SEAWINDS wind vector cell quality,model wind direction and speed at 10m, number of vector ambiguites,
+**index of selected wind vector, total number of sigma-0 measurements
 312031 005034 006034 021109 011081 011082 021101 021102 021103
-**Probabilite de pluie, indice de pluie SEAWINDS NOF,intensite de precipitation,correction attenuation sigma-0
+**Probability of rain,SEAWINDS NOF rain index,intensity of precipitation,attenuation correction on sigma-0
 312032 021120 021121 013055 021122
-**Polarisation de l'antenne,temperature de brillance-valeur et ecart type
+**Antenna polarization,brightness temperature value and standard deviation
 312033 002104 008022 012063 012065
 **Altitude
 312041 201141 202130 007001 201000 202000
-**Corrections de l'altitude
+**Altitude corrections
 312042 021077 021078 021079 021080 021081 021082
-**Temperature de la surface de la mer AATSR
+**AATSR sea surface temperatures
 312045 001007 002019 001096 025061 005040 301011 301013 301021 007002 012180 012181 012182 012183 012184 012185 002174 021086 012186 021087 012187 033043
-**Rapport d'instrument MERIS
+**MERIS instrument reporting
 312050 001007 002019 001096 025061 005040 301011 301013 301021 007025 005022 010080 027080 008003 007004 013093 008003 201131 202129 007004 007004 202000 201000 013095
-**Spectre croise d'ocean - WVS
+**Ocean cross spectra - WVS
 312051 001007 002019 001096 025061 005040 008075 301011 301013 301021 001012 201131 001013 201000 010032 010033 010034 007002 008012 025110 025111 025102 002104 025103 025104 025105 025106 025107 025108 002111 002121 002026 002027 021130 021131 021132 021133 021064 025014 021134 107018 005030 105024 201130 006030 201000 021135 021136 033044
-**RA2 - altimetre de radar 2
+**RA2 - radar altimeter 2
 312052 001007 002019 001096 025061 005040 025120 025121 025124 025125 025122 025123 301011 301013 301021 007002 002119 033047 010081 010082 010083 010084 002116 002117 002118 002156 002157 014055 022150 022151 022152 022153 022154 022155 022156 022157 022158 022159 021137 021138 021139 021140 021141 021142 010085 010086 010087 010088 010089 010090 010091 010092 010093 011002 025126 025127 025128 025129 025130 025131 025132 025133 025134 025135 025136 025137 013096 013097 011095 011096 012188 012189 002158 002159 033052 033053 021143 021144
-**Spectre d'onde d'ocean
+**Ocean wave spectra
 312053 001007 002019 001096 025061 005040 008075 301011 301013 301021 001012 201131 001013 201000 010032 010033 010034 007002 008012 025110 025111 025102 002104 025103 025104 025105 025106 025107 025108 011001 011002 022160 025138 201130 202129 022021 202000 201000 033048 033049 002026 002027 021130 021131 021132 021133 025014 106036 005030 104024 201130 006030 201000 022161 033044
-**Information de cellule (ASCAT niveau 1b)
+**ASCAT level 1b cell information
 312055 005033 005040 006034 010095 021157
-**Diffusiometre de vent (information de cellule)
+**Scatterometer wind cell information
 312056 025060 001032 011082 011081 020095 020096 021155 201133 021101 021102 201000
-**Donnees de vent ambigu
+**Ambiguous wind data
 312057 201130 202129 011012 202000 201000 201131 202129 011011 202000 201000 021156 021104
-**Donnees ASCAT ( niveau 1b)
+**ASCAT level 1b data
 312058 301125 301011 301013 301021 312055 021150 101003 321030
-**Donnees de diffusiometre de vent
+**Scatterometer wind data
 312059 312056 101000 031001 312057
-**Donnees de traitement humidite du sol par diffusiometre
+**Scatterometer soil moisture data
 312060 025060 025062 040001 040002 021062 021151 021152 021153 021154 021062 021088 040003 040004 040005 040006 040007 020065 040008 040009 040010
-**Donnees ASCAT ( niveau 1b et niveau 2)
+**ASCAT level 1b and level 2 data
 312061 312058 312060 312059
-**Donnees SMOS
-312070 001007 002019 001144 001124 030010 301011 301013 301021 007012 015012 012165 012166 012167 012168 027010 028010 002099 013048 025081 025082 025083 025084 012080 012081 012082 025174 033028
+**SMOS Data
+312070 001007 002019 001144 001124 030010 301011 301013 301021 007012 015012 012165 012166 012167 012168 027010 028010 002099 013048 025081 025082 025083 025084 012080 012081 012082 025174 033028 
 *
 * SEQUENCES COMMON TO IMAGE DATA
 *
-**Valeurs de reflectivite de radar
+**Radar reflectivity values
 313009 021001 101000 031001 021001
-**Intensites des precipitations par radar
+**Radar rainfall intensities
 313010 021036 101000 031001 021036
-**Non-longueur de passe de rangee code pour le valeur de pixel (4 bits)
+**Non run-length encoded row for pixel value (4 bits)
 313031 006002 006012 101000 031002 030001
-**Non-longueur de passe des donnees d'image code pour le valeur de pixel (4 bits)
+**Non run-length encoded picture data for pixel value (4 bits)
 313032 005002 005012 101000 031002 313031
-**Longueur de passe de range code pour la valeur de pixel (4 bits)
+**Run-length encoded row for pixel value (4 bits)
 313041 006002 110000 031001 104000 031001 006012 101000 031012 030001 006012 101000 031001 030001
-**Longueur de passe d'image pour la valeur de pixel (4 bits)
+**Run-length encoded picture data for pixel value (4 bits)
 313042 005002 005012 101000 031002 313041
-**Longueur de passe d'image pour la valeur de pixel (4 bits), grille reguliere
+**Run-length encoded picture data for pixel value (4 bits), regular grid
 313043 006002 005002 005012 112000 031001 110000 031001 104000 031001 006012 101000 031011 030001 006012 101000 031001 030001
 *
 * OCEANOGRAPHIC REPORT SEQUENCES
 *
-**Sondage sous-marin typiquement rapporte sans les champs facultatifs
+**Typically reported underwater sounding without optional fields
 315001 001011 301011 301012 301023 306001
-**Sondage sous-marin typiquement rapporte avec les champs facultatifs
+**Typically reported underwater sounding without optional fields
 315002 001011 301011 301012 301023 306004
-**Profile de salinite et de temperature observe par les flotteurs de profil
+**Temperature and salinity profile observed by profile floats
 315003 001087 001085 001086 002036 002148 002149 022055 022056 022067 301011 301012 301021 008080 033050 109000 031002 007065 008080 033050 022045 008080 033050 022064 008080 033050
 *
 * SYNOPTIC FEATURE SEQUENCES
 *
-**Date/heure,latitude/longitude (basse precision),identificateur caracteristique synoptique, methode d'estimation des rapports connexes aux caracteristiques synoptiques, type de caracteristique synoptique,pression au niveau de la mer,effet du rayon sur la caracteristique,seuil de vitesse du vent,rayon effectif en fonction du vent excedant la valeur seuil
+**Date/time,latitude/longitude (course accuracy),synoptic feature identifier, method of estimating reports related to synoptic features,type of
+**synoptic feature, sea level pressure,effect of radius on feature,wind speed threshold,effective radius with respect to wind speeds above threshold
 316001 301011 004004 301023 001021 002041 019001 010051 019002 019003 019004
-**Entete
+**Header
 316002 008021 004001 004002 004003 004004 004005 001033 008021 004001 004002 004003 004004 004005 007002 007002
-**Courant jet
+**Jet stream
 316003 110000 031001 008011 008007 104000 031001 005002 006002 010002 011002 008007 008011
 **Turbulence
 316004 111000 031001 008011 008007 007002 007002 102000 031001 005002 006002 011031 008007 008011
-*Tempete
+*Storm
 316005 108000 031001 008005 008007 005002 006002 001026 019001 008007 008005
-**Nuage
+**Cloud
 316006 112000 031001 008011 008007 007002 007002 102000 031001 005002 006002 020011 020012 008007 008011
 **Front
 316007 110000 031001 008011 008007 104000 031001 005002 006002 019005 019006 008007 008011
 **Tropopause
 316008 111000 031001 008001 008007 008023 103000 031001 005002 006002 010002 008023 008007 008001
-**Cellule de glacage de fuselage
+**Airframe icing area
 316009 111000 031001 008011 008007 007002 007002 102000 031001 005002 006002 020041 008007 008011
-**Nom de la caracteristique
+**Name of feature
 316010 107000 031001 008011 008007 001022 005002 006002 008007 008011
-**Volcan en eruption
+**Volcano erupting
 316011 117000 031001 008011 001022 008007 102000 031001 005002 006002 008021 004001 004002 004003 004004 004005 020090 008021 008007 008011
-**(Déprécié)Identification de tempete tropical
+**(Depreciated)Tropical storm identification
 316020 001033 001025 001027 301011 301012
-**(Déprécié)Donnees d'analyse
+**(Depreciated)Analysis data
 316021 301023 002041 019001 019007 019005 019006 019008 008005 010004 008005 010004 019007 008005 008021 004075 011040 019007 105004 005021 005021 102002 019003 019004
-**Donnees de prevision
+**Forecast data
 316022 001032 002041 019001 019010 118000 031001 008021 004014 008005 301023 019005 019006 010004 011041 008021 004075 011040 019008 105004 005021 005021 102002 019003 019004
-**(Déprécié)Information d'analyse du tempete tropical
+**(Depreciated)Tropical storm analysis information
 316026 316020 316021
-**(Déprécié)Information de prevision du tempete tropical
+**(Depreciated)Tropical forecast analysis information
 316027 316020 316022
-**Entete SIGMET
+**SIGMET header
 316030 301014 001037 010064 008019 001062 008019 001065 008019 001062 008019
-**SIGMET, endroit et mouvement de prevision ou observe
+**SIGMET, observed or forecast location and motion
 316031 008021 301011 301012 301027 019005 019006 020028 008021
-**SIGMET position de prevision
+**SIGMET forecast position
 316032 008021 301011 301012 301027 008021
-**SIGMET perspective
+**SIGMET outlook
 316033 008021 301011 301012 101000 031001 301027 008021
-**SIGMET cendre volcanique
+**Volcanic ash SIGMET
 316034 008079 316030 008011 001022 008007 301023 008007 020090 316031 101000 031000 316032 101000 031001 316033 008011 008079
-**SIGMET orage
+**Thunderstorm SIGMET
 316035 008079 316030 008011 020023 020021 020008 316031 008011 008079
-**SIGMET tempete tropical
+**Tropical cyclone SIGMET
 316036 008079 316030 008011 001027 316031 101000 031000 316032 101000 031001 316033 008011 008079
-**SIGMET turbulence
+**Turbulence SIGMET
 316037 008079 316030 008011 011031 316031 008011 008079
-**SIGMET givrage
+**Icing SIGMET
 316038 008079 316030 008011 020041 020021 316031 008011 008079
-**SIGMET vague de montagne,tempete de sable,tempete de poussiere
+**Mountain wave, duststorm or sandstorm SIGMET
 316039 008079 316030 008011 020024 316031 008011 008079
-**SIGMET annulation
+**Cancellation of SIGMET
 316040 316030 008079 301014 001037 010064 008079
-**Gabarit RADOB (partie A: information de tempete tropicale)
+**RADOB template (part A:information on tropical cyclone)
 316050 301001 301011 301012 002160 008005 005002 006002 008005 019100 019005 019006 019101 019102 019103 019104 019105
-**Gabarit SAREP (partie A: information de tempete tropicale)
+**SAREP template (part A:information on tropical cyclone)
 316052 301005 301011 301012 001007 025150 122000 031001 001027 019150 019106 008005 005002 006002 008005 019107 019005 019006 019108 019109 019110 019111 019112 019113 019114 019115 019116 019117 019118 019119
-**Graphique AIRMET sierra
+**Graphical AIRMET sierra
 316071 301014 101000 031002 316075 101000 031002 316076
-**Graphique AIRMET tango
+**Graphical AIRMET tango
 316072 301014 101000 031002 316077 101000 031002 316078 101000 031002 316079
-**Graphique AIRMET zulu
+**Graphical AIRMET zulu
 316073 301014 101000 031002 316080 101000 031002 316081
-**Identificateur de GFA et emplacement observees/prevue
+**GFA identifier and observed/forcast location
 316074 001039 008021 301014 301027 008021
-**Plafond et visibilite IFR de GFA
+**GFA IFR ceiling and visibility
 316075 008079 008041 316074 020006 033042 020013 033042 020001 020025 020026 008041 008079
-**Attenuation de montagne de GFA
+**GFA mountain obscuration
 316076 008079 008041 316074 020006 020025 020026 008041 008079
-**Turbulence de GFA
+**GFA turbulence
 316077 008079 008011 316074 011031 008011 008079
-**Vent fort de surface GFA
+**GFA strong surface wind
 316078 008079 008041 316074 033042 011012 008041 008079
-**Cisaillement a bas niveau de GFA
+**GFA low level wind shear
 316079 008079 008011 316074 020023 020024 008011 008079
-**Givrage GFA
+**GFA icing
 316080 008079 008011 316074 020041 008011 008079
-**Niveau de congelation GFA
+**GFA freezing level
 316081 008079 008041 316074 008041 008079
 *
 * RADIOLOGICAL REPORT SEQUENCES
 *
-**Latitude/longitude (basse precision),date/heure,dose
+**Latitude/longitude (course accuracy),date/time,dose
 318001 301025 024011
-**Latitude/longitude (haute precision), periodes de temps,masse d'isotope,nom d'element,concentration de l'air
+**Latitude/longitude (high accuracy),time periods,isotope mass,element name,air concentration
 318003 301026 024005 024004 024021
-**Latitude/longitude (basse precision),date/heure,periode de temps de deplacement,precipitation totale/equivalent eau total,masse d'isotope,nom d'element,concentration dans la precipitation
+**Latitude/longitude (course accuracy),date/time,time period of displacement,total precipitation/total water equivalent,isotope mass,element name,
+**concentration in precipitation
 318004 301025 004023 013011 024005 024004 024022
 *
 * RADAR REPORT SEQUENCES
 *
-**Profileur de vents - caracteristiques d'antenne
+**Wind profiler - antenna characteristics
 321001 002101 002114 002105 002106 002107 002121
-**Profileur de vents - donnees de mouvement
+**Wind profiler - moment data
 321003 021051 021014 021017 021030
-**Profileur de vents - donnees de mouvement de sondage
+**Wind profiler - moment data sounding
 321004 301031 002003 101000 031001 321003
-**Caracteristiques du transmetteur/recepteur
+**Transmitter-reciever characteristics
 321005 025004 002121 002122 002123 002124 002125 002126 002127 002128 002129 002130 002131
-**Caracteristiques d'integration
+**Integration characteristics
 321006 025001 025002 025003 025005
 **Corrections
 321007 025009 025010 025011 025012 025013 025015 025016 025017
-**Convertions Z -> R
+**Z to R conversion
 321008 025006 025007 025008
-**Loi A -> Z
+**A to Z law
 321009 025018 025019
-**Caracteristiques d'antenne
+**Antenna characteristics
 321010 002101 007002 002102 002103 002104 002105 002106 002107 002108 002109 002110 002132 002133
-**Caracteristiques generales
+**General characteristics
 321011 030031 030032 029002
-**Elevations d'antenne
+**Antenna elevations
 321012 101000 031001 002135
-**Information de base (entete de location/system) de profileur de vent RASS
+**Basic information (system/site header) on wind profiler/RASS
 321021 002003 002101 201130 002106 201000 201132 202130 002121 202000 201000 201133 202129 025001 202000 201000
-**Profileur de vents: donnees traitees du vent
+**Wind profiler: processed-data winds
 321022 007007 204001 031021 011001 204000 011002 204001 031021 011006 204000 021030
-**Profileur de vents: donnees brutes du vent
+**Wind profiler: raw-data winds
 321023 007007 021091 021030 202129 021014 201129 021017 202000 201000
-**Mode de RASS: donnees traitee RASS
+**RASS-Mode: processed-data RASS
 321024 007007 204001 031021 012007 011006 204000 021030
-**Mode de RASS: donnees brutes RASS
+**RASS-Mode: raw-data RASS
 321025 007007 021091 021030 202129 021014 201129 021017 202000 201000 021092 021030 025092 201129 202129 021017 202000 201000
-**Donnees RASS: flux
+**RASS data - fluxes
 321026 007007 204001 031021 012007 025091 011071 011072 011073 011074 204000
-**Correction d'attenuation sigma-0,angle d'incidence/vision de radar,polarisation de l'antenne,coupe radar normalisee,coefficient variance KP (alpha,beta et gamma),qualite/marqueurs de mode de sigma-0 SEAWINDS,marqueurs de surface terre/glace SEAWINDS,controle qualite variance sigma-0
+**Attenuation correction on sigma-0,radar look and incidence angles,antenna polarization,normalized radar cross-section,KP variance
+**coefficient(alpha,beta and gamma),SEAWINDS sigma-0 quality/mode flags,SEAWINDS land/ice surface flag,sigma-0 variance quality control
 321027 021118 202129 201132 002112 201000 201131 002111 201000 202000 002104 021105 021106 021107 021114 021115 021116 008018 021117
-**Correction attenuation sigma-0,angle d'incidence//vision de radar,polarisation de l'antenne,coupe radar normalisee SEAWINDS,coefficient variance KP (alpha,beta et gamma),qualite/marqueur de mode de sigma-0 SEAWINDS,marqueurs de surface terre/glace SEAWINDS,controle qualite variance sigma-0
+**Attenuation correction on sigma-0,radar look and incidence angles,antenna polarization,SEAWINDS normalized radar cross-section,KP variance
+**coefficient(alpha,beta and gamma),SEAWINDS sigma-0 quality/mode flags,SEAWINDS land/ice surface flag,sigma-0 variance quality control
 321028 021118 202129 201132 002112 201000 201131 002111 201000 202000 002104 021123 021106 021107 021114 021115 021116 008018 021117
-**Information de sigma-0 ASCAT
+**ASCAT sigma-0 information
 321030 008085 202129 201131 002111 201000 202000 002134 021062 021063 021158 021159 021160 021161 021162 021163 021164 021165 021166
 *
-*CHEMICAL AND AEROSOL SEQUENCES
+* CHEMICAL AND AEROSOL SEQUENCES
 *
-**Gabarit BUFR GOME-2
+**METOP GOME-2 BUFR Template
 322028 001007 002019 004001 004002 004003 004004 004005 004006 005001 006001 027001 028001 027001 028001 027001 028001 027001 028001 010001 014019 007025 010080 005023 020010 008003 007004 014026 020014 013093 105000 031001 007004 007004 008043 008044 015021
 *
+*
 * MONITORING INFORMATION
-*Specifier la station d'interception
+*
+*Specify monitoring station
 335001 008035 035001 008036 301001
-*Specifier le centre d'interception
+*Specify monitoring centre
 335002 008035 035001 008036 001033
-*Specifier la periode d'interception
+*Specify monitoring period
 335003 008021 004001 004002 004003 004004 004073
-**Specifier le type de rapport et la station seulle est controlee
+**Specify report type and single station being monitored
 335004 008021 004004 008021 004004 035000 301001 035011
-**Specifier le type de rapport et le bloc WMO est controlee
+**Specify report type and WMO block being monitored
 335005 008021 004004 008021 004004 035000 001001 035011
-**Specifier le type de rapport et la region WMO est controlee
+**Specify report type and WMO region being monitored
 335006 008021 004004 008021 004004 035000 001003 035011
-**Type de rapport et les stations multiples d'un bloc seule est controlee
+**Report type and muliple stations from one block being monitored
 335007 008021 004004 008021 004004 035000 001001 102000 031001 001002 035011
-**Interception du type de rapport des stations multiples
+**Monitoring a report type from multiple stations
 335010 335002 335003 335007
 *
 * ADDITIONAL SATELLITE REPORT SEQUENCES
 *
-**Donnees IASI (niveau 1c)
+**IASI level 1c data
 340001 001007 001031 002019 002020 004001 004002 004003 004004 004005 202131 201138 004006 201000 202000 005001 006001 007024 005021 007025 005022 005043 005040 201133 005041 201000 201132 025070 201000 202126 007001 202000 033060 033061 033062 033063 033064 033065 101010 340002 101087 340003 002019 025051 101007 340004
-**Description de bande IASI (niveau 1c)
+**IASI level 1c band description
 340002 025140 025141 025142
-**Canal 100 IASI (niveau 1c)
+**IASI level 1c 100 channel
 340003 104100 201136 005042 201000 014046
-**Scene unique AVHRR des donnees IASI (niveau 1c)
+**IASI level 1c AVHRR single scene
 340004 005060 005061 025085 105006 005042 025142 014047 025142 014048
-**Donnees JASON2 OGDR
+**JASON2 OGDR data
 340005 001007 002019 001096 025061 005044 005040 001030 004001 004002 004003 004004 004005 004007 005001 006001 008029 008074 008077 040011 025097 025095 025098 025099 021144 025096 040012 040013 021169 022151 022162 022163 025160 025133 022156 022164 022165 022166 021137 021138 022167 021139 021118 021145 021146 021147 022168 022169 022170 025161 025162 022171 022172 022173 022174 021170 021171 022175 021172 021118 021173 021174 021175 002153 012063 002153 012063 002153 012063 013090 013091 007002 011097 011098 007002 011095 011096 010096 010081 010082 010083 010101 025132 025163 025126 025128 025164 010085 010097 010086 010087 010092 010088 010089 010098 010099 010090 010100 010093 025127 040014
+**(Depreciated)IASI principal component scores
+340006 001007 001031 002019 002020 004001 004002 004003 004004 004005 202131 201138 004006 201000 202000 005001 006001 007024 005021 007025 005022 005043 005040 201133 005041 201000 201132 025070 201000 202126 007001 202000 033060 033061 033062 033063 033064 033065 002019 025051 101007 340004 020081 008029 020083 008029 033007 107003 025140 025141 040015 040016 101000 031002 040017
+**IASI Level 1c data (all channels)
+340007 001007 001031 002019 002020 004001 004002 004003 004004 004005 202131 201138 004006 201000 202000 005001 006001 007024 005021 007025 005022 005043 005040 201133 005041 201000 201132 025070 201000 202126 007001 202000 103003 025140 025141 033060 033061 033062 033063 033064 033065 040020 101010 340002 101087 340003 002019 025051 101007 340004 020081 008029 020083 008029 040018 040019 040021 040022
+**IASI level 1c data (subset of channels)
+340008 001007 001031 002019 002020 004001 004002 004003 004004 004005 202131 201138 004006 201000 202000 005001 006001 007024 005021 007025 005022 005043 005040 201133 005041 201000 201132 025070 201000 202126 007001 202000 103003 025140 025141 033060 033061 033062 033063 033064 033065 040020 101010 340002 104000 031002 201136 005042 201000 014046 002019 025051 101007 340004 020081 008029 020083 008029 040018 040019 040021 040022
+**Normalized differential vegetation index (NDVI)
+340009 001007 001031 002019 002020 301011 301013 005040 201136 005041 201000 025071 005001 005001 006001 006001 107064 106032 008012 008013 008065 008072 013039 040015
+**JASON-2 OGDR data
+340010 001007 002019 001096 025061 005044 005040 001030 004001 004002 004003 004004 004005 004007 005001 006001 008029 008074 008077 040011 025097 025095 025098 025099 021144 025096 040012 040013 021169 040023 040024 040025 022151 022162 022163 025060 025133 022156 022164 022165 022166 021137 021138 022167 021139 021118 021145 021146 021147 022168 022169 022170
+*
+**********************************************************************************************************************************************
+*
+* VALIDATION SEQUENCES
+*
+** code table definition
+300015 000030 102000 031002 000024 000025
+** flag table definition
+300016 000030 102000 031001 000026 000027
+**Ship instantaneous data from VOS
+302062 302001 302052 302053 007033 101000 031000 302034 007032 020010 008002 020013 104000 031000 020011 020012 020012 020012 101000 031001 302005 008002 101000 031000 302055 101000 031000 302056 101000 031000 302021 101000 031000 302024
+**Ship period data from VOS
+302063 302038 101000 031000 302040 101000 031000 302058 302064
+**Wind data from VOS
+302064 007032 007033 002002 008021 004025 011001 011002 008021 103000 031001 004025 011043 011041
+**Additional synoptic data
+302067 008084 001023 004025 002177 101000 031001 020003 103000 031001 005021 020001 005021 101000 031000 302056 103000 031000 033041 020058 022061 101000 031000 302022 101000 031001 302023 103000 031001 020054 020012 020090 004025 011042 104000 031001 008021 004025 011042 008021 112000 031001 008021 004025 008021 004025 011001 011002 008021 004025 011001 011002 008021 004025 106000 031001 004025 004025 008021 004025 020003 008021 113000 031001 004025 004025 008021 004025 005021 005021 020054 020024 020025 020026 020027 020063 008021
+**Sea/water temperature high precision
+302090 002038 007063 022045 007063
+**Temperature, dew point, relative humidity and wind data at a height level with radiosonde position
+303055 004086 008042 007009 005015 006015 012101 013009 012103 011001 011002
+**Sequence for representation of tide station identification,method of transmission, time the message is transmitted and reference time for report in a time series
+306011 301021 001075 002147 301011 301013
+**Sequence for representation of sensor type, significance qualifier for sensor and status of operation
+306012 002007 008015 008032 306029
+**Sequence for representation of water level and residual in the time series
+306013 306012 301011 301013 022120 022121 004015 004065 102000 031001 022038 022040
+**Sequence for representation of water level in the time series, similar to 306013 but with no residual
+306014 306012 301011 301013 022120 022121 004015 004065 101000 031001 022038
+**Sequence for representation of ancillary meteorological data associated with water level data
+306016 301011 301013 010004 010050 302032
+**Buoy data indicating directional and non-directional wave data
+306032 002032 002033 103000 031001 007062 022043 022062 022066
+**BUFR template for surface observations from n-minute period with national and WMO station identification
+307092 301089 301090 008010 301091 004015 004065 125000 031001 010004 302070 302072 007032 012101 103000 031000 101005 307063 007061 101000 031000 302069 007032 007033 101000 031000 302073 101000 031000 302076 102000 031000 013055 013058 102000 031000 020031 020032 101000 031000 302078 102000 031000 302079 007032 101000 031000 302080 101000 031000 302081 101000 031000 302082 102000 031000 004025 013059 101000 031000 302083 033005 033006
+**Nominal values
+307093 223000 236000 101000 031001 031031 001033 001032 008083 101000 031001 223255 108000 031001 223000 237000 001033 001032 008083 101000 031001 223255
+**Report from a buoy observation
+308008 301093 302062 302063
+**Synoptic report from a sea station suitable for SHIP observation data from VOS station
+308014 301093 302062 302063
+**Template for WAVEOB data expressed as frequency
+308015 001003 001020 001005 001011 001007 001001 001002 002044 002045 301011 301012 301021 022063 105002 002098 022070 022071 022073 022074 002098 022076 022077 022094 025043 022078 121000 031001 002098 022082 022084 116000 031001 022080 022085 022086 022087 022088 022089 103000 031001 022090 022186 022187 103000 031001 022092 022186 022187 002098
+**BUFR template for WAVEOB data expressed as the wave number
+308016 001003 001020 001005 001011 001007 001001 001002 002044 002045 301011 301012 301021 022063 105002 002098 022070 022072 022073 022075 002098 022076 022077 022094 025044 022079 121000 031001 002098 022083 022084 116000 031001 022081 022085 022086 022087 022088 022089 103000 031001 022091 022186 022187 103000 031001 022093 022186 022187 002098
+**Vertical profile for NWP data
+309070 001035 001032 001015 001063 301001 301011 301012 301021 207001 010001 207000 008086 007030 025031 008021 004014 010004 010051 010009 020010 013095 128000 031002 113000 031000 008086 007004 011001 011002 012101 012102 012103 010009 103000 031000 011021 011022 011005 104000 031000 008086 007006 011001 011002 105000 031000 008086 007006 012101 012102 012103 
+**BUFR template for AMDAR
+311010 001008 001023 001006 001110 001111 001112 204002 031021 301011 301013 301021 007010 010053 008009 011001 011002 002064 011100 011101 011102 011103 011104 012101 002170 201144 202133 013002 202000 201000 201135 202130 013003 202000 201000 101000 031000 012103 033026 101000 031000 020042 103000 031000 020043 020044 020045 101000 031000 033025 103000 031001 011075 011076 011039 102000 031000 011037 011077 103000 031000 011034 011035 011036 204000 119000 031001 301011 301013 301021 007007 011105 204007 031021 011076 011075 204000 011106 011107 011108 011109 012101 011001 201130 011084 201000
+**Vertical profiles of atmospheric constituents
+311011 001023 008004 301011 301013 005002 006002 007004 011001 011002 012101 106000 031001 008046 201139 202126 015026 202000 201000 106000 031001 008046 201138 202130 015026 202000 201000 015052 015053 015054 015055 007004 007004 013099 013100 013101
+**XBT template
+315004 022176 001011 001103 001087 001019 001080 005036 001013 001012 301011 301012 007032 007033 002002 011002 011001 007032 007033 012101 012103 007032 007033 302021 302056 002031 002030 022005 022032 002032 315005 022063 008080 033050 022178 022177 022067 002171 008041 026021 026022 026023 022068 025061 001036
+**Water temperature profile
+315005 106000 031001 007063 008080 033050 022043 008080 033050
+**Underwater sounding(no optional fields)
+315006 001011 301011 301012 301023 306032
+*
