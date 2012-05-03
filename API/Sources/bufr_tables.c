@@ -1788,8 +1788,10 @@ double bufr_cvt_i64_to_dval(BufrValueEncoding *be, int64_t ival)
    {
    double fval;
    double val_pow;
+   uint64_t  missing;
 
-   if (ival < 0) return bufr_get_max_double();
+   missing = bufr_missing_ivalue( be->nbits );
+   if ((ival < 0)||(ival == missing)) return bufr_get_max_double();
 
    val_pow = pow(10.0,(double)be->scale);
 

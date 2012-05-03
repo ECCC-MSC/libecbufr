@@ -1224,6 +1224,8 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
 int bufr_is_missing_double( double d )
    {
    if (isnan( d )) return 1;
+   if (isinf( d )) return 1;
+
 
    if ( d == bufr_get_max_double() ) return 1;
 
@@ -1246,6 +1248,7 @@ int bufr_is_missing_double( double d )
 int bufr_is_missing_float( float f )
    {
    if (isnan( f )) return 1;
+   if (isinf( f )) return 1;
 
    if ( f == bufr_get_max_float() ) return 1;
 
