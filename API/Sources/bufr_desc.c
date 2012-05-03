@@ -844,14 +844,12 @@ int bufr_descriptor_set_bitsvalue ( BufrDescriptor *cb , uint64_t ival )
       default :
          return 0;
       }
-
    msng = bufr_missing_ivalue( cb->encoding.nbits );
    if (ival == msng)
       {
 /*
  * special case for descriptor 31000 where 1 is 1 not -1
-
-*/
+ */
       if ((cb->descriptor == 31000)&&(cb->encoding.nbits == 1))
          iv = 1;
       else
@@ -873,12 +871,12 @@ int bufr_descriptor_set_bitsvalue ( BufrDescriptor *cb , uint64_t ival )
          }
       else if (cb->value->type == VALTYPE_FLT32)
          {
-         float fval = bufr_cvt_i32_to_fval( &(cb->encoding), ival );
+         float fval = bufr_cvt_i32_to_fval( &(cb->encoding), iv );
          bufr_value_set_float( cb->value, fval );
          }
       else if (cb->value->type == VALTYPE_FLT64)
          {
-         double dval = bufr_cvt_i64_to_dval( &(cb->encoding), ival );
+         double dval = bufr_cvt_i64_to_dval( &(cb->encoding), iv );
          bufr_value_set_double( cb->value, dval );
          }
       }
