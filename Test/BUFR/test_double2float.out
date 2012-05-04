@@ -1,0 +1,64 @@
+### BUFR Edition              : 3
+###          length           : 72
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 18
+###      BUFR master table    : 0
+###      originating center   : 210
+###      sub center           : 0
+###      update sequence number : 1
+###      Data category        : 12
+###      Data subcategory     : 217
+###      master table version : 19
+###      local table version  : 0
+###      Year                 : 11
+###      Month                : 8
+###      Day                  : 20
+###      Hour                 : 0
+###      Min                  : 7
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 10
+###      datasubsets          : 10
+###      octet 7              : 64
+###         compression       : Yes
+###         other data
+###   Section 4
+###      length               : 32
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 1 descriptor
+   010081 VALUE=717289.058
+
+## Subset 2 : 1 descriptor
+   010081 VALUE=717313.598
+
+## Subset 3 : 1 descriptor
+   010081 VALUE=717328.176
+
+## Subset 4 : 1 descriptor
+   010081 VALUE=717342.769
+
+## Subset 5 : 1 descriptor
+   010081 VALUE=717357.375
+
+## Subset 6 : 1 descriptor
+   010081 VALUE=717377.015
+
+## Subset 7 : 1 descriptor
+   010081 VALUE=717391.146
+
+## Subset 8 : 1 descriptor
+   010081 VALUE=717411.397
+
+## Subset 9 : 1 descriptor
+   010081 VALUE=717426.071
+
+## Subset 10 : 1 descriptor
+   010081 VALUE=717440.76
+
