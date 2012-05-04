@@ -931,6 +931,7 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
             {
             bufr_print_descriptor( errmsg, bcv );
             bufr_print_debug( errmsg );
+            bufr_print_debug( "\n" );
             }
 
          if (bcv->flags & FLAG_SKIPPED) 
@@ -1070,10 +1071,8 @@ static void bufr_put_numeric_compressed( BUFR_Message *msg, BUFR_Dataset *dts, B
       if (debug)
          {
          bufr_print_debug( "   " );
-         if (bufr_print_dscptr_value( errmsg, bcv ))
-            bufr_print_debug( errmsg );
-         sprintf( errmsg, _n(" -> R0=0x%llx (%d bit) ", " -> R0=0x%llx (%d bits) ", bcv->encoding.nbits), 
-               (long long)imin, bcv->encoding.nbits );
+         sprintf( errmsg, _n(" REF=%ld -> R0=0x%llx (%d bit) ", " REF=%ld -> R0=0x%llx (%d bits) ", bcv->encoding.nbits), 
+               imin, (long long)imin, bcv->encoding.nbits );
          bufr_print_debug( errmsg );
          sprintf( errmsg, _n("NBINC=%d (%d bit)\n", "NBINC=%d (%d bits)\n", 6), nbinc, 6 );
          bufr_print_debug( errmsg );
@@ -1494,7 +1493,6 @@ DataSubset *bufr_get_datasubset( BUFR_Dataset *dts, int pos )
  */
 static uint64_t bufr_value2bits( BufrDescriptor *bd )
    {
-   float           fval;
    double          dval;
    int64_t         ival;
 
@@ -1515,8 +1513,8 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
                }
             else
                {
-               fval = bufr_value_get_float( bd->value );
-               ival = bufr_cvt_fval_to_i32( bd->descriptor, &(bd->encoding), fval );
+               dval = bufr_value_get_double( bd->value );
+               ival = bufr_cvt_dval_to_i64( bd->descriptor, &(bd->encoding), dval );
                }
             }
          else
