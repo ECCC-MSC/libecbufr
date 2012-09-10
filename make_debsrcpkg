@@ -30,6 +30,7 @@ bzr ls --versioned | tar -cf - -T - | tar -xf - -C ${SRCPKGDIR}
 # create the Debian Source Package
 #
 cat >> ${SRCPKGDIR}/debian/control << EOFDEB
+Standards-Version: 3.8.1
 Source: libecbufr
 Section: libs
 Priority: optional
