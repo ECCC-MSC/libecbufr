@@ -132,7 +132,8 @@ void  bufr_free_message( BUFR_Message *r )
  */
 void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
    {
-   char  str[256];
+   char  *str;
+   int    len;
 
    if (bufr == NULL) 
       {
@@ -140,6 +141,13 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
       return;
       }
 
+/*
+ * header_string length could be ???
+ */
+   len = 256;
+   if ( bufr->header_string )
+      len += strlen( bufr->header_string );
+   str = (char *)malloc( len * sizeof(char) );
    if ( bufr->header_string )
       {
       sprintf( str, _("### Message header            : \"%s\"\n"), bufr->header_string );
@@ -256,6 +264,7 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
    print_proc( str );
 
    print_proc( "###\n" );
+   free( str );
    }
 
 /**
