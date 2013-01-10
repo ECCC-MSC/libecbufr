@@ -400,7 +400,7 @@ void bufr_init_sect1( BufrSection1 *s1 )
    s1->msg_type             = MSGDTYPE_SURFACE_LAND;
    s1->msg_inter_subtype    = 0;
    s1->msg_local_subtype    = 0;
-   s1->master_table_version = 2;
+   s1->master_table_version = 17;     /* latest valid version */
    s1->local_table_version  = 0;
    s1->year                 = 0;
    s1->month                = 0;
