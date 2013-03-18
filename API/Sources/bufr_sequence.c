@@ -1419,7 +1419,7 @@ BufrDDOp  *bufr_apply_Tables
 
                if (ddo->change_ref_value != 0)
                   {
-                  cb->encoding.reference += ddo->change_ref_value;
+                  cb->encoding.reference *= 10^ddo->change_ref_value;
                   if (debug)
                      {
                      sprintf( errmsg, _("### 203 %d reference=%d\n"), 
