@@ -878,7 +878,7 @@ double bufr_value_get_double( const BufrValue *bv )
          return (double)v->value;
          }
       case VALTYPE_FLT32 :
-         return (float)bufr_value_get_float( bv );
+         return (double)bufr_value_get_float( bv );
       case VALTYPE_INT8 :
       case VALTYPE_INT32 :
          {
