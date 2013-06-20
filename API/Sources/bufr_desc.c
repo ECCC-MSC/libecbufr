@@ -382,10 +382,7 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
             else if(be->nbits + rb <= 64)
                return VALTYPE_INT64;
             }
-			if (be->nbits < 31)
-				return VALTYPE_FLT32;
-			else
-				return VALTYPE_FLT64;
+			return VALTYPE_FLTDEFAULT;
       case TYPE_CODETABLE :
       case TYPE_FLAGTABLE :
          if (be->nbits <= 8)
@@ -438,7 +435,7 @@ ValueType bufr_datatype_to_valtype( BufrDataType type, int nbits, int scale )
                return VALTYPE_INT64;
             }
          else
-            return VALTYPE_FLT32;
+            return VALTYPE_FLTDEFAULT;
       case TYPE_CODETABLE :
       case TYPE_FLAGTABLE :
          if (nbits <= 8)

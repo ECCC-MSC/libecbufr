@@ -53,21 +53,21 @@
    004005 (0x0:2 bits)VALUE=10
    004006 (0x0:2 bits)VALUE=5
 #  301021 
-   005001 (0x0:2 bits)VALUE=42.25500
+   005001 (0x0:2 bits)VALUE=42.255
    006001 (0x0:2 bits)VALUE=-2.04167
-   007004 (0x0:2 bits)VALUE=20320.0
+   007004 (0x0:2 bits)VALUE=20320
    010053 (0x0:2 bits)VALUE=11282
    008009 (0x3:2 bits)VALUE=0
    011001 (0x0:2 bits)VALUE=233
    011002 (0x0:2 bits)VALUE=31.9
    002064 (0x3:2 bits)VALUE=0
-   011100 (0x3:2 bits)VALUE=212.0
+   011100 (0x3:2 bits)VALUE=212
    011101 (0x3:2 bits)MSNG
    011102 (0x3:2 bits)MSNG
    011103 (0x3:2 bits)MSNG
    011104 (0x3:2 bits)VALUE=15
    012101 (0x0:2 bits)VALUE=221.25
-   013002 (0x1:2 bits)VALUE=0.00000
+   013002 (0x1:2 bits)VALUE=0
    013003 (0x0:2 bits)VALUE=4
 #  101000 {R=0}
    031000 {R=0} VALUE=1
@@ -78,16 +78,16 @@
    020042 {R=1} (0x0:2 bits)VALUE=0
 #  103000 {R=0}
    031000 {R=0} VALUE=1
-   020043 {R=1} (0x3:2 bits)VALUE=0.0000
-   020044 {R=1} (0x3:2 bits)VALUE=0.0000
+   020043 {R=1} (0x3:2 bits)VALUE=0
+   020044 {R=1} (0x3:2 bits)VALUE=0
    020045 {R=1} (0x3:2 bits)VALUE=0
 #  101000 {R=0}
    031000 {R=0} VALUE=1
    033025 {R=1} (0x3:2 bits)VALUE=3
 #  103000 {R=0}
    031001 {R=0} VALUE=1
-   011075 {R=1} (0x3:2 bits)VALUE=0.30
-   011076 {R=1} (0x3:2 bits)VALUE=0.70
+   011075 {R=1} (0x3:2 bits)VALUE=0.3
+   011076 {R=1} (0x3:2 bits)VALUE=0.7
    011039 {R=1} (0x3:2 bits)VALUE=7
 #  102000 {R=0}
    031000 {R=0} VALUE=1
@@ -95,9 +95,9 @@
    011077 {R=1} (0x3:2 bits)VALUE=1200
 #  103000 {R=0}
    031000 {R=0} VALUE=1
-   011034 {R=1} (0x3:2 bits)VALUE=25.0
+   011034 {R=1} (0x3:2 bits)VALUE=25
    011035 {R=1} (0x3:2 bits)MSNG
-   011036 {R=1} (0x3:2 bits)VALUE=29.0
+   011036 {R=1} (0x3:2 bits)VALUE=29
    204000 
 #  118000 {R=0}
    031001 {R=0} VALUE=2
@@ -112,8 +112,8 @@
    011105 {R=1} VALUE=3
    204007 {R=1} 
    031021 {R=1} VALUE=7
-   011076 {R=1} (0x5a:7 bits)VALUE=0.70
-   011075 {R=1} (0x64:7 bits)VALUE=0.40
+   011076 {R=1} (0x5a:7 bits)VALUE=0.7
+   011075 {R=1} (0x64:7 bits)VALUE=0.4
    204000 {R=1} 
    011106 {R=1} VALUE=0.7
    011107 {R=1} VALUE=4
@@ -135,8 +135,8 @@
    011105 {R=2} VALUE=3
    204007 {R=2} 
    031021 {R=2} VALUE=7
-   011076 {R=2} (0x50:7 bits)VALUE=0.60
-   011075 {R=2} (0x5a:7 bits)VALUE=0.30
+   011076 {R=2} (0x50:7 bits)VALUE=0.6
+   011075 {R=2} (0x5a:7 bits)VALUE=0.3
    204000 {R=2} 
    011106 {R=2} VALUE=0.6
    011107 {R=2} VALUE=5

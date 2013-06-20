@@ -702,7 +702,9 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
                   }
                else
                   {
-                  vtype = bufr_datatype_to_valtype( bufr_descriptor_to_datatype( tbls, e, icode, &vlen ), 32, 0 ); 
+                  vtype = bufr_datatype_to_valtype(
+							bufr_descriptor_to_datatype( tbls, e, icode, &vlen ),
+							32, 0 ); 
                   }
                switch( vtype )
                   {

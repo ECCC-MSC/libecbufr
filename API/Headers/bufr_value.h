@@ -52,6 +52,11 @@ typedef enum
    VALTYPE_STRING=6
    } ValueType;
 
+/* controls the precision used where IEEE FP not explicitly defined.
+ * 32-bit can be too lossy, even with small fractions.
+ */
+#define VALTYPE_FLTDEFAULT VALTYPE_FLT64
+
 typedef struct 
    {
    ValueType     type;
