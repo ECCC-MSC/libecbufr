@@ -1,3 +1,11 @@
+/*
+Unit test for "what goes in must come out". The value chosen, 273.15, besides
+being the Kelvin-to-Celsius conversion constant, is not directly representable
+in 32 or 64 bit IEEE 754 floating point. This means any internal lossiness
+(caused, say, by mixing 32 and 64-bit math operations) should be nicely
+exposed.
+*/
+
 /***
 Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009-2010.
 Copyright Sa Majesté la Reine du Chef du Canada, Environnement Canada, 2009-2010.
@@ -36,10 +44,10 @@ static void my_abort( const char* msg ) {
 
 int main(int argc, char *argv[])
    {
-	const char sect2[] = "Hi Yves!";
    BUFR_Tables   *tables=NULL;
 	char msgstr[4096];
 	ssize_t msglen = 0;
+	double kelvin = 273.15;
 
    bufr_begin_api();
 	bufr_set_verbose( 1 );
@@ -54,9 +62,9 @@ int main(int argc, char *argv[])
 	bufr_set_debug_file( "test_zero.DEBUG" );
 	bufr_set_output_file( "test_zero.OUTPUT" );
 
-	/* encode a message with a section 2 content...
-	 */
 	{
+		double drybulb_c = 0.0;
+		double drybulb_k = drybulb_c + kelvin;
 		int n;
 		BUFR_Message* msg;
 		BUFR_Dataset* dts;
@@ -80,13 +88,15 @@ int main(int argc, char *argv[])
 		dss = bufr_get_datasubset( dts, n );
 		assert( dss != NULL );
 
+		fprintf(stderr, "writing drybulb_k = %f\n", drybulb_k );
+
 		n = bufr_subset_find_descriptor( dss, 12101, 0 );
 		if ( n >= 0)
 			{
 			BufrDescriptor* bcv = bufr_datasubset_get_descriptor( dss, n );
 			assert(bcv != NULL);
 			/* zero Celsius */
-			bufr_descriptor_set_dvalue( bcv, 273.15 );
+			bufr_descriptor_set_dvalue( bcv, drybulb_k );
 			}
 
 		msg = bufr_encode_message(dts,0);
@@ -118,20 +128,20 @@ int main(int argc, char *argv[])
 		n = bufr_subset_find_descriptor( dss, 12101, 0 );
 		if ( n >= 0)
 			{
-			double vd;
-			float vf;
+			double drybulb_c, drybulb_k;
 			BufrDescriptor* bcv = bufr_datasubset_get_descriptor( dss, n );
 			assert(bcv != NULL);
 
 			/* This is the important part. */
-			vf = bufr_descriptor_get_fvalue(bcv);
-			fprintf(stderr, "vf = %hf\n", vf );
+			drybulb_k = bufr_descriptor_get_dvalue(bcv);
+			fprintf(stderr, "got drybulb_k = %f\n", drybulb_k );
 
-			vd = bufr_descriptor_get_dvalue(bcv);
-			fprintf(stderr, "vd = %f\n", vd );
+			drybulb_c = drybulb_k - kelvin;
 
-			assert( 273.15 == vf );
-			assert( 273.15 == vd );
+			fprintf(stderr, "ended with drybulb_c = %f\n", drybulb_c );
+
+			assert( drybulb_c == 0.0 );
+
 			}
 
 		bufr_free_dataset( dts );
