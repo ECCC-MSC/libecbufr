@@ -682,7 +682,7 @@ BUFR_Template *bufr_load_template( const char *filename, BUFR_Tables *mtbls )
       icode = atoi(tok);
 		bufr_init_DescValue( &code );
       code.descriptor = icode ;
-
+      e = bufr_fetch_tableB( tbls, icode );
       tok = strtok_r( NULL, " \t\n,=", &ptr );
       if (tok)
          {
