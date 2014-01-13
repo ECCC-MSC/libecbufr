@@ -1267,10 +1267,8 @@ BufrDDOp  *bufr_apply_Tables
          {
          if (version == 5)
             res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
-         else if (version == 4)
+         else if ((version == 4)||(version == 3)) /* some use edition 4 operators but encode as edition 3 */
             res = bufr_resolve_tableC_v4( cb, ddo, x, y, version, node );
-         else if (version == 3)
-            res = bufr_resolve_tableC_v3( cb, ddo, x, y, version, node );
          else
             res = bufr_resolve_tableC_v2( cb, ddo, x, y, version, node );
          /* a 205YYY would turn a TABLE C into CCITT_IA5 */
