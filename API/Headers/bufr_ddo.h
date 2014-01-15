@@ -82,6 +82,7 @@ typedef struct _oper_table
    BufrDPBM               *dpbm;
    ListNode               *start_dpi;
    int                     remain_dpi;
+   int                     cnt_msg_bad_ed_tco;
    } BufrDDOp;
 
 extern BufrDPBM      *bufr_create_BufrDPBM          ( int cnt );

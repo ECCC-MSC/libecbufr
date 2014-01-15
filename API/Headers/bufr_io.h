@@ -46,6 +46,11 @@ This file is part of libECBUFR.
 extern "C" {
 #endif
 
+typedef enum { BUFR_LAX, BUFR_WARN_ALLOW, BUFR_STRICT } 
+   BUFR_Enforcement ;
+
+#define  BUFR_ERR_MSGS_LIMIT    10
+
 extern void           bufr_putbits         ( BUFR_Message *bufr, uint64_t val, int nbbits );
 extern uint64_t       bufr_getbits         ( BUFR_Message *bufr, int nbbits, int *errcode );
 extern void           bufr_putstring       ( BUFR_Message *bufr, const char *str, int len );
@@ -79,6 +84,10 @@ extern int            bufr_is_debug        ( void );
 extern int            bufr_is_verbose      ( void );
 extern int            bufr_errtype         ( void );
 extern void           bufr_abort           ( const char * );
+
+extern BUFR_Enforcement bufr_enforcement      (void);
+extern void             bufr_set_enforcement  (BUFR_Enforcement mode);
+
 
 #ifdef __cplusplus
 }

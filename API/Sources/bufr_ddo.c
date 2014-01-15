@@ -31,6 +31,7 @@ This file is part of libECBUFR.
 static int  bufr_match_increment ( int desc );
 static void free_af_list         ( LinkedList *list );
 
+static void print_msg_bad_ed_tco( BufrDDOp *ddo, char *errmsg );
 
 /**
  * @english
@@ -188,6 +189,7 @@ BufrDDOp *bufr_create_BufrDDOp( void )
    ddo->redefine_ccitt_ia5  =  0;
 
    ddo->flags               =  0;
+   ddo->cnt_msg_bad_ed_tco  =  0;
 
    ddo->tlc_arr              = (LocationEncodingArray)arr_create( 20, sizeof(LocationEncoding), 10 );
    ddo->override_tableb      = (EntryTableBArray)arr_create( 32, sizeof(EntryTableB *), 128 );
@@ -373,7 +375,7 @@ int bufr_resolve_tableC_v2
          {
          sprintf( errmsg, _("Warning: unsupported Table C operator %d in BUFR version %d\n"), 
                cb->descriptor, version );
-         bufr_print_debug( errmsg );
+         print_msg_bad_ed_tco( ddo, errmsg );
          return -1;
          }
       }
@@ -394,24 +396,32 @@ int bufr_resolve_tableC_v3
    {
    int   res;
    char  errmsg[256];
+   int   op_version=3;
+   int   bad_version=0;
+   BUFR_Enforcement  enforce = bufr_enforcement();
 
    switch( x )
       {
       case 23 :
+         if (version < op_version) bad_version = 1;
          if (y == 0)
             ddo->flags |= DDO_SUBST_VAL_FOLLOW;
          break;
       case 24 :
+         if (version < op_version) bad_version = 1;
          if (y == 0)
             ddo->flags |= DDO_FO_STATS_VAL_FOLLOW;
          break;
       case 36 : 
+         if (version < op_version) bad_version = 1;
          ddo->flags |= DDO_BIT_MAP_FOLLOW;
          break;
       case 37 : 
+         if (version < op_version) bad_version = 1;
          ddo->flags |= DDO_USE_PREV_BIT_MAP;
          break;
       case 22 :
+         if (version < op_version) bad_version = 1;
          if (y == 0)
             ddo->flags |= DDO_QUAL_INFO_FOLLOW;
          break;
@@ -427,6 +437,14 @@ int bufr_resolve_tableC_v3
          if (res < 0)
             return -1;
          break;
+      }
+
+   if (bad_version && (enforce!=BUFR_LAX))
+      {
+      sprintf( errmsg, _("Warning: Illegal use of BUFR version %d Table C operator %d in BUFR version %d\n"), 
+               op_version, cb->descriptor, version );
+      print_msg_bad_ed_tco( ddo, errmsg );
+      if (enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
       }
    return x;
    }
@@ -444,30 +462,37 @@ int bufr_resolve_tableC_v4
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
    {
    int   res;
+   char  errmsg[256];
+   int   op_version=4;
+   int   bad_version=0;
+   BUFR_Enforcement  enforce = bufr_enforcement();
 
    switch( x )
       {
       case 7  :
-            if ( y == 0 )
-               {
-               ddo->add_nbits = 0;
-               ddo->multiply_scale = 0;
-               ddo->change_ref_value = 0;
-               }
-            else
-               {
-               ddo->add_nbits = ((10 * y) + 2) / 3 ;
-               ddo->multiply_scale = y;
-               ddo->change_ref_value = y;
-               }
+         if (version < op_version) bad_version = 1;
+         if ( y == 0 )
+            {
+            ddo->add_nbits = 0;
+            ddo->multiply_scale = 0;
+            ddo->change_ref_value = 0;
+            }
+         else
+            {
+            ddo->add_nbits = ((10 * y) + 2) / 3 ;
+            ddo->multiply_scale = y;
+            ddo->change_ref_value = y;
+            }
          break;
       case 41 : /* define event operator, nothing to do */
+         if (version < op_version) bad_version = 1;
          if (y == 255)
             ddo->flags &= ~DDO_DEFINE_EVENT;
          else
             ddo->flags |= DDO_DEFINE_EVENT;
          break;
       case 8  :
+         if (version < op_version) bad_version = 1;
          ddo->redefine_ccitt_ia5 = y;
          break;
       case 42 : 
@@ -483,6 +508,14 @@ int bufr_resolve_tableC_v4
          if (res < 0)
             return -1;
          break;
+      }
+
+   if (bad_version && (enforce!=BUFR_LAX))
+      {
+      sprintf( errmsg, _("Warning: Illegal use of BUFR version %d Table C operator %d in BUFR version %d\n"), 
+               op_version, cb->descriptor, version );
+      print_msg_bad_ed_tco( ddo, errmsg );
+      if (enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
       }
    return x;
    }
@@ -500,10 +533,15 @@ int bufr_resolve_tableC_v5
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
    {
    int   res;
+   char  errmsg[256];
+   int   op_version=5;
+   int   bad_version=0;
+   BUFR_Enforcement  enforce = bufr_enforcement();
 
    switch( x )
       {
       case 9 :   /* IEEE 754 */
+         if (version < op_version) bad_version = 1;
          if ((y == 32)||(y == 64))
             {
             ddo->use_ieee_fp = y;
@@ -526,7 +564,40 @@ int bufr_resolve_tableC_v5
             return -1;
          break;
       }
+
+   if (bad_version && (enforce!=BUFR_LAX))
+      {
+      sprintf( errmsg, _("Warning: Illegal use of BUFR version %d Table C operator %d in BUFR version %d\n"), 
+               op_version, cb->descriptor, version );
+      print_msg_bad_ed_tco( ddo, errmsg );
+      if (enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
+      }
    return x;
+   }
+
+
+/**
+ * @english
+ * print warning message on bad edition Table C operator
+ * @endenglish
+ * @francais
+ * @todo 
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup encode descriptor
+ */
+static void print_msg_bad_ed_tco( BufrDDOp *ddo, char *errmsg )
+   {
+   if (ddo->cnt_msg_bad_ed_tco < BUFR_ERR_MSGS_LIMIT)
+      {
+      bufr_print_debug( errmsg );
+      ddo->cnt_msg_bad_ed_tco += 1;
+      if (BUFR_ERR_MSGS_LIMIT == ddo->cnt_msg_bad_ed_tco)
+         {
+         sprintf( errmsg, _("Warning: similar messages count limit reached. not printing anymore\n") );
+         bufr_print_debug( errmsg );
+         }
+      }
    }
 
 /**

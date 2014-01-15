@@ -66,6 +66,8 @@ static int   show_loctime=0;
 static int   show_meta=1;
 static int   show_locdesc=0;
 static int   format_ouput=1;
+
+static BUFR_Enforcement  enforce=BUFR_WARN_ALLOW;
 /*
  * data structures
  */
@@ -109,6 +111,8 @@ static void abort_usage(char *pgrmname)
    fprintf( stderr, _("          [-verbose]                  send more messages\n") );
    fprintf( stderr, _("          [-local]                    save the local table B\n") );
    fprintf( stderr, _("          [-stop       <nb_messages>] stops decoding after the specified number of messages\n") );
+   fprintf( stderr, _("          [-lax]                      loosen enforcement of BUFR rules\n") );
+   fprintf( stderr, _("          [-strict]                   enforce BUFR rules compliance\n") );
    exit(EXIT_ERROR);
 }
 
@@ -164,6 +168,10 @@ static int read_cmdline( int argc, char *argv[] )
      } else if (strcmp(argv[i],"-locdesc")==0) {
        ++i; if (i >= argc) abort_usage(argv[0]);
        show_locdesc = atoi(argv[i]);
+     } else if (strcmp(argv[i],"-lax")==0) {
+        enforce = BUFR_LAX;
+     } else if (strcmp(argv[i],"-strict")==0) {
+        enforce = BUFR_STRICT;
      }
    }
 
@@ -198,6 +206,7 @@ int main(int argc,char *argv[])
 {
    read_cmdline( argc, argv );
    bufr_set_debug_file( str_debug );
+   bufr_set_enforcement( enforce );
 /*
  * always dump in english US only for sanity
  */
@@ -259,7 +268,7 @@ static void run_decoder(void)
       }
 
 /*
- * load CMC Table B and D, currently version 14
+ * load CMC Table B and D, currently version 21
  */
    file_tables = bufr_create_tables();
    bufr_load_cmc_tables( file_tables );  
@@ -350,6 +359,7 @@ static void run_decoder(void)
          {
          strcpy( buf, _("# *** Warning: invalid message coding ***\n") );
          bufr_print_output( buf );
+         strcpy( buf, _("*** Warning: invalid message coding ***\n") );
          bufr_print_debug( buf );
          }
 /*

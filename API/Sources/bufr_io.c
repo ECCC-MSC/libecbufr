@@ -53,6 +53,7 @@ static void (*udf_output)(const char *msg) = NULL;
 
 static int  debugmode=0;
 static int  verbosemode=0;
+static BUFR_Enforcement  rules_enforcement=BUFR_WARN_ALLOW;
 
 static void (*udf_abort)(const char *msg) = NULL;
 
@@ -1281,6 +1282,37 @@ void bufr_set_verbose(int mode)
 
    verbosemode = mode;
    }
+
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * etablit le mode de restriction du fonctionnement du logiciel
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup debug
+ */
+void bufr_set_enforcement  (BUFR_Enforcement mode)
+   {
+   rules_enforcement = mode;
+   }
+
+/**
+ * @english
+ * return BUFR rules enforcement in effect
+ * @endenglish
+ * @francais
+ * retourne le code de restriction du logiciel
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+BUFR_Enforcement bufr_enforcement (void)
+   {
+   return rules_enforcement;
+   }
+
 
 /**
  * @english

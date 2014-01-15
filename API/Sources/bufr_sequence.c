@@ -1261,18 +1261,36 @@ BufrDDOp  *bufr_apply_Tables
       bufr_reassign_table2code( cb, f, otb );
 /*
  * applying time or location descriptor followed by replication or separate by table C descriptor
-
-*/
+ */
+/* a 205YYY would turn a TABLE C into CCITT_IA5 */
       if (f == 2)
          {
-         if (version == 5)
-            res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
-         else if ((version == 4)||(version == 3)) /* some use edition 4 operators but encode as edition 3 */
-            res = bufr_resolve_tableC_v4( cb, ddo, x, y, version, node );
+         if (bufr_enforcement()==BUFR_STRICT)
+            {
+            switch( version )
+               {
+               case 5 :
+                  res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
+                  break;
+               case 4 :
+                  res = bufr_resolve_tableC_v4( cb, ddo, x, y, version, node );
+                  break;
+               case 3 :
+                  res = bufr_resolve_tableC_v3( cb, ddo, x, y, version, node );
+                  break;
+               default :
+                  res = bufr_resolve_tableC_v2( cb, ddo, x, y, version, node );
+                  break;
+               }
+            }
          else
-            res = bufr_resolve_tableC_v2( cb, ddo, x, y, version, node );
-         /* a 205YYY would turn a TABLE C into CCITT_IA5 */
-         if (res < 0) *errcode = res;
+            {
+            /* some use edition 4 operators but encode as edition 3 */
+            /* when BUFR rules are laxed, calling version 5 C operators handler for any version will open the gate for all */
+            res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
+            }
+         if (res < 0) 
+            *errcode = res;
          }
       else if ((ddo->flags & DDO_DEFINE_EVENT)==0)
          {
