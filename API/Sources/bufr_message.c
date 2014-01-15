@@ -78,6 +78,7 @@ BUFR_Message *bufr_create_message(int edition)
    r->len_msg         = -1;        /* need to be set */
    r->header_string   = NULL;
    r->header_len      = 0;
+   r->enforce         = BUFR_WARN_ALLOW;
    bufr_init_header( r, edition );
    return r;
    }
@@ -655,3 +656,19 @@ void bufr_set_time_sect1( BufrSection1 *s1, time_t temps )
    s1->minute = gmt->tm_min;
    s1->second = gmt->tm_sec;
    }
+
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * etablit le mode de restriction du fonctionnement du logiciel
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup debug
+ */
+void bufr_set_enforcement  (BUFR_Message *bufr, BUFR_Enforcement mode)
+   {
+   bufr->enforce = mode;
+   }
+

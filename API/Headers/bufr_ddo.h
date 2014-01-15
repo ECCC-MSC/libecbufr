@@ -39,6 +39,7 @@ This file is part of libECBUFR.
 #include  "bufr_desc.h"
 #include  "bufr_linklist.h"
 #include  "bufr_tables.h"
+#include  "bufr_message.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -83,13 +84,14 @@ typedef struct _oper_table
    ListNode               *start_dpi;
    int                     remain_dpi;
    int                     cnt_msg_bad_ed_tco;
+   BUFR_Enforcement        enforce;  /* need to be copied from BUFR_Message */
    } BufrDDOp;
 
 extern BufrDPBM      *bufr_create_BufrDPBM          ( int cnt );
 extern void           bufr_free_BufrDPBM            ( BufrDPBM * );
 extern void           bufr_init_dpbm                ( BufrDPBM *dpbm, ListNode *node );
 
-extern BufrDDOp      *bufr_create_BufrDDOp          ( void );
+extern BufrDDOp      *bufr_create_BufrDDOp          ( BUFR_Enforcement enf );
 extern void           bufr_free_BufrDDOp            ( BufrDDOp * );
 extern int            bufr_resolve_tableC_v2        ( BufrDescriptor *, BufrDDOp *, 
                                                       int x, int y, int v, ListNode * );

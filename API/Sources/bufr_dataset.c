@@ -69,7 +69,7 @@ static int         bufr_get_af_compressed
 static DataSubset *bufr_allocate_datasubset  ( void );
 static void        bufr_fill_datasubset      ( DataSubset *subset, BUFR_Sequence *bsq );
 static int         bufr_load_header( FILE *fp, BUFR_Dataset *dts );
-static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno );
+static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_Enforcement enforce );
 static void        bufr_mkval_rest_sequence(BUFR_Tables   *tbls, BUFR_Sequence *bsq2, ListNode *node, int *errflg );
 
 
@@ -263,7 +263,8 @@ int bufr_create_datasubset( BUFR_Dataset *dts )
  * applying Table C
 
 */
-   ddo = bufr_apply_Tables( NULL, bsq, tmplt, NULL, &errcode ); 
+   ddo = bufr_create_BufrDDOp( BUFR_STRICT );
+   bufr_apply_Tables( ddo, bsq, tmplt, NULL, &errcode ); 
    if (errcode < 0)
 	   dts->data_flag |= BUFR_FLAG_INVALID;
    bufr_free_BufrDDOp( ddo );
@@ -427,7 +428,8 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
       bufr_free_sequence( bsq );
       return -1;
       }
-   ddo = bufr_apply_Tables( NULL, bsq, dts->tmplte, NULL, &errcode ); 
+   ddo = bufr_create_BufrDDOp( BUFR_STRICT );
+   bufr_apply_Tables( ddo, bsq, dts->tmplte, NULL, &errcode ); 
    bufr_free_BufrDDOp( ddo );
    if (errcode < 0)
 	   dts->data_flag |= BUFR_FLAG_INVALID;
@@ -2273,7 +2275,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       bufr_add_descriptor_to_sequence( bsq, cb );
       }
 
-   ddo = bufr_apply_Tables( NULL, bsq,  dts->tmplte, NULL, &errcode ); 
+   ddo = bufr_create_BufrDDOp( msg->enforce );
+   bufr_apply_Tables( ddo, bsq,  dts->tmplte, NULL, &errcode ); 
    bufr_free_BufrDDOp( ddo );
    if (errcode < 0)
 	   dts->data_flag |= BUFR_FLAG_INVALID;
@@ -2293,7 +2296,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 
          bsq2 = bufr_copy_sequence( bsq );
          node = lst_firstnode( bsq2->list );
-         ddo = bufr_create_BufrDDOp();
+         ddo = bufr_create_BufrDDOp( msg->enforce );
          while ( node )
             {
             cb = (BufrDescriptor *)node->data;
@@ -2404,7 +2407,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          bseq[i] = bufr_copy_sequence( bsq );
          subset = bufr_allocate_datasubset();
          arr_add( dts->datasubsets, (char *)&subset );
-         ddos[i] = bufr_create_BufrDDOp();
+         ddos[i] = bufr_create_BufrDDOp( msg->enforce );
          nodes[i] = lst_firstnode( bseq[i]->list );
          }
 
@@ -3153,7 +3156,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
       }
 
    if ((lineno = bufr_load_header( fp, dts )) > 0)
-      status = bufr_load_datasubsets( fp, dts, lineno );
+      status = bufr_load_datasubsets( fp, dts, lineno, BUFR_STRICT );
 
    fclose ( fp ) ;
    if (status >= 0)
@@ -3190,7 +3193,7 @@ int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
    bufr_empty_datasubsets( dts );
 
    if ((status = bufr_load_header( fp, dts )) > 0)
-      status = bufr_load_datasubsets( fp, dts, status );
+      status = bufr_load_datasubsets( fp, dts, status, BUFR_STRICT );
    return status;
    }
 
@@ -3207,7 +3210,7 @@ int bufr_read_dataset_dump( BUFR_Dataset *dts, FILE *fp )
  * @author Vanh Souvanlasy
  * @ingroup io dataset internal
  */
-static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
+static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_Enforcement enforce )
    {
    char            *errmsg;
    char            *dstrptr;
@@ -3242,7 +3245,8 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
       cb = bufr_dupl_descriptor( pbcd[i] );
       bufr_add_descriptor_to_sequence( bsq, cb );
       }
-   ddo = bufr_apply_Tables( NULL, bsq,  dts->tmplte, NULL, &errcode );
+   ddo = bufr_create_BufrDDOp( BUFR_STRICT );
+   bufr_apply_Tables( ddo, bsq,  dts->tmplte, NULL, &errcode );
    if (errcode < 0)
 	   dts->data_flag |= BUFR_FLAG_INVALID;
    bufr_free_BufrDDOp( ddo );
@@ -3297,7 +3301,9 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno )
          continue;
          }
       if (ddo == NULL)
-         ddo = bufr_create_BufrDDOp();
+         {
+         ddo = bufr_create_BufrDDOp( enforce );
+         }
 
       if (kptr != NULL) 
          {
@@ -4037,7 +4043,8 @@ BUFR_Dataset *bufr_create_dataset_from_sequence
    dts = bufr_create_dataset( tmplt );
    bufr_free_template( tmplt );
 
-   ddo = bufr_apply_Tables( NULL, cl,  dts->tmplte, NULL, &errcode ); 
+   ddo = bufr_create_BufrDDOp( BUFR_STRICT );
+   bufr_apply_Tables( ddo, cl,  dts->tmplte, NULL, &errcode ); 
    bufr_free_BufrDDOp( ddo );
    if (errcode < 0)
 	   dts->data_flag |= BUFR_FLAG_INVALID;

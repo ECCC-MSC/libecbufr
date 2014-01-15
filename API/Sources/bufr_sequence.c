@@ -1134,7 +1134,7 @@ BufrDDOp  *bufr_apply_Tables
    if (bsq == NULL) return NULL;
 
    if (ddoi ==NULL)
-      ddo = bufr_create_BufrDDOp(); 
+      ddo = bufr_create_BufrDDOp( BUFR_STRICT ); 
    else
       ddo = ddoi;
 
@@ -1265,7 +1265,7 @@ BufrDDOp  *bufr_apply_Tables
 /* a 205YYY would turn a TABLE C into CCITT_IA5 */
       if (f == 2)
          {
-         if (bufr_enforcement()==BUFR_STRICT)
+         if (BUFR_STRICT==ddo->enforce)
             {
             switch( version )
                {

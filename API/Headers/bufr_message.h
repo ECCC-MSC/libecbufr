@@ -84,6 +84,9 @@ extern "C" {
 #define  MSGDTYPE_FEXPU_LLIMIT           240
 #define  MSGDTYPE_FEXPU_ULIMIT           254
 
+typedef enum { BUFR_LAX, BUFR_WARN_ALLOW, BUFR_STRICT }
+   BUFR_Enforcement ;
+
 typedef struct _Section0
    {
    int   len;
@@ -162,6 +165,7 @@ typedef struct _DBufr
    BufrSection5 s5;
    char *header_string;
    int   header_len;
+   BUFR_Enforcement  enforce;
    } BUFR_Message;
 
 /*
@@ -188,6 +192,8 @@ extern void           bufr_set_time_sect1  ( BufrSection1 *s1, time_t );
 extern void           bufr_sect2_set_data  ( BUFR_Message *r,
                                              const char *data,
 															int len);
+
+extern void           bufr_set_enforcement ( BUFR_Message *bufr, BUFR_Enforcement mode );
 
 #ifdef __cplusplus
 }

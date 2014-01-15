@@ -154,11 +154,11 @@ void bufr_init_dpbm( BufrDPBM *dpbm, ListNode *node )
 
 /**
  * @english
- *    ddo = *bufr_create_BufrDDOp()
- *    (void)
+ *    ddo = *bufr_create_BufrDDOp(enforce)
  * This function creates the BufrDDOp (BUFR Data Descriptors Operator
  * structure), which is required for storing information for applying table
  * C operators.
+ * @param  enforce : BUFR rules enforcement level
  * @warning Once it becomes used in “bufr_apply_Tables”, do not reuse;
  * the data will become corrupted; thus use only once for all codes at
  * once, or use sequentially according to the list codes. The structure,
@@ -171,7 +171,7 @@ void bufr_init_dpbm( BufrDPBM *dpbm, ListNode *node )
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-BufrDDOp *bufr_create_BufrDDOp( void )
+BufrDDOp *bufr_create_BufrDDOp( BUFR_Enforcement enforce )
    {
    BufrDDOp *ddo;
 
@@ -198,6 +198,7 @@ BufrDDOp *bufr_create_BufrDDOp( void )
    ddo->dpbm                = NULL;
    ddo->start_dpi           = NULL;
    ddo->remain_dpi          = -1;
+   ddo->enforce             = enforce;
    return ddo;
    }
 
@@ -398,7 +399,6 @@ int bufr_resolve_tableC_v3
    char  errmsg[256];
    int   op_version=3;
    int   bad_version=0;
-   BUFR_Enforcement  enforce = bufr_enforcement();
 
    switch( x )
       {
@@ -439,12 +439,12 @@ int bufr_resolve_tableC_v3
          break;
       }
 
-   if (bad_version && (enforce!=BUFR_LAX))
+   if (bad_version && (ddo->enforce!=BUFR_LAX))
       {
       sprintf( errmsg, _("Warning: Illegal use of BUFR version %d Table C operator %d in BUFR version %d\n"), 
                op_version, cb->descriptor, version );
       print_msg_bad_ed_tco( ddo, errmsg );
-      if (enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
+      if (ddo->enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
       }
    return x;
    }
@@ -465,7 +465,6 @@ int bufr_resolve_tableC_v4
    char  errmsg[256];
    int   op_version=4;
    int   bad_version=0;
-   BUFR_Enforcement  enforce = bufr_enforcement();
 
    switch( x )
       {
@@ -510,12 +509,12 @@ int bufr_resolve_tableC_v4
          break;
       }
 
-   if (bad_version && (enforce!=BUFR_LAX))
+   if (bad_version && (ddo->enforce!=BUFR_LAX))
       {
       sprintf( errmsg, _("Warning: Illegal use of BUFR version %d Table C operator %d in BUFR version %d\n"), 
                op_version, cb->descriptor, version );
       print_msg_bad_ed_tco( ddo, errmsg );
-      if (enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
+      if (ddo->enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
       }
    return x;
    }
@@ -536,7 +535,6 @@ int bufr_resolve_tableC_v5
    char  errmsg[256];
    int   op_version=5;
    int   bad_version=0;
-   BUFR_Enforcement  enforce = bufr_enforcement();
 
    switch( x )
       {
@@ -565,12 +563,12 @@ int bufr_resolve_tableC_v5
          break;
       }
 
-   if (bad_version && (enforce!=BUFR_LAX))
+   if (bad_version && (ddo->enforce!=BUFR_LAX))
       {
       sprintf( errmsg, _("Warning: Illegal use of BUFR version %d Table C operator %d in BUFR version %d\n"), 
                op_version, cb->descriptor, version );
       print_msg_bad_ed_tco( ddo, errmsg );
-      if (enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
+      if (ddo->enforce == BUFR_STRICT) return -1; /* this will mark the message as invalid */
       }
    return x;
    }
@@ -726,15 +724,14 @@ void bufr_set_current_location( BufrDDOp *ddo, int code, float value, int npos )
    arr_add( ddo->tlc_arr, (char *)&tlci );
    }
 
-/*
- * name: bufr_keep_location
- *
- * author:  Vanh Souvanlasy
- *
- * function: 
- *
- * parametres:
-
+/**
+ * @english
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
  */
 void bufr_keep_location   ( BufrDDOp *ddo, int desc,  float value )
    {

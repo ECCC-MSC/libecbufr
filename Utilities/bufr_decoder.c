@@ -206,7 +206,6 @@ int main(int argc,char *argv[])
 {
    read_cmdline( argc, argv );
    bufr_set_debug_file( str_debug );
-   bufr_set_enforcement( enforce );
 /*
  * always dump in english US only for sanity
  */
@@ -344,6 +343,7 @@ static void run_decoder(void)
             sprintf( buf, _("Decoding message version %d with BUFR tables version %d\n"), msg->s1.master_table_version, useTables->master.version );
             bufr_print_debug( buf );
             }
+         bufr_set_enforcement( msg, enforce );
          dts = bufr_decode_message( msg, useTables ); 
          }
 
