@@ -5,7 +5,7 @@
 #
 echo "*** Running autoreconf"
 rm -f configure
-autoreconf --force --install
+autoreconf --force --install -Wno-portability
 if [ -f configure ]; then
    echo "*** Done. You may now run configure"
 else

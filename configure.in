@@ -12,7 +12,7 @@ m4_define(libecbufr_version_minor, 8)
 # An even micro number indicates a released version.
 m4_define(libecbufr_version_micro, 5)
 
-AC_INIT(libecbufr, libecbufr_version_major.libecbufr_version_minor.libecbufr_version_micro,"https://launchpad.net/~libecbufr-dev")
+AC_INIT(libecbufr, libecbufr_version_major.libecbufr_version_minor.libecbufr_version_micro,[https://launchpad.net/~libecbufr-dev])
 
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(./)
