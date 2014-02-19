@@ -1692,10 +1692,10 @@ int bufr_str_is_binary( const char *str )
 */
    for (i = 0; i < len ; i++ )
       {
-      if ((str[i] == '0')||(str[i] == '1'))
+      if ((str[i] == '0')||(str[i] == '1')||((i==0)&&(str[i]=='b')))
          {
          }
-      else 
+      else
          return 0;
       }
    return 1;

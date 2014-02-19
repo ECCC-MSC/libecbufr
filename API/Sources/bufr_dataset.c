@@ -3543,8 +3543,27 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
                   {
                   if ((cb->encoding.type == TYPE_FLAGTABLE) && bufr_str_is_binary( tok ))
                      ival64 = bufr_binary_to_int( tok );
-                  else
-                     ival64 = atol(tok);
+                  else 
+                     {
+                     switch (tok[0])
+                        {
+                        case 'i' :
+                           sscanf( tok+1, "%d", &ival64 );
+                        break;
+                        case 'o' :
+                           sscanf( tok+1, "%o", &ival64 );
+                        break;
+                        case 'x' :
+                           sscanf( tok+1, "%x", &ival64 );
+                        break;
+                        case 'b' :
+                           ival64 = bufr_binary_to_int( tok );
+                        break;
+                        default :
+                           ival64 = atol(tok);
+                        break;
+                        }
+                     }
                   }
                else
                   ival64 = bufr_missing_int();
