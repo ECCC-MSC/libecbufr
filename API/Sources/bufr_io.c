@@ -1695,13 +1695,16 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
 			/* This really shouldn't happen, but if someone is sloppy with the
 			 * extra data it could happen. Add an extra padding byte and hope
 			 * the writer did, too */
+/*
+ * there is no requirement for even length
+ *
 			if( bufr->s1.len % 2 )
 				{
 				bufr->s1.len ++;
 				bufr_vprint_debug(_("Warning: padding section1 to %d octets"),
 					bufr->s1.len);
 				}
-
+*/
          if (bufr_is_verbose())
             {
             sprintf( errmsg, _n("### Section1 contains additionnal data length=%d octet\n",
@@ -1806,7 +1809,7 @@ static int bufr_rd_section1(bufr_read_callback readcb, void *cd,
 		if( bufr->s1.data == NULL ) return -1;
       if (readcb( cd, len, bufr->s1.data ) != len ) return -1;
       }
-	
+
 	c = bufr->s1.header_len + bufr->s1.data_len;
 	while( c++ < bufr->s1.len )
 		{
