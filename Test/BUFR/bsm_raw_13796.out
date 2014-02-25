@@ -1,0 +1,394 @@
+### Message header            : "\001\015\015\012ISNK02\040AMMC\040272000\040RRJ\012"
+### BUFR Edition              : 4
+###          length           : 242
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 23
+###      data length          : 1
+###      BUFR master table    : 0
+###      originating center   : 1
+###      sub center           : 0
+###      update sequence number : 0
+###      Data category        : 0
+###      International sub category  : 0
+###      Local sub category   : 1
+###      master table version : 14
+###      local table version  : 0
+###      Year                 : 2014
+###      Month                : 1
+###      Day                  : 27
+###      Hour                 : 20
+###      Min                  : 0
+###      Sec                  : 0
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 9
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 198
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 167 descriptors
+#  307080 
+#  301090 
+#  301004 
+   001001 VALUE=95
+   001002 VALUE=322
+   001015 VALUE=RABBIT FLAT         
+   002001 VALUE=1
+#  301011 
+   004001 VALUE=2014
+   004002 VALUE=1
+   004003 VALUE=27
+#  301012 
+   004004 VALUE=20
+   004005 VALUE=30
+#  301021 
+   005001 VALUE=-20.1825
+   006001 VALUE=130.0147
+   007030 VALUE=340
+   007031 VALUE=341.5
+#  302031 
+#  302001 
+   010004 VALUE=96740
+   010051 VALUE=100450
+   010061 VALUE=110
+   010063 VALUE=1
+   010062 MSNG
+   007004 MSNG
+   010009 MSNG
+#  302035 
+#  302032 
+   007032 MSNG
+   012101 VALUE=297.56
+   012103 VALUE=296.56
+   013003 MSNG
+#  302033 
+   007032 MSNG
+   020001 VALUE=20000
+#  302034 
+   007032 MSNG
+   013023 MSNG
+   007032 MSNG
+#  302004 
+   020010 VALUE=100
+   008002 MSNG
+   020011 VALUE=8
+   020013 MSNG
+   020012 VALUE=30
+   020012 VALUE=22
+   020012 MSNG
+#  101000 {R=0}
+   031001 {R=0} VALUE=4
+#  302005 {R=1}
+   008002 {R=0} VALUE=0
+   020011 {R=0} MSNG
+   020012 {R=0} MSNG
+   020013 {R=0} MSNG
+#  302005 {R=2}
+   008002 {R=0} VALUE=0
+   020011 {R=0} MSNG
+   020012 {R=0} MSNG
+   020013 {R=0} MSNG
+#  302005 {R=3}
+   008002 {R=0} VALUE=0
+   020011 {R=0} MSNG
+   020012 {R=0} MSNG
+   020013 {R=0} MSNG
+#  302005 {R=4}
+   008002 VALUE=0
+   020011 MSNG
+   020012 MSNG
+   020013 MSNG
+#  302036 
+#  105000 {R=0}
+   031001 {R=0} VALUE=1
+   008002 {R=1} MSNG
+   020011 {R=1} MSNG
+   020012 {R=1} MSNG
+   020014 {R=1} MSNG
+   020017 {R=1} MSNG
+#  302047 
+#  102003 {R=0}
+   008002 {R=0} VALUE=7
+   020054 {R=0} MSNG
+   008002 VALUE=8
+   020054 MSNG
+   008002 VALUE=9
+   020054 MSNG
+   008002 MSNG
+#  302048 
+   005021 MSNG
+   007021 MSNG
+   020012 MSNG
+   005021 MSNG
+   007021 MSNG
+#  302037 
+   020062 MSNG
+   013013 MSNG
+   012113 MSNG
+#  302043 
+#  302038 
+   020003 VALUE=60
+   004024 MSNG
+   020004 VALUE=8
+   020005 VALUE=6
+#  101002 {R=0}
+#  302039 {R=1}
+   004024 {R=0} MSNG
+   014031 {R=0} MSNG
+#  302039 {R=2}
+   004024 MSNG
+   014031 MSNG
+#  302040 
+   007032 MSNG
+#  102002 {R=0}
+   004024 {R=0} MSNG
+   013011 {R=0} MSNG
+   004024 MSNG
+   013011 MSNG
+#  302041 
+   007032 MSNG
+   004024 MSNG
+   004024 MSNG
+   012111 MSNG
+   004024 MSNG
+   004024 MSNG
+   012112 MSNG
+#  302042 
+   007032 MSNG
+   002002 BITS=1100
+   008021 VALUE=2
+   004025 VALUE=10
+   011001 VALUE=0
+   011002 VALUE=0
+   008021 MSNG
+#  103002 {R=0}
+   004025 {R=0} MSNG
+   011043 {R=0} MSNG
+   011041 {R=0} MSNG
+   004025 MSNG
+   011043 MSNG
+   011041 MSNG
+   007032 MSNG
+#  302044 
+   004024 MSNG
+   002004 MSNG
+   013033 MSNG
+#  101002 {R=0}
+#  302045 {R=1}
+   004024 {R=0} MSNG
+   014002 {R=0} MSNG
+   014004 {R=0} MSNG
+   014016 {R=0} MSNG
+   014028 {R=0} MSNG
+   014029 {R=0} MSNG
+   014030 {R=0} MSNG
+#  302045 {R=2}
+   004024 MSNG
+   014002 MSNG
+   014004 MSNG
+   014016 MSNG
+   014028 MSNG
+   014029 MSNG
+   014030 MSNG
+#  302046 
+   004024 MSNG
+   004024 MSNG
+   012049 MSNG
+
+### Message header            : "\015\015\012\001\015\015\012ISMC40\040VTBB\040271800\040RRD\012"
+### BUFR Edition              : 4
+###          length           : 219
+###   Section 0
+###      length               : 8
+###   Section 1
+###      length               : 22
+###      BUFR master table    : 0
+###      originating center   : 36
+###      sub center           : 0
+###      update sequence number : 0
+###      Data category        : 0
+###      International sub category  : 2
+###      Local sub category   : 0
+###      master table version : 13
+###      local table version  : 0
+###      Year                 : 2014
+###      Month                : 1
+###      Day                  : 27
+###      Hour                 : 18
+###      Min                  : 0
+###      Sec                  : 0
+###      octet 8              : 0
+###         optional section  : No
+###   Section 2
+###      length               : 0
+###   Section 3
+###      length               : 9
+###      datasubsets          : 1
+###      octet 7              : 128
+###         compression       : No
+###         observed data
+###   Section 4
+###      length               : 176
+###   Section 5
+###      length               : 4
+###
+## Subset 1 : 148 descriptors
+#  307080 
+#  301090 
+#  301004 
+   001001 VALUE=48
+   001002 VALUE=310
+   001015 VALUE=Phayao              
+   002001 VALUE=1
+#  301011 
+   004001 VALUE=2014
+   004002 VALUE=1
+   004003 VALUE=27
+#  301012 
+   004004 VALUE=18
+   004005 VALUE=0
+#  301021 
+   005001 VALUE=19.133
+   006001 VALUE=99.9
+   007030 VALUE=396.9
+   007031 VALUE=398.9
+#  302031 
+#  302001 
+   010004 VALUE=96820
+   010051 VALUE=101500
+   010061 VALUE=-50
+   010063 VALUE=7
+   010062 VALUE=-120
+   007004 MSNG
+   010009 MSNG
+#  302035 
+#  302032 
+   007032 MSNG
+   012101 VALUE=289.45
+   012103 VALUE=288.05
+   013003 VALUE=91
+#  302033 
+   007032 MSNG
+   020001 VALUE=4000
+#  302034 
+   007032 MSNG
+   013023 MSNG
+   007032 MSNG
+#  302004 
+   020010 VALUE=0
+   008002 VALUE=62
+   020011 VALUE=0
+   020013 MSNG
+   020012 VALUE=30
+   020012 VALUE=20
+   020012 VALUE=10
+   101000 {R=0} 
+   031001 {R=0} VALUE=0
+#  302005 {R=0}
+#  302036 
+   105000 {R=0} 
+   031001 {R=0} VALUE=0
+#  008002 {R=0}
+#  020011 {R=0}
+#  020012 {R=0}
+#  020014 {R=0}
+#  020017 {R=0}
+#  302047 
+#  102003 {R=0}
+   008002 {R=0} VALUE=7
+   020054 {R=0} MSNG
+   008002 VALUE=8
+   020054 MSNG
+   008002 VALUE=9
+   020054 MSNG
+   008002 MSNG
+#  302048 
+   005021 MSNG
+   007021 MSNG
+   020012 MSNG
+   005021 MSNG
+   007021 MSNG
+#  302037 
+   020062 MSNG
+   013013 MSNG
+   012113 MSNG
+#  302043 
+#  302038 
+   020003 VALUE=10
+   004024 VALUE=-6
+   020004 VALUE=0
+   020005 VALUE=0
+#  101002 {R=0}
+#  302039 {R=1}
+   004024 {R=0} VALUE=-1
+   014031 {R=0} MSNG
+#  302039 {R=2}
+   004024 VALUE=-24
+   014031 MSNG
+#  302040 
+   007032 MSNG
+#  102002 {R=0}
+   004024 {R=0} MSNG
+   013011 {R=0} VALUE=0
+   004024 MSNG
+   013011 MSNG
+#  302041 
+   007032 MSNG
+   004024 MSNG
+   004024 MSNG
+   012111 MSNG
+   004024 MSNG
+   004024 MSNG
+   012112 MSNG
+#  302042 
+   007032 MSNG
+   002002 BITS=1100
+   008021 VALUE=2
+   004025 VALUE=-10
+   011001 VALUE=0
+   011002 VALUE=0
+   008021 MSNG
+#  103002 {R=0}
+   004025 {R=0} VALUE=-10
+   011043 {R=0} MSNG
+   011041 {R=0} MSNG
+   004025 MSNG
+   011043 MSNG
+   011041 MSNG
+   007032 MSNG
+#  302044 
+   004024 VALUE=-24
+   002004 MSNG
+   013033 MSNG
+#  101002 {R=0}
+#  302045 {R=1}
+   004024 {R=0} VALUE=-1
+   014002 {R=0} MSNG
+   014004 {R=0} MSNG
+   014016 {R=0} MSNG
+   014028 {R=0} MSNG
+   014029 {R=0} MSNG
+   014030 {R=0} MSNG
+#  302045 {R=2}
+   004024 VALUE=-24
+   014002 MSNG
+   014004 MSNG
+   014016 MSNG
+   014028 MSNG
+   014029 MSNG
+   014030 MSNG
+#  302046 
+   004024 MSNG
+   004024 MSNG
+   012049 MSNG
+
