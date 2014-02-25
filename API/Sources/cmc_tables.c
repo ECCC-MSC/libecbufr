@@ -179,7 +179,10 @@ BUFR_Tables *bufr_use_tables_list( LinkedList *list, int version )
             bv = tbls->master.version;
             btn = tbls;
             }
-         else if (bv > tbls->master.version)
+/* 
+ * use the latest version 
+ */
+         else if (bv < tbls->master.version) 
             {
             bv = tbls->master.version;
             btn = tbls;
