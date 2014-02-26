@@ -185,7 +185,7 @@ extern void           bufr_end_message     ( BUFR_Message *bufr );
 
 extern void           bufr_set_gmtime      ( BufrSection1 *s1 );
 
-extern void           bufr_init_sect1      ( BufrSection1 *s1 );
+extern void           bufr_init_sect1      ( BufrSection1 *s1, int edition );
 extern void           bufr_copy_sect1      ( BufrSection1 *dest, BufrSection1 *src );
 extern void           bufr_set_time_sect1  ( BufrSection1 *s1, time_t );
 

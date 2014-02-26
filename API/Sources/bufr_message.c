@@ -344,23 +344,9 @@ void bufr_init_header(BUFR_Message *bufr, int edition)
 
    bufr->edition         = edition;
 
-   bufr_init_sect1( &(bufr->s1) );
+   bufr_init_sect1( &(bufr->s1), edition );
 
    bufr->s0.len = 8;
-   if (edition >= 4)
-      {
-      bufr->s1.header_len = 22;
-      bufr->s1.len        = bufr->s1.header_len;
-      }
-   else /* edition == 2 or 3 */
-      {
-      /* 
-       * length of s1 may be bigger than 18 if s1 contains additionnal data 
-       */
-      bufr->s1.header_len = 17;  
-      bufr->s1.len        = bufr->s1.header_len + 1;
-      }
-
    bufr->s2.header_len           = 4;
    bufr->s2.len                  = 0;
 
@@ -384,15 +370,14 @@ void bufr_init_header(BUFR_Message *bufr, int edition)
  * @endenglish
  * @francais
  * initialiser l'espace memoire pour la section 1
- * @param     bufr : la structure de donnees BUFR
+ * @param     s1    : la structure de l'entete de section1 BufrSection1
+ * @param   edition : edition BUFR
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-void bufr_init_sect1( BufrSection1 *s1 )
+void bufr_init_sect1( BufrSection1 *s1, int edition )
    {
-   s1->header_len           = 0;
-   s1->len                  = 0;
    s1->bufr_master_table    = 0;      /* 0 == Meteorology maintained by WMO */
    s1->orig_centre          = 54;     /* from CMC */
    s1->orig_sub_centre      = 0;
@@ -411,6 +396,20 @@ void bufr_init_sect1( BufrSection1 *s1 )
    s1->second               = 0;
    s1->data                 = NULL;
    s1->data_len             = 0;
+
+   if (edition >= 4)
+      {
+      s1->header_len = 22;
+      s1->len        = s1->header_len;
+      }
+   else /* edition == 2 or 3 */
+      {
+      /* 
+       * length of s1 may be bigger than 18 if s1 contains additionnal data 
+       */
+      s1->header_len = 17;  
+      s1->len        = s1->header_len + 1;
+      }
    }
 
 /**
@@ -441,6 +440,10 @@ void bufr_copy_sect1( BufrSection1 *dest, BufrSection1 *src )
    dest->hour                 = src->hour;
    dest->minute               = src->minute;
    dest->second               = src->second;
+   if (src->len > 0)
+      dest->len               = src->len;
+   if (src->header_len > 0)
+      dest->header_len        = src->header_len;
    }
 
 /**

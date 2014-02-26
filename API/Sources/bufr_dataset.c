@@ -129,7 +129,7 @@ BUFR_Dataset *bufr_create_dataset  ( BUFR_Template *tmplt )
    dts = (BUFR_Dataset *)malloc(sizeof(BUFR_Dataset));
    dts->tmplte = bufr_copy_template( tmplt );
 
-   bufr_init_sect1( &(dts->s1) );
+   bufr_init_sect1( &(dts->s1), tmplt->edition );
    bufr_set_gmtime( &(dts->s1) );
    dts->data_flag  = 0;
 
