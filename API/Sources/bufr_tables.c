@@ -366,6 +366,13 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
       {
       tbls->tableB = bufr_tableb_read( NULL, filename, local, data_cat_desc, &data_cat, &version );
       tbls->version = version;
+      if (bufr_is_debug())
+         {
+         char buf[128];
+
+         sprintf( buf, _("Info:  Loaded Table B: %s  version=%d\n"), filename, version );
+         bufr_print_debug( buf );
+         }
       }
    else
       {
@@ -376,6 +383,13 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
       bufr_merge_tableB( tbls->tableB, tableB );
       bufr_tableb_free( tableB );
       tbls->version = version;
+      if (bufr_is_debug())
+         {
+         char buf[128];
+
+         sprintf( buf, _("Info:  Merged Table B: %s  version=%d\n"), filename, version );
+         bufr_print_debug( buf );
+         }
       }
 
    if (local)
@@ -449,12 +463,28 @@ static int bufr_load_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl, const char *
    tbl->tableDtype = TYPE_ALLOCATED;
 
    if (tbl->tableD == NULL)
+      {
       tbl->tableD = bufr_tabled_read( NULL, filename );
+      if (bufr_is_debug())
+         {
+         char buf[128];
+
+         sprintf( buf, _("Info:  Loaded Table D: %s\n"), filename );
+         bufr_print_debug( buf );
+         }
+      }
    else
       {
       EntryTableBArray tableD = bufr_tabled_read( NULL, filename );
       bufr_merge_tableD( tbl->tableD, tableD );
       bufr_tabled_free( tableD );
+      if (bufr_is_debug())
+         {
+         char buf[128];
+
+         sprintf( buf, _("Info:  Merged Table D: %s\n"), filename );
+         bufr_print_debug( buf );
+         }
       }
 
    arr_sort( tbl->tableD, compare_tabled );
