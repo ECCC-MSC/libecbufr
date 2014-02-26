@@ -245,6 +245,11 @@ static int filter_file (BufrDescValue *dvalues, int nbdv)
          {
          tmplt = bufr_get_dataset_template( dts );
          dts2 = bufr_create_dataset( tmplt );
+/*
+ * transfer section 1 and flag from origin message
+ */
+         bufr_copy_sect1( &(dts2->s1), &(msg->s1) );
+         dts2->data_flag |= msg->s3.flag;
          
          sscount = bufr_count_datasubset( dts );
          for (i = 0; i < sscount ; i++)
