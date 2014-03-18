@@ -556,7 +556,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
    bitno = bitno % 8;
    if (bitno == 0)
       {
-	   if ( ptrData >= (bufr->s4.data + bufr->s4.max_data_len - 1) )
+	   if (( ptrData >= (bufr->s4.data + bufr->s4.max_data_len - 1) ) && (nbits_read < nbbits))
 		   {
          bufr_vprint_debug( _("Warning: bufr_getbits( %d ), out of bounds! remain=%d bits\n"), nbbits,  nbits_read );
          *errcode = -1;
@@ -584,10 +584,13 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
       bitno = bitno % 8;
       if (bitno == 0)
          {
-	      if( ptrData >= (bufr->s4.data + bufr->s4.max_data_len - 1) )
+	      if (ptrData >= (bufr->s4.data + bufr->s4.max_data_len - 1))
 		      {
-            bufr_vprint_debug( _("Warning: bufr_getbits( %d ), out of bounds! remain=%d bits\n"), nbbits,  nbits_read );
-            *errcode = -1;
+            if (nbits_read < nbbits)
+               {
+               bufr_vprint_debug( _("Warning: bufr_getbits( %d ), out of bounds! remain=%d bits\n"), nbbits,  nbits_read );
+               *errcode = -1;
+               }
             bufr->s4.bitno = bitno;
             bufr->s4.current = ptrData;
             return bits;
