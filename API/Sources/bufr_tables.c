@@ -1766,6 +1766,12 @@ uint32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
       ival = sval - be->reference;
       }
 
+/* is not an overflow if nbits=1, this is normal for descriptor like 31000 */
+   if (overflow && (be->nbits == 1))
+      {
+      overflow = 0;
+      }
+
    if (underflow)
       {
       char buffer[128];
@@ -1959,6 +1965,12 @@ uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
       {
       int64_t sval = round(fval * val_pow);
       ival = sval - be->reference;
+      }
+
+/* is not an overflow if nbits=1, this is normal for descriptor like 31000 */
+   if (overflow && (be->nbits == 1))
+      {
+      overflow = 0;
       }
 
    if (underflow)
