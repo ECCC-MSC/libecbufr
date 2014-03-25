@@ -324,6 +324,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
    LinkedList *sublist;
    int   err;
 
+   if (node == NULL) return list;
    cb = (BufrDescriptor *)node->data;
 
    *skip = 0;
