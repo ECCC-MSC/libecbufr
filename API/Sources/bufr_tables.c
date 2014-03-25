@@ -1727,9 +1727,22 @@ uint32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
    fmax = ((maxval-1) + be->reference) / val_pow;
 
    if (fval > fmax)
+      {
+      int  f, x, y;
+
       overflow = 1;
+/* Reg:94.1.5 NA to class 31, value==maxval */
+      bufr_descriptor_to_fxy( code, &f, &x, &y );
+      if (x == 31)
+         {
+         ival = (int)fval;
+         if (ival == maxval) overflow = 0;
+         }
+      }
    else if (fval < fmin)
+      {
       underflow = 1;
+      }
    else if (be->scale >= 0)
       {
       val1 = fval - (be->reference / val_pow);
@@ -1764,12 +1777,6 @@ uint32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
       {
       int sval = round(fval * val_pow);
       ival = sval - be->reference;
-      }
-
-/* is not an overflow if nbits=1, this is normal for descriptor like 31000 */
-   if (overflow && (be->nbits == 1))
-      {
-      overflow = 0;
       }
 
    if (underflow)
@@ -1928,9 +1935,22 @@ uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
    fmax = ((maxval-1) + be->reference) / val_pow;
 
    if (fval > fmax)
+      {
+      int  f, x, y;
+
       overflow = 1;
+/* Reg:94.1.5 NA to class 31, value==maxval */
+      bufr_descriptor_to_fxy( code, &f, &x, &y );
+      if (x == 31)
+         {
+         ival = (int)fval;
+         if (ival == maxval) overflow = 0;
+         }
+      }
    else if (fval < fmin)
+      {
       underflow = 1;
+      }
    else if (be->scale >= 0)
       {
       val1 = fval - (be->reference / val_pow);
@@ -1965,12 +1985,6 @@ uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
       {
       int64_t sval = round(fval * val_pow);
       ival = sval - be->reference;
-      }
-
-/* is not an overflow if nbits=1, this is normal for descriptor like 31000 */
-   if (overflow && (be->nbits == 1))
-      {
-      overflow = 0;
       }
 
    if (underflow)

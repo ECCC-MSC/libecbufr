@@ -481,6 +481,7 @@ int bufr_descriptor_get_range ( BufrDescriptor *cb, double *min, double *max )
    {
    double    scale_factor;
    int64_t   imax;
+   int       f, x, y;
 
    if (cb == NULL) return -1;
 
@@ -519,7 +520,8 @@ int bufr_descriptor_get_range ( BufrDescriptor *cb, double *min, double *max )
    scale_factor = pow(10.0,(double)cb->encoding.scale);
    imax = (1ULL << cb->encoding.nbits) - 1;
 
-   if (cb->descriptor == 31000)
+   bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+   if (x == 31)
       *max = ( imax + cb->encoding.reference ) / scale_factor;
    else
       *max = ( imax - 1 + cb->encoding.reference ) / scale_factor;

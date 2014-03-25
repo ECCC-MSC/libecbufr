@@ -1956,13 +1956,15 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             {
             if (ival == ival2)
                {
-/*
- * FAILSAFE: INT type may have reference
+               int f, x, y;
+               bufr_descriptor_to_fxy ( bd->descriptor, &f, &x, &y );
+/* 
+ * regulation 94.1.5 does not apply to class 31 
  */
-               if ((bd->descriptor == 31000)&&(bd->encoding.nbits == 1))
-                  val = 1;
-               else
+               if (x != 31) 
                   val = -1;
+               else
+                  val = ival;
                }
             else
                {
@@ -3226,6 +3228,8 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
    char          *tok;
    int            icode;
    int64_t        ival64;
+   int            ival;
+   unsigned int   uival;
    float          fval;
    double         dval;
    char          *kptr = NULL, *ptr;
@@ -3548,13 +3552,16 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
                      switch (tok[0])
                         {
                         case 'i' :
-                           sscanf( tok+1, "%d", &ival64 );
+                           sscanf( tok+1, "%d", &ival );
+                           ival64 = ival;
                         break;
                         case 'o' :
-                           sscanf( tok+1, "%o", &ival64 );
+                           sscanf( tok+1, "%o", &uival );
+                           ival64 = uival;
                         break;
                         case 'x' :
-                           sscanf( tok+1, "%x", &ival64 );
+                           sscanf( tok+1, "%x", &uival );
+                           ival64 = uival;
                         break;
                         case 'b' :
                            ival64 = bufr_binary_to_int( tok );
