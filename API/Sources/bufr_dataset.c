@@ -389,8 +389,8 @@ int bufr_expand_qualifiers( DataSubset* dss )
  *
  * In addition, this calculates the qualifier list in the RTMD.
  *
- * @param dts pointer to a BUFR_Dataset
- * @param i   the position of datasubset to expand
+ * @param dts      :  pointer to a BUFR_Dataset
+ * @param dss_ops  :  the position of datasubset to expand
  *
  * @warning Once a delayed replication has been expanded, it can no longer
  * be reset.
@@ -2289,8 +2289,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          bufr_print_debug( _("### Message is not compressed\n") );
 /*
  * loop as many times as specified to fill in all the datasubsets
-
-*/
+ */
       for (j = 0; j < nbsubset ; j++ )
          {
          subset = bufr_allocate_datasubset();
@@ -3062,6 +3061,9 @@ int  bufr_dataset_compressible( BUFR_Dataset *dts )
  * @param   dest  destination Dataset
  * @param   dest_pos starting subset location where Datasubset from source will be copied
  *                if (dest_pos > number of subset in dest) then extra blank subset will be added
+ * @param   src  source Dataset
+ * @param   src_pos  starting subset location of Datasubset from source
+ * @param   nb  number of subset to copy
  * @return int, It returns -1 if there is a template mismatch or return the
  * number of data subsets that have been copied if successful.
  * @endenglish
@@ -3926,7 +3928,7 @@ int bufr_dump_dataset( BUFR_Dataset *dts, const char *filename )
  * bufr_save_tenplatein order to do testing.
  * @warning Not thread-safe
  * @param   dts      source Dataset
- * @param   filename file where data will be stored
+ * @param   fp       file pointer where data will be stored
  * @return int
  * @endenglish
  * @francais
@@ -4025,7 +4027,9 @@ int bufr_fdump_dataset( BUFR_Dataset *dts, FILE *fp )
  * @english
  * instantiate a BUFR_Dataset object
  *           from a BUFR_Sequence
- * @param    tmplt  :  pointer to a BUFR_Template
+ * @param    cl      :  liste of descriptors forming a sequence
+ * @param    tbls    :  BUFR Tables in use
+ * @param    edition :  BUFR edition to use
  * @endenglish
  * @francais
  * @todo translate to French
@@ -4101,6 +4105,7 @@ BUFR_Dataset *bufr_create_dataset_from_sequence
  * @param   tmplt    template on which datafile messages are based on
  * @param   infile   filename containing data (1 or many bufr messages) to load
  * @param   outfile  output filename of the BUFR messages
+ * @param   do_compress  if output message need to be compressed
  * @return int, Upon failure an integer return code will be set less than
  * or equal to zero (zero is where there’s no error but nothing’s
  * loaded).

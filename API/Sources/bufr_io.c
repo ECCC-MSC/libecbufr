@@ -399,7 +399,7 @@ int bufr_callback_write_message(bufr_write_callback writecb,
 
    bufr_wr_section0( writecb, client_data, bufr );
    bufr_wr_section1( writecb, client_data, bufr );
-   if (bufr->s1.flag  & 1)
+   if (bufr->s1.flag  & BUFR_FLAG_HAS_SECT2)
       bufr_wr_section2( writecb, client_data, bufr );
    bufr_wr_section3( writecb, client_data, bufr );
    bufr_wr_section4( writecb, client_data, bufr );
@@ -504,9 +504,28 @@ int bufr_getstring( BUFR_Message *bufr, char *str, int len)
  * @todo translate
  * @endenglish
  * @francais
+ * return end of data state
+ * @param     bufr : pointer to BUFR data structure
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+int bufr_end_of_data( BUFR_Message *bufr )
+   {
+	if( bufr->s4.current >= (bufr->s4.data + bufr->s4.max_data_len) )
+		{
+      return 1;
+		}
+   return 0;
+   }
+
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
  * ajouter des bits comme donnees
  * @param     bufr : la structure de donnees BUFR
- * @param     val  : la valeur contenue dans un entier
  * @param     nbbits : nombre de bits (max: 32)
  * @param     errcode : return error code, less than 0 if error
  * @endfrancais
@@ -690,7 +709,7 @@ void bufr_put_padstring( BUFR_Message *bufr, const char *str, int len, int encle
  * @francais
  * ajouter des bits comme donnees
  * @param    bufr : la structure de donnees BUFR
- * @param    val  : la valeur contenue dans un entier
+ * @param    v1  : la valeur contenue dans un entier
  * @param    nbbits : nombre de bits (max: 32)
  * @endfrancais
  * @author Vanh Souvanlasy
@@ -765,7 +784,7 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
    if (bufr_is_debug())
       {
       bufr_vprint_debug( _("bitno=%d  start=%x current=%p len=%d, at=%p, filled=%d max=%d\n"), 
-            bitno,  (unsigned)bufr->s4.data, ptrData, bufr->s4.len,
+            bitno,  (unsigned long)bufr->s4.data, ptrData, bufr->s4.len,
 				ptrData-bufr->s4.data, bufr->s4.filled, bufr->s4.max_data_len );
       }
 
@@ -786,7 +805,7 @@ void bufr_putbits ( BUFR_Message *bufr, uint64_t v1, int nbbits)
  * @francais
  * ajouter des bits comme donnees
  * @param    bufr : la structure de donnees BUFR
- * @param    val  : la valeur contenue dans un entier
+ * @param    str  : la valeur contenue dans une chaine de caract.
  * @param    nbbits : nombre de bits (max: 32)
  * @endfrancais
  * @author Vanh Souvanlasy
@@ -964,7 +983,7 @@ void bufr_print_output(const char *msg)
  * @francais
  * ecrire un message d'erreur
  * @todo translate to French
- * @param msg message a afficher
+ * @param file output filename for saving output
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup io debug
@@ -1142,7 +1161,7 @@ void bufr_set_debug_handler( void (*udebug)(const char *msg) )
  * @francais
  * ecrire un message d'erreur
  * @todo translate to French
- * @param msg message a afficher
+ * @param filename output file for debug messages
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup io debug
@@ -1597,8 +1616,7 @@ static ssize_t bufr_read_fn( void *client_data, size_t ilen, char *buffer)
  *    rtrn = bufr_read_message( fpBufr, &msg )
  *    (FILE *fpBufr, BUFR_Message **rtrn)
  * This is a low-level I/O call to read all sections of the BUFR message
- * from 0 to 5. It reads the entire message into the address of the pointer
- * passed from the second argument (â~@~\msgâ~@~]).
+ * from 0 to 5. 
  * @warning When the message is no longer needed, the storage should be
  * freed by calling bufr_free_message.
  * @return int, It returns a flag code for errors that would be greater
@@ -1609,6 +1627,7 @@ static ssize_t bufr_read_fn( void *client_data, size_t ilen, char *buffer)
  * @francais
  * @todo translate to French
  * @param fp   pointeur au fichier de sortie
+ * @param rtrn pointeur au message lu 
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup io decode message
@@ -1850,7 +1869,7 @@ static int bufr_rd_section2(bufr_read_callback readcb, void *cd,
    if (readcb == NULL) return errno=EINVAL, -1;
    if (bufr == NULL) return errno=EINVAL, -1;
 
-   if ((bufr->s1.flag & 1)==0) return 0;
+   if ((bufr->s1.flag & BUFR_FLAG_HAS_SECT2)==0) return 0;
 
    bufr->s2.len = bufr_read_int3b( readcb, cd );
 
@@ -1925,8 +1944,18 @@ static int bufr_rd_section3(bufr_read_callback readcb, void *cd,
    len2 = len = bufr->s3.len - bufr->s3.header_len;
    if (bufr->edition == 3) 
       {
+/*
+      if ((bufr->s3.len - bufr->s3.header_len)<2)
+         {
+         bufr->s3.len = bufr->s3.len * 2 + bufr->s3.header_len;
+         if (bufr->s3.len % 2)
+            bufr->s3.len += 1;
+         }
+      len2 = len = bufr->s3.len - bufr->s3.header_len;
+*/
       len2 = (bufr->s3.len % 2) ? len + 1 : len;
       }
+
    bufr->s3.data = (char *)malloc( sizeof(char) * len2 );
 	if( bufr->s3.data == NULL ) return -1;
    bufr->s3.max_len = len2;
@@ -2154,6 +2183,7 @@ static ssize_t bufr_memwrite_fn( void* cd, size_t len, const char* buf )
  *
  * @param mem buffer to read from
  * @param mem_len maximum number of bytes in the buffer
+ * @param rtrn  BUFR_Message read return pointer
  * @return number of bytes read (including initial skipped bytes) on
  *      success, <=0 on failure.
  * @endenglish
@@ -2199,6 +2229,7 @@ ssize_t bufr_memread_message( const char *mem, size_t mem_len,
  *
  * @param mem buffer to write into
  * @param mem_len maximum number of bytes to write
+ * @param bufr pointer of BUFR_Message to be written
  * @return number of bytes written, or zero/negative on failure
  * @endenglish
  * @francais
@@ -2217,10 +2248,6 @@ ssize_t bufr_memwrite_message(char *mem, size_t mem_len, BUFR_Message *bufr)
 	rc = bufr_callback_write_message( bufr_memwrite_fn, (void*) &cd, bufr );
 	if( rc < 0 ) return rc;
 	return cd.pos;
-   }
-
-void bufr_write_header_of_message( BUFR_Message *msg )
-   {
    }
 
 /**

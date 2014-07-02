@@ -51,6 +51,12 @@ extern "C" {
 #define  BUFR_FLAG_COMPRESSED   (1<<6)
 #define  BUFR_FLAG_INVALID      (1<<5)
 
+/*
+ * according to litterature, section2 flag should be 128, 
+ * but for legacy and confusion on bit1, we look for 1 also
+ */
+#define  BUFR_FLAG_HAS_SECT2    (128+1)
+
 #define  BUFR_SET_COMPRESSED(b)      ((b)->s3.flag |= BUFR_FLAG_COMPRESSED)
 #define  BUFR_SET_OBSERVED(b)        ((b)->s3.flag |= BUFR_FLAG_OBSERVED)
 #define  BUFR_SET_OTHER_DATA(b)      ((b)->s3.flag &= ~(BUFR_FLAG_OBSERVED))

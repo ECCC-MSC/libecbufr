@@ -226,7 +226,7 @@ void  bufr_print_message( BUFR_Message *bufr, void (*print_proc)(const char *) )
    print_proc( str );
    sprintf( str, _("###         optional section  :") );
    print_proc( str );
-   if (bufr->s1.flag & 1 )
+   if (bufr->s1.flag & BUFR_FLAG_HAS_SECT2)
       print_proc( _(" Yes\n") );
    else
       print_proc( _(" No\n") );
@@ -299,7 +299,7 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
 
 */
    len2 = (r->edition <= 3)&&(len % 2) ? len + 1 : len;
-   r->s2.data = (char *)malloc( len2 * sizeof(char) );
+   r->s2.data = (unsigned char *)malloc( len2 * sizeof(char) );
    memcpy( r->s2.data, data, len );
    /*
     * even octets padding
@@ -312,7 +312,7 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
    r->s2.data_len = len2;
    r->s2.len = r->s2.header_len + len2;
 
-   r->s1.flag  |= 1;  /* has optional section */
+   r->s1.flag  |= 128;  /* has optional section */
 
 	/* HACK: if section 2 changes, it's necessary to recalculate
 	 * the overall message length.
@@ -326,7 +326,8 @@ void  bufr_sect2_set_data( BUFR_Message *r, const char *data, int len )
  * @endenglish
  * @francais
  * initialiser infos de BUFR_Message
- * @param     r : la structure a initialiser
+ * @param     bufr    : la structure BUFR a initialiser
+ * @param     edition : edition BUFR a utiliser
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup internal
@@ -471,9 +472,9 @@ static void bufr_alloc_sect3(BUFR_Message *bufr)
    if (bufr->s3.max_len < len) 
       {
       if (bufr->s3.data == NULL)
-         bufr->s3.data = (char *)malloc(len * sizeof(char));
+         bufr->s3.data = (unsigned char *)malloc(len * sizeof(char));
       else
-         bufr->s3.data = (char *)realloc(bufr->s3.data, len * sizeof(char));
+         bufr->s3.data = (unsigned char *)realloc(bufr->s3.data, len * sizeof(char));
       bufr->s3.data[len - 1] = 0;
       bufr->s3.max_len = len;
       }
@@ -516,7 +517,6 @@ void bufr_begin_message(BUFR_Message *bufr)
  * @francais
  * @brief termine l'encodage de message BUFR et l'ecrire au fichier
  * @todo translate to French
- * @param fp pointeur au fichier de sortie
  * @param bufr la structure de donnees BUFR
  * @endfrancais
  * @ingroup internal encode
@@ -525,7 +525,7 @@ void bufr_end_message(BUFR_Message *bufr)
    {
    int rem;
 
-   if (bufr->s1.flag  & 1)
+   if (bufr->s1.flag  & BUFR_FLAG_HAS_SECT2)
       {
       bufr->s2.len = bufr->s2.header_len + bufr->s2.data_len;
       }
