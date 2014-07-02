@@ -19,6 +19,7 @@ This file is part of libECBUFR.
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <linux/limits.h>
 #include "check.h"
 #include "bufr_io.c"
 #include "check_libecbufr.h"
