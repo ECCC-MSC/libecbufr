@@ -23,6 +23,7 @@ This file is part of libECBUFR.
 #include <sys/stat.h>
 #include "bufr_tables.h"
 #include "bufr_linklist.h"
+#include "bufr_i18n.h"
 
 /**
  * @english
@@ -70,6 +71,14 @@ int bufr_load_cmc_tables( BUFR_Tables *tables )
       env = getenv( "BUFR_TABLES" );
       if (env) 
          sprintf( path, "%s", env );
+      else
+         {
+         char errmsg[256];
+
+         sprintf( errmsg, _("Warning: env.var. BUFR_TABLES not defined\n") );
+         bufr_print_output( errmsg );
+         bufr_print_debug( errmsg );
+         }
       }
 
    if (env == NULL) return -1;
