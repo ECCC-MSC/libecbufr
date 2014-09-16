@@ -18,7 +18,11 @@ pcdir=@prefix@/lib/pkgconfig
 pc_DATA = libecbufr.pc
 
 ChangeLog.bzr:
-	/usr/bin/bzr log --long > $@
+	if test -x /usr/bin/bzr; then \
+		/usr/bin/bzr log --long > $@ ; \
+	else \
+		echo "/usr/bin/bzr not installed" > $@ ; \
+	fi
 
 libecbufr.pc: Makefile
 	echo 'prefix=@prefix@' > $@
