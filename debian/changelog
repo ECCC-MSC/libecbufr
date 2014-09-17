@@ -1,3 +1,9 @@
+libecbufr (0.8.7) unstable; urgency=low
+
+  * new development release version
+
+ -- Christophe Beauregard <chris.beauregard@ec.gc.ca>  Wed, 17 Sep 2014 08:48:00 -0500
+
 libecbufr (0.8.6) unstable; urgency=low
 
   * update release number
