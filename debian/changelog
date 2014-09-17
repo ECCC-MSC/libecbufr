@@ -1,3 +1,8 @@
+libecbufr (0.8.6) unstable; urgency=low
+
+  * update release number
+  * Fixed bugs: 
+
 libecbufr (0.8.5) unstable; urgency=low
 
   * update release number
