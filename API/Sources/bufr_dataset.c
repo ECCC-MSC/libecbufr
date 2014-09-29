@@ -2179,6 +2179,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    int             errcode, skip;
    LinkedList     *tmplist;
 
+   if (bufr_table_is_empty( tables ))
+      {
+      bufr_print_debug( _("Error: BUFR Tables contains no entry, cannot decode message\n") );
+      return NULL;
+      }
+
    if (debug)
       bufr_print_debug( _("### Converting BUFR Message into Dataset\n") );
 
@@ -2806,6 +2812,7 @@ static int bufr_get_numeric_compressed
 /* let it continue, this allow to see the message partially  */
 /*    nbinc = 0; */
       bufr_print_debug( errmsg );
+      errcode = -2;
       }
 /*
  * all value are missing
