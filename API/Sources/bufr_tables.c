@@ -126,7 +126,7 @@ BUFR_Tables *bufr_create_tables(void)
  * @francais
  * @brief destructeur de la structure BUFR_Tables
  * @todo translate to French
- * @param r a structure a detruire
+ * @param  tbls: BUFR Tables to be freed
  * @endfrancais
  * @ingroup tables
  */
@@ -676,6 +676,7 @@ static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
  * find and return a table B entry
  * @note Checks both the master and local tables no irrespective of whether
  * it's a master or local descriptor.
+ * @param  tbls: target BUFR Tables for the search
  * @param  desc: descriptor to be found
  * @endenglish
  * @francais
@@ -728,6 +729,7 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
  * find and return a Table D entry
  * @note Checks both the master and local tables no irrespective of whether
  * it's a master or local descriptor.
+ * @param  tbls: target BUFR Tables for the search
  * @param  desc : descriptor to be found
  * @endenglish
  * @francais
@@ -771,7 +773,7 @@ EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int desc)
 /**
  * @english
  * @brief map a sequence of descriptors to a table D entry
- * @param tables tables to search
+ * @param tbls tables to search
  * @param ndesc number of descriptors in sequence to match
  * @param desc array of sequences to match
  * @return matching EntryTableD, or NULL on failure
@@ -1067,7 +1069,7 @@ static int compare_tableb(const void *p1, const void *p2)
  * @endenglish
  * @francais
  * chercher et retourner une entree de la table B d'une description
- * @param       addr_tabled  : une table B
+ * @param       addr : une table B
  * @param       desc : Description a chercher
  * @endfrancais
  * @author Jean-Philippe Gauthier
@@ -1463,7 +1465,9 @@ static int compare_tabled(const void *p1, const void *p2)
  * @endenglish
  * @francais
  * creer une nouvelle entree de table D
- * @param     codes : les codes a placer dans l'entree
+ * @param     descriptor : le code a placer dans la Table D
+ * @param     dsc : la description de l'element
+ * @param     descriptors : les codes a placer dans l'entree
  * @param     count : compte des codes
  * @endfrancais
  * @author Vanh Souvanlasy
@@ -1664,7 +1668,7 @@ int bufr_value_nbits(int64_t val)
  * @endenglish
  * @francais
  * identifie le bit le plus a gauche dans un mot
- * @param       ival : la valeur
+ * @param       val : la valeur
  * @endfrancais
  * @author Vanh Souvanlasy
  * @ingroup internal
@@ -1688,7 +1692,8 @@ int bufr_leftest_bit(uint64_t val)
  * @francais
  * convertir une valeur reel en entier avec l'entree
  *           de la table B
- * @param       e      : une entree de la table B
+ * @param       code   : descripteur de la Table B
+ * @param       be     : encodage de la table B
  * @param       fval   : la valeur a convertir
  * @endfrancais
  * @author Vanh Souvanlasy
@@ -1821,7 +1826,7 @@ uint32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
  * @francais
  * convertir un entier en valeur reel avec l'entree
  *           de la table B
- * @param       e      : une entree de la table B
+ * @param       be      : une entree de la table B
  * @param       ival   : la valeur a convertir
  * @endfrancais
  * @author Vanh Souvanlasy
@@ -1858,7 +1863,7 @@ double bufr_cvt_i64_to_dval(BufrValueEncoding *be, int64_t ival)
  * @francais
  * convertir un entier en valeur reel avec l'entree
  *           de la table B
- * @param       e      : une entree de la table B
+ * @param       be      : une entree de la table B
  * @param       ival   : la valeur a convertir
  * @endfrancais
  * @author Vanh Souvanlasy
@@ -1896,7 +1901,8 @@ float bufr_cvt_i32_to_fval(BufrValueEncoding *be, uint32_t ival)
  * @francais
  * convertir une valeur reel en entier avec l'entree
  *           de la table B
- * @param       e      : une entree de la table B
+ * @param       code   : descripteur de la table B
+ * @param       be     : encodage de la table B
  * @param       fval   : la valeur a convertir
  * @endfrancais
  * @author Vanh Souvanlasy
@@ -2352,3 +2358,32 @@ static void test_print_tableD( char *tabled )
       }
    }
 #endif
+
+/**
+ * @english
+ *    bufr_table_is_empty( tbls )
+ *    (BUFR_Tables *tbls)
+ * verify if the BUFR Tables is not empty
+ * @return bool
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @ingroup tables
+ */
+int bufr_table_is_empty( BUFR_Tables *tbls )
+   {
+   int has_tblB = 0;
+
+   if (tbls->master.tableB)
+      has_tblB = arr_count( tbls->master.tableB );
+   if (has_tblB <= 0)
+      {
+      if (tbls->local.tableB)
+         has_tblB = arr_count( tbls->local.tableB );
+      }
+   if (has_tblB > 0) 
+      return 0;
+   else 
+      return 1;
+   }
