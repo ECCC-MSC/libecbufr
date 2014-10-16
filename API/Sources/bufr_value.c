@@ -885,7 +885,7 @@ double bufr_value_get_double( const BufrValue *bv )
          int32_t  ival;
 
          ival = bufr_value_get_int32( bv );
-         if (ival == -1) return bufr_get_max_float();
+         if (ival == -1) return bufr_get_max_double();
          return (double)ival;
          }
       case VALTYPE_INT64 :
@@ -893,7 +893,7 @@ double bufr_value_get_double( const BufrValue *bv )
          int64_t  ival;
 
          ival = bufr_value_get_int64( bv );
-         if (ival == -1) return bufr_get_max_float();
+         if (ival == -1) return bufr_get_max_double();
          return (double)ival;
          }
       default :
