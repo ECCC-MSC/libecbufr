@@ -601,7 +601,9 @@ BufrDescriptor *bufr_datasubset_get_descriptor( DataSubset *dts, int pos )
 
 /**
  * @english
- * @return a pointer to a next unskipped BufrDescriptor located at the given position
+ * @return a pointer to a next unskipped BufrDescriptor
+ * located at/after the given position. Note that this will also skip
+ * over anything except Table B descriptors.
  * @param   dts :  pointer to a DataSubset
  * @param   pos :  position from 0 to n-1
  * @endenglish
