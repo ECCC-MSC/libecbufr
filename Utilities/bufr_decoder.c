@@ -80,6 +80,8 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables * );
 
 static void run_decoder(void);
 
+void bufr_summarize_repl( BUFR_Dataset *dts );
+
 /*
  * nom: abort_usage
  *
@@ -96,10 +98,10 @@ static void abort_usage(char *pgrmname)
    fprintf( stderr, _("Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009\n") );
    fprintf( stderr, _("Licence LGPLv3\n\n") );
    fprintf( stderr, _("Usage: %s\n"), pgrmname );
-   fprintf( stderr, _("          [-inbufr     <filename>]    BUFR file to decode\n") );
+   fprintf( stderr, _("          [-inbufr     <filename>]    BUFR file to decode (default=stdin)\n") );
    fprintf( stderr, _("          [-ltableb    <filename>]    local table B to use for decoding\n") );
    fprintf( stderr, _("          [-ltabled    <filename>]    local table D to use for decoding\n") );
-   fprintf( stderr, _("          [-output     <filename>]    output file\n") );
+   fprintf( stderr, _("          [-output     <filename>]    output file (default=stdout)\n") );
    fprintf( stderr, _("          [-otemplate  <filename>]    output template into file\n") );
    fprintf( stderr, _("          [-debug]                    debug mode (put the messages into file) \n") );
    fprintf( stderr, _("          [-nometa]                   dont show meta info\n") );
@@ -249,13 +251,6 @@ static void run_decoder(void)
    FILE          *fp = NULL;
    int            tablenos[2];
 
-   if (str_ibufr == NULL)
-      {
-      fprintf( stderr, _("Warning: No input file\n") );
-      abort_usage( "bufr_decoder" );
-      exit(EXIT_ERROR);
-      }
-
    if (bufr_is_verbose())
       {
       char errmsg[256];
@@ -275,7 +270,8 @@ static void run_decoder(void)
  * load all tables into list
  */
    tablenos[0] = 13;
-   tables_list = bufr_load_tables_list( getenv("BUFR_TABLES"), tablenos, 1 );
+   tablenos[1] = 14;
+   tables_list = bufr_load_tables_list( getenv("BUFR_TABLES"), tablenos, 2 );
 /* 
  * add version 14 to list 
  */
@@ -287,7 +283,11 @@ static void run_decoder(void)
 /*
  * open a file for reading
  */
-   fpBufr = fopen( str_ibufr, "rb" );
+  
+   if (str_ibufr == NULL)
+      fpBufr = stdin;
+   else
+      fpBufr = fopen( str_ibufr, "rb" );
    if (fpBufr == NULL)
       {
       bufr_free_tables( file_tables );
@@ -354,7 +354,9 @@ static void run_decoder(void)
          bufr_print_debug( buf );
          continue;
          }
-
+/*
+      bufr_summarize_repl( dts );
+*/
       if (dts->data_flag & BUFR_FLAG_INVALID)
          {
          strcpy( buf, _("# *** Warning: invalid message coding ***\n") );
@@ -403,8 +405,12 @@ static void run_decoder(void)
 /*
  * close all file and cleanup
  */
-   fclose( fpBufr );
-   if (fp) fclose( fp );
+   if (str_ibufr != NULL)
+      fclose( fpBufr );
+
+   
+   if (str_output) 
+      fclose( fp );
    bufr_free_tables_list( tables_list );
    }
 
@@ -580,6 +586,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
    char            fmt[64];
    BufrDescriptor *bcv;
    int             maxlen, len;
+   int             ivalue;
 
    sscount = bufr_count_datasubset( dts );
    for (i = 0; i < sscount ; i++)
@@ -626,6 +633,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
             sprintf( buf, "# %.6d ", bcv->descriptor );
             sprintf( buf2, "%-18s", buf );
             bufr_print_output( buf2 );
+
             if ( bcv->meta && show_meta )
                {
                if (show_locdesc)
@@ -640,6 +648,15 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                sprintf( buf2, fmt, buf );
                bufr_print_output( buf2 );
                }
+
+            if (bcv->value)
+               ivalue = bufr_descriptor_get_ivalue( bcv );
+            else 
+               ivalue = 0;
+/*
+            sprintf( buf2, "  repl=%d", ivalue );
+            bufr_print_output( buf2 );
+*/
             }
          else
             {
@@ -801,3 +818,32 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
       }
    }
 
+void bufr_summarize_repl( BUFR_Dataset *dts )
+   {
+   DataSubset    *subset;
+   int            sscount, cvcount;
+   int            i, j;
+   BufrDescriptor *bcv;
+   char           buf[256];
+   int            value;
+
+   sscount = bufr_count_datasubset( dts );
+   for (i = 0; i < sscount ; i++)
+      {
+      subset = bufr_get_datasubset( dts, i );
+      cvcount = bufr_datasubset_count_descriptor( subset );
+      for (j = 0; j < cvcount ; j++)
+         {
+         bcv = bufr_datasubset_get_descriptor( subset, j );
+         if (bcv->flags & FLAG_SKIPPED)
+            {
+            if (bcv->value)
+               value = bufr_descriptor_get_ivalue( bcv );
+            else 
+               value = 0;
+            sprintf( buf, "# %.6d  cnt=%d\n", bcv->descriptor, value );
+            bufr_print_output( buf );
+            }
+         }
+      }
+   }
