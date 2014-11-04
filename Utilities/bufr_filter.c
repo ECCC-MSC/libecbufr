@@ -29,7 +29,7 @@ static  char *str_obufr   = NULL;
 static  BufrDescValue srchkey[100];
 static  int           nb_key=0;
 static  int           use_compress=0;
-
+static  BufrSection1  section1;
 
 static int  read_cmdline( int argc, const char *argv[] );
 static void abort_usage(const char *pgrmname);
@@ -56,6 +56,10 @@ static void abort_usage(const char *pgrmname)
    fprintf( stderr, _("Usage: %s\n"), pgrmname );
    fprintf( stderr, _("          [-inbufr     <filename>]    input BUFR file to decode\n") );
    fprintf( stderr, _("          [-outbufr    <filename>]    outut BUFR file to encode\n") );
+   fprintf( stderr, _("          [-category value] set header only section1 category as filter\n") );
+   fprintf( stderr, _("          [-orig_centre value]              set origin center as filter\n") );
+   fprintf( stderr, _("          [-master_table_version value]     set master_table_version as filter\n") );
+   fprintf( stderr, _("          \n") );
    fprintf( stderr, _("          [-ltableb    <filename>]    local table B to use for decoding\n") );
    fprintf( stderr, _("          [-ltabled    <filename>]    local table D to use for decoding\n") );
    fprintf( stderr, _("          [-compress] compress datasubsets if possible\n") );
@@ -103,6 +107,21 @@ static int read_cmdline( int argc, const char *argv[] )
        {
        use_compress = 1;
        }
+     else if (strcmp(argv[i],"-category")==0)
+       {
+        ++i; if (i >= argc) abort_usage(argv[0]);
+       section1.msg_type = atoi(argv[i]);
+       }
+     else if (strcmp(argv[i],"-orig_centre")==0)
+       {
+        ++i; if (i >= argc) abort_usage(argv[0]);
+       section1.orig_centre = atoi(argv[i]);
+       }
+     else if (strcmp(argv[i],"-master_table_version")==0)
+       {
+        ++i; if (i >= argc) abort_usage(argv[0]);
+       section1.master_table_version = atoi(argv[i]);
+       }
      else if (strcmp(argv[i],"-srchkey")==0)
        {
        int desc;
@@ -142,9 +161,41 @@ static void cleanup(void)
       bufr_vfree_DescValue( &(srchkey[i]) );
    }
 
+/*
+ * nom: init_sect1_keys
+ *
+ * auteur:  Vanh Souvanlasy
+ *
+ * fonction: initialize section 1 keys as unused 
+ *
+ * parametres:  
+ */
+static void  init_sect1_keys( BufrSection1 *s1 )
+   {
+   s1->bufr_master_table    = -1;
+   s1->orig_centre          = -1;
+   s1->orig_sub_centre      = -1;
+   s1->upd_seq_no           = -1;
+   s1->msg_type             = -1;
+   s1->msg_inter_subtype    = -1;
+   s1->msg_local_subtype    = -1;
+   s1->master_table_version = -1;
+   s1->local_table_version  = -1;
+   s1->year                 = -1;
+   s1->month                = -1;
+   s1->day                  = -1;
+   s1->hour                 = -1;
+   s1->minute               = -1;
+   s1->second               = -1;
+   }
 
 int main(int argc, const char *argv[])
    {
+/*
+ * use section 1 as keys for filtering from header only
+ */
+   init_sect1_keys( &section1 );
+
    read_cmdline( argc, argv );
 
    //Setup for internationalization
@@ -215,7 +266,7 @@ static int filter_file (BufrDescValue *dvalues, int nbdv)
       exit(-1);
       }
 
-   resolve_search_values( srchkey, nb_key, file_tables );
+   resolve_search_values( dvalues, nbdv, file_tables );
 /*
  * read all messages from the input file
  */
@@ -226,53 +277,66 @@ static int filter_file (BufrDescValue *dvalues, int nbdv)
    while ( (rtrn = bufr_read_message( fp, &msg )) > 0 )
       {
       ++count;
+
+      if (nbdv <= 0)
+         {
+         if ((section1.msg_type < 0)   ||(section1.msg_type == msg->s1.msg_type) &&
+             (section1.master_table_version < 0)||(section1.master_table_version == msg->s1.master_table_version)&&
+             (section1.orig_centre < 0)||(section1.orig_centre == msg->s1.orig_centre))
+               bufr_write_message( fpO, msg ); 
+         }
+      else
+         {
 /*
  * fallback on default Tables first
  */
-      useTables = file_tables;
+         useTables = file_tables;
 /* 
  * try to find another if not compatible
  */
-      if (useTables->master.version != msg->s1.master_table_version)
-         useTables = bufr_use_tables_list( tables_list, msg->s1.master_table_version );
-
-      if (useTables != NULL)
-         dts = bufr_decode_message( msg, useTables );
-      else 
-         dts = NULL;
-
-      if (dts != NULL)
-         {
-         tmplt = bufr_get_dataset_template( dts );
-         dts2 = bufr_create_dataset( tmplt );
-/*
- * transfer section 1 and flag from origin message
- */
-         bufr_copy_sect1( &(dts2->s1), &(msg->s1) );
-         dts2->data_flag |= msg->s3.flag;
-         
-         sscount = bufr_count_datasubset( dts );
-         for (i = 0; i < sscount ; i++)
+         if (useTables->master.version != msg->s1.master_table_version)
+            useTables = bufr_use_tables_list( tables_list, msg->s1.master_table_version );
+   
+         if (useTables != NULL)
+            dts = bufr_decode_message( msg, useTables );
+         else 
+            dts = NULL;
+   
+         if (dts != NULL)
             {
-            subset = bufr_get_datasubset( dts, i );
-            if (match_search_pattern( subset, dvalues, nbdv ))
+            tmplt = bufr_get_dataset_template( dts );
+            dts2 = bufr_create_dataset( tmplt );
+   /*
+    * transfer section 1 and flag from origin message
+    */
+            bufr_copy_sect1( &(dts2->s1), &(msg->s1) );
+            dts2->data_flag |= msg->s3.flag;
+            
+            sscount = bufr_count_datasubset( dts );
+            for (i = 0; i < sscount ; i++)
                {
-               pos = bufr_create_datasubset( dts2 );
-               bufr_merge_dataset( dts2, pos, dts, i, 1 );
+               subset = bufr_get_datasubset( dts, i );
+               if (match_search_pattern( subset, dvalues, nbdv ))
+                  {
+                  pos = bufr_create_datasubset( dts2 );
+                  bufr_merge_dataset( dts2, pos, dts, i, 1 );
+                  }
                }
+   /*
+    * write the content of the Message into a file
+    */
+            if (bufr_count_datasubset( dts2 ) > 0)
+               {
+               BUFR_Message  *msg2 = bufr_encode_message ( dts2, use_compress );
+               bufr_sect2_set_data( msg2, msg->s2.data, msg->s2.data_len );
+               bufr_free_message( msg );
+               msg = msg2;
+               bufr_write_message( fpO, msg ); 
+               }
+   
+            bufr_free_dataset( dts );
+            bufr_free_dataset( dts2 );
             }
-/*
- * write the content of the Message into a file
- */
-         if (bufr_count_datasubset( dts2 ) > 0)
-            {
-            bufr_free_message( msg );
-            msg = bufr_encode_message ( dts2, use_compress );
-            bufr_write_message( fpO, msg ); 
-            }
-
-         bufr_free_dataset( dts );
-         bufr_free_dataset( dts2 );
          }
       
 /*
