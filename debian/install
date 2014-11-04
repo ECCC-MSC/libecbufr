@@ -1,2 +1,3 @@
 Utilities/bufr_decoder usr/bin
 Utilities/bufr_encoder usr/bin
+Utilities/bufr_filter usr/bin
