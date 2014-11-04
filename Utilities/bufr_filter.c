@@ -54,8 +54,8 @@ static void abort_usage(const char *pgrmname)
    fprintf( stderr, _("Copyright Her Majesty The Queen in Right of Canada, Environment Canada, 2009\n") );
    fprintf( stderr, _("Licence LGPLv3\n\n") );
    fprintf( stderr, _("Usage: %s\n"), pgrmname );
-   fprintf( stderr, _("          [-inbufr     <filename>]    input BUFR file to decode\n") );
-   fprintf( stderr, _("          [-outbufr    <filename>]    outut BUFR file to encode\n") );
+   fprintf( stderr, _("          [-inbufr     <filename>]    input BUFR file to decode (default=stdin)\n") );
+   fprintf( stderr, _("          [-outbufr    <filename>]    outut BUFR file to encode (default=stdout)\n") );
    fprintf( stderr, _("          [-category value] set header only section1 category as filter\n") );
    fprintf( stderr, _("          [-orig_centre value]              set origin center as filter\n") );
    fprintf( stderr, _("          [-master_table_version value]     set master_table_version as filter\n") );
@@ -133,8 +133,6 @@ static int read_cmdline( int argc, const char *argv[] )
        ++nb_key; 
        }
    }
-
-   if (str_obufr == NULL) str_obufr = strdup( "OUT.BUFR" );
 
    return 0;
 }
@@ -252,14 +250,20 @@ static int filter_file (BufrDescValue *dvalues, int nbdv)
 /*
  * open a file for reading
  */
-   fp = fopen( str_ibufr, "rb" );
+   if (str_ibufr == NULL)
+      fp = stdin;
+   else
+      fp = fopen( str_ibufr, "rb" );
    if (fp == NULL)
       {
       fprintf( stderr, "Error: can't open file \"%s\"\n", str_ibufr );
       exit(-1);
       }
 
-   fpO = fopen( str_obufr, "wb" );
+   if (str_obufr == NULL)
+      fpO = stdout;
+   else
+      fpO = fopen( str_obufr, "wb" );
    if (fpO == NULL)
       {
       fprintf( stderr, "Error: can't open file \"%s\"\n", str_obufr );
@@ -347,8 +351,11 @@ static int filter_file (BufrDescValue *dvalues, int nbdv)
 /*
  * close all file and cleanup
  */
-   fclose( fp );
-   fclose( fpO );
+   if (str_ibufr != NULL)
+      fclose( fp );
+
+   if (str_obufr != NULL)
+      fclose( fpO );
    }
 
 static int resolve_search_values( BufrDescValue *dvalues, int nb, BUFR_Tables *tbls )
