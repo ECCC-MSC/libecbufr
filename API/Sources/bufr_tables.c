@@ -1249,7 +1249,7 @@ static EntryTableDArray bufr_tabled_read (EntryTableDArray addr_tabled, const ch
 
    if (filename == NULL) return NULL;
 
-
+   description[0] = '\0';
    fp = fopen ( filename, "rb" ) ;
    if (fp == NULL)
 		{
