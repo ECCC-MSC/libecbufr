@@ -45,11 +45,11 @@ static int         bufr_is_dd_for_dpbm( BufrDescriptor *bcv );
 static void        bufr_change_af_sig( BufrDDOp *ddo , char *sig );
 static void        bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb );
 static void        bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR_Tables * );
-static LinkedList *bufr_expand_list( LinkedList *lst, int, BUFR_Tables *, int *errflg );
-static LinkedList *bufr_expand_desc( int desc, int, BUFR_Tables *, int *errflg );
+static LinkedList *bufr_expand_list( LinkedList *lst, int, BUFR_Tables *, int *errflg, BUFR_DecodeInfo *s4 );
+static LinkedList *bufr_expand_desc( int desc, int, BUFR_Tables *, int *errflg, BUFR_DecodeInfo *s4 );
 static void        bufr_free_descriptorNode(ListNode *node);
 static void        bufr_free_descriptorList(LinkedList *list);
-static LinkedList *bufr_repl_descriptors    ( ListNode *first, int nbdesc, int count, int, BUFR_Tables *, int *errflg);
+static LinkedList *bufr_repl_descriptors    ( ListNode *first, int nbdesc, int count, int, BUFR_Tables *, int *errflg, BUFR_DecodeInfo *s4 );
 static void        cumulate_code2CodeArray( BufrDescriptor *cb, void *client_data );
 static void        cumulate_code2CodeArrayValues( BufrDescriptor *cb, void *client_data );
 static int         decrease_repeat_counters( int, LinkedList *stack, int *skip1 );
@@ -60,6 +60,8 @@ static void        bufr_walk_sequence
                       ( BUFR_Sequence *bsq, void (*proc)(BufrDescriptor *, void * ), 
                         void *client_data  );
 static void        free_rep_cnt_stack ( LinkedList *stack );
+
+static int         bufr_simple_check_seq( BUFR_Sequence *bsq, ListNode *node, int depth );
 
 /**
  * @english
@@ -164,7 +166,7 @@ int bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
 
    if (bsq == NULL) return 0;
 
-   lst1 = bufr_expand_list( bsq->list, flags, tbls, &errflg );
+   lst1 = bufr_expand_list( bsq->list, flags, tbls, &errflg, NULL );
    if (lst1 == NULL)
       {
       bufr_free_descriptorList( bsq->list );
@@ -183,7 +185,7 @@ int bufr_expand_sequence( BUFR_Sequence *bsq, int flags, BUFR_Tables *tbls )
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-static LinkedList *bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls, int *errflg )
+static LinkedList *bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tbls, int *errflg, BUFR_DecodeInfo *s4 )
    {
    ListNode *node;
    int       skip;
@@ -192,7 +194,7 @@ static LinkedList *bufr_expand_list( LinkedList *lst, int flags, BUFR_Tables *tb
    node = lst_firstnode( lst );
    while ( node )
       {
-      lst1 = bufr_expand_node_descriptor( lst, node, flags, tbls, &skip, errflg );
+      lst1 = bufr_expand_node_descriptor( lst, node, flags, tbls, &skip, errflg, s4 );
       if (lst1 == NULL) return NULL;
       lst = lst1;
       if (skip > 0)
@@ -234,7 +236,7 @@ BUFR_Sequence *bufr_expand_descriptor( int desc, int flags, BUFR_Tables *tbls, i
    BUFR_Sequence  *bsq;
    LinkedList  *list;
 
-   list = bufr_expand_desc ( desc, flags, tbls, errflg );
+   list = bufr_expand_desc ( desc, flags, tbls, errflg, NULL );
    if (list == NULL) return NULL;
    bsq = bufr_create_sequence( list );
    return bsq;
@@ -249,7 +251,7 @@ BUFR_Sequence *bufr_expand_descriptor( int desc, int flags, BUFR_Tables *tbls, i
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int *errflg )
+static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int *errflg, BUFR_DecodeInfo *s4 )
    {
    EntryTableD   *etblD;
    LinkedList    *lst, *lst1;
@@ -302,7 +304,7 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int
       lst_addlast( lst, lst_newnode( bcd ) );
       }
 
-   lst1 = bufr_expand_list( lst, flags, tbls, errflg );
+   lst1 = bufr_expand_list( lst, flags, tbls, errflg, s4 );
    if (lst1 == NULL)
       bufr_free_descriptorList( lst );
    return lst1;
@@ -317,12 +319,16 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int
  * @author Vanh Souvanlasy
  * @ingroup internal
  */
-LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BUFR_Tables *tbls, int *skip, int *errflg )
+LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int flags, BUFR_Tables *tbls, int *skip, int *errflg, BUFR_DecodeInfo *s4 )
    {
    int         f, x, y;
    BufrDescriptor   *cb;
    LinkedList *sublist;
    int   err;
+   int depth, tmpflags;
+   BUFR_Sequence *bsq;
+   char errmsg[256];
+   int  edition;
 
    if (node == NULL) return list;
    cb = (BufrDescriptor *)node->data;
@@ -339,8 +345,15 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
       if (y > 0)
          {
          cb->flags |= FLAG_EXPANDED | FLAG_SKIPPED;
-         sublist = bufr_repl_descriptors( lst_nextnode( node ), x, y, flags, tbls, errflg );
+         sublist = bufr_repl_descriptors( lst_nextnode( node ), x, y, flags, tbls, errflg, s4 );
          *skip = -(x + 1);
+         if (sublist == NULL)
+            {
+            sprintf( errmsg, _("Error: invalid replication: code=%d\n"), cb->descriptor );
+            bufr_print_debug( errmsg );
+            if (errflg) *errflg = 1;
+            return NULL;
+            }
          }
       else
          {
@@ -378,7 +391,14 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
             cb31->flags |= FLAG_CLASS31;
             if ( (rep > 0) && (flags&OP_EXPAND_DELAY_REPL) ) /* delayed replication */
                { 
-               sublist = bufr_repl_descriptors( lst_nextnode( nnode ), x, rep, flags, tbls, errflg );
+               sublist = bufr_repl_descriptors( lst_nextnode( nnode ), x, rep, flags, tbls, errflg, s4 );
+               if (sublist == NULL)
+                  {
+                  sprintf( errmsg, _("Error: invalid delayed replication code=%d  count=%d\n"), cb->descriptor, rep );
+                  bufr_print_debug( errmsg );
+                  if (errflg) *errflg = 1;
+                  return NULL;
+                  }
                nnode = lst_rmnode( list, nnode );
                lst_addfirst( sublist, nnode );
                *skip = -(x + 1);
@@ -394,8 +414,6 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
             }
          else
             {
-            char errmsg[256];
-
             sprintf( errmsg, _("Error: delayed replication not followed by class 31 code=%d\n") , 
                      cb31->descriptor );
             bufr_print_debug( errmsg );
@@ -407,30 +425,44 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
       }
    else if (f == 3)
       {
-      int depth, tmpflags;
-      BUFR_Sequence *bsq;
 
       cb->flags |= FLAG_EXPANDED | FLAG_SKIPPED;
-      sublist = bufr_expand_desc( cb->descriptor, flags, tbls, errflg );
+      sublist = bufr_expand_desc( cb->descriptor, flags, tbls, errflg, s4 );
       if (sublist == NULL) 
          {
          if (errflg) *errflg = 1;
          return NULL;
          }
-      bsq = bufr_create_sequence( list );
+/*
+      cb->value = (BufrValue *)bufr_create_value( TYPE_NUMERIC );
+      bufr_value_set_int32( cb->value, lst_count( sublist ) );
+*/
       if ( cb->meta )
          depth = cb->meta->nb_nesting;
       else
          depth = 0;
-      err = bufr_check_sequence( bsq, 4, &tmpflags, tbls, depth );
+#if 0
+      bsq = bufr_create_sequence( list );
+      tmpflags = 0;
+      err = bufr_check_sequence( bsq, node, &tmpflags, tbls, depth );
+
       bsq->list = NULL;
       bufr_free_sequence( bsq );
-      *skip = -1;
+
       if (err < 0) 
          {
          if (errflg) *errflg = 1;
          return NULL;
          }
+#endif
+
+#if 1
+      bsq = bufr_create_sequence( sublist );
+      err = bufr_simple_check_seq( bsq, NULL, depth );
+      bsq->list = NULL;
+      bufr_free_sequence( bsq );
+#endif
+      *skip = -1;
       }
    else if (f == 0)
       {
@@ -503,7 +535,7 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
  * @ingroup internal
  */
 static LinkedList *bufr_repl_descriptors
-   ( ListNode *first, int nbdesc, int count, int flags, BUFR_Tables *tbls, int *errflg )
+   ( ListNode *first, int nbdesc, int count, int flags, BUFR_Tables *tbls, int *errflg, BUFR_DecodeInfo *s4 )
    {
    int  i, j;
    LinkedList   *lst, *lst1;
@@ -592,15 +624,40 @@ static LinkedList *bufr_repl_descriptors
          prev = node;
          node = lst_nextnode( node );
          }
+/* 
+ * Here, we are looking for some badly formed BUFR message that is short in size 
+ * but has a very high delayed replication count of a long Table D sequence
+ * we will try to halt some nasty replication before it is even started 
+ */
+/* check first occurence length, then extrapolate */
+      if (( j == 0 )&& s4)
+         {
+         BUFR_Sequence *bsq;
+         int len;
+
+         bsq = bufr_create_sequence( lst );
+         len = bufr_estimate_seq_length( bsq, tbls );
+         len = len * count / 8;
+         bsq->list = NULL;
+         bufr_free_sequence( bsq );
+         if (len > (s4->max_len*3))
+            {
+            char   errmsg[256];
+
+            bufr_free_descriptorList( lst );
+            sprintf( errmsg, _("Error: BUFR Message is too short: %d > maxlen=%d\n"), len, s4->max_len );
+            bufr_print_debug( errmsg );
+            return NULL;
+            }
+         }
       }
 /*
  * skipping of inner zero delay replication flag is disabled after first level
-
 */
    if (flags & OP_ZDRC_IGNORE)
       flags = flags & ~OP_ZDRC_IGNORE;
 
-   lst1 = bufr_expand_list( lst, flags, tbls, errflg );
+   lst1 = bufr_expand_list( lst, flags, tbls, errflg, s4 );
    if (lst1 == NULL)
       bufr_free_descriptorList( lst );
    return lst1;
@@ -685,9 +742,8 @@ static void bufr_walk_sequence
  * @ingroup internal
  */
 int bufr_check_sequence 
-   ( BUFR_Sequence *bsq, int version, int *flags, BUFR_Tables *tbls, int depth )
+   ( BUFR_Sequence *bsq, ListNode *node, int *flags, BUFR_Tables *tbls, int depth )
    {
-   ListNode *node;
    BufrDescriptor *cb;
    LinkedList  *stack, *codes;
    int count;
@@ -702,33 +758,16 @@ int bufr_check_sequence
    char  errmsg[256];
    int   debug=bufr_is_debug();
  
-#if 0
-   if (debug)
-      {
-      bufr_print_debug( _("### Checking template codes list\n") );
-      }
-#endif
-
-   if ((version < 2)||(version > 5))
-      {
-      char buffer[256];
-
-      sprintf( buffer, _("Error in bufr_check_sequence(): unsupported BUFR edition %d\n"), 
-            version );
-      bufr_print_debug( buffer );
-      return -1;
-      }
-
 /*
  * make sure replication F==1 descriptors count are properly set
  * i.e. inner repl desc count is contained within outer repl.
-
-*/
+ */
    codes = bsq->list;
    stack = lst_newlist();
    repl_active = 0;
    skip1 = 0;
-   node = lst_firstnode( codes );
+   if (node == NULL)
+      node = lst_firstnode( codes );
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
@@ -736,8 +775,7 @@ int bufr_check_sequence
 
 /*
  * make sure that Table D code are defined
-
-*/
+ */
       if (f == 3)
          {
          EntryTableD   *td;
@@ -1700,6 +1738,7 @@ static int bufr_solve_replication( int value, int y2, int descriptor )
 /**
  * @english
  * makes an data only index to access code 
+ * @param  ddo : pointer to data descriptors operators
  * @param  bsq : pointer to a BUFR_Sequence
  * @endenglish
  * @francais
@@ -1988,3 +2027,219 @@ ListNode *bufr_getnode_sequence ( BUFR_Sequence *cl, int pos )
    else
       return lst_nodepos( cl->list , pos );
    }
+
+/**
+ * @english
+ * do a coarse estimate of current length of sequence in bits
+ * @endenglish
+ * @francais
+ * estimation grossiere de la longueur de la sequence en bits
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup debug
+ */
+int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
+   {
+   ListNode *node;
+   int       nbytes, nbits;
+   BufrDescriptor *cb;
+   int       errflg;
+   BUFR_Sequence  *bsq;
+   int       last_desc=0, last_nbits=0;
+   int       f, x, y;
+   int       rep_desc=0, rep_cnt=0;
+
+   nbytes = 0;
+   nbits = 0;
+   node = lst_firstnode( seq->list );
+   while ( node )
+      {
+      cb = (BufrDescriptor *)node->data;
+      bufr_descriptor_to_fxy( cb->descriptor, &f, &x, &y );
+#if DEBUG
+      fprintf ( stderr, "Desc=%d   flag=%d rep_desc=%d rep_cnt=%d\n", 
+                  cb->descriptor , cb->flags, rep_desc, rep_cnt );
+#endif
+      if (cb->encoding.nbits > 0 )
+         {
+         nbits += cb->encoding.nbits;
+         }
+      else
+         {
+         if ((cb->flags & FLAG_SKIPPED)
+               ||(cb->flags & FLAG_EXPANDED)
+               ||(cb->flags & FLAG_IGNORED))
+            {
+#if DEBUG
+            fprintf ( stderr, "Skipping desc=%d\n", cb->descriptor );
+#endif
+            }
+         else if (last_desc == cb->descriptor )
+            {
+            nbits += last_nbits;
+            }
+         else
+            {
+            if ((f == 3) && ((rep_desc==0)||((rep_desc > 0)&&(rep_cnt > 0))))
+               {
+#if DEBUG
+               fprintf ( stderr, "Processing desc=%d\n", cb->descriptor );
+#endif
+               bsq = bufr_expand_descriptor( cb->descriptor, OP_RM_XPNDBL_DESC, tbls, &errflg );
+               if (bsq)
+                  {
+                  last_desc = cb->descriptor;
+                  last_nbits = bufr_estimate_seq_length( bsq, tbls );
+#if DEBUG
+                  fprintf ( stderr, "Processed desc=%d   flag=%d bits=%d\n", cb->descriptor , cb->flags, last_nbits );
+#endif
+                  nbits += last_nbits;
+                  }
+               }
+            }
+         }
+
+      if (rep_desc > 0) rep_desc -= 1;
+      if (f == 1)
+         {
+         rep_desc = x;
+         if (y == 0) rep_desc += 1;
+         }
+      else if ((f == 0)&&(x == 31))
+         {
+         rep_cnt = bufr_value_get_int32( cb->value );
+         }
+      node = node->next; /* lst_nextnode( node ); */
+      }
+
+   nbytes = nbits / 8 ;
+   if (nbits % 8) nbytes += 1;
+
+   return nbits;
+   }
+
+/**
+ * @english
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+static int bufr_simple_check_seq
+   ( BUFR_Sequence *bsq, ListNode *node, int depth )
+   {
+   BufrDescriptor *cb;
+   LinkedList  *stack, *codes;
+   int count;
+
+   int  repl_active;
+   int  f, x, y;
+   int  next_class_31=0;
+   int  next_31021=0;
+   int  next_local_desc=0;
+   int  skip1;
+   int  *repl;
+   char  errmsg[256];
+ 
+/*
+ * make sure replication F==1 descriptors count are properly set
+ * i.e. inner repl desc count is contained within outer repl.
+ */
+   codes = bsq->list;
+   stack = lst_newlist();
+   repl_active = 0;
+   skip1 = 0;
+   if (node == NULL)
+      node = lst_firstnode( codes );
+   while ( node )
+      {
+      cb = (BufrDescriptor *)node->data;
+      bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+
+      if (next_class_31)
+         {
+         if ( (f != 0)||(x != 31)||
+              ((y != 0)&&(y != 1)&&(y != 2)&&(y != 11)&&(y != 12)) )
+            {
+            next_class_31 = cb->descriptor;
+            node = NULL;
+            break;
+            }
+         else
+            {
+            next_class_31 = 0;
+            skip1 = 1;
+            }
+         }
+      else if (next_31021)
+         {
+         if (cb->descriptor == 31021)
+            {
+            next_31021 = 0;
+            }
+         else
+            {
+            next_31021 = cb->descriptor;
+            node = NULL;
+            break;
+            }
+         }
+      else if (next_local_desc)
+         {
+         if (bufr_is_local_descriptor( cb->descriptor ))
+            {
+            next_local_desc = 0;
+            }
+         else
+            {
+            next_local_desc = 0;
+            }
+         }
+
+      if (f == 2)
+         {
+         if ((x == 4)&&(y != 0)) 
+            {
+            next_31021 = cb->descriptor; /* make sure 204YYY is followed by 31021 */
+            }
+         if (x == 6) 
+            {
+            next_local_desc = cb->descriptor; /* make sure 206YYY is followed by a local descriptor */
+            }
+         }
+      else if (f == 1) 
+         {
+         if (y == 0)
+            {
+            next_class_31 = 1; /* make sure delayed replication is followed by class 31 element */
+            }
+
+         repl = (int *)malloc( sizeof(int) );
+         *repl = x;
+         lst_addfirst( stack, lst_newnode((void *)repl) );
+         skip1 = 1;
+         }
+/*
+ * determine nesting level of code in replication
+ */
+      count = lst_count( stack ) + depth;
+      if ((count > 0)&&(cb->meta == NULL))
+         cb->meta = bufr_create_rtmd( count );
+
+      repl_active = decrease_repeat_counters( cb->descriptor, stack, &skip1 );
+      if (repl_active < 0)
+         {
+         node = NULL;
+         break;
+         }
+
+      node = lst_nextnode( node );
+      }
+
+   free_rep_cnt_stack( stack );
+
+   return 1;
+   }
+

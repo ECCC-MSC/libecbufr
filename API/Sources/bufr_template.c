@@ -76,7 +76,7 @@ static void bufr_free_desc_array( char *list )
  *
  * @param descs  an array of descriptors of type BufrDescValue
  * @param nb     size of descs
- * @param tables pointer to BUFR_Tables that will be used
+ * @param tbls pointer to BUFR_Tables that will be used
  * @param edition  version number of BUFR used
  * @return BUFR_Template, Will return NULL if errors are found
  * @endenglish
@@ -386,10 +386,9 @@ int bufr_finalize_template( BUFR_Template *tmplt )
    
 /*
  * invalid templates are not allowed
-
-*/
+ */
    flags = 0;
-   if (bufr_check_sequence( gabarit, tmplt->edition, &flags, tmplt->tables, 0 ) <= 0 ) 
+   if (bufr_check_sequence( gabarit, NULL, &flags, tmplt->tables, 0 ) <= 0 ) 
       {
       bufr_print_debug( _("Error: template contains errors\n") );
       bufr_free_sequence( gabarit );

@@ -91,6 +91,11 @@ typedef struct desc_list
    ListNodeArray    index;  /* index of ListNode */
    } BUFR_Sequence;
 
+typedef struct dec_bufr_info
+   {
+   int  max_len;
+   int  len;
+   } BUFR_DecodeInfo;
 
 extern BUFR_Sequence      *bufr_create_sequence            ( LinkedList * );
 extern void                bufr_free_sequence              ( BUFR_Sequence * );
@@ -101,7 +106,7 @@ extern void                bufr_add_descriptor_to_sequence ( BUFR_Sequence *, Bu
 
 extern BUFR_Sequence      *bufr_copy_sequence              ( BUFR_Sequence * );
 
-extern LinkedList         *bufr_expand_node_descriptor     ( LinkedList *, ListNode *, int, BUFR_Tables *, int *, int * );
+extern LinkedList         *bufr_expand_node_descriptor     ( LinkedList *, ListNode *, int, BUFR_Tables *, int *, int *, BUFR_DecodeInfo *s4 );
 extern int                 bufr_expand_sequence            ( BUFR_Sequence *lst, int flag, BUFR_Tables * );
 extern BUFR_Sequence      *bufr_expand_descriptor          ( int desc, int flag, BUFR_Tables *, int *errflg );
 
@@ -110,9 +115,10 @@ extern int                 bufr_init_location              ( BufrDDOp *ddo, Bufr
 extern int                 bufr_apply_op_crefval           
                              ( BufrDDOp *ddo, BufrDescriptor *bdsc, BUFR_Template *tmplt );
 
-extern int                 bufr_check_sequence             ( BUFR_Sequence *descriptors, int version, int *flags, BUFR_Tables *, int );
+extern int                 bufr_check_sequence             ( BUFR_Sequence *descriptors, ListNode *, int *flags, BUFR_Tables *, int );
 extern BufrDescriptorArray bufr_sequence_to_array          ( BUFR_Sequence *descriptors, int dovalue );
 extern BufrDPBM           *bufr_index_dpbm                 ( BufrDDOp *ddo, BUFR_Sequence *bcl );
+extern int                 bufr_estimate_seq_length        ( BUFR_Sequence *seq, BUFR_Tables *tbls );
 
 #ifdef __cplusplus
 }

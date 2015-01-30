@@ -172,6 +172,7 @@ extern float          bufr_cvt_i32_to_fval        ( BufrValueEncoding *be, uint3
 extern double         bufr_cvt_i64_to_dval        ( BufrValueEncoding *be, int64_t lval );
 
 extern int            bufr_get_tberror            ( BufrValueEncoding *be, int *reference, int *nbits );
+extern int            bufr_table_is_empty         ( BUFR_Tables *tbls );
 
 #ifdef __cplusplus
 }
