@@ -441,10 +441,11 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
          depth = cb->meta->nb_nesting;
       else
          depth = 0;
-#if 0
+#if 1
       bsq = bufr_create_sequence( list );
       tmpflags = 0;
-      err = bufr_check_sequence( bsq, node, &tmpflags, tbls, depth );
+/*      err = bufr_check_sequence( bsq, node, &tmpflags, tbls, depth ); */
+      err = bufr_simple_check_seq( bsq, node, depth );
 
       bsq->list = NULL;
       bufr_free_sequence( bsq );
