@@ -185,6 +185,18 @@ static int bufr_wr_section1(bufr_write_callback writecb,
    bufr_write_int3b( writecb, cd, bufr->s1.len );  /* octet 1 - 3 */
 
 	/* octet 4 */
+   switch(bufr->s1.bufr_master_table)
+      {
+      case 0  :  /* meteorology */
+      case 10 :  /* oceanography */
+         break;
+      default :  /* set to 0 */
+         bufr_vprint_debug( _("Warning: illegal value (%d) used in octet 4 of section1, overriding with 0\n"), 
+               bufr->s1.bufr_master_table );
+         bufr->s1.bufr_master_table = 0;
+         break;
+      }
+
 	bufr_write_octet( writecb, cd, bufr->s1.bufr_master_table);
 
    if (bufr->edition == 2)
