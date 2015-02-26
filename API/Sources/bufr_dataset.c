@@ -2215,6 +2215,20 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          }
       }
 
+   if (msg->s1.bufr_master_table == 10)
+      {
+      bufr_print_output( errmsg );
+      bufr_print_debug( _("Error: Oceanography Tables are not supported by libecbufr\n") );
+      return NULL;
+      }
+   if (msg->s1.bufr_master_table != 10)
+      {
+      sprintf( errmsg, _("Error: This Master Table number %d is not supported by WMO BUFR regulation. Check Octet 4 in section 1.\n"), 
+                  msg->s1.bufr_master_table );
+      bufr_print_output( errmsg );
+      bufr_print_debug( errmsg );
+      return NULL;
+      }
 
    count = arr_count( msg->s3.desc_list );
    codets = (BufrDescValue *)malloc( sizeof(BufrDescValue) * count );
