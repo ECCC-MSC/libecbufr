@@ -188,8 +188,8 @@ static int bufr_wr_section1(bufr_write_callback writecb,
    switch(bufr->s1.bufr_master_table)
       {
       case 0  :  /* meteorology */
-      case 10 :  /* oceanography */
          break;
+      case 10 :  /* oceanography not supported */
       default :  /* set to 0 */
          bufr_vprint_debug( _("Warning: illegal value (%d) used in octet 4 of section1, overriding with 0\n"), 
                bufr->s1.bufr_master_table );
