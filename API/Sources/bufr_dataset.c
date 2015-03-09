@@ -2221,7 +2221,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       bufr_print_debug( _("Error: Oceanography Tables are not supported by libecbufr\n") );
       return NULL;
       }
-   if (msg->s1.bufr_master_table != 10)
+   if (msg->s1.bufr_master_table != 0)
       {
       sprintf( errmsg, _("Error: This Master Table number %d is not supported by WMO BUFR regulation. Check Octet 4 in section 1.\n"), 
                   msg->s1.bufr_master_table );
