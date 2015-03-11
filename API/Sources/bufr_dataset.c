@@ -2637,7 +2637,13 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    dts->data_flag |= msg->s3.flag;
 
    if (msg->s1.bufr_master_table != 0)
+      {
       dts->data_flag |= BUFR_FLAG_SUSPICIOUS; 
+      sprintf( errmsg, _("Warning: Master Table number %d is not supported by WMO BUFR regulation.\n"), 
+                  msg->s1.bufr_master_table );
+      bufr_print_output( errmsg );
+      bufr_print_debug( errmsg );
+      }
 
    return dts;
    }
