@@ -840,7 +840,9 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
       }
 
    if (dts->data_flag >= 0)
-      msg->s3.flag = dts->data_flag;
+      {
+      msg->s3.flag = (dts->data_flag & (BUFR_FLAG_OBSERVED|BUFR_FLAG_COMPRESSED));
+      }
 
    if (x_compress)
       {
@@ -2215,19 +2217,22 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          }
       }
 
-   if (msg->s1.bufr_master_table == 10)
+   if (msg->enforce == BUFR_STRICT)
       {
-      bufr_print_output( errmsg );
-      bufr_print_debug( _("Error: Oceanography Tables are not supported by libecbufr\n") );
-      return NULL;
-      }
-   if (msg->s1.bufr_master_table != 0)
-      {
-      sprintf( errmsg, _("Error: This Master Table number %d is not supported by WMO BUFR regulation. Check Octet 4 in section 1.\n"), 
+      if (msg->s1.bufr_master_table == 10)
+         {
+         bufr_print_output( errmsg );
+         bufr_print_debug( _("Error: Oceanography Tables are not supported by libecbufr\n") );
+         return NULL;
+         }
+      if (msg->s1.bufr_master_table != 0)
+         {
+         sprintf( errmsg, _("Error: This Master Table number %d is not supported by WMO BUFR regulation. Check Octet 4 in section 1.\n"), 
                   msg->s1.bufr_master_table );
-      bufr_print_output( errmsg );
-      bufr_print_debug( errmsg );
-      return NULL;
+         bufr_print_output( errmsg );
+         bufr_print_debug( errmsg );
+         return NULL;
+         }
       }
 
    count = arr_count( msg->s3.desc_list );
@@ -2356,7 +2361,6 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 					snprintf( errmsg, sizeof(errmsg),
 						_("Warning: premature end-of-data reading subset %d\n"), j);
 					bufr_print_debug( errmsg );
-					BUFR_SET_INVALID( msg );
 					dts->data_flag |= BUFR_FLAG_INVALID;
 
                node = NULL;
@@ -2385,7 +2389,6 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 							snprintf( errmsg, sizeof(errmsg),
 								_("Warning: premature end-of-data reading subset %d\n"), j);
 							bufr_print_debug( errmsg );
-							BUFR_SET_INVALID( msg );
 							dts->data_flag |= BUFR_FLAG_INVALID;
                      node = NULL;
                      j = nbsubset;
@@ -2395,7 +2398,6 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                   tmplist = bufr_expand_node_descriptor( bsq2->list, node, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &skip, &errcode, &s4 );
                   if (errcode != 0)
                      {
-                     BUFR_SET_INVALID( msg );
                      dts->data_flag |= BUFR_FLAG_INVALID;
                      }
 /*
@@ -2509,7 +2511,6 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          errcode = bufr_get_af_compressed( cb, nbsubset, msg, nodes );
          if (errcode < 0)
 				{
-				BUFR_SET_INVALID( msg );
 				dts->data_flag |= BUFR_FLAG_INVALID;
 				node = NULL;
 				}
@@ -2535,7 +2536,6 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             }
          if (errcode < 0)
 				{
-				BUFR_SET_INVALID( msg );
 				dts->data_flag |= BUFR_FLAG_INVALID;
 				node = NULL;
 				}
@@ -2568,7 +2568,6 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                   tmplist = bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &skip, &errcode, &s4 );
                   if (errcode != 0)
                      {
-                     BUFR_SET_INVALID( msg );
                      dts->data_flag |= BUFR_FLAG_INVALID;                    
                      }
                   if (tmplist == NULL)
@@ -2636,6 +2635,9 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    bufr_copy_sect1( &(dts->s1), &(msg->s1) );
 
    dts->data_flag |= msg->s3.flag;
+
+   if (msg->s1.bufr_master_table != 0)
+      dts->data_flag |= BUFR_FLAG_SUSPICIOUS; 
 
    return dts;
    }

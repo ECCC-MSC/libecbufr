@@ -49,7 +49,6 @@ extern "C" {
 
 #define  BUFR_FLAG_OBSERVED     (1<<7)
 #define  BUFR_FLAG_COMPRESSED   (1<<6)
-#define  BUFR_FLAG_INVALID      (1<<5)
 
 /*
  * according to litterature, section2 flag should be 128, 
@@ -61,13 +60,11 @@ extern "C" {
 #define  BUFR_SET_OBSERVED(b)        ((b)->s3.flag |= BUFR_FLAG_OBSERVED)
 #define  BUFR_SET_OTHER_DATA(b)      ((b)->s3.flag &= ~(BUFR_FLAG_OBSERVED))
 #define  BUFR_SET_UNCOMPRESSED(b)    ((b)->s3.flag &= ~(BUFR_FLAG_COMPRESSED))
-#define  BUFR_SET_INVALID(b)         ((b)->s3.flag |= BUFR_FLAG_INVALID)
 
 #define  BUFR_SET_MSGDTYPE(b,mt)     (b)->s1.msg_type = (mt)
 #define  BUFR_SET_NB_DATASET(b,nb)   (b)->s3.no_data_subsets = (nb)
 
 #define  BUFR_IS_COMPRESSED(b)       ((b)->s3.flag & BUFR_FLAG_COMPRESSED)
-#define  BUFR_IS_INVALID(b)          ((b)->s3.flag & BUFR_FLAG_INVALID)
 
 #define  MSGDTYPE_SURFACE_LAND           0
 #define  MSGDTYPE_SURFACE_SEA            1

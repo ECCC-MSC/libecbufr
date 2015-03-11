@@ -85,6 +85,13 @@ extern "C" {
 #define   BUFR_GET_MINUTE(d)             (d)->s1.minute
 #define   BUFR_GET_SECOND(d)             (d)->s1.second
 
+
+#define  BUFR_FLAG_INVALID               (1<<8)
+#define  BUFR_FLAG_SUSPICIOUS            (1<<9)
+#define  BUFR_IS_INVALID(d)              ((d)->data_flag & BUFR_FLAG_INVALID)
+#define  BUFR_IS_SUSPICIOUS(d)           ((d)->data_flag & BUFR_FLAG_SUSPICIOUS)
+
+
 typedef ArrayPtr DataSubsetArray;
 
 typedef struct bufr_dataset
