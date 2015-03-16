@@ -2091,6 +2091,7 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
                   {
                   last_desc = cb->descriptor;
                   last_nbits = bufr_estimate_seq_length( bsq, tbls );
+                  bufr_free_sequence( bsq );
 #if DEBUG
                   fprintf ( stderr, "Processed desc=%d   flag=%d bits=%d\n", cb->descriptor , cb->flags, last_nbits );
 #endif
