@@ -53,6 +53,7 @@ static void (*udf_output)(const char *msg) = NULL;
 
 static int  debugmode=0;
 static int  verbosemode=0;
+static int  trimzero_mode=1;
 
 static void (*udf_abort)(const char *msg) = NULL;
 
@@ -2292,5 +2293,36 @@ static int bufr_wr_header_string(bufr_write_callback writecb,
    free( str );
 
    return 0;
+   }
+
+/**
+ * @english
+ * set state of trailing zeroes removal
+ * @endenglish
+ * @francais
+ * etablit la condition de suppression des zeros
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup debug
+ */
+void bufr_set_trimzero(int mode)
+   {
+   trimzero_mode = mode;
+   }
+
+/**
+ * @english
+ * return state of trailing zeroes removal 
+ * @endenglish
+ * @francais
+ * retourne la condition de suppression des zeros
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup debug internal
+ * @author  Vanh Souvanlasy
+ */
+int bufr_is_trimzero(void) 
+   {
+   return (trimzero_mode != 0) ? 1 : 0;
    }
 

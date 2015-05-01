@@ -82,6 +82,8 @@ extern int            bufr_is_debug        ( void );
 extern int            bufr_is_verbose      ( void );
 extern int            bufr_errtype         ( void );
 extern void           bufr_abort           ( const char * );
+extern void           bufr_set_trimzero    ( int mode );
+extern int            bufr_is_trimzero     ( void );
 
 #ifdef __cplusplus
 }

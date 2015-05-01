@@ -66,6 +66,7 @@ static int   show_loctime=0;
 static int   show_meta=1;
 static int   show_locdesc=0;
 static int   format_ouput=1;
+static int   trim_zero=1;
 
 static BUFR_Enforcement  enforce=BUFR_WARN_ALLOW;
 /*
@@ -115,6 +116,8 @@ static void abort_usage(char *pgrmname)
    fprintf( stderr, _("          [-stop       <nb_messages>] stops decoding after the specified number of messages\n") );
    fprintf( stderr, _("          [-lax]                      loosen enforcement of BUFR rules\n") );
    fprintf( stderr, _("          [-strict]                   enforce BUFR rules compliance\n") );
+   fprintf( stderr, _("          [-keep_zero]                keep all trailing zeroes\n") );
+   fprintf( stderr, _("          [-trim_zero]                trim all trailing zeroes (default)\n") );
    exit(EXIT_ERROR);
 }
 
@@ -174,6 +177,10 @@ static int read_cmdline( int argc, char *argv[] )
         enforce = BUFR_LAX;
      } else if (strcmp(argv[i],"-strict")==0) {
         enforce = BUFR_STRICT;
+     } else if (strcmp(argv[i],"-keep_zero")==0) {
+        trim_zero = 0;
+     } else if (strcmp(argv[i],"-trim_zero")==0) {
+        trim_zero = 1;
      }
    }
 
@@ -225,6 +232,7 @@ int main(int argc,char *argv[])
    if (argc == 1)
       abort_usage( argv[0] );
 
+   bufr_set_trimzero( trim_zero );
    if (str_output && !dumpmode)
       bufr_set_output_file( str_output );
 /*

@@ -1183,6 +1183,8 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
                   {
                   bufr_print_float( outstr, fval );
                   }
+               if (bufr_is_trimzero())
+                  str_trimchar( outstr, '0' );
                }
             else
                {
@@ -1198,7 +1200,8 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
          else
             {
             sprintf(  outstr, "%f", dval );
-            str_trimchar( outstr, '0' );
+            if (bufr_is_trimzero())
+               str_trimchar( outstr, '0' );
             }
          hasvalue = 1;
          break;
