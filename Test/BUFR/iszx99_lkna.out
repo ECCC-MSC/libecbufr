@@ -51,25 +51,25 @@
    012004 (0x7d:8 bits)VALUE=269.2
    012006 (0x7d:8 bits)VALUE=266.2
    013003 (0x7d:8 bits)VALUE=79
-   020001 (0x7d:8 bits)VALUE=16040
+   020001 (0x7d:8 bits)VALUE=16040.0
    020003 (0x7c:8 bits)VALUE=70
    020004 (0x7c:8 bits)VALUE=7
    020005 (0x7c:8 bits)VALUE=2
    010052 (0x7d:8 bits)MSNG
 #  302001 
-   010004 (0x7c:8 bits)VALUE=95620
-   010051 (0x7d:8 bits)VALUE=101200
-   010061 (0x7c:8 bits)VALUE=0
+   010004 (0x7c:8 bits)VALUE=95620.0
+   010051 (0x7d:8 bits)VALUE=101200.0
+   010061 (0x7c:8 bits)VALUE=0.0
    010063 (0x7c:8 bits)VALUE=5
 #  103003 {R=0}
    008002 {R=1} (0x7d:8 bits)MSNG
    020206 {R=1} (0x7d:8 bits)VALUE=2
-   020013 {R=1} (0x7d:8 bits)VALUE=750
+   020013 {R=1} (0x7d:8 bits)VALUE=750.0
    008002 {R=2} (0x7d:8 bits)VALUE=5
    020206 {R=2} (0x7d:8 bits)VALUE=4
-   020013 {R=2} (0x7d:8 bits)VALUE=2400
+   020013 {R=2} (0x7d:8 bits)VALUE=2400.0
    008002 {R=3} (0x7d:8 bits)MSNG
    020206 {R=3} (0x7d:8 bits)VALUE=6
-   020013 {R=3} (0x7d:8 bits)VALUE=3300
+   020013 {R=3} (0x7d:8 bits)VALUE=3300.0
    020215 (0x7c:8 bits)VALUE=10
 

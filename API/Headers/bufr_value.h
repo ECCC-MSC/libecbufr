@@ -114,6 +114,9 @@ extern void           bufr_print_binary         ( char *outstr, int64_t  ival, i
 extern int64_t        bufr_binary_to_int        ( const char *str );
 extern int            bufr_str_is_binary        ( const char *str );
 
+extern void           bufr_print_scaled_double  ( char *str, double dval, int scale );
+extern void           bufr_print_double         ( char *str, double dval );
+
 #ifdef __cplusplus
 }
 #endif

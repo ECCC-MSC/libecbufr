@@ -1183,8 +1183,6 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
                   {
                   bufr_print_float( outstr, fval );
                   }
-               if (bufr_is_trimzero())
-                  str_trimchar( outstr, '0' );
                }
             else
                {
@@ -1199,9 +1197,19 @@ int bufr_print_scaled_value( char *outstr, const BufrValue *bv, int scale )
             strcat(  outstr, "MSNG" );
          else
             {
-            sprintf(  outstr, "%f", dval );
-            if (bufr_is_trimzero())
-               str_trimchar( outstr, '0' );
+            if (scale == INT_MAX)
+               {
+               if ((dval < 0.00001 )||(dval > INT_MAX))
+                  sprintf(  outstr, "%.14E", dval );
+               else
+                  {
+                  bufr_print_double( outstr, dval );
+                  }
+               }
+            else
+               {
+               bufr_print_scaled_double( outstr, dval, scale );
+               }
             }
          hasvalue = 1;
          break;
@@ -1625,7 +1633,8 @@ int bufr_between_values( const BufrValue *bv1, const BufrValue *bv, const BufrVa
 void bufr_print_float( char *str, float fval )
    {
    sprintf( str, "%f", fval );
-   str_trimchar( str, '0' );
+   if (bufr_is_trimzero())
+      str_trimchar( str, '0' );
    }
 
 /**
@@ -1816,3 +1825,60 @@ void bufr_print_binary ( char *outstr, int64_t  ival, int nbit )
       }
    }
 
+/**
+ * @english
+ * format a double value as compactly as possible (i.e. with trailing zeros
+ * removed).
+ *
+ * @param str output string
+ * @param dval value to print
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be checking str for NULL
+ * @bug should take a max buffer length and use snprintf
+ * @bug sprintf("%hg",dval) would be equivalent
+ * @ingroup descriptor
+ */
+void bufr_print_double( char *str, double dval )
+   {
+   sprintf( str, "%f", dval );
+   if (bufr_is_trimzero())
+      str_trimchar( str, '0' );
+   }
+
+/**
+ * @english
+ * format a double value with precision matching with scale
+ *
+ * @param str output string
+ * @param dval value to print
+ * @param scale number of decimal digits
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author  Vanh Souvanlasy
+ * @bug should be checking str for NULL
+ * @bug should take a max buffer length and use snprintf
+ * @bug sprintf("%.*hg",scale,dval) would be equivalent where scale>=0,
+ * rather than dynamically building the format string
+ * @ingroup descriptor
+ */
+void bufr_print_scaled_double( char *str, double dval, int scale )
+   {
+   int  len;
+   char format[256];
+
+   if (scale < 0)
+      {
+      strcpy ( format, "%.1f" );
+      }
+   else
+      {
+      sprintf( format, "%%.%df", scale );
+      }
+   sprintf( str, format, dval );
+   }

@@ -48,7 +48,7 @@
 #  302003 
    011011 (0x7c:8 bits)VALUE=180
    011012 (0x7c:8 bits)VALUE=9.3
-   012004 (0x7c:8 bits)VALUE=283
+   012004 (0x7c:8 bits)VALUE=283.0
    012006 (0x7c:8 bits)VALUE=276.2
    013003 (0x7c:8 bits)VALUE=62
    020001 (0x7c:8 bits)MSNG
@@ -58,7 +58,7 @@
    010052 (0x7c:8 bits)MSNG
 #  302001 
    010004 (0x7c:8 bits)MSNG
-   010051 (0x7c:8 bits)VALUE=100040
-   010061 (0x7c:8 bits)VALUE=-520
+   010051 (0x7c:8 bits)VALUE=100040.0
+   010061 (0x7c:8 bits)VALUE=-520.0
    010063 (0x7c:8 bits)VALUE=8
 
