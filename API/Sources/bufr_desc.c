@@ -579,6 +579,12 @@ int bufr_descriptor_set_fvalue ( BufrDescriptor *cb , float fval )
       return rtrn;
       }
 
+   if (bufr_is_missing_float(fval))
+      {
+      rtrn = bufr_value_set_float( cb->value, fval );
+      return rtrn;
+      }
+
    if (bufr_descriptor_get_range( cb, &dmin, &dmax ) > 0 )
       {
       min = (float)dmin;
@@ -668,6 +674,12 @@ int bufr_descriptor_set_dvalue ( BufrDescriptor *cb , double dval )
       return rtrn;
       }
 
+   if (bufr_is_missing_double(dval))
+      {
+      rtrn = bufr_value_set_double( cb->value, dval );
+      return rtrn;
+      }
+
    if (bufr_descriptor_get_range( cb, &min, &max ) > 0 )
       {
       if ((dval >= min)&&(dval <= max))
@@ -746,6 +758,12 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
          sprintf( errmsg, _("Warning: cannot assign a value to descriptor %d\n"), cb->descriptor );
          bufr_print_debug( errmsg );
          }
+      return rtrn;
+      }
+
+   if (bufr_is_missing_int(ival))
+      {
+      rtrn = bufr_value_set_int( cb->value, ival );
       return rtrn;
       }
 
