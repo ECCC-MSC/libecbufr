@@ -763,7 +763,7 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
 
    if (bufr_is_missing_int(ival))
       {
-      rtrn = bufr_value_set_int( cb->value, ival );
+      rtrn = bufr_value_set_int32( cb->value, ival );
       return rtrn;
       }
 
