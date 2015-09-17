@@ -1931,7 +1931,7 @@ uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
       }
 
    missing = bufr_missing_ivalue( be->nbits );
-   if (bufr_is_missing_float( fval )) return missing;
+   if (bufr_is_missing_double( fval )) return missing;
 /*
  * compute value range
  */
