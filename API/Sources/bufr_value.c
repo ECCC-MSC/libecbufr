@@ -821,7 +821,12 @@ float bufr_value_get_float( const BufrValue *bv )
          return (float)v->value;
          }
       case VALTYPE_FLT64 :
-         return (float)bufr_value_get_double( bv );
+         {
+         double dval = bufr_value_get_double( bv );
+
+         if ( bufr_is_missing_double(dval) ) return bufr_get_max_float();
+         return (float)dval;
+         }
       case VALTYPE_INT8 :
       case VALTYPE_INT32 :
          {
@@ -878,7 +883,12 @@ double bufr_value_get_double( const BufrValue *bv )
          return (double)v->value;
          }
       case VALTYPE_FLT32 :
-         return (double)bufr_value_get_float( bv );
+         {
+         float fval = bufr_value_get_float( bv );
+
+         if ( bufr_is_missing_float(fval) ) return bufr_get_max_double();
+         return (double)fval;
+         }
       case VALTYPE_INT8 :
       case VALTYPE_INT32 :
          {
