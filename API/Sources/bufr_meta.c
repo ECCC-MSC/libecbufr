@@ -108,8 +108,8 @@ BufrRTMD  *bufr_duplicate_rtmd( BufrRTMD *dup )
  *
  * Copy the content of a BufrRTMD object to another
  *
+ * @param dest output
  * @param src  input
- * @param desc output
  * @return void
  * @endenglish
  * @francais
@@ -163,7 +163,7 @@ void bufr_copy_rtmd( BufrRTMD *dest, BufrRTMD *src )
  *
  * Destructor for the BufrRTMD object.
  *
- * @param bm input
+ * @param rtmd  pointer to object to be freed
  * @return void
  * @endenglish
  * @francais
