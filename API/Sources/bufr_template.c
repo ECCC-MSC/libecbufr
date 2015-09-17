@@ -138,8 +138,16 @@ BUFR_Template *bufr_create_template
                }
             else
                {
-               sprintf( errmsg, _("Descriptor %d ??\n"), descs[i].descriptor );
-               bufr_print_debug( errmsg );
+               if (bufr_is_local_descriptor( descs[i].descriptor ))
+                  {
+                  sprintf( errmsg, _("Warning: %d is a local descriptor\n"), descs[i].descriptor );
+                  bufr_print_debug( errmsg );
+                  }
+               else
+                  {
+                  sprintf( errmsg, _("Descriptor %d ??\n"), descs[i].descriptor );
+                  bufr_print_debug( errmsg );
+                  }
                has_error = 1;
                sprintf( errmsg, _("Error: unknown descriptor %d\n"), descs[i].descriptor );
                bufr_print_debug( errmsg );
