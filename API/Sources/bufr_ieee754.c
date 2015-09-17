@@ -957,10 +957,10 @@ static int check_single_mem_layout(void)
    {
    int rtrn = 0;
    int  i, n;
-   float  values[9] = { 0.0, 5.9E-39, 3.4E38, 0.0, 1.0, 0.15625, 1.18E-38, -750.15625 };
+   float  values[8] = { 0.0, 3.4E38, 0.0, 1.0, 0.15625, 1.18E-38, -750.15625 };
 
    values[0] = nanf("char-sequence");
-   n = 8;
+   n = 7;
 #ifdef MAXFLOAT
    values[n] = MAXFLOAT;
    ++n;
