@@ -274,6 +274,7 @@ void bufr_free_afd( BufrAFD *afd )
  * @english
  * obtain the significance some bits at a position of the bits block
  * @param  af     :  pointer to  BufrAF
+ * @param  pos    :  position of Ass.Field
  * @endenglish
  * @francais
  * @todo translate to French
