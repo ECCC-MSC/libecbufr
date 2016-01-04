@@ -14,66 +14,6 @@ Encoding a message with delayed replication.
 #include <assert.h>
 #include "bufr_api.h"
 
-static void add_number( BUFR_Tables* tables, BUFR_Template* tmpl, int desc, double value ) {
-	BufrDescValue d;
-	EntryTableB* e;
-
-	e = bufr_fetch_tableB( tables, desc );
-	if( e == NULL ) {
-		fprintf(stderr, "descriptor %d not in Table B!\n", desc);
-		return;
-	}
-	if( e->encoding.type != TYPE_NUMERIC ) {
-		fprintf( stderr, "descriptor %d encoding is not numeric!\n", desc );
-	}
-
-	bufr_init_DescValue( &d );
-	d.descriptor = desc;
-
-	/* allocate the BUFR value array */
-	bufr_valloc_DescValue( &d, 1 );
-
-	/* create and assign the BUFR value.  */
-	d.values[0] = bufr_create_value( bufr_encoding_to_valtype(&(e->encoding)));
-	bufr_value_set_double( d.values[0], value );
-
-	/* put the entry in the template */
-	bufr_template_add_DescValue( tmpl, &d, 1 );
-
-	/* this implicitly frees the BUFR value(s), too. */
-	bufr_vfree_DescValue( &d );
-}
-
-static void add_string( BUFR_Tables* tables, BUFR_Template* tmpl, int desc, const char* value ) {
-	BufrDescValue d;
-	EntryTableB* e;
-
-	e = bufr_fetch_tableB( tables, desc );
-	if( e == NULL ) {
-		fprintf(stderr, "descriptor %d not in Table B!\n", desc);
-		return;
-	}
-	if( e->encoding.type != TYPE_CCITT_IA5 ) {
-		fprintf( stderr, "descriptor %d encoding is not CCITT IA5!\n", desc );
-	}
-
-	bufr_init_DescValue( &d );
-	d.descriptor = desc;
-
-	/* allocate the BUFR value array */
-	bufr_valloc_DescValue( &d, 1 );
-
-	/* create and assign the BUFR value. */
-	d.values[0] = bufr_create_value( bufr_encoding_to_valtype(&(e->encoding)));
-	bufr_value_set_string( d.values[0], value, e->encoding.nbits/8 );
-
-	/* put the entry in the template */
-	bufr_template_add_DescValue( tmpl, &d, 1 );
-
-	/* this implicitly frees the BUFR value(s), too. */
-	bufr_vfree_DescValue( &d );
-}
-
 int main(int argc,char *argv[])
    {
    BUFR_Dataset  *dts = NULL;
