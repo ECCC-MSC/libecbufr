@@ -73,7 +73,12 @@ int main(int argc,char *argv[])
 	 */
 	bufr_expand_datasubset(dts,n);
 
-	m = bufr_subset_find_descriptor( dss, 2135, 0 );
+	/* Note that in theory, if we didn't do anything else except set the
+	 * replication and expand, then the position of the 2135 descriptor
+	 * would be at m+1. In that case, replace the next line with just
+	 * m += 1;
+	 */
+	m = bufr_subset_find_descriptor( dss, 2135, m );
 	if ( m >= 0)
 		{
 		int i;
