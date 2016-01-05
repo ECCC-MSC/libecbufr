@@ -2,6 +2,10 @@
 **
 ** LE MEME FICHIER EST AUSSI DISPONIBLE EN FRANCAIS SOUS LE NOM table_b_bufr_f.
 **
+** VERSION 025.076 December 23 2015 Mark McCrady
+** Update to Version 25
+** Add 005063 005064 005066 005067 008034 008091 021004 021028 021029 033089 033090 033091 040027 040028
+**
 ** VERSION 023.076 December 16 2014 Mark McCrady
 ** Update to Version 23
 ** Add 008087 013160 021148 021183-188 022130-134 022189-191 025112-113 025165-167
@@ -714,7 +718,7 @@
 *
 * (514) 421-4615
 *        421-4679 (FAX)
-* INTERNET: yves.pelletier@ec.gc.ca
+* INTERNET: yves.pelletier@canada.ca
 *
 * =================================================================================
 *
@@ -732,7 +736,6 @@
 *  THE  WEB PAGE http://zephyr.cmc.ec.gc.ca/eng/si/rmnlib/burp/burp.html. DOING 
 *  "man burp" ON A CMC-RPN UNIX SERVER GIVES YOU ACCESS TO RPN BURP LIBRARY 
 *  DOCUMENTATION.
-* =================================================================================
 * =================================================================================
 *
 *         1         2         3         4         5         6         7         8
@@ -836,7 +839,7 @@
 001110  AIRCRAFT TAIL NUMBER                        CCITT IA5    0          0    48
 001111  ORIGINATION AIRPORT                         CCITT IA5    0          0    24
 001112  DESTINATION AIRPORT                         CCITT IA5    0          0    24
-001113  TEMPLATE VERSION NUMBER/ORIGINATING CENTRE  NUMERIC      1          0     9
+001113  TEMPLATE VER NUM (ORIGINATING CNTR DEFINED) NUMERIC      1          0     9
 001115  CRUISE/MISSION IDENT WHERE DATA COLLECTED   CCITT IA5    0          0   160
 001124  GRID POINT IDENTIFIER                       NUMERIC      0          0    24
 001144  SNAPSHOT IDENTIFIER                         NUMERIC      0          0    31
@@ -845,7 +848,7 @@
 002003  TYPE OF MEASURING INSTRUMENT USED           CODE TABLE   0          0     4
 002004  TYPE OF INSTR./CROP USED FOR EVAPOR. REPT   CODE TABLE   0          0     4
 002005  PRECISION OF TEMPERATURE OBSERVATION        K            2          0     7
-002007  WATER LEVEL MEASURING INTRUMENT TYPE        CODE TABLE   0          0     6
+002007  WATER LVL MEASURING INSTRUMENT SENSOR TYPE  CODE TABLE   0          0     6
 002011  RADIOSONDE TYPE                             CODE TABLE   0          0     8
 002012  RADIOSONDE COMPUTATIONAL METHOD             CODE TABLE   0          0     4
 002013  SOLAR AND INFRARED RADIATION CORRECTION     CODE TABLE   0          0     4
@@ -1069,6 +1072,10 @@
 005053  FIELD OF VIEW NUMBER INCREMENT              NUMERIC      0          0     5
 005060  Y ANGULAR POSITION CENTER OF GRAVITE        DEGREE       6   -8000000    24
 005061  Z ANGULAR POSITION OF CENTER OF GRAVITY     DEGREE       6   -8000000    24
+005063  SPACECRAFT ROLL                             DEGREE       2          0    16
+005064  SPACECRAFT PITCH                            DEGREE       2          0    16
+005066  SPACECRAFT YAW                              DEGREE       2          0    16
+005067  NUMBER OF SCAN LINES                        NUMERIC      0          0     8
 006001  LONGITUDE (HIGH ACCURACY)                   DEGREE       5  -18000000    26
 006002  LONGITUDE (COARSE ACCURACY)                 DEGREE       2     -18000    16
 006011  LONGITUDE INCREMENT (HIGH ACCURACY)         DEGREE       5  -18000000    26
@@ -1143,6 +1150,7 @@
 008031  DATA CATEGORY CREX TABLE A                  NUMERIC      0          0     8
 008032  STATUS OF OPERATION                         CODE TABLE   0          0     4
 008033  METHOD OF DERIVATION OF PERCENT CONFIDENCE  CODE TABLE   0          0     7
+008034  TEMPERATURE/SALINITY MEASUREMENT QUALIFIER  CODE TABLE   0          0     4
 008035  TYPE OF MONITORING EXERCISE                 CODE TABLE   0          0     3
 008036  TYPE OF CENTRE/STATION PERFORMING MONITORG  CODE TABLE   0          0     3
 008039  TIME SIGNIFICANCE (AVIATION FORECAST)       CODE TABLE   0          0     6
@@ -1176,6 +1184,7 @@
 008086  VERTICAL SIGNIFICANCE FOR NWP             * FLAG TABLE   0          0    12
 008087  CORNER POSITION OF OBSERVATION              CODE TABLE   0          0     3
 008090  DECIMAL SCALE OF FOLLOWING VALUES           NUMERIC      0       -127     8
+008091  COORDINATES SIGNIFICANCE                    CODE TABLE   0          0     8
 010001  HEIGHT OF LAND SURFACE                      M            0       -400    15
 010002  HEIGHT                                      M           -1        -40    16
 010003  GEOPOTENTIAL                                M**2/S**2   -1       -400    17
@@ -1291,7 +1300,7 @@
 011101  AIRCRAFT VELOCITY U COMPONENT               M/S          1      -4096    13
 011102  AIRCRAFT VELOCITY V COMPONENT               M/S          1      -4096    13
 011103  AIRCRAFT VELOCITY W COMPONENT               M/S          1       -512    10
-011104  AIRCRAFT TRUE HEADING                       DEGREE TRUE  0          0     9
+011104  TRUE HEADING(AIRCRAFT/SHIP/MOBILE PLATFORM) DEGREE TRUE  0          0     9
 011105  EDR ALGORITH VERSION                        NUMERIC      0          0     6
 011106  RUNNING MINIMUM CONFIDENCE                  NUMERIC      1          0     4
 011107  MAXIMUM NUMBER BAD INPUTS                   NUMERIC      0          0     5
@@ -1442,7 +1451,7 @@
 013098  INTEGRATED WATER VAPOUR DENSITY             KM/M**2      8          0    30
 013099  INTEGRATED CLOUD PARTICLE DENSITY (LG10)    LOG(1/M**2)  1          0     7
 013100  INTEGRATED CLOUD PARTICLE AREA (LG10)       LOG(M2/M2)   1        -70     7
-013101  INTEGRATED CLOUD PARTICLE VOLUNE (LG10)     LOG(M3/M2)   1       -140     7
+013101  INTEGRATED CLOUD PARTICLE VOLUME (LG10)     LOG(M3/M2)   1       -140     7
 013110  MASS MIXING RATIO                           %            0          0     7
 013111  SOIL MOISTURE(VOLUMETRIC/WATER POTENTIAL)   G/KG         0          0    10
 013112  OBJECT WETNESS DURATION                     S            0          0    17
@@ -1451,7 +1460,7 @@
 013117  SNOW DENSITY (LIQUID WATER CONTENT)         KG/M**3      0          0    10
 013118  DEPTH OF FRESH SNOW (HIGH ACCURACY)         M            3         -2    14
 013155  INTENSITY OF PRECIP (HIGH ACCURACY)         KG/M2/S      5         -1    16
-013160  RADIOMETER LIQUID CONTENT                   KG M-2       2       -350    10
+013160  RADIOMETER LIQUID CONTENT                   KG/M**2      2       -350    10
 014001  LONGWAVE RAD. INTEGRATED OVER 24 HOURS      J/M**2      -3     -65536    17
 014002  LONGWAVE RAD. INTEGRATED OVER SPEC. PERIOD  J/M**2      -3     -65536    17
 014003  SHORTWAVE RAD. INTEGRATED OVER 24 HOURS     J/M**2      -3     -65536    17
@@ -1673,6 +1682,7 @@
 021001  HORIZONTAL REFLECTIVITY                     DB           0        -64     7
 021002  VERTICAL REFLECTIVITY                       DB           0        -64     7
 021003  DIFFERENTIAL REFLECTIVITY                   DB           1         -5     7
+021004  DIFFERENTIAL REFLECTIVITY                   DB           2       -800    11
 021005  LINEAR DEPOLARISATION RATIO                 DB           0        -65     6
 021006  CIRCULAR DEPOLARISATION RATIO               DB           0        -65     6
 021011  DOPPLER MEAN VELOCITY IN X DIRECTION        M/S          0       -128     8
@@ -1687,6 +1697,8 @@
 021023  RANGE BIN SIZE                              M            0          0    14
 021024  AZIMUTH OFFSET                              DEGREE       1          0    12
 021025  AZIMUTHAL RESOLUTION                        DEGREE       1          0     8
+021028  DIFFERENTIAL PHASE                          DEGREE       1          0    12
+021029  CROSS POLARIZATION CORRELATION COEFFICIENT  NUMERIC      2       -100     8
 021030  SIGNAL TO NOISE RATIO                       DB           0        -32     8
 021031  VERTICALLY INTEGR. LIQUID WATER CONTENT     KG/M**2      0          0     7
 021036  RADAR RAINFALL INTENSITY                    M/S          7          0    12
@@ -1924,7 +1936,7 @@
 022182  WATER COLUMN HEIGHT                         M            3          0    23
 022184  WATER COLUMN HGT DEVIATION FROM REF VALUE   M            3      -2000    12
 022185  BPR TRANSMISSION COUNT                      NUMERIC      0          0    10
-022188  DISSOLVED OXYGEN                            UMOL kg-1    3          0    19
+022188  DISSOLVED OXYGEN                            UMOL/KG      3          0    19
 022189  SPECIFIC BAND OCEAN RANGE                   M            3          0    31
 022190  SPECIFIC BAND SIG WAVE HEIGHT               M            3          0    16
 022191  RMS OF SPECIFIC BAND OCEAN RANGE            M            4          0    16
@@ -2211,6 +2223,9 @@
 033086  QUALITY OF PIXEL LEVEL RETRIEVAL            CODE TABLE   0          0     3
 033087  SATELLITE EXTENT WITHIN S ATLNTC ANOMALY    CODE TABLE   0          0     4
 033088  OZONE TOTAL COLUMN QUALITY FLAG           * FLAG TABLE   0          0    18
+033089  QUALITY INDICATORS-WRM TARGET CALLIB(NEDT)  K            2          0    12
+033090  QUALITY INDICATORS-COLD TARGET CALLIB(NEDT) K            2          0    12
+033091  QUALITY INDICATORS-OVERALL CALLIB(NEDT)     K            2          0    12
 035000  FM AND REGIONAL CODE NUMBER                 CODE TABLE   0          0    10
 035001  TIME FRAME FOR MONITORING                   CODE TABLE   0          0     3
 035011  NUMBER OF REPORTS ACTUALLY RECEIVED         NUMERIC      0          0    14
@@ -2250,3 +2265,5 @@
 040024  METEOROLOGICAL MAP AVAILABILITY             CODE TABLE   0          0     3
 040025  INTERPOLATION FLAG FOR MEAN DIURNAL TIDE    CODE TABLE   0          0     2
 040026  SCORE QUANTIZATION FACTOR                   NUMERIC      2          0    16
+040027  SUN GLINT ANGLE                             DEGREE       0          0     7
+040028  QUALITY FLAG                                CODE TABLE   0          0     4
