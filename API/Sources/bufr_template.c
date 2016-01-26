@@ -39,6 +39,7 @@ This file is part of libECBUFR.
 #include "bufr_tables.h"
 #include "bufr_template.h"
 #include "bufr_i18n.h"
+#include "bufr_util.h"
 
 static void bufr_copy_DescValue ( BufrDescValue *dest, BufrDescValue *src );
 static void bufr_free_desc_array( char *list );
