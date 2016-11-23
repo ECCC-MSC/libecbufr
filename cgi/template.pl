@@ -250,6 +250,13 @@ sub do_decode {
 	print $f $data;
 	close $f;
 
+	my @extra;
+	push @extra, '-describe', '-loctime' if $describe;
+	push @extra, '-ltableb', $ENV{BUFR_TABLES} . '/table_b_bufr-cmc'
+		if -f $ENV{BUFR_TABLES} . '/table_b_bufr-cmc';
+	push @extra, '-ltabled', $ENV{BUFR_TABLES} . '/table_d_bufr-cmc'
+		if -f $ENV{BUFR_TABLES} . '/table_d_bufr-cmc';
+
 	open( my $olderr, ">&", \*STDERR );
 	open STDERR, ">&STDOUT";
 	select STDERR; $| = 1;
@@ -258,7 +265,7 @@ sub do_decode {
 	open (my $output, '-|', '/usr/bin/bufr_decoder',
 		'-inbufr' => $tmpdata,
 		'-output' => $tmpout,
-		$describe ? ('-describe', '-loctime') : (''),
+		@extra,
 		) || die;
 	$errs .= $_ while(<$output>);
 	close $output;

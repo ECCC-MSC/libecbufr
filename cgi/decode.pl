@@ -86,11 +86,20 @@ sub do_decode {
 	open STDERR, ">&STDOUT";
 	select STDERR; $| = 1;
 	my $errs = '';
+
+	my @extra;
+	push @extra, '-describe' if $describe;
+
+	push @extra, '-ltableb', $ENV{BUFR_TABLES} . '/table_b_bufr-cmc'
+		if -f $ENV{BUFR_TABLES} . '/table_b_bufr-cmc';
+	push @extra, '-ltabled', $ENV{BUFR_TABLES} . '/table_d_bufr-cmc'
+		if -f $ENV{BUFR_TABLES} . '/table_d_bufr-cmc';
+
 	open (my $output, '-|', '/usr/bin/bufr_decoder',
 		'-inbufr' => $tmpdata,
 		'-output' => $tmpout,
 		'-loctime',
-		$describe ? ('-describe') : (''),
+		@extra,
 		) || die;
 	$errs .= $_ while(<$output>);
 	close $output;
