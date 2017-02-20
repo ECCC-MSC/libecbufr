@@ -62,6 +62,7 @@ static void        bufr_walk_sequence
 static void        free_rep_cnt_stack ( LinkedList *stack );
 
 static int         bufr_simple_check_seq( BUFR_Sequence *bsq, ListNode *node, int depth );
+static void        bufr_transfer_rtmd ( LinkedList *sublist, BufrRTMD *rtmd );
 
 /**
  * @english
@@ -433,6 +434,11 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
          if (errflg) *errflg = 1;
          return NULL;
          }
+      if (cb->meta)
+         {
+         bufr_transfer_rtmd( sublist, cb->meta );
+         }
+
 /*
       cb->value = (BufrValue *)bufr_create_value( TYPE_NUMERIC );
       bufr_value_set_int32( cb->value, lst_count( sublist ) );
@@ -582,6 +588,10 @@ static LinkedList *bufr_repl_descriptors
                   cb->encoding = tb->encoding;
                }
             }
+#if 1
+         if (cb->meta == NULL)
+            cb->meta = bufr_create_rtmd( 1 );
+#endif
          desc = bufr_dupl_descriptor ( cb );
          if ( desc == NULL )
             {
@@ -602,10 +612,6 @@ static LinkedList *bufr_repl_descriptors
 
 */
          desc->flags |= extraflags;
-#if 0
-         if (cb->meta == NULL)
-            cb->meta = bufr_create_rtmd( 1 );
-#endif
 /*
  * establish replication nesting position
 */
@@ -2245,3 +2251,26 @@ static int bufr_simple_check_seq
    return 1;
    }
 
+/**
+ * @english
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+static void bufr_transfer_rtmd
+   ( LinkedList *codes, BufrRTMD *rtmd )
+   {
+   ListNode *node;
+   BufrDescriptor *cb;
+
+   node = lst_firstnode( codes );
+   while ( node )
+      {
+      cb = (BufrDescriptor *)node->data;
+      cb->meta = bufr_duplicate_rtmd( rtmd );
+      node = lst_nextnode( node );
+      }
+   }
