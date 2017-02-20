@@ -23,7 +23,7 @@ mkdir ${PKGDIR}
 mkdir -p ${SRCPKGDIR}
 
 # this captures any local changes, which allows building a package without
-# comitting something which may not actually work
+# committing something which may not actually work
 if [ -x /usr/bin/bzr ]; then
 	/usr/bin/bzr ls --versioned | tar -cf - -T - | tar -xf - -C ${SRCPKGDIR}
 fi
