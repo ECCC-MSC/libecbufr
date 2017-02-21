@@ -771,6 +771,10 @@ int bufr_descriptor_set_ivalue ( BufrDescriptor *cb , int32_t ival )
       {
       min = (int32_t) dmin;
       max = (int32_t) dmax;
+/*
+ * for descriptor 20011, it is valid to use missing=max+1 as value
+ */
+      if (cb->descriptor == 20011) max += 1;
       if ((ival >= min)&&(ival <= max))
          {
          rtrn = bufr_value_set_int32( cb->value, ival );

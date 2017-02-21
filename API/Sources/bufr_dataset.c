@@ -2037,7 +2037,14 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          ival = bufr_getbits( bufr, bd->encoding.nbits, &errcode );
          if ( errcode < 0 ) return errcode;
          ival2 = bufr_missing_ivalue(  bd->encoding.nbits );
-         if (ival == ival2) ival = -1;
+         if (ival == ival2) 
+            {
+/*
+ * exception: descriptor 20011's value can be same as missing value
+ */ 
+            if (bd->descriptor != 20011)
+               ival = -1;
+            }
          if (isdebug)
             {
             sprintf( errmsg, _n("IVAL=%llu (%d bit) ", "IVAL=%llu (%d bits) ", bd->encoding.nbits), (unsigned long long)ival, bd->encoding.nbits );
