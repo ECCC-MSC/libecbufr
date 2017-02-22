@@ -2039,11 +2039,19 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
          ival2 = bufr_missing_ivalue(  bd->encoding.nbits );
          if (ival == ival2) 
             {
-/*
+/* 
  * exception: descriptor 20011's value can be same as missing value
- */ 
+ * No need to show as 15 and leave it as missing:
+ * "For use of code figure 15, see Regulation 12.1.4." which is a section of the FM-12 code form that basically says 
+ * "if the auto isn't * equipped to report a mandatory section, just code '/' instead" 
+ * this equating of 15 to /// is just a fancy way of saying that the code figure 15 in 020011 means "missing"
+ */
+#if 0
             if (bd->descriptor != 20011)
                ival = -1;
+#else
+            ival = -1;
+#endif
             }
          if (isdebug)
             {
