@@ -2,11 +2,18 @@
 **
 ** LE MEME FICHIER EST AUSSI DISPONIBLE EN FRANCAIS SOUS LE NOM table_b_bufr_f.
 **
-** VERSION 029.078 December 2017 Nedka Pentcheva
+** VERSION 030.080 July 2018 Nedka Pentcheva
+** Update to Version 30
+** Add 013162
+** Add 013230 for Jose Garcia
+** Add 033205 015201 015202 015207 for Yves Rochon
+**
+** VERSION 029.079 December 2017 Nedka Pentcheva
 ** Update to Version 29
 ** Add 001125 001126 001127 001128 002008 002161 002162 011113 013109 025148 025149 
 ** Add 033066 040038 
 ** Add 015231 015232 015233 as requested by Jose Garcia
+**
 ** VERSION 028.078 June 2017 Nedka Pentcheva
 ** Update to Version 28
 ** Add 002088 003027 008037 008038 008092 008093 010071 011110 011111 011112 012008
@@ -878,8 +885,8 @@
 001115  CRUISE/MISSION IDENT WHERE DATA COLLECTED   CCITT IA5    0          0   160
 001124  GRID POINT IDENTIFIER                       NUMERIC      0          0    24
 001125  WIGOS IDENTIFIER SERIES                     NUMERIC      0          0     4
-001126  WIGOS ISSUER OF IDENTIFIER                  NUMERIQUE    0          0    16
-001127  WIGOS ISSUE NUMBER                          NUMERIQUE    0          0    16
+001126  WIGOS ISSUER OF IDENTIFIER                  NUMERIC      0          0    16
+001127  WIGOS ISSUE NUMBER                          NUMERIC      0          0    16
 001128  WIGOS LOCAL IDENTIFIRE (CHARACTER)          CCITT IA5    0          0   128
 001144  SNAPSHOT IDENTIFIER                         NUMERIC      0          0    31
 001150  COORDINATE REFERENCE SYSTEM                 CODE TABLE   0          0    16
@@ -1559,6 +1566,7 @@
 013118  DEPTH OF FRESH SNOW (HIGH ACCURACY)         M            3         -2    14
 013155  INTENSITY OF PRECIP (HIGH ACCURACY)         KG/M2/S      5         -1    16
 013160  RADIOMETER LIQUID CONTENT                   KG/M**2      2       -350    10
+013162  CLOUD LIQUID WATER                          KG/M**2      2          0     8
 014001  LONGWAVE RAD. INTEGRATED OVER 24 HOURS      J/M**2      -3     -65536    17
 014002  LONGWAVE RAD. INTEGRATED OVER SPEC. PERIOD  J/M**2      -3     -65536    17
 014003  SHORTWAVE RAD. INTEGRATED OVER 24 HOURS     J/M**2      -3     -65536    17
@@ -3004,6 +3012,7 @@
 013227  TOTAL PRECIPITATION (HIGH PRECISION)        MM           3          0    21
 013228  WATER EQUIVALENT TO ACCUMULATED SNOW        KG/M**2      2         -2    16
 013229  DISCHARGE                                   M**3/S       2   -8450000    25
+013230  MIXING RATIO                                KG/KG       10          0    30
 014192  NET POSINTEGRATED OVER SPECIFIED PERIOD     J/M**2      -4     -16384    15 M
 014193  GLOBAL SOLAR RAD. INTEGR. OVR SPECIFIED PD  J/M**2      -4          0    15 M
 014194  DIFFUSE SOLAR RAD. INTEG. OVR SPECIFIED PD  J/M**2      -4          0    15 M
@@ -3055,6 +3064,9 @@
 015198  TOTAL OR PARTIAL COLUMN                     DOBSON       0          0    10
 015199  PARTIAL PRESSURE                            PA           4          0     9
 015200  INTEGRATED SPECIFIC MASS (COLUMN)           KG/M**2      8          0    21
+015201  INTEGRATED NUMBER DENSITY                   1/M**2       0          0    17
+015202  INTEGRATED MOLAR DENSITY                    MOL/M**2     0          0    17
+015207  NUMBER DENSITY                              1/M**3       0          0    17
 015208  VOLUMETRIC MIXING RATIO                     M**3/M**3    2          0    31
 015223  MASS DENSITY                                KG/M**3     11          0    31
 015225  MOLECULAR MASS                              U.A.M.U.     2          0    15
@@ -3154,3 +3166,4 @@
 033202  HWOS OVERRIDE QUALITY TABLE                 FLAG TABLE   0          0    31
 033203  HARDWARE QUALITY TABLE                      FLAG TABLE   0          0    31
 033204  SURFACE POLLUTANTS QUALITY                  CODE TABLE   0          0     5
+033205  CORRELATION COEFFICIENT                     NUMERIC      2       -100     8
