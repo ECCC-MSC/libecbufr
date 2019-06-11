@@ -258,6 +258,7 @@ static void run_decoder(void)
    LinkedList    *tables_list=NULL;
    FILE          *fp = NULL;
    int            tablenos[2];
+   int            cnt;
 
    if (bufr_is_verbose())
       {
@@ -277,9 +278,14 @@ static void run_decoder(void)
 /*
  * load all tables into list
  */
-   tablenos[0] = 13;
-   tablenos[1] = 14;
-   tables_list = bufr_load_tables_list( getenv("BUFR_TABLES"), tablenos, 2 );
+   cnt = 0;
+   tablenos[cnt++] = 13;
+   tablenos[cnt++] = 23;
+   tablenos[cnt++] = 25;
+   tablenos[cnt++] = 29;
+   tablenos[cnt++] = 30;
+   tablenos[cnt++] = 31;
+   tables_list = bufr_load_tables_list( getenv("BUFR_TABLES"), tablenos, cnt );
 /* 
  * add version 14 to list 
  */
