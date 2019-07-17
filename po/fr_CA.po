@@ -12,6 +12,7 @@ msgstr ""
 "PO-Revision-Date: 2010-07-26 16:45-0400\n"
 "Last-Translator: Michel Van Eeckhout <Michel.VanEeckhout@ec.gc.ca>\n"
 "Language-Team: Français\n"
+"Language: Français\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,8 +41,8 @@ msgstr[0] ""
 "Erreur avec la fonction « bufr_create_afd() » : %d bit AF(champs associés) > "
 "64\n"
 msgstr[1] ""
-"Erreur avec la fonction « bufr_create_afd() » : %d bits AF(champs associés) > "
-"64\n"
+"Erreur avec la fonction « bufr_create_afd() » : %d bits AF(champs associés) "
+"> 64\n"
 
 #: bufr_af.c:238
 msgid "Error: cannot copy NULL in bufr_duplicate_af\n"
@@ -592,19 +593,19 @@ msgstr "Attention : l'opérateur de table C : %d n'a pas été implémenté\n"
 #: bufr_ddo.c:516
 #, c-format
 msgid "Warning: unsupported IEEE floating point width=%d, ignored\n"
-msgstr ""
+msgstr "Avertissement: réelle IEEE dont largeur=%d n'est pas supporté, ignoré\n"
 
 # Clarifier
 #: bufr_ddo.c:603
 #, c-format
 msgid "Matching increment %.6d to %.6d incr=%f\n"
-msgstr ""
+msgstr "Ajuste l'increment %.6d vers %.6d incr=%f\n"
 
 # Clarifier
 #: bufr_ddo.c:738
 #, c-format
 msgid "Associating %d\n"
-msgstr ""
+msgstr "Associant %d\n"
 
 #: bufr_ddo.c:751
 #, c-format
@@ -652,37 +653,37 @@ msgstr "avec valeur=%s\n"
 #, c-format
 msgid ""
 "### Decoded double: %llx ->  %E  (sign=%d exponent=%llx signific=%llx)\n"
-msgstr ""
+msgstr "### Réelle double précision décodé: %llx ->  %E  (sign=%d exponent=%llx signific=%llx)\n"
 
 # signific veut dire quoi ici?
 #: bufr_ieee754.c:221
 #, c-format
 msgid "### Decoded single: %x ->  %E  (sign=%d exponent=%x signific=%x)\n"
-msgstr ""
+msgstr "### Réelle simple précision décodé: %x ->  %E  (sign=%d exponent=%x signific=%x)\n"
 
 # F32 ?
 #: bufr_ieee754.c:491
 #, c-format
 msgid "Warning: IEEE 754 encoding/decoding mismatch F32: %x -> %E -> %x\n"
-msgstr ""
+msgstr "Avertissement: IEEE 754 decodage/encodage differe F32: %x -> %E -> %x\n"
 
 # F32 ?
 #: bufr_ieee754.c:499
 #, c-format
 msgid "### IEEE 754 encoding/decoding matched F32: %x -> %E -> %x\n"
-msgstr ""
+msgstr "### IEEE 754  decodage/encodage pareil F32: %x -> %E -> %x\n"
 
 # F64 ?
 #: bufr_ieee754.c:509
 #, c-format
 msgid "Warning: IEEE 754 encoding/decoding mismatch F64: %llx -> %E -> %llx\n"
-msgstr ""
+msgstr "Avertissement: IEEE 754 decodage/encodage differe F64: %llx -> %E -> %llx\n"
 
 # F64 ?
 #: bufr_ieee754.c:517
 #, c-format
 msgid "### IEEE 754 encoding/decoding matched F64: %llx -> %E -> %llx\n"
-msgstr ""
+msgstr "### IEEE 754 decodage/encodage pareil F64: %llx -> %E -> %llx\n"
 
 #: bufr_ieee754.c:543
 #, c-format
@@ -928,8 +929,8 @@ msgstr[1] "Table B %d, extraite : (%d bits) %s\n"
 msgid ""
 "Warning: Table D descriptor %d is incomplete, got only %d of %d, rejected.\n"
 msgstr ""
-"Attention : Le descripteur de table D : « %d » est incomplet, seulement %d de "
-"%d, rejetée.\n"
+"Attention : Le descripteur de table D : « %d » est incomplet, seulement %d "
+"de %d, rejetée.\n"
 
 #: bufr_local.c:495
 #, c-format
@@ -1204,13 +1205,13 @@ msgstr ""
 #: bufr_sequence.c:873
 #, c-format
 msgid "### Checking #Code Replication >> %.6d : {"
-msgstr ""
+msgstr "### Vérification #Code de Répétition >> %.6d : {"
 
 # Clarifier
 #: bufr_sequence.c:1120
 #, c-format
 msgid "Error obtaining Repl Rank of %d = %d\n"
-msgstr ""
+msgstr "Erreur dans l'obtention du rang de répétition %d = %d\n"
 
 #: bufr_sequence.c:1140
 #, c-format
@@ -1221,16 +1222,16 @@ msgstr "NDX=%d DESC=%d\n"
 #: bufr_sequence.c:1194
 #, c-format
 msgid "Warning: bitmap size %d != %d data present descriptors\n"
-msgstr ""
+msgstr "Avertissement: taille image %d != %d du presence des descripteurs de donnees\n"
 
 #: bufr_sequence.c:1321
 #, c-format
 msgid ""
-"Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been %"
-"d\n"
+"Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been "
+"%d\n"
 msgid_plural ""
-"Warning: local descriptor %.6d (%d bits) doesn't match %d, should have been %"
-"d\n"
+"Warning: local descriptor %.6d (%d bits) doesn't match %d, should have been "
+"%d\n"
 msgstr[0] ""
 "Attention : le descripteur local %.6d (%d bit) ne corresponds pas à %d, il "
 "aurait dû être %d\n"
@@ -1249,19 +1250,19 @@ msgstr[1] "### Attribution de %2$d bits au descripteur local %1$.6d\n"
 #: bufr_sequence.c:1349
 #, c-format
 msgid "### 201 %d datawidth=%d\n"
-msgstr ""
+msgstr "### 201 %d taille des données=%d\n"
 
 # Clarifier
 #: bufr_sequence.c:1360
 #, c-format
 msgid "### 202 %d scale=%d\n"
-msgstr ""
+msgstr "### 202 %d échelle=%d\n"
 
 # Clarifier
 #: bufr_sequence.c:1371
 #, c-format
 msgid "### 203 %d reference=%d\n"
-msgstr ""
+msgstr "### 203 %d référence=%d\n"
 
 #: bufr_sequence.c:1445
 #, c-format
@@ -1272,13 +1273,12 @@ msgstr[1] "### REF : %d a désormais %d bits : "
 
 #: bufr_sequence.c:1477
 msgid "codetable overrided\n"
-msgstr ""
+msgstr "valeur du table des codes remplacée\n"
 
 # codetable ? est-ce que table de code est correct ??
 #: bufr_sequence.c:1482
-#, fuzzy
 msgid "codetable entry not found\n"
-msgstr "descripteur introuvable\n"
+msgstr "valeur du table des codes introuvable\n"
 
 #: bufr_sequence.c:1488
 msgid "No value\n"
@@ -1298,7 +1298,7 @@ msgstr "### Compte de code : %d\n"
 #: bufr_sequence.c:1715
 #, c-format
 msgid "### Indexed DPBM Data Descriptor count: %d\n"
-msgstr ""
+msgstr "### Compteur du DPBM Descripteur de données indexé: %d\n"
 
 #: bufr_tables.c:621
 #, c-format
@@ -1399,7 +1399,7 @@ msgstr "Erreur : Ceci n'est pas un descripteur valide : %d\n"
 #: bufr_template.c:133 bufr_template.c:363
 #, c-format
 msgid "Descriptor %d has sig data width %d\n"
-msgstr ""
+msgstr "Descripteur %d possede une largeur de %d pour le sig des donnees\n"
 
 #: bufr_template.c:140
 #, c-format

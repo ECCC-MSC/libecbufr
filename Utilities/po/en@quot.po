@@ -33,6 +33,7 @@ msgstr ""
 "PO-Revision-Date: 2010-03-29 12:17-0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: English\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -69,31 +70,31 @@ msgstr "Usage: %s\n"
 #: Utilities/bufr_decoder.c:97
 #, c-format
 msgid "          [-inbufr     <filename>]    BUFR file to decode\n"
-msgstr "          [-inbufr     <filename>]    BUFR file to decode\n"
+msgstr "          [-inbufr     <filename>]    fichier BUFR a decoder\n"
 
 #: Utilities/bufr_decoder.c:98
 #, c-format
 msgid ""
 "          [-ltableb    <filename>]    local table B to use for decoding\n"
 msgstr ""
-"          [-ltableb    <filename>]    local table B to use for decoding\n"
+"          [-ltableb    <filename>]    table B locale a utiliser pour le decodage\n"
 
 #: Utilities/bufr_decoder.c:99
 #, c-format
 msgid ""
 "          [-ltabled    <filename>]    local table D to use for decoding\n"
 msgstr ""
-"          [-ltabled    <filename>]    local table D to use for decoding\n"
+"          [-ltabled    <filename>]    table D locale a utiliser pour le decodage\n"
 
 #: Utilities/bufr_decoder.c:100
 #, c-format
 msgid "          [-output     <filename>]    output file\n"
-msgstr "          [-output     <filename>]    output file\n"
+msgstr "          [-output     <filename>]   fichier de sortie\n"
 
 #: Utilities/bufr_decoder.c:101
 #, c-format
 msgid "          [-otemplate  <filename>]    output template into file\n"
-msgstr "          [-otemplate  <filename>]    output template into file\n"
+msgstr "          [-otemplate  <filename>]   fichier de sortie pour le gabarit\n"
 
 #: Utilities/bufr_decoder.c:102
 #, c-format
@@ -177,12 +178,12 @@ msgstr "Error: can't open file “%s”\n"
 #: Utilities/bufr_decoder.c:325
 #, c-format
 msgid "Error: no BUFR tables version %d\n"
-msgstr ""
+msgstr "Erreur: version %d des tables BUFR introuvable\n"
 
 #: Utilities/bufr_decoder.c:333
 #, c-format
 msgid "Decoding message version %d with BUFR tables version %d\n"
-msgstr ""
+msgstr "Decodage d'un message de la version %d avec la table BUFR version %d\n"
 
 #: Utilities/bufr_decoder.c:341
 msgid "Error: can't decode messages\n"
@@ -241,7 +242,7 @@ msgstr "VALUE=MSNG"
 #: Utilities/bufr_decoder.c:678
 #, c-format
 msgid "Error: descriptor not found in table B {%d}"
-msgstr "Error: descriptor not found in table B {%d}"
+msgstr "Error: descripteur introuvable dans la table B {%d}"
 
 #: Utilities/bufr_encoder.c:83
 #, c-format
