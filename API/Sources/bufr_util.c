@@ -193,7 +193,7 @@ char *str_schar2oct( char *str, int *len, int *bsize )
       {
       if (isspace(str[j])||iscntrl(str[j])||(str[j]=='\0'))
          {
-         sprintf( buf, "%.3o", str[j] );
+         sprintf( buf, "%.3o", (unsigned char)str[j] );
          append_char_to_string( &str2, bsize, &l, '\\' );
          append_char_to_string( &str2, bsize, &l, buf[0] );
          append_char_to_string( &str2, bsize, &l, buf[1] );
