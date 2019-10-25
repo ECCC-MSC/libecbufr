@@ -42,6 +42,9 @@ extern "C" {
 #endif
 
 #define FXY_TO_DESC(f,x,y)  ((f)*100000+(x)*1000+(y))
+#define DESC_TO_F(code)     ((code)/100000)
+#define DESC_TO_X(code)     (((code)/1000)%100)
+#define DESC_TO_Y(code)     ((code)%1000)
 
 /*
  * ERROR CODES

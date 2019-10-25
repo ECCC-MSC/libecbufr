@@ -259,9 +259,9 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int
    int           i, count;
    int           code;
    BufrDescriptor  *bcd;
-   int  f, x, y;
+   int  f;
 
-   bufr_descriptor_to_fxy ( desc, &f, &x, &y );
+   f = DESC_TO_F( desc );
    if (f != 3) return NULL;
 
    etblD = bufr_fetch_tableD( tbls, desc );
@@ -276,7 +276,7 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int
    for (i = 0; i < count ; i++ )
       {
       code = etblD->descriptors[i];
-      bufr_descriptor_to_fxy ( code, &f, &x, &y );
+      f = DESC_TO_F( code );
       bcd = bufr_create_descriptor( tbls, code );
       if (f == 0)
          {
@@ -340,7 +340,9 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
 
    sublist = NULL;
 
-   bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+   f = DESC_TO_F( cb->descriptor );
+   x = DESC_TO_X( cb->descriptor );
+   y = DESC_TO_Y( cb->descriptor );
    if (f == 1)
       {
       if (y > 0)
@@ -371,7 +373,9 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
             }
 
          cb31 = (BufrDescriptor *)nnode->data;
-         bufr_descriptor_to_fxy ( cb31->descriptor, &f2, &x2, &y2 );
+         f2 = DESC_TO_F( cb31->descriptor );
+         x2 = DESC_TO_X( cb31->descriptor );
+         y2 = DESC_TO_Y( cb31->descriptor );
          if ((f2 == 0)&&(x2 == 31))
             {
             int rep = 0;
@@ -559,7 +563,9 @@ static LinkedList *bufr_repl_descriptors
       int  f2, x2, y2;
 
       cb = (BufrDescriptor *)first->data;
-      bufr_descriptor_to_fxy ( cb->descriptor, &f2, &x2, &y2 );
+      f2 = DESC_TO_F( cb->descriptor );
+      x2 = DESC_TO_X( cb->descriptor );
+      y2 = DESC_TO_Y( cb->descriptor );
       if ((f2 == 0)&&(x2 == 33))
          extraflags = FLAG_CLASS33;
       }
@@ -778,7 +784,9 @@ int bufr_check_sequence
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
-      bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+      f = DESC_TO_F( cb->descriptor );
+      x = DESC_TO_X( cb->descriptor );
+      y = DESC_TO_Y( cb->descriptor );
 
 /*
  * make sure that Table D code are defined
@@ -1194,7 +1202,9 @@ BufrDDOp  *bufr_apply_Tables
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
-      bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+      f = DESC_TO_F( cb->descriptor );
+      x = DESC_TO_X( cb->descriptor );
+      y = DESC_TO_Y( cb->descriptor );
       if (x == 31) cb->flags |= FLAG_CLASS31;
 
       if (ddoi && bufr_is_marker_dpbm(cb->descriptor) && ddo->dpbm)
@@ -1864,7 +1874,7 @@ BufrDPBM *bufr_index_dpbm ( BufrDDOp *ddo, BUFR_Sequence *bsq )
  */
 static int bufr_is_dd_for_dpbm( BufrDescriptor *bcv )
    {
-   int  f, x, y;
+   int  f, x;
 
    if (bcv->flags & FLAG_SKIPPED) /* f=1 and f=3 are flagged */
       return 1;
@@ -1874,7 +1884,8 @@ static int bufr_is_dd_for_dpbm( BufrDescriptor *bcv )
  * should F=2 be skipped too?
 
 */
-   bufr_descriptor_to_fxy( bcv->descriptor, &f, &x, &y );
+   f = DESC_TO_F( bcv->descriptor );
+   x = DESC_TO_X( bcv->descriptor );
    switch(f)
       {
       case 0 :
@@ -2062,7 +2073,9 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
-      bufr_descriptor_to_fxy( cb->descriptor, &f, &x, &y );
+      f = DESC_TO_F( cb->descriptor );
+      x = DESC_TO_X( cb->descriptor );
+      y = DESC_TO_Y( cb->descriptor );
 #if DEBUG
       fprintf ( stderr, "Desc=%d   flag=%d rep_desc=%d rep_cnt=%d\n", 
                   cb->descriptor , cb->flags, rep_desc, rep_cnt );
@@ -2164,7 +2177,9 @@ static int bufr_simple_check_seq
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
-      bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+      f = DESC_TO_F( cb->descriptor );
+      x = DESC_TO_X( cb->descriptor );
+      y = DESC_TO_Y( cb->descriptor );
 
       if (next_class_31)
          {

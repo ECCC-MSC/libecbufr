@@ -627,14 +627,14 @@ static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
  */
 static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
    {
-   int  f, x, y;
+   int  f;
    EntryTableD  *etd;
    int  i;
    int  count;
    int  *pival, ival;
    char  errmsg[256];
 
-   bufr_descriptor_to_fxy( desc, &f, &x, &y );
+   f = DESC_TO_F( desc );
    if (f == 3)
       {
       count = arr_count( array );
@@ -688,12 +688,12 @@ static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
  */
 EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
    {
-   int          f, x, y;
+   int          f;
    EntryTableB *e;
 
 	if( tbls == NULL ) return errno=EINVAL, NULL;
 
-   bufr_descriptor_to_fxy( desc, &f, &x, &y );
+   f = DESC_TO_F( desc );
    switch( f )
       {
       case 1 :
@@ -742,11 +742,11 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
 EntryTableD *bufr_fetch_tableD(BUFR_Tables *tbls, int desc)
    {
    EntryTableD *e=NULL;
-   int   f, x, y;
+   int   f;
 
 	if( tbls == NULL ) return errno=EINVAL, NULL;
 
-   bufr_descriptor_to_fxy( desc, &f, &x, &y );
+   f = DESC_TO_F( desc );
    switch( f )
       {
       case 3 :
@@ -1733,11 +1733,11 @@ uint32_t bufr_cvt_fval_to_i32(int code, BufrValueEncoding *be, float fval)
 
    if (fval > fmax)
       {
-      int  f, x, y;
+      int  x;
 
       overflow = 1;
 /* Reg:94.1.5 NA to class 31, value==maxval */
-      bufr_descriptor_to_fxy( code, &f, &x, &y );
+      x = DESC_TO_X( code );
       if (x == 31)
          {
          ival = (int)fval;
@@ -1942,11 +1942,11 @@ uint64_t bufr_cvt_dval_to_i64(int code, BufrValueEncoding *be, double fval)
 
    if (fval > fmax)
       {
-      int  f, x, y;
+      int  x;
 
       overflow = 1;
 /* Reg:94.1.5 NA to class 31, value==maxval */
-      bufr_descriptor_to_fxy( code, &f, &x, &y );
+      x = DESC_TO_X( code );
       if (x == 31)
          {
          ival = (int)fval;
@@ -2124,7 +2124,9 @@ BufrDataType bufr_descriptor_to_datatype   ( BUFR_Tables *tbls, EntryTableB *e, 
    int f, x, y;
       
    *len = 0;
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   f = DESC_TO_F( code );
+   x = DESC_TO_X( code );
+   y = DESC_TO_Y( code );
 
    switch( f )
       {
@@ -2170,7 +2172,9 @@ int bufr_is_local_descriptor( int code )
    {
    int f, x, y;
 
-   bufr_descriptor_to_fxy( code, &f, &x, &y );
+   f = DESC_TO_F( code );
+   x = DESC_TO_X( code );
+   y = DESC_TO_Y( code );
    if ( ( x > 47 ) || (( y > 191 )&&( y <= 255)) ) return 1;
 
    return 0;
@@ -2319,9 +2323,9 @@ int bufr_is_qualifier( int desc )
  */
 int bufr_is_descriptor( int desc )
    {
-   int f, x, y;
+   int f, y;
 
-   bufr_descriptor_to_fxy ( desc, &f, &x, &y );
+   f = DESC_TO_F( desc );
    switch( f )
       {
       case 0 :
@@ -2333,6 +2337,7 @@ int bufr_is_descriptor( int desc )
          return 0;
       break;
       }
+   y = DESC_TO_Y( desc );
    if ( y >= 256 ) return 0;
 
    return 1;

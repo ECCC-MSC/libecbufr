@@ -617,7 +617,7 @@ BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
    {
    BufrDescriptor  **pcb, *cb;
    int  count;
-   int  f, x, y;
+   int  f;
    
    if (dts == NULL) return NULL;
 
@@ -629,7 +629,7 @@ BufrDescriptor *bufr_datasubset_next_descriptor( DataSubset *dts, int *pos )
       pcb = (BufrDescriptor **)arr_get( dts->data, *pos );
       *pos += 1;
       cb = *pcb;
-      bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+      f = DESC_TO_F( cb->descriptor );
       if (f != 0) continue;
       if ( cb && !(cb->flags&FLAG_SKIPPED))
          {
@@ -1960,8 +1960,8 @@ static int bufr_get_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
             {
             if (ival == ival2)
                {
-               int f, x, y;
-               bufr_descriptor_to_fxy ( bd->descriptor, &f, &x, &y );
+               int x;
+               x = DESC_TO_X( bd->descriptor );
 /* 
  * regulation 94.1.5 does not apply to class 31 
  */
@@ -2362,7 +2362,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                continue;
                }
 
-            bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+            f = DESC_TO_F( cb->descriptor );
+            y = DESC_TO_Y( cb->descriptor );
 
             ddo->current = node;
             ddo = bufr_apply_Tables( ddo, bsq2, dts->tmplte, node, &errcode ); 
@@ -2388,11 +2389,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             if ((f == 1)&&(y == 0)) 
                {
                BufrDescriptor       *cb31;
-               int             f2, x2, y2;
+               int             f2, x2;
 
                nnode = lst_nextnode( node );
                cb31 = (BufrDescriptor *)nnode->data;
-               bufr_descriptor_to_fxy ( cb31->descriptor, &f2, &x2, &y2 );
+               f2 = DESC_TO_F( cb31->descriptor );
+               x2 = DESC_TO_X( cb31->descriptor );
 
                if ((f2 == 0)&&(x2 == 31))
                   {
@@ -2568,7 +2570,9 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             bufr_apply_op_crefval( ddos[i], cb2, dts->tmplte );
             }
 
-         bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
+         f = DESC_TO_F( cb->descriptor );
+         x = DESC_TO_X( cb->descriptor );
+         y = DESC_TO_Y( cb->descriptor );
          if (has_delayed_replication)
             {
             has_delayed_replication = 0;
@@ -3466,8 +3470,6 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
          arr_free( &dstrptr );
          return -1;
          }
-
-      bufr_descriptor_to_fxy ( cb->descriptor, &f, &x, &y );
 
       ddo->current = node;
       bufr_apply_Tables( ddo, bsq2, dts->tmplte, node, &errcode );
