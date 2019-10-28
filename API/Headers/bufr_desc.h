@@ -62,6 +62,7 @@ typedef struct bufr_desc
    BufrAFD             *afd;
    BufrRTMD            *meta;
    int                  s_descriptor;
+   EntryTableB         *etb;
    } BufrDescriptor ;
 
 

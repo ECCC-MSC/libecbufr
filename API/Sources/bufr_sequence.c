@@ -282,7 +282,7 @@ static LinkedList *bufr_expand_desc( int desc, int flags, BUFR_Tables *tbls, int
          {
          if (bcd->encoding.nbits == -1)
             {
-            EntryTableB *tb = bufr_fetch_tableB( tbls, code );
+            EntryTableB *tb = bcd->etb ? bcd->etb : bufr_fetch_tableB( tbls, code );
             if (tb)
                bcd->encoding = tb->encoding;
             else if ((i > 0)&& bufr_is_sig_datawidth( etblD->descriptors[i-1] ))
@@ -589,9 +589,10 @@ static LinkedList *bufr_repl_descriptors
             if (bufr_is_table_b( cb->descriptor ))
                {
                char errmsg[128];
-               EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
+               EntryTableB *tb = cb->etb ? cb->etb : bufr_fetch_tableB( tbls, cb->descriptor );
                if (tb)
                   cb->encoding = tb->encoding;
+               if (cb->etb == NULL) cb->etb = tb;
                }
             }
 #if 1
@@ -711,9 +712,10 @@ static void bufr_assign_descriptors( ListNode *node, int nbdesc, int flags, BUFR
          cb->encoding.nbits = 0;
          if (bufr_is_table_b( cb->descriptor ))
             {
-            EntryTableB *tb = bufr_fetch_tableB( tbls, cb->descriptor );
+            EntryTableB *tb = cb->etb ? cb->etb : bufr_fetch_tableB( tbls, cb->descriptor );
             if (tb)
                cb->encoding = tb->encoding;
+            if (cb->etb == NULL) cb->etb = tb;
             }
          }
       node = lst_nextnode( node );
@@ -1311,7 +1313,7 @@ BufrDDOp  *bufr_apply_Tables
          {
          otb = bufr_tableb_fetch_entry( ddo->override_tableb, cb->descriptor );
          if (otb == NULL)
-            otb = bufr_fetch_tableB( tbls, cb->descriptor );
+            otb = cb->etb ? cb->etb : bufr_fetch_tableB( tmplt->tables, cb->descriptor );
          }
 
       bufr_reassign_table2code( cb, f, otb );
@@ -1595,7 +1597,7 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
                   bufr_print_debug( errmsg );
                   }
                if (bufr_is_table_b( cb->descriptor ))
-                  tb2 = bufr_fetch_tableB( tmplt->tables, cb->descriptor );
+                  tb2 = cb->etb ? cb->etb : bufr_fetch_tableB( tmplt->tables, cb->descriptor );
                else 
                   tb2 = NULL;
                if (tb2)
