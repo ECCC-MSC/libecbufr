@@ -752,6 +752,8 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
    arr_add( tbls->tableB_cache, (char *)&e );
    arr_sort( tbls->tableB_cache, compare_tableb );
 
+   tbls->last_searched = e;
+
    return e;
    }
 
