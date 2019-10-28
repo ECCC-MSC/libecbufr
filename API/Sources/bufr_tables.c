@@ -110,6 +110,9 @@ BUFR_Tables *bufr_create_tables(void)
    t->local.tableBtype = TYPE_REFERENCED;
    t->local.tableDtype = TYPE_REFERENCED;
    bufr_set_tables_category( t, 0, NULL );
+
+   t->tableB_cache = NULL;
+   t->last_searched = NULL;
    return t;
    }
 
@@ -161,6 +164,9 @@ void  bufr_free_tables( BUFR_Tables *tbls )
          bufr_tabled_free( tbls->local.tableD );
       tbls->local.tableD = NULL;
       }
+
+   if (tbls->tableB_cache)
+      arr_free( &(tbls->tableB_cache) );
 
    free( tbls );
    }
@@ -693,6 +699,26 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
 
 	if( tbls == NULL ) return errno=EINVAL, NULL;
 
+   if (tbls->last_searched)
+      {
+      if (desc == tbls->last_searched->descriptor)
+         return tbls->last_searched;
+      }
+
+   if (tbls->tableB_cache)
+      {
+      e = bufr_tableb_fetch_entry( tbls->tableB_cache, desc );
+      if (e != NULL)
+         {
+         tbls->last_searched = e;
+         return e;
+         }
+      }
+   else
+      {
+      tbls->tableB_cache = (EntryTableBArray)arr_create( 100, sizeof(EntryTableB *), 100 );
+      }
+
    f = DESC_TO_F( desc );
    switch( f )
       {
@@ -720,7 +746,12 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
          sprintf( buf, _("Warning: Unknown BUFR descriptor: %d\n"), desc );
          bufr_print_debug( buf );
          }
+      return NULL;
       }
+
+   arr_add( tbls->tableB_cache, (char *)&e );
+   arr_sort( tbls->tableB_cache, compare_tableb );
+
    return e;
    }
 

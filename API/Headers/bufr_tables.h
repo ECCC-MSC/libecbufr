@@ -124,6 +124,8 @@ typedef struct _TblsBufr
    BufrTablesSet local;
    int        data_cat;
    char       data_cat_desc[65];
+   EntryTableBArray   tableB_cache;
+   EntryTableB       *last_searched;
    } BUFR_Tables;
 
 extern EntryTableB   *bufr_fetch_tableB           ( BUFR_Tables *, int desc );
