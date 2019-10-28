@@ -80,6 +80,7 @@ typedef struct
    int             reference;
    int             nbits ;
    unsigned char   af_nbits;
+   unsigned char   ref_nbits;
    } BufrValueEncoding;
 
 

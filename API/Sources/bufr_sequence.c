@@ -1492,6 +1492,7 @@ BufrDDOp  *bufr_apply_Tables
                if (ddo->change_ref_value != 0)
                   {
                   cb->encoding.reference *= 10^ddo->change_ref_value;
+                  cb->encoding.ref_nbits = bufr_value_nbits( cb->encoding.reference );
                   if (debug)
                      {
                      sprintf( errmsg, _("### 203 %d reference=%d\n"), 
@@ -1563,6 +1564,7 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
                cb->encoding.reference = 0;
                cb->encoding.scale = 0;
                cb->encoding.af_nbits = 0;
+               cb->encoding.ref_nbits = 0;
                cb->encoding.nbits = ddo->change_ref_val_op;
                if (debug)
                   {
@@ -1601,6 +1603,7 @@ int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmp
                   tb1 = bufr_new_EntryTableB();
                   bufr_copy_EntryTableB( tb1, tb2 );
                   tb1->encoding.reference = value; 
+                  tb1->encoding.ref_nbits = bufr_value_nbits( tb1->encoding.reference );
                   /* 
                    * storage for temporary Table Entry allocation here 
                    */
@@ -1675,6 +1678,7 @@ static void bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb
       bc->encoding.scale = 0;
       bc->encoding.reference = 0;
       bc->encoding.nbits = 0;
+      bc->encoding.ref_nbits = 0;
       }
 
    bc->encoding.af_nbits = 0;

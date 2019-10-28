@@ -374,7 +374,11 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
 			  */
           if ( be->scale == 0 && be->reference >= 0 ) 
             {
-				int rb = bufr_value_nbits(be->reference);
+				int rb;
+            if (be->reference != 0)
+               rb = be->ref_nbits > 0 ? be->ref_nbits : bufr_value_nbits(be->reference);
+            else
+               rb = 0;
             if (be->nbits + rb <= 8)
                return VALTYPE_INT32; 
             else if (be->nbits + rb <= 32)

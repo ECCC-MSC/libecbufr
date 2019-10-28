@@ -754,6 +754,12 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
 
    tbls->last_searched = e;
 
+   if (e->encoding.reference != 0.0)
+      {
+      if (e->encoding.ref_nbits == 0)
+         e->encoding.ref_nbits = bufr_value_nbits( e->encoding.reference );
+      }
+
    return e;
    }
 
@@ -1149,6 +1155,7 @@ EntryTableB *bufr_new_EntryTableB(void)
    r = (EntryTableB *)malloc(sizeof(EntryTableB));
    r->descriptor         = 0;
    r->encoding.af_nbits  = 0;
+   r->encoding.ref_nbits = 0;
    r->encoding.nbits     = 0;
    r->encoding.scale     = 0;
    r->encoding.reference = 0;
