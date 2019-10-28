@@ -63,6 +63,7 @@ typedef struct bufr_desc
    BufrRTMD            *meta;
    int                  s_descriptor;
    EntryTableB         *etb;
+   int                  repl_rank;
    } BufrDescriptor ;
 
 

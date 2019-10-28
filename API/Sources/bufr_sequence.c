@@ -64,6 +64,9 @@ static void        free_rep_cnt_stack ( LinkedList *stack );
 static int         bufr_simple_check_seq( BUFR_Sequence *bsq, ListNode *node, int depth );
 static void        bufr_transfer_rtmd ( LinkedList *sublist, BufrRTMD *rtmd );
 
+extern int         bufr_debugmode;
+extern int         bufr_meta_enabled;
+
 /**
  * @english
  *  
@@ -438,41 +441,37 @@ LinkedList *bufr_expand_node_descriptor( LinkedList *list, ListNode *node, int f
          if (errflg) *errflg = 1;
          return NULL;
          }
+
       if (cb->meta)
          {
          bufr_transfer_rtmd( sublist, cb->meta );
          }
 
-/*
-      cb->value = (BufrValue *)bufr_create_value( TYPE_NUMERIC );
-      bufr_value_set_int32( cb->value, lst_count( sublist ) );
-*/
-      if ( cb->meta )
-         depth = cb->meta->nb_nesting;
-      else
-         depth = 0;
-#if 1
-      bsq = bufr_create_sequence( list );
-      tmpflags = 0;
-/*      err = bufr_check_sequence( bsq, node, &tmpflags, tbls, depth ); */
-      err = bufr_simple_check_seq( bsq, node, depth );
+//      if (bufr_meta_enabled && (cb->meta == NULL))
+//         cb->meta = bufr_create_rtmd( 0 );
 
-      bsq->list = NULL;
-      bufr_free_sequence( bsq );
-
-      if (err < 0) 
+      if ( 1 )
          {
-         if (errflg) *errflg = 1;
-         return NULL;
-         }
-#endif
+         depth = cb->meta ? cb->meta->nb_nesting : 0 ;
+         bsq = bufr_create_sequence( list );
+         tmpflags = 0;
+/*       err = bufr_check_sequence( bsq, node, &tmpflags, tbls, depth ); */
+         err = bufr_simple_check_seq( bsq, node, depth );
 
-#if 1
-      bsq = bufr_create_sequence( sublist );
-      err = bufr_simple_check_seq( bsq, NULL, depth );
-      bsq->list = NULL;
-      bufr_free_sequence( bsq );
-#endif
+         bsq->list = NULL;
+         bufr_free_sequence( bsq );
+
+         if (err < 0) 
+            {
+            if (errflg) *errflg = 1;
+            return NULL;
+            }
+
+         bsq = bufr_create_sequence( sublist );
+         err = bufr_simple_check_seq( bsq, NULL, depth );
+         bsq->list = NULL;
+         bufr_free_sequence( bsq );
+         }
       *skip = -1;
       }
    else if (f == 0)
@@ -595,10 +594,8 @@ static LinkedList *bufr_repl_descriptors
                if (cb->etb == NULL) cb->etb = tb;
                }
             }
-#if 1
-         if (cb->meta == NULL)
-            cb->meta = bufr_create_rtmd( 1 );
-#endif
+         if (bufr_meta_enabled)
+            if (cb->meta == NULL) cb->meta = bufr_create_rtmd( 1 );
          desc = bufr_dupl_descriptor ( cb );
          if ( desc == NULL )
             {
@@ -622,7 +619,7 @@ static LinkedList *bufr_repl_descriptors
 /*
  * establish replication nesting position
 */
-
+         desc->repl_rank = j+1;
          if (desc->meta)
             {
             for (n = 0; n < desc->meta->nb_nesting ; n++ )
@@ -633,7 +630,7 @@ static LinkedList *bufr_repl_descriptors
                   break;
                   }
                }
-            }
+            } 
          lst_addlast( lst, lst_newnode( desc ) );
          prev = node;
          node = lst_nextnode( node );
@@ -771,7 +768,6 @@ int bufr_check_sequence
    int  skip1;
    int  *repl;
    char  errmsg[256];
-   int   debug=bufr_is_debug();
  
 /*
  * make sure replication F==1 descriptors count are properly set
@@ -878,8 +874,11 @@ int bufr_check_sequence
 
 */
       count = lst_count( stack ) + depth;
-      if ((count > 0)&&(cb->meta == NULL))
-         cb->meta = bufr_create_rtmd( count );
+      if (bufr_meta_enabled)
+         {
+         if ((count > 0)&&(cb->meta == NULL))
+            cb->meta = bufr_create_rtmd( count );
+         }
 
       repl_active = decrease_repeat_counters( cb->descriptor, stack, &skip1 );
       if (repl_active < 0)
@@ -965,7 +964,7 @@ static int decrease_repeat_counters( int descriptor, LinkedList *stack, int *ski
    ListNode *first;
    int      *repl=NULL;
    int       rtrn=0;
-   int       isdebug=bufr_is_debug();
+   int       isdebug=bufr_debugmode;
    char      errmsg[128];
 
 #if DEBUG
@@ -1176,14 +1175,6 @@ BufrDDOp  *bufr_apply_Tables
    ( BufrDDOp *ddoi, BUFR_Sequence *bsq, BUFR_Template *tmplt, ListNode *current, int *errcode )
    {
    ListNode         *node;
-   BufrDescriptor         *cb;
-   int               f, x, y;
-   int               res;
-   EntryTableB      *otb;
-   int               version;
-   int               debug=bufr_is_debug();
-   char              errmsg[256];
-   BUFR_Tables      *tbls;
    BufrDDOp         *ddo;
 
    *errcode = 0;
@@ -1194,325 +1185,342 @@ BufrDDOp  *bufr_apply_Tables
    else
       ddo = ddoi;
 
-   version = tmplt->edition;
    node = ddo->current;
    if (node == NULL)
       node = lst_firstnode( bsq->list );
 
-   tbls = tmplt->tables;
-
    while ( node )
       {
-      cb = (BufrDescriptor *)node->data;
-      f = DESC_TO_F( cb->descriptor );
-      x = DESC_TO_X( cb->descriptor );
-      y = DESC_TO_Y( cb->descriptor );
-      if (x == 31) cb->flags |= FLAG_CLASS31;
-
-      if (ddoi && bufr_is_marker_dpbm(cb->descriptor) && ddo->dpbm)
-         {
-         if (cb->meta)
-            {
-            ListNode  *node1;
-            BufrDescriptor  *cbm;
-            int        ndx;
-            int idp = cb->meta->nesting[cb->meta->nb_nesting-1];
-            if (idp <= 0)
-               {
-               if (debug)
-                  {
-                  sprintf( errmsg, _("Error obtaining Repl Rank of %d = %d\n"),
-                     cb->descriptor, idp );
-                  bufr_print_debug( errmsg );
-                  }
-               }
-            else
-               {
-               ndx = ddo->dpbm->dp[idp-1];
-               if (ndx >= 0)
-                  {
-                  ndx = ddo->dpbm->index[ndx];
-                  node1 = bufr_getnode_sequence( bsq, ndx );
-                  cbm = (BufrDescriptor *)node1->data;
-                  if (cb->value)
-                     bufr_free_value( cb->value );
-                  cb->value = bufr_mkval_for_descriptor( cbm );
-                  cb->encoding = cbm->encoding;
-                  cb->s_descriptor = cbm->descriptor;
-                  if (debug)
-                     {
-                     sprintf( errmsg, _("NDX=%d DESC=%d\n"), ndx, cbm->descriptor );
-                     bufr_print_debug( errmsg );
-                     }
-                  }
-               }
-            }
-         if (node == current) break;
-         node = lst_nextnode( node );
-         continue;
-         }
-      else if (ddoi && cb->flags & FLAG_CLASS33)
-         {
-         ListNode  *node1;
-         BufrDescriptor  *cbm;
-         int        ndx;
-         int        idx;
-         int idp = cb->meta->nesting[cb->meta->nb_nesting-1];
-
-         if (ddo->dpbm == NULL)
-            ddo->dpbm = bufr_index_dpbm( ddo, bsq );
-         idx = ddo->dpbm->dp[idp-1];
-         if (idx >= 0)
-            {
-            ndx = ddo->dpbm->index[ddo->dpbm->dp[idp-1]];
-            node1 = bufr_getnode_sequence( bsq, ndx );
-            cbm = (BufrDescriptor *)node1->data;
-            cb->s_descriptor = cbm->descriptor;
-            }
-         }
-      else if (ddoi && (cb->descriptor == 236000))
-         {
-         if (ddo->dpbm == NULL)
-            ddo->dpbm = bufr_index_dpbm( ddo, bsq );
-         }
-      else if (ddoi && (ddo->flags & DDO_BIT_MAP_FOLLOW) && (cb->descriptor == 31031))
-         {
-         if (ddo->remain_dpi > 0)
-            {
-            ddo->remain_dpi -= 1;
-            }
-         if (ddo->remain_dpi == 0)
-            {
-            if (ddo->dpbm == NULL)
-               ddo->dpbm = bufr_index_dpbm( ddo, bsq );
-            bufr_init_dpbm( ddo->dpbm, ddo->start_dpi );
-            ddo->remain_dpi = -1;
-            }
-         }
-      else if (ddoi && (ddo->flags & DDO_BIT_MAP_FOLLOW) && (cb->descriptor != 31031))
-         {
-         if (ddo->dpbm == NULL)
-            ddo->dpbm = bufr_index_dpbm( ddo, bsq );
-         if ((ddo->remain_dpi > 0)&&(ddo->remain_dpi < ddo->dpbm->nb_codes))
-            {
-            sprintf( errmsg, _("Warning: bitmap size %d != %d data present descriptors\n"),
-               ddo->dpbm->nb_codes - ddo->remain_dpi, ddo->dpbm->nb_codes );
-            bufr_print_debug( errmsg );
-            bufr_init_dpbm( ddo->dpbm, ddo->start_dpi );
-            ddo->remain_dpi = -1;
-            ddo->flags &= ~DDO_BIT_MAP_FOLLOW;
-            }
-         }
-
-/*
- * overriding table B entry
-
-*/
-      otb = NULL;
-      if (f == 0)
-         {
-         otb = bufr_tableb_fetch_entry( ddo->override_tableb, cb->descriptor );
-         if (otb == NULL)
-            otb = cb->etb ? cb->etb : bufr_fetch_tableB( tmplt->tables, cb->descriptor );
-         }
-
-      bufr_reassign_table2code( cb, f, otb );
-/*
- * applying time or location descriptor followed by replication or separate by table C descriptor
- */
-/* a 205YYY would turn a TABLE C into CCITT_IA5 */
-      if (f == 2)
-         {
-         if (BUFR_STRICT==ddo->enforce)
-            {
-            switch( version )
-               {
-               case 5 :
-                  res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
-                  break;
-               case 4 :
-                  res = bufr_resolve_tableC_v4( cb, ddo, x, y, version, node );
-                  break;
-               case 3 :
-                  res = bufr_resolve_tableC_v3( cb, ddo, x, y, version, node );
-                  break;
-               default :
-                  res = bufr_resolve_tableC_v2( cb, ddo, x, y, version, node );
-                  break;
-               }
-            }
-         else
-            {
-            /* some use edition 4 operators but encode as edition 3 */
-            /* when BUFR rules are laxed, calling version 5 C operators handler for any version will open the gate for all */
-            res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
-            }
-         if (res < 0) 
-            *errcode = res;
-         }
-      else if ((ddo->flags & DDO_DEFINE_EVENT)==0)
-         {
-         if (bufr_init_location( ddo, cb )==0)
-            {
-            if (ddo->flags & DDO_HAS_LOCATION)
-               {
-               if (f == 1)
-                  {
-                  bufr_assoc_location( cb, ddo );
-                  bufr_clear_location( ddo );
-                  }
-               ddo->flags &= ~DDO_HAS_LOCATION;
-               }
-            }
-         }
-
-      if (cb->meta)
-         {
-         if (cb->meta->tlc)
-            {
-            free( cb->meta->tlc );
-            }
-         cb->meta->tlc = bufr_current_location( ddo, cb->meta, &(cb->meta->nb_tlc) );
-         }
-
-      switch ( cb->encoding.type )
-         {
-         case TYPE_CCITT_IA5 :
-         case TYPE_NUMERIC :
-         case TYPE_CODETABLE :
-         case TYPE_FLAGTABLE :
-            if (cb->flags & FLAG_CLASS31) /* data description operators don't apply to class 31 */
-               {
-               if ((ddo->add_af_nbits > 0) && (cb->descriptor == 31021))
-                  {
-                  bufr_change_af_sig( ddo, node->data );
-                  }
-               break;
-               }
-
-            if (ddo->add_af_nbits > 0) /* assign YYY bits of Associated Fied to each data element */
-               {
-               cb->encoding.af_nbits = ddo->add_af_nbits;
-               bufr_set_descriptor_afd( cb, ddo->af_list );
-               }
-            break;
-         default :
-            break;
-         }
-
-      switch ( cb->encoding.type )
-         {
-         case TYPE_CCITT_IA5 :
-            if (ddo->redefine_ccitt_ia5 > 0)
-               {
-               cb->encoding.nbits = ddo->redefine_ccitt_ia5 * 8;
-               }
-            break;
-         case TYPE_NUMERIC :
-            /* 
-             * Data Descriptor Operator shall not apply to TableB class 31 
-             */
-            if (cb->flags & FLAG_CLASS31)  
-               break;
-
-            if (ddo->use_ieee_fp)
-               {
-               cb->encoding.type = TYPE_IEEE_FP;
-               cb->encoding.nbits = ddo->use_ieee_fp;
-               tmplt->flags |= HAS_IEEE_FP ;
-               break;
-               }
-           
-            if (ddo->change_ref_val_op > 0)
-               {
-               bufr_apply_op_crefval( ddo, cb, tmplt );
-               }
-            else
-               {
-               if (ddo->local_nbits_follows > 0)
-                  {
-                  if (bufr_is_local_descriptor( cb->descriptor ))
-                     {
-                     if (cb->encoding.nbits > 0)
-                        {
-                        if (cb->encoding.nbits != ddo->local_nbits_follows)
-                           {
-                           BufrDescriptor *cb1;
-                           ListNode *prev;
-                           int       new206;
-   
-                           prev = lst_prevnode( node );
-                           cb1 = (BufrDescriptor *)prev->data;
-                           new206 = 206000 + ddo->local_nbits_follows;
-                           if (debug)
-                              {
-                              sprintf( errmsg, _n("Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been %d\n", 
-                                                  "Warning: local descriptor %.6d (%d bits) doesn't match %d, should have been %d\n", 
-                                                  cb->encoding.nbits), 
-                                       cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
-                              bufr_print_debug( errmsg );
-                              }
-                           }
-                        }
-                     else
-                        {
-                        if (debug)
-                           {
-                           sprintf( errmsg, _n("### Setting local descriptor %.6d to %d bit\n", 
-                                               "### Setting local descriptor %.6d to %d bits\n", 
-                                               ddo->local_nbits_follows), 
-                                    cb->descriptor, ddo->local_nbits_follows );
-                           bufr_print_debug( errmsg );
-                           }
-                        cb->encoding.nbits = ddo->local_nbits_follows;
-                        }
-                     }
-                  ddo->local_nbits_follows = 0;
-                  }
-               else if (ddo->add_nbits != 0)
-                  {
-                  cb->encoding.nbits += ddo->add_nbits;
-                  if (debug)
-                     {
-                     sprintf( errmsg, _("### 201 %d datawidth=%d\n"), 
-                              cb->descriptor, cb->encoding.nbits );
-                     bufr_print_debug( errmsg );
-                     }
-                  }
-   
-               if (ddo->multiply_scale != 0)
-                  {
-                  cb->encoding.scale += ddo->multiply_scale;
-                  if (debug)
-                     {
-                     sprintf( errmsg, _("### 202 %d scale=%d\n"), 
-                              cb->descriptor, cb->encoding.scale );
-                     bufr_print_debug( errmsg );
-                     }
-                  }
-
-               if (ddo->change_ref_value != 0)
-                  {
-                  cb->encoding.reference *= 10^ddo->change_ref_value;
-                  cb->encoding.ref_nbits = bufr_value_nbits( cb->encoding.reference );
-                  if (debug)
-                     {
-                     sprintf( errmsg, _("### 203 %d reference=%d\n"), 
-                         cb->descriptor, cb->encoding.reference );
-                     bufr_print_debug( errmsg );
-                     }
-                  }
-               }
-            break;
-         default :
-            break;
-         }
+      bufr_apply_tables2node( ddo, bsq, tmplt, node, errcode );
       if (node == current) break;
       node = lst_nextnode( node );
       }
 
    return ddo;
    }
+
+
+/**
+ * @english
+ *    bufr_apply_tables2node( ddo, bsq,  dts->tmplte, NULL, &errcode, debug )
+ *    (BufrDDOp *ddo, BUFR_Sequence *bsq, BUFR_Template *tmplt, ListNode *)
+ * This is a call to apply Table C operators on a code value 
+ * @return  int
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup template internal
+ */
+int bufr_apply_tables2node
+   ( BufrDDOp *ddo, BUFR_Sequence *bsq, BUFR_Template *tmplt, ListNode *node, int *errcode )
+   {
+   BufrDescriptor   *cb;
+   int               f, x, y;
+   int               res;
+   EntryTableB      *otb;
+   char              errmsg[256];
+   int               debug=bufr_debugmode;
+
+   cb = (BufrDescriptor *)node->data;
+   f = DESC_TO_F( cb->descriptor );
+   x = DESC_TO_X( cb->descriptor );
+   y = DESC_TO_Y( cb->descriptor );
+   if (x == 31) cb->flags |= FLAG_CLASS31;
+
+   if (ddo->dpbm && bufr_is_marker_dpbm(cb->descriptor))
+      {
+      ListNode  *node1;
+      BufrDescriptor  *cbm;
+      int        ndx;
+      int idp = cb->repl_rank;
+      if (idp <= 0)
+         {
+         if (debug)
+            {
+            sprintf( errmsg, _("Error obtaining Repl Rank of %d = %d\n"),
+               cb->descriptor, idp );
+            bufr_print_debug( errmsg );
+            }
+         }
+      else
+         {
+         ndx = ddo->dpbm->dp[idp-1];
+         if (ndx >= 0)
+            {
+            ndx = ddo->dpbm->index[ndx];
+            node1 = bufr_getnode_sequence( bsq, ndx );
+            cbm = (BufrDescriptor *)node1->data;
+            if (cb->value)
+               bufr_free_value( cb->value );
+            cb->value = bufr_mkval_for_descriptor( cbm );
+            cb->encoding = cbm->encoding;
+            cb->s_descriptor = cbm->descriptor;
+            if (debug)
+               {
+               sprintf( errmsg, _("NDX=%d DESC=%d\n"), ndx, cbm->descriptor );
+               bufr_print_debug( errmsg );
+               }
+            }
+         }
+      return 0;
+      }
+   else if (cb->flags & FLAG_CLASS33)
+      {
+      ListNode  *node1;
+      BufrDescriptor  *cbm;
+      int        ndx;
+      int        idx;
+      int idp = cb->repl_rank;
+
+      if (ddo->dpbm == NULL)
+         ddo->dpbm = bufr_index_dpbm( ddo, bsq );
+      idx = ddo->dpbm->dp[idp-1];
+      if (idx >= 0)
+         {
+         ndx = ddo->dpbm->index[ddo->dpbm->dp[idp-1]];
+         node1 = bufr_getnode_sequence( bsq, ndx );
+         cbm = (BufrDescriptor *)node1->data;
+         cb->s_descriptor = cbm->descriptor;
+         }
+      }
+   else if (cb->descriptor == 236000)
+      {
+      if (ddo->dpbm == NULL)
+         ddo->dpbm = bufr_index_dpbm( ddo, bsq );
+      }
+   else if ((ddo->flags & DDO_BIT_MAP_FOLLOW) && (cb->descriptor == 31031))
+      {
+      if (ddo->remain_dpi > 0)
+         {
+         ddo->remain_dpi -= 1;
+         }
+      if (ddo->remain_dpi == 0)
+         {
+         if (ddo->dpbm == NULL)
+            ddo->dpbm = bufr_index_dpbm( ddo, bsq );
+         bufr_init_dpbm( ddo->dpbm, ddo->start_dpi );
+         ddo->remain_dpi = -1;
+         }
+      }
+   else if ((ddo->flags & DDO_BIT_MAP_FOLLOW) && (cb->descriptor != 31031))
+      {
+      if (ddo->dpbm == NULL)
+         ddo->dpbm = bufr_index_dpbm( ddo, bsq );
+      if ((ddo->remain_dpi > 0)&&(ddo->remain_dpi < ddo->dpbm->nb_codes))
+         {
+         sprintf( errmsg, _("Warning: bitmap size %d != %d data present descriptors\n"),
+            ddo->dpbm->nb_codes - ddo->remain_dpi, ddo->dpbm->nb_codes );
+         bufr_print_debug( errmsg );
+         bufr_init_dpbm( ddo->dpbm, ddo->start_dpi );
+         ddo->remain_dpi = -1;
+         ddo->flags &= ~DDO_BIT_MAP_FOLLOW;
+         }
+      }
+
+/*
+ * overriding table B entry
+
+*/
+   otb = NULL;
+   if (f == 0)
+      {
+      if ( ddo->override_tableb )
+         otb = bufr_tableb_fetch_entry( ddo->override_tableb, cb->descriptor );
+      if (otb == NULL)
+         otb = cb->etb ? cb->etb : bufr_fetch_tableB( tmplt->tables, cb->descriptor );
+      }
+
+   bufr_reassign_table2code( cb, f, otb );
+/*
+ * applying time or location descriptor followed by replication or separate by table C descriptor
+ */
+/* a 205YYY would turn a TABLE C into CCITT_IA5 */
+   if (f == 2)
+      {
+      int version = tmplt->edition;
+      if (BUFR_STRICT==ddo->enforce)
+         {
+         switch( version )
+            {
+            case 5 :
+               res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
+               break;
+            case 4 :
+               res = bufr_resolve_tableC_v4( cb, ddo, x, y, version, node );
+               break;
+            case 3 :
+               res = bufr_resolve_tableC_v3( cb, ddo, x, y, version, node );
+               break;
+            default :
+               res = bufr_resolve_tableC_v2( cb, ddo, x, y, version, node );
+               break;
+            }
+         }
+      else
+         {
+         /* some use edition 4 operators but encode as edition 3 */
+         /* when BUFR rules are laxed, calling version 5 C operators handler for any version will open the gate for all */
+         res = bufr_resolve_tableC_v5( cb, ddo, x, y, version, node );
+         }
+      if (res < 0) 
+         *errcode = res;
+      }
+   else if ((ddo->flags & DDO_DEFINE_EVENT)==0)
+      {
+      if (bufr_init_location( ddo, cb )==0)
+         {
+         if (ddo->flags & DDO_HAS_LOCATION)
+            {
+            if (f == 1)
+               {
+               bufr_assoc_location( cb, ddo );
+               bufr_clear_location( ddo );
+               }
+            ddo->flags &= ~DDO_HAS_LOCATION;
+            }
+         }
+      }
+
+   if (cb->meta)
+      {
+      if (cb->meta->tlc) free( cb->meta->tlc );
+      cb->meta->tlc = bufr_current_location( ddo, cb->meta, &(cb->meta->nb_tlc) );
+      }
+
+   switch ( cb->encoding.type )
+      {
+      case TYPE_CCITT_IA5 :
+      case TYPE_NUMERIC :
+      case TYPE_CODETABLE :
+      case TYPE_FLAGTABLE :
+         if (cb->flags & FLAG_CLASS31) /* data description operators don't apply to class 31 */
+            {
+            if ((ddo->add_af_nbits > 0) && (cb->descriptor == 31021))
+               bufr_change_af_sig( ddo, node->data );
+            break;
+            }
+
+         if (ddo->add_af_nbits > 0) /* assign YYY bits of Associated Fied to each data element */
+            {
+            cb->encoding.af_nbits = ddo->add_af_nbits;
+            bufr_set_descriptor_afd( cb, ddo->af_list );
+            }
+         break;
+      default :
+         break;
+      }
+
+   switch ( cb->encoding.type )
+      {
+      case TYPE_CCITT_IA5 :
+         if (ddo->redefine_ccitt_ia5 > 0)
+            cb->encoding.nbits = ddo->redefine_ccitt_ia5 * 8;
+         break;
+      case TYPE_NUMERIC :
+         /* 
+          * Data Descriptor Operator shall not apply to TableB class 31 
+          */
+         if (cb->flags & FLAG_CLASS31)  
+            break;
+
+         if (ddo->use_ieee_fp)
+            {
+            cb->encoding.type = TYPE_IEEE_FP;
+            cb->encoding.nbits = ddo->use_ieee_fp;
+            tmplt->flags |= HAS_IEEE_FP ;
+            break;
+            }
+        
+         if (ddo->change_ref_val_op > 0)
+            {
+            bufr_apply_op_crefval( ddo, cb, tmplt );
+            }
+         else
+            {
+            if (ddo->local_nbits_follows > 0)
+               {
+               if (bufr_is_local_descriptor( cb->descriptor ))
+                  {
+                  if (cb->encoding.nbits > 0)
+                     {
+                     if (cb->encoding.nbits != ddo->local_nbits_follows)
+                        {
+                        BufrDescriptor *cb1;
+                        ListNode *prev;
+                        int       new206;
+
+                        prev = lst_prevnode( node );
+                        cb1 = (BufrDescriptor *)prev->data;
+                        new206 = 206000 + ddo->local_nbits_follows;
+                        if (debug)
+                           {
+                           sprintf( errmsg, _n("Warning: local descriptor %.6d (%d bit) doesn't match %d, should have been %d\n", 
+                                               "Warning: local descriptor %.6d (%d bits) doesn't match %d, should have been %d\n", 
+                                               cb->encoding.nbits), 
+                                    cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
+                           bufr_print_debug( errmsg );
+                           }
+                        }
+                     }
+                  else
+                     {
+                     if (debug)
+                        {
+                        sprintf( errmsg, _n("### Setting local descriptor %.6d to %d bit\n", 
+                                            "### Setting local descriptor %.6d to %d bits\n", 
+                                            ddo->local_nbits_follows), 
+                                 cb->descriptor, ddo->local_nbits_follows );
+                        bufr_print_debug( errmsg );
+                        }
+                     cb->encoding.nbits = ddo->local_nbits_follows;
+                     }
+                  }
+               ddo->local_nbits_follows = 0;
+               }
+            else if (ddo->add_nbits != 0)
+               {
+               cb->encoding.nbits += ddo->add_nbits;
+               if (debug)
+                  {
+                  sprintf( errmsg, _("### 201 %d datawidth=%d\n"), 
+                           cb->descriptor, cb->encoding.nbits );
+                  bufr_print_debug( errmsg );
+                  }
+               }
+
+            if (ddo->multiply_scale != 0)
+               {
+               cb->encoding.scale += ddo->multiply_scale;
+               if (debug)
+                  {
+                  sprintf( errmsg, _("### 202 %d scale=%d\n"), 
+                           cb->descriptor, cb->encoding.scale );
+                  bufr_print_debug( errmsg );
+                  }
+               }
+
+            if (ddo->change_ref_value != 0)
+               {
+               cb->encoding.reference *= 10^ddo->change_ref_value;
+               cb->encoding.ref_nbits = bufr_value_nbits( cb->encoding.reference );
+               if (debug)
+                  {
+                  sprintf( errmsg, _("### 203 %d reference=%d\n"), 
+                      cb->descriptor, cb->encoding.reference );
+                  bufr_print_debug( errmsg );
+                  }
+               }
+            }
+         break;
+      default :
+         break;
+      }
+
+   return 0;
+   }
+
 
 /**
  * @english
@@ -1532,7 +1540,7 @@ int bufr_init_location( BufrDDOp *ddo, BufrDescriptor *cb )
 
       if (!bufr_is_missing_float( value ))
          {
-         bufr_keep_location( ddo, cb->descriptor, bufr_value_get_float(cb->value) );
+         bufr_keep_location( ddo, cb->descriptor, value );
          ddo->flags |= DDO_HAS_LOCATION;
          return 1;
          }
@@ -1552,7 +1560,7 @@ int bufr_init_location( BufrDDOp *ddo, BufrDescriptor *cb )
 int bufr_apply_op_crefval( BufrDDOp *ddo, BufrDescriptor *cb, BUFR_Template *tmplt )
    {
    char   errmsg[256];
-   int    debug=bufr_is_debug();
+   int    debug=bufr_debugmode;
 
    switch ( cb->encoding.type )
       {
@@ -1652,10 +1660,7 @@ static void bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb
    {
    if (tb)
       {
-      bc->encoding.type      = tb->encoding.type;
-      bc->encoding.scale     = tb->encoding.scale;
-      bc->encoding.reference = tb->encoding.reference;
-      bc->encoding.nbits     = tb->encoding.nbits;
+      memcpy( &(bc->encoding), &(tb->encoding), sizeof(BufrValueEncoding) );
       }
    else
       {
@@ -1682,7 +1687,6 @@ static void bufr_reassign_table2code( BufrDescriptor *bc, int f, EntryTableB *tb
       bc->encoding.nbits = 0;
       bc->encoding.ref_nbits = 0;
       }
-
    bc->encoding.af_nbits = 0;
    }
 
@@ -1812,7 +1816,7 @@ BufrDPBM *bufr_index_dpbm ( BufrDDOp *ddo, BUFR_Sequence *bsq )
 
 */
 
-   if (bufr_is_debug())
+   if (bufr_debugmode)
       {
       sprintf( buffer, _("### Code Count: %d\n"), nb );
       bufr_print_debug( buffer );
@@ -2253,9 +2257,12 @@ static int bufr_simple_check_seq
 /*
  * determine nesting level of code in replication
  */
-      count = lst_count( stack ) + depth;
-      if ((count > 0)&&(cb->meta == NULL))
-         cb->meta = bufr_create_rtmd( count );
+      if (bufr_meta_enabled)
+         {
+         count = lst_count( stack ) + depth;
+         if ((count > 0)&&(cb->meta == NULL))
+            cb->meta = bufr_create_rtmd( count );
+         }
 
       repl_active = decrease_repeat_counters( cb->descriptor, stack, &skip1 );
       if (repl_active < 0)

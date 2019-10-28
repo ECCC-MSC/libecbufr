@@ -51,7 +51,7 @@ static FILE *output_fp=NULL;
 static char *output_filename=NULL;
 static void (*udf_output)(const char *msg) = NULL;
 
-static int  debugmode=0;
+       int  bufr_debugmode=0;  /* turned into global var. to avoid calling bufr_is_debug() */
 static int  verbosemode=0;
 static int  trimzero_mode=1;
 
@@ -1247,7 +1247,7 @@ void bufr_set_abort( void (*uabort)(const char *msg) )
  */
 int bufr_is_debug(void) 
    {
-   return (debugmode != 0) ? 1 : 0;
+   return (bufr_debugmode != 0) ? 1 : 0;
    }
 
 /**
@@ -1277,7 +1277,7 @@ int bufr_is_verbose(void)
  */
 void bufr_set_debug(int mode) 
    {
-   debugmode = mode;
+   bufr_debugmode = mode;
    if (mode == 0)
       {
       if (verbosemode == -1) verbosemode = 0;
@@ -1308,7 +1308,7 @@ void bufr_set_verbose(int mode)
  * verbose stays on when in debug mode
 
 */
-   if (debugmode)
+   if (bufr_debugmode)
       {
       if (mode == 0)
          {

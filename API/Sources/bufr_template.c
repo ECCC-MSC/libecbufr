@@ -839,7 +839,7 @@ int bufr_save_template( const char *filename, BUFR_Template *tmplt )
             errmsg[0] = '\0';
             if (bufr_print_value( errmsg, code->values[j] ))
                {
-               fprintf( fp, errmsg );
+               fprintf( fp, "%s\n", errmsg );
                }
             if ((j > 0)&&((j+1) < code->nbval))
                fprintf( fp, "," );

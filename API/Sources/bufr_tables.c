@@ -701,14 +701,14 @@ EntryTableB *bufr_fetch_tableB(BUFR_Tables *tbls, int desc)
 
    if (tbls->last_searched)
       {
-      if (desc == tbls->last_searched->descriptor)
+      if (desc == tbls->last_searched->descriptor) 
          return tbls->last_searched;
       }
 
    if (tbls->tableB_cache)
       {
       e = bufr_tableb_fetch_entry( tbls->tableB_cache, desc );
-      if (e != NULL)
+      if (e != NULL) 
          {
          tbls->last_searched = e;
          return e;
@@ -1205,10 +1205,7 @@ void  bufr_copy_EntryTableB( EntryTableB *e1, EntryTableB *e2 )
       }
 
    e1->descriptor = e2->descriptor;
-   e1->encoding.scale = e2->encoding.scale;
-   e1->encoding.reference = e2->encoding.reference;
-   e1->encoding.nbits = e2->encoding.nbits;
-   e1->encoding.type = e2->encoding.type;
+   memcpy( &(e1->encoding), &(e2->encoding), sizeof(BufrValueEncoding) );
 
    if (e1->unit)
       {
@@ -2282,9 +2279,9 @@ uint16_t bufr_descriptor_i32_to_i16(int dcode)
  */
 void bufr_descriptor_to_fxy(int code, int *f, int *x, int *y)
    {
-   *f = code / 100000;
-   *x = (code / 1000)%100;
-   *y = code % 1000;
+   *f = DESC_TO_F( code );
+   *x = DESC_TO_X( code );
+   *y = DESC_TO_Y( code );
    }
 
 /**

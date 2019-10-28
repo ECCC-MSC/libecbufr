@@ -495,6 +495,7 @@ This file is part of libECBUFR.
     Array *arr=(Array *)obj;
 
     if( arr == NULL ) return;
+    if ( arr->count <= 1 ) return;
 
     qsort( (void *)arr->eles, (int)arr->count, arr->size, compar );
     }

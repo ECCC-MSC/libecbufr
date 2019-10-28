@@ -131,6 +131,7 @@ BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
    d->flags              = 0;
    d->meta               = NULL;
    d->etb                = NULL;
+   d->repl_rank          = 0;
 
    if (tbls != NULL)
       {
@@ -139,7 +140,7 @@ BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
 		e = bufr_fetch_tableB( tbls, desc );
 		if( e )
 			{
-			memcpy( &d->encoding, &e->encoding, sizeof(d->encoding) );
+         memcpy( &d->encoding, &e->encoding, sizeof(d->encoding) );
          d->etb = e;
 			}
       }
@@ -232,11 +233,8 @@ void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
    {
    dest->descriptor         = src->descriptor;
    dest->flags              = src->flags;
-   dest->encoding.type      = src->encoding.type;
-   dest->encoding.reference = src->encoding.reference;
-   dest->encoding.scale     = src->encoding.scale;
-   dest->encoding.nbits     = src->encoding.nbits;
-   dest->encoding.af_nbits  = src->encoding.af_nbits;
+   memcpy( &(dest->encoding), &(src->encoding), sizeof(BufrValueEncoding) );
+   dest->repl_rank          = src->repl_rank;
 
    if ( src->value )
       {

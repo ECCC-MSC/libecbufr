@@ -72,6 +72,7 @@ static int         bufr_load_header( FILE *fp, BUFR_Dataset *dts );
 static int         bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_Enforcement enforce );
 static void        bufr_mkval_rest_sequence(BUFR_Tables   *tbls, BUFR_Sequence *bsq2, ListNode *node, int *errflg );
 
+extern int         bufr_meta_enabled;
 
 /**
  * @english
@@ -304,7 +305,7 @@ int bufr_expand_qualifiers( DataSubset* dss )
 		/* Assign copy of current qualifier list to the descriptor.
 		 * This may require allocating new (empty) RTMD.
 		 */
-		if( nb_quals>0 )
+		if  (( nb_quals>0 ) && bufr_meta_enabled )
 			{
 			BufrDescriptor* bd = pbcd[i];
 			if( bd->meta == NULL ) bd->meta = bufr_create_rtmd(0);
@@ -446,7 +447,8 @@ int bufr_expand_datasubset( BUFR_Dataset *dts, int dss_pos )
    bsq->list = NULL;
    bufr_free_sequence( bsq );
 
-	bufr_expand_qualifiers( dss );
+   if ( bufr_meta_enabled )
+	   bufr_expand_qualifiers( dss );
 
    return bufr_datasubset_count_descriptor( dss );
    }
@@ -2275,14 +2277,14 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       free( codets );
       return NULL;
       }
-
+/*
    if (bufr_finalize_template( template ) < 0) 
       {
       bufr_free_template ( template );
       free( codets );
       return NULL;
       }
-
+*/
    dts = bufr_create_dataset( template );
    if (dts == NULL)
       {
@@ -2355,7 +2357,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             if (cb->flags & FLAG_SKIPPED)
                {
                ddo->current = node;
-               ddo = bufr_apply_Tables( ddo, bsq2, dts->tmplte, node, &errcode ); 
+               bufr_apply_tables2node( ddo, bsq2, dts->tmplte, node, &errcode );
                if (errcode < 0)
 	               dts->data_flag |= BUFR_FLAG_INVALID;
                node = lst_nextnode( node );
@@ -2366,7 +2368,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             y = DESC_TO_Y( cb->descriptor );
 
             ddo->current = node;
-            ddo = bufr_apply_Tables( ddo, bsq2, dts->tmplte, node, &errcode ); 
+            bufr_apply_tables2node( ddo, bsq2, dts->tmplte, node, &errcode ); 
             if (errcode < 0)
 	            dts->data_flag |= BUFR_FLAG_INVALID;
             if (bufr_get_desc_value( msg, cb ) < 0)
@@ -2419,7 +2421,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                      }
 /*
  * check for bad replication that means section 4 should be much bigger 
- * since this is a very coase estimation, we accept no more than 3 times its size
+ * since this is a very coarse estimation, we accept no more than 3 times its size
  */
                   if (tmplist)
                      {
@@ -2505,7 +2507,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                {
                node2 = nodes[i];
                ddos[i]->current = node2;
-               bufr_apply_Tables( ddos[i], bseq[i], dts->tmplte, node2, &errcode ); 
+               bufr_apply_tables2node( ddos[i], bseq[i], dts->tmplte, node2, &errcode ); 
                if (errcode < 0)
 	               dts->data_flag |= BUFR_FLAG_INVALID;
                nodes[i] = nodes[i]->next;
@@ -2520,7 +2522,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             {
             node2 = nodes[i];
             ddos[i]->current = node2;
-            bufr_apply_Tables( ddos[i], bseq[i], dts->tmplte, node2, &errcode ); 
+            bufr_apply_tables2node( ddos[i], bseq[i], dts->tmplte, node2, &errcode ); 
             if (errcode < 0)
 	            dts->data_flag |= BUFR_FLAG_INVALID;
             }
@@ -3327,7 +3329,6 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
    float          fval;
    double         dval;
    char          *kptr = NULL, *ptr;
-   int            f, x, y;
    int            i, len;
    int            errcode;
    LinkedList    *tmplist;
@@ -3472,7 +3473,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
          }
 
       ddo->current = node;
-      bufr_apply_Tables( ddo, bsq2, dts->tmplte, node, &errcode );
+      bufr_apply_tables2node( ddo, bsq2, dts->tmplte, node, &errcode );
       if (errcode < 0)
 	      dts->data_flag |= BUFR_FLAG_INVALID;
 

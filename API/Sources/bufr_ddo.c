@@ -304,8 +304,6 @@ int bufr_substitute_svmo
 int bufr_resolve_tableC_v2
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
    {
-   char errmsg[256];
-
    switch( x )
       {
       case 1 :
@@ -374,6 +372,8 @@ int bufr_resolve_tableC_v2
          break;
       default :
          {
+         char errmsg[256];
+
          sprintf( errmsg, _("Warning: unsupported Table C operator %d in BUFR version %d\n"), 
                cb->descriptor, version );
          print_msg_bad_ed_tco( ddo, errmsg );
@@ -532,7 +532,6 @@ int bufr_resolve_tableC_v5
    ( BufrDescriptor *cb, BufrDDOp *ddo, int x, int y, int version, ListNode *node )
    {
    int   res;
-   char  errmsg[256];
    int   op_version=5;
    int   bad_version=0;
 
@@ -565,6 +564,8 @@ int bufr_resolve_tableC_v5
 
    if (bad_version && (ddo->enforce!=BUFR_LAX))
       {
+      char  errmsg[256];
+
       sprintf( errmsg, _("Warning: Illegal use of BUFR version %d Table C operator %d in BUFR version %d\n"), 
                op_version, cb->descriptor, version );
       print_msg_bad_ed_tco( ddo, errmsg );

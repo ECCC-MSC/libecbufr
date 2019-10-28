@@ -43,6 +43,8 @@ This file is part of libECBUFR.
 #define   CB_FLAG_BIT       0x20000
 #define   FLAG_BITS (TLC_FLAG_BIT|QUAL_FLAG_BIT|CB_FLAG_BIT)
 
+int  bufr_meta_enabled=1;
+
 typedef struct {
 	BufrValue val;
 	int (*valcmp)(void* data, BufrDescriptor* bd);
@@ -111,6 +113,23 @@ void bufr_end_api(void)
    bufr_print_debug( NULL );
    bufr_print_output( NULL );
    bufr_set_debug_file( NULL );
+   }
+
+/**
+ * bufr_enable_meta
+ * @english
+ * enable or disable meta data collection while decoding
+ * @todo translate
+ * @endenglish
+ * @francais
+ * active ou desactive la collection de meta donnees durant decodage
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup debug
+ */
+void bufr_enable_meta(int mode)
+   {
+   bufr_meta_enabled = mode;
    }
 
 /**

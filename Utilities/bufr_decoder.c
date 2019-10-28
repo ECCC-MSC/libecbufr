@@ -168,8 +168,11 @@ static int read_cmdline( int argc, char *argv[] )
        show_loctime = 1;
      } else if (strcmp(argv[i],"-nometa")==0) {
        show_meta = 0;
+       bufr_enable_meta( 0 );
      } else if (strcmp(argv[i],"-no_format")==0) {
        format_ouput = 0;
+     } else if (strcmp(argv[i],"-no_print")==0) {
+       format_ouput = -1;
      } else if (strcmp(argv[i],"-locdesc")==0) {
        ++i; if (i >= argc) abort_usage(argv[0]);
        show_locdesc = atoi(argv[i]);
@@ -329,7 +332,7 @@ static void run_decoder(void)
    while ( (rtrn = bufr_read_message( fpBufr, &msg )) > 0 )
       {
       ++count;
-      if (!dumpmode)
+      if (!dumpmode && (format_ouput >= 0))
          bufr_print_message( msg, bufr_print_output );
 /*
  * fallback on default Tables first
@@ -407,9 +410,9 @@ static void run_decoder(void)
             }
          bufr_fdump_dataset( dts, fp );
          }
-      else if (format_ouput)
+      else if (format_ouput == 1)
          bufr_show_dataset_formatted( dts, file_tables );
-      else
+      else if (format_ouput == 0)
          bufr_show_dataset( dts, file_tables );
 
       bufr_free_dataset( dts );
@@ -667,10 +670,6 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                ivalue = bufr_descriptor_get_ivalue( bcv );
             else 
                ivalue = 0;
-/*
-            sprintf( buf2, "  repl=%d", ivalue );
-            bufr_print_output( buf2 );
-*/
             }
          else
             {

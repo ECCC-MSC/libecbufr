@@ -24,6 +24,7 @@ This file is part of libECBUFR.
 #include "bufr_tables.h"
 #include "bufr_linklist.h"
 #include "bufr_i18n.h"
+#include "bufr_io.h"
 
 /**
  * @english
