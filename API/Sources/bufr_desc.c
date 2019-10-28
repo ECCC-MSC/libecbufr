@@ -141,7 +141,7 @@ BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
 		if( e )
 			{
          memcpy( &d->encoding, &e->encoding, sizeof(d->encoding) );
-         d->etb = e;
+         d->etb = (EntryTableB *)e;
 			}
       }
    return d;
@@ -180,7 +180,10 @@ BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
       return NULL;
       }
 
-   code = bufr_create_descriptor( NULL, dup->descriptor );
+   code = (BufrDescriptor *)malloc(sizeof(BufrDescriptor));
+   code->afd                = NULL;
+   code->value              = NULL;
+   code->meta               = NULL;
    bufr_copy_descriptor( code, dup );
    return code;
    }
@@ -235,6 +238,7 @@ void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
    dest->flags              = src->flags;
    memcpy( &(dest->encoding), &(src->encoding), sizeof(BufrValueEncoding) );
    dest->repl_rank          = src->repl_rank;
+   dest->s_descriptor       = src->s_descriptor;
 
    if ( src->value )
       {
@@ -243,24 +247,19 @@ void bufr_copy_descriptor( BufrDescriptor *dest, BufrDescriptor *src )
       }
 
    if (dest->afd)
-      {
       bufr_free_afd( dest->afd );
-      dest->afd = NULL;
-      }
    if (src->afd)
-      {
       dest->afd = bufr_duplicate_afd( src->afd );
-      }
+   else
+      dest->afd = NULL;
 
    if (dest->meta)
-      {
       bufr_free_rtmd( dest->meta );
-      dest->meta = NULL;
-      }
    if (src->meta)
-      {
       dest->meta = bufr_duplicate_rtmd( src->meta );
-      }
+   else
+      dest->meta = NULL;
+
    dest->etb = src->etb;
    }
 
@@ -1106,7 +1105,7 @@ char *bufr_descriptor_get_svalue ( BufrDescriptor *cb, int *len )
       return NULL;
       }
 
-   return (bufr_value_get_string( cb->value, len ));
+   return ((char *)bufr_value_get_string( cb->value, len ));
    }
 
 /**

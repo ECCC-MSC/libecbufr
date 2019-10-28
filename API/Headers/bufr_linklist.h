@@ -93,7 +93,12 @@ extern ListNode      *lst_rmnode    ( LinkedList *clst, ListNode * node );
 extern ListNode      *lst_rmafter   ( LinkedList *clst, ListNode * node );
 extern ListNode      *lst_nodepos   ( LinkedList *clst, int pos );
 
+#define   lst_nextnode(node)       ((node==NULL)?NULL:node->next)
+
+#ifndef  lst_nextnode
 extern ListNode      *lst_nextnode  ( ListNode *node );
+#endif
+
 extern ListNode      *lst_prevnode  ( ListNode *node );
 extern ListNode      *lst_firstnode ( LinkedList *);
 extern ListNode      *lst_lastnode  ( LinkedList *);

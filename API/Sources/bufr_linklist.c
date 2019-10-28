@@ -843,11 +843,13 @@ ListNode * lst_lastnode( LinkedList *clst )
  *    ListNode  *node : pointeur sur un noeud
  **
 --------------------------------------------------------------------------*/
+#ifndef  lst_nextnode
 ListNode * lst_nextnode( ListNode *node )
    {
    if (node == NULL) return NULL;
    return node->next;
    }
+#endif
 
 /**************************************************************************
  ***NOM: lst_prevnode

@@ -977,12 +977,27 @@ const char *bufr_value_get_string( const BufrValue *bv, int *len )
  */
 uint64_t bufr_missing_ivalue( int nbits )
    {
-   uint64_t v;
+   static uint64_t msng_values[65];
+   static int      initialized=0;
 
-   if ((nbits >= 64)||(nbits <= 0)) return -1;
+   if (initialized == 0)
+      {
+      int i;
+      msng_values[0] = 0;
+      for (i = 1; i <= 64 ; i++)
+         {
+         msng_values[i] = (1ULL << i) - 1L;
+         }
+      initialized=1;
+      }
 
-   v = (1ULL << nbits) - 1L;
-   return v;
+   if (nbits <= 0) return 0;
+   if (nbits >= 64) return msng_values[64];
+   return msng_values[nbits];
+//   uint64_t v;
+//   if ((nbits >= 64)||(nbits <= 0)) return -1;
+//   v = (1ULL << nbits) - 1L;
+//   return v;
    }
 
 /**

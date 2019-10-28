@@ -32,6 +32,7 @@ This file is part of libECBUFR.
 #include "bufr_local.h"
 #include "config.h"
 #include "gettext.h"
+#include "bufr_api.h"
 
 #ifdef _
 #undef _
