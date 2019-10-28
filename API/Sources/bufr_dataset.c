@@ -3629,7 +3629,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
                      errmsg = arr_get( dstrptr, 0 );
                      }
                   sprintf( errmsg, _("   *** has value: '%s' -> '%s'\n"), 
-                        tok, bufr_descriptor_get_svalue( cb, &l ) );
+                        tok, sval );
                   bufr_print_debug( errmsg );
                   }
                break;
