@@ -91,6 +91,8 @@ extern int       bufr_callback_write_message ( bufr_write_callback writecb,
 
 extern   int     bufr_apply_dpbm             ( BufrDPBM *dpbm, BUFR_Sequence *bs, ListNode *svnode );
 
+extern   void    bufr_enable_meta            ( int enable );
+
 #ifdef __cplusplus
 }
 #endif

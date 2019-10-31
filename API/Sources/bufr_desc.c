@@ -38,6 +38,11 @@ This file is part of libECBUFR.
 #include "bufr_array.h"
 #include "bufr_value.h"
 #include "bufr_i18n.h"
+#include "private/gcmemory.h"
+#include "config.h"
+
+static caddr_t  BufrDescriptor_gcmemory=NULL;
+
 
 static int bufr_check_class31_set( BufrDescriptor *cb );
 static void print_set_value_error( BufrDescriptor *cb, char *valstr );
@@ -118,7 +123,17 @@ BufrDescriptor  *bufr_create_descriptor( BUFR_Tables *tbls, int desc )
    {
    BufrDescriptor     *d;
 
+#if USE_GCMEMORY
+   if (BufrDescriptor_gcmemory == NULL)
+      {
+      BufrDescriptor_gcmemory = gcmem_new(GCMEM_DESCRIPTOR_SIZE, sizeof(BufrDescriptor) );
+      }
+
+   d = gcmem_alloc(BufrDescriptor_gcmemory);
+#else
    d = (BufrDescriptor *)malloc(sizeof(BufrDescriptor));
+#endif
+
    d->descriptor         = desc;
    d->s_descriptor       = 0;
    d->encoding.type      = TYPE_UNDEFINED;
@@ -180,7 +195,11 @@ BufrDescriptor  *bufr_dupl_descriptor( BufrDescriptor *dup )
       return NULL;
       }
 
+#if USE_GCMEMORY
+   code = gcmem_alloc(BufrDescriptor_gcmemory);
+#else
    code = (BufrDescriptor *)malloc(sizeof(BufrDescriptor));
+#endif
    code->afd                = NULL;
    code->value              = NULL;
    code->meta               = NULL;
@@ -220,7 +239,11 @@ void bufr_free_descriptor( BufrDescriptor *code )
       code->value = NULL;
       }
 
+#if USE_GCMEMORY
+   gcmem_dealloc(BufrDescriptor_gcmemory, code );
+#else
    free( code );
+#endif
    }
 
 /**
@@ -1167,3 +1190,32 @@ int bufr_print_dscptr_value( char *outstr, BufrDescriptor *cb )
    return 1;
    }
 
+/**
+ * @english
+ * @brief free internal garbage collector
+ *   free memory allocation used to create garbage collector of BufrDescriptor
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
+ * @warning should be called by bufr_end_api
+ */
+void bufr_desc_end(void)
+   {
+#if USE_GCMEMORY
+   int size, isize;
+
+   isize = gcmem_blk_size( BufrDescriptor_gcmemory );
+   size = gcmem_delete( BufrDescriptor_gcmemory );
+   BufrDescriptor_gcmemory = NULL;
+   if (gcmem_is_verbose())
+      {
+      char errmsg[256];
+
+      sprintf( errmsg, "GCMEM used %d BufrDescriptor, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+#endif
+   }

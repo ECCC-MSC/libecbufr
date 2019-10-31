@@ -95,6 +95,8 @@ extern void            bufr_set_value_af              ( BufrValue *bv, const Buf
 
 extern float           bufr_descriptor_get_location   ( BufrDescriptor *bdsc, int desc );
 
+extern void            bufr_desc_end                  (void);
+
 #ifdef __cplusplus
 }
 #endif

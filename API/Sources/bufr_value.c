@@ -37,7 +37,16 @@ This file is part of libECBUFR.
 #include "private/bufr_priv_value.h"
 #include "bufr_i18n.h"
 #include "bufr_util.h"
+#include "private/gcmemory.h"
+#include "config.h"
 
+static caddr_t  ValueINT8_gcmemory=NULL;
+static caddr_t  ValueINT16_gcmemory=NULL;
+static caddr_t  ValueINT32_gcmemory=NULL;
+static caddr_t  ValueINT64_gcmemory=NULL;
+static caddr_t  ValueFLT32_gcmemory=NULL;
+static caddr_t  ValueFLT64_gcmemory=NULL;
+static caddr_t  ValueSTRING_gcmemory=NULL;
 
 /**
  * @english
@@ -62,13 +71,29 @@ BufrValue  *bufr_create_value( ValueType type )
    {
    BufrValue     *bv = NULL;
 
+#if USE_GCMEMORY
+   if (ValueINT8_gcmemory == NULL)
+      {
+      ValueINT8_gcmemory   = gcmem_new(GCMEM_VALINT8_SIZE, sizeof(ValueINT8) );
+      ValueINT32_gcmemory  = gcmem_new(GCMEM_VALINT32_SIZE, sizeof(ValueINT32) );
+      ValueINT64_gcmemory  = gcmem_new(GCMEM_VALINT64_SIZE, sizeof(ValueINT64) );
+      ValueFLT32_gcmemory  = gcmem_new(GCMEM_VALFLT32_SIZE, sizeof(ValueFLT32) );
+      ValueFLT64_gcmemory  = gcmem_new(GCMEM_VALFLT64_SIZE, sizeof(ValueFLT64) );
+      ValueSTRING_gcmemory = gcmem_new(GCMEM_VALSTRING_SIZE, sizeof(ValueSTRING) );
+      }
+#endif
+
    switch( type )
       {
       case VALTYPE_INT8 :
          {
          ValueINT8    *v;
 
+#if USE_GCMEMORY
+         v         = gcmem_alloc(ValueINT8_gcmemory);
+#else
          v         = (ValueINT8 *)malloc( sizeof(ValueINT8) );
+#endif
          v->type   = type;
          v->value  = -1;
          v->af     = NULL;
@@ -79,7 +104,11 @@ BufrValue  *bufr_create_value( ValueType type )
          {
          ValueINT32    *v1;
 
+#if USE_GCMEMORY
+         v1         = gcmem_alloc(ValueINT32_gcmemory);
+#else
          v1         = (ValueINT32 *)malloc( sizeof(ValueINT32) );
+#endif
          v1->type   = type;
          v1->value  = -1;
          v1->af     = NULL;
@@ -90,7 +119,11 @@ BufrValue  *bufr_create_value( ValueType type )
          {
          ValueINT64    *v2;
 
+#if USE_GCMEMORY
+         v2         = gcmem_alloc(ValueINT64_gcmemory);
+#else
          v2         = (ValueINT64 *)malloc( sizeof(ValueINT64) );
+#endif
          v2->type   = type;
          v2->value  = -1;
          v2->af     = NULL;
@@ -101,7 +134,11 @@ BufrValue  *bufr_create_value( ValueType type )
          {
          ValueFLT32    *v3;
 
+#if USE_GCMEMORY
+         v3         = gcmem_alloc(ValueFLT32_gcmemory);
+#else
          v3         = (ValueFLT32 *)malloc( sizeof(ValueFLT32) );
+#endif
          v3->type   = type;
          v3->value  = bufr_get_max_float();
          v3->af     = NULL;
@@ -112,7 +149,11 @@ BufrValue  *bufr_create_value( ValueType type )
          {
          ValueFLT64    *v4;
 
+#if USE_GCMEMORY
+         v4         = gcmem_alloc(ValueFLT64_gcmemory);
+#else
          v4         = (ValueFLT64 *)malloc( sizeof(ValueFLT64) );
+#endif
          v4->type   = type;
          v4->value  = bufr_get_max_double();
          v4->af     = NULL;
@@ -122,8 +163,11 @@ BufrValue  *bufr_create_value( ValueType type )
       case VALTYPE_STRING :
          {
          ValueSTRING   *v5;
-
+#if USE_GCMEMORY
+         v5         = gcmem_alloc(ValueSTRING_gcmemory);
+#else
          v5         = (ValueSTRING *)malloc( sizeof(ValueSTRING) );
+#endif
          v5->type   = type;
          v5->value  = NULL;
          v5->len    = 0;
@@ -202,10 +246,29 @@ void bufr_free_value( BufrValue *bv )
    switch( bv->type )
       {
       case VALTYPE_INT8 :
+#if USE_GCMEMORY
+         gcmem_dealloc(ValueINT8_gcmemory, bv);
+#endif
+         break;
       case VALTYPE_INT32 :
+#if USE_GCMEMORY
+         gcmem_dealloc(ValueINT32_gcmemory, bv);
+#endif
+         break;
       case VALTYPE_INT64 :
+#if USE_GCMEMORY
+         gcmem_dealloc(ValueINT64_gcmemory, bv);
+#endif
+         break;
       case VALTYPE_FLT32 :
+#if USE_GCMEMORY
+         gcmem_dealloc(ValueFLT32_gcmemory, bv);
+#endif
+         break;
       case VALTYPE_FLT64 :
+#if USE_GCMEMORY
+         gcmem_dealloc(ValueFLT64_gcmemory, bv);
+#endif
          break;
       case VALTYPE_STRING :
          {
@@ -218,12 +281,17 @@ void bufr_free_value( BufrValue *bv )
             s->len = 0;
             }
          }
+#if USE_GCMEMORY
+         gcmem_dealloc(ValueSTRING_gcmemory, bv);
+#endif
          break;
       case VALTYPE_UNDEFINE :
       default :
+#if (!USE_GCMEMORY)
+        free( bv );
+#endif
          break;
       }
-   free( bv );
    }
 
 /**
@@ -1906,4 +1974,73 @@ void bufr_print_scaled_double( char *str, double dval, int scale )
       sprintf( format, "%%.%df", scale );
       }
    sprintf( str, format, dval );
+   }
+
+/**
+ * @english
+ * @brief free internal garbage collector 
+ *   free memory allocation used to create garbage collector of BufrValue
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
+ * @warning should be called by bufr_end_api
+ */
+void bufr_value_end(void)
+   {
+#if USE_GCMEMORY
+   int size, isize;
+   char  errmsg[256];
+
+   isize = gcmem_blk_size( ValueINT8_gcmemory );
+   size = gcmem_delete( ValueINT8_gcmemory );
+   ValueINT8_gcmemory = NULL;
+   if (gcmem_is_verbose())
+      {
+      sprintf( errmsg, "GCMEM used %d ValueINT8, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+   isize = gcmem_blk_size( ValueINT32_gcmemory );
+   size = gcmem_delete( ValueINT32_gcmemory );
+   ValueINT32_gcmemory = NULL;
+   if (gcmem_is_verbose())
+      {
+      sprintf( errmsg, "GCMEM used %d ValueINT32, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+   isize = gcmem_blk_size( ValueINT64_gcmemory );
+   size = gcmem_delete( ValueINT64_gcmemory );
+   ValueINT64_gcmemory = NULL;
+   if (gcmem_is_verbose())
+      {
+      sprintf( errmsg, "GCMEM used %d ValueINT64, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+   isize = gcmem_blk_size( ValueFLT32_gcmemory );
+   size = gcmem_delete( ValueFLT32_gcmemory );
+   ValueFLT32_gcmemory = NULL;
+   if (gcmem_is_verbose())
+      {
+      sprintf( errmsg, "GCMEM used %d ValueFLT32, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+   isize = gcmem_blk_size( ValueFLT64_gcmemory );
+   size = gcmem_delete( ValueFLT64_gcmemory );
+   ValueFLT64_gcmemory = NULL;
+   if (gcmem_is_verbose())
+      {
+      sprintf( errmsg, "GCMEM used %d ValueFLT64, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+   isize = gcmem_blk_size( ValueSTRING_gcmemory );
+   size = gcmem_delete( ValueSTRING_gcmemory );
+   ValueSTRING_gcmemory = NULL;
+   if (gcmem_is_verbose())
+      {
+      sprintf( errmsg, "GCMEM used %d ValueSTRING, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+#endif
    }

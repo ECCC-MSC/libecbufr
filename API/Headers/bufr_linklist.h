@@ -108,6 +108,8 @@ extern char          *lst_namenode  ( ListNode *node, const char *name );
 extern char          *lst_namelist  ( LinkedList *clst, const char *name );
 extern int            lst_count     ( LinkedList *clst );
 
+extern void           bufr_linklist_end(void);
+
 #ifdef __cplusplus
 }
 #endif

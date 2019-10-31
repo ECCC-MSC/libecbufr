@@ -113,6 +113,10 @@ void bufr_end_api(void)
    bufr_print_debug( NULL );
    bufr_print_output( NULL );
    bufr_set_debug_file( NULL );
+
+   bufr_desc_end();
+   bufr_value_end();
+   bufr_linklist_end();
    }
 
 /**

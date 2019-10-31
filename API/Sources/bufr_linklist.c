@@ -22,6 +22,10 @@ This file is part of libECBUFR.
 #include <stdio.h>
 #include <stdlib.h>
 #include "bufr_linklist.h"
+#include "private/gcmemory.h"
+#include "config.h"
+
+static caddr_t  ListNode_gcmemory=NULL;
 
 
 /**************************************************************************
@@ -77,11 +81,21 @@ ListNode * lst_newnode(void *data)
    {
    ListNode * tmp;
 
+#if USE_GCMEMORY
+   if (ListNode_gcmemory == NULL)
+      {
+      ListNode_gcmemory = gcmem_new(GCMEM_LISTNODE_SIZE, sizeof(ListNode) );
+      }
+
+   tmp = gcmem_alloc(ListNode_gcmemory);
+#else
    if ((tmp = (ListNode *) malloc(sizeof(ListNode))) == NULL) 
       {
       perror( "malloc" );
       exit(1);
       }
+#endif
+
    tmp->data = data;
    tmp->next = NULL;
    tmp->prev = NULL;
@@ -659,7 +673,11 @@ void lst_delnode(ListNode *tmp)
       free( tmp->name );
       tmp->name = NULL;
       }
+#if USE_GCMEMORY
+   gcmem_dealloc( ListNode_gcmemory,  (caddr_t)tmp );
+#else
    free( tmp );
+#endif
    }
 
 /**************************************************************************
@@ -930,3 +948,33 @@ int lst_count ( LinkedList *clst )
    if ( clst == NULL ) return 0;
    return  clst->nb_node ;
    }
+
+/**
+ * @english
+ * @brief free internal garbage collector
+ *   free memory allocation used to create garbage collector of linked list
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup descriptor
+ * @warning should be called by bufr_end_api
+ */
+void bufr_linklist_end(void)
+   {
+#if USE_GCMEMORY
+   int size, isize;
+   char errmsg[256];
+
+   isize = gcmem_blk_size( ListNode_gcmemory );
+   size = gcmem_delete( ListNode_gcmemory );
+   ListNode_gcmemory = NULL;
+   if (gcmem_is_verbose()) 
+      {
+      sprintf( errmsg, "GCMEM used %d ListNode, blocs size=%d\n", size, isize );
+      bufr_print_output( errmsg );
+      }
+#endif
+   }
+
