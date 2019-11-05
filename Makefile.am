@@ -8,7 +8,7 @@ doc_DATA = AUTHORS ChangeLog COPYING INSTALL NEWS README TODO ChangeLog.bzr
 
 EXTRA_DIST = reconf configure make_debpkg
 
-SUBDIRS = po API Examples Utilities Tables Test Docs @build_dir_cgi@
+SUBDIRS = po API Examples Utilities Tables Bindings Test Docs @build_dir_cgi@
 
 distdir=@PACKAGE_NAME@-@PACKAGE_VERSION@
 

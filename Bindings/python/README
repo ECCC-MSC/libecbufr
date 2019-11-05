@@ -1,0 +1,20 @@
+#
+# To create python bindings for libecbufr
+# You need to have  cython installed.
+# Then you can use either python or python3 as follows :
+#
+# Create python 3 bindings
+#
+#     python3 setup.py build_ext -i
+#
+#
+# Create python 2 bindings
+#
+#     python setup.py build_ext -i
+#
+# Then copy the content of  "ecbufr" directory to a location and have that 
+# location added to PYTHONPATH 
+#
+# If libecbufr is created with shared enabled. You may also need to add the 
+# location of libecbufr.so to LD_LIBRARY_PATH
+#

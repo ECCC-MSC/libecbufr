@@ -105,6 +105,57 @@ AC_ARG_ENABLE(gcmem, [  --enable-gcmem            build and install my garbage c
    AC_DEFINE([GCMEM_VALSTRING_SIZE],[512],[GC Size for ValString])
 ],[])
 
+AC_ARG_WITH(python,[  --with-python=ARG   Enable python bindings (ARG=yes or no)],,)
+
+AC_MSG_CHECKING([for python bindings])
+if test "$with_python" = "yes" ; then
+  dnl
+  dnl Check for Python executable in PATH
+  dnl
+  AM_PATH_PYTHON([2.7],, [:])
+  AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
+else
+  PYTHON=""
+  AC_MSG_RESULT([disabled])
+fi
+
+BINDINGS=""
+
+if test "x$PYTHON" != "x"; then
+
+  AC_MSG_CHECKING([for python setuptools])
+  SETUPTEST='try:
+  import setuptools
+  print(1)
+except ImportError:
+  pass'
+  PY_HAVE_SETUPTOOLS=`$PYTHON -c "$SETUPTEST"`
+  if test "$PY_HAVE_SETUPTOOLS" = "1"; then
+    AC_MSG_RESULT([found])
+  else
+    AC_MSG_RESULT([not found])
+  fi
+
+  AC_MSG_CHECKING([for cython])
+  CYTHONTEST='try:
+  import cython
+  print(1)
+except ImportError:
+  pass'
+  PY_HAVE_CYTHON=`$PYTHON -c "$CYTHONTEST"`
+  if test "$PY_HAVE_CYTHON" = "1"; then
+    if test "$PY_HAVE_SETUPTOOLS" = "1"; then
+      AC_MSG_RESULT([found])
+      BINDINGS="python $BINDINGS"
+      AC_OUTPUT( Bindings/python/Makefile )
+      AC_SUBST([BINDINGS])
+    fi
+  else
+    AC_MSG_RESULT([not found])
+  fi
+fi
+
+
 # on IRIX machines: use cc instead of gcc, use -c99 and remove -std=gnu99
 #                  CFLAGS="$CFLAGS -c99 -I${PWD}/API/Headers -D_GNU_SOURCE"
 # For gcc
@@ -196,6 +247,7 @@ AC_OUTPUT(Makefile \
       API/Headers/bufr_api.h \
       API/Sources/Makefile \
       API/version \
+      Bindings/Makefile \
       Utilities/Makefile \
       Utilities/po/Makefile.in \
       Tables/Makefile \
