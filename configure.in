@@ -107,13 +107,13 @@ AC_ARG_ENABLE(gcmem, [  --enable-gcmem            build and install my garbage c
 
 AC_ARG_WITH(python,[  --with-python=ARG   Enable python bindings (ARG=yes or no)],,)
 
+AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
 AC_MSG_CHECKING([for python bindings])
 if test "$with_python" = "yes" ; then
   dnl
   dnl Check for Python executable in PATH
   dnl
   AM_PATH_PYTHON([2.7],, [:])
-  AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
 else
   PYTHON=""
   AC_MSG_RESULT([disabled])
