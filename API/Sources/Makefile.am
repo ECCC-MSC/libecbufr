@@ -5,11 +5,11 @@ libecbufrdir=@libdir@/@PACKAGE@@PACKAGE_VERSION@
 libecbufr_LTLIBRARIES = libecbufr.la
 
 libecbufr_la_SOURCES=\
-		bufr_array.c bufr_util.c bufr_linklist.c \
+		bufr_array.c bufr_linklist.c \
 		bufr_af.c bufr_meta.c bufr_value.c bufr_desc.c \
 		bufr_sequence.c bufr_tables.c bufr_io.c bufr_sio.c \
 		bufr_dataset.c bufr_ddo.c bufr_template.c \
-		bufr_message.c bufr_ieee754.c cmc_tables.c bufr_api.c bufr_local.c gcmemory.c
+		bufr_message.c bufr_ieee754.c cmc_tables.c bufr_api.c bufr_local.c gcmemory.c bufr_util.c
 
 localedir = @datadir@/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
