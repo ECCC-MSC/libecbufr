@@ -38,6 +38,7 @@ This file is part of libECBUFR.
 #include "bufr_local.h"
 #include "bufr_util.h"
 #include "bufr_i18n.h"
+#include "bufr_linklist.h"
 
 static int             *bufr_sequence_2intarr  ( BUFR_Sequence *bsq, int *len );
 static EntryTableBArray bufr_sequence_2TBarray ( BUFR_Sequence *sequence, BUFR_Tables *tbls );
