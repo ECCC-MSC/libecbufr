@@ -217,7 +217,7 @@ BUFR_EDITION=4
 
 @section installation Installation
 
-See https://answers.launchpad.net/libecbufr/+faq/538
+See https://github.com/ECCC-MSC/libecbufr/wiki/FAQ#how-do-i-install-libecbufr
 
 @section environment Environment
 

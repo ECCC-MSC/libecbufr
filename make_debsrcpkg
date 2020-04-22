@@ -37,7 +37,8 @@ Source: libecbufr
 Section: libs
 Priority: optional
 Maintainer: Yves Pelletier <yves.pelletier@ec.gc.ca>
-Homepage: https://launchpad.net/libecbufr
+Homepage: https://github.com/ECCC-MSC/libecbufr
+Vcs-Git: https://github.com/ECCC-MSC/libecbufr
 
 Package: libecbufr
 Architecture: any
@@ -46,7 +47,7 @@ Conflicts: libecbufr
 Replaces: libecbufr
 Suggests: libcgi-formbuilder-perl
 Description: Environment Canada BUFR Library
-Homepage: https://launchpad.net/libecbufr
+Homepage: https://github.com/ECCC-MSC/libecbufr
 EOFDEB
 
 cd ${PKGDIR}

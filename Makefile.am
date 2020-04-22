@@ -33,7 +33,7 @@ libecbufr.pc: Makefile
 	echo 'Name: @PACKAGE@' >> $@
 	echo 'Version: @PACKAGE_VERSION@' >> $@
 	echo 'Description: Environment Canada BUFR Library' >> $@
-	echo 'URL: https://launchpad.net/libecbufr' >> $@
+	echo 'URL: https://github.com/ECCC-MSC/libecbufr' >> $@
 	echo 'Libs: -L$${libdir} -lecbufr' >> $@
 	echo 'Libs.private: -lm' >> $@
 	echo 'Cflags: -I$${includedir}' >> $@
