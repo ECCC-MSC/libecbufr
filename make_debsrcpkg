@@ -36,9 +36,9 @@ Standards-Version: 3.8.1
 Source: libecbufr
 Section: libs
 Priority: optional
-Maintainer: Yves Pelletier <yves.pelletier@ec.gc.ca>
+Maintainer: Tom Kralidis <tom.kralidis@canada.ca>
 Homepage: https://github.com/ECCC-MSC/libecbufr
-Vcs-Git: https://github.com/ECCC-MSC/libecbufr
+Vcs-Git: https://github.com/ECCC-MSC/libecbufr.git
 
 Package: libecbufr
 Architecture: any
