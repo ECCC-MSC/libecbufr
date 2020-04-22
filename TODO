@@ -1,4 +1,4 @@
-See https://bugs.launchpad.net/libecbufr for most up-to-date task list.
+See https://github.com/ECCC-MSC/libecbufr/issues for current issues.
 
 1) implement Table C  222000  see file bfr_stw.dat
 
@@ -14,4 +14,4 @@ See https://bugs.launchpad.net/libecbufr for most up-to-date task list.
 
 7) Unit Testing (Regression, Tests Suite)
 
-8) Packaging (https://bugs.launchpad.net/libecbufr/+bug/389142)
+8) Packaging (https://github.com/ECCC-MSC/libecbufr/issues/29)

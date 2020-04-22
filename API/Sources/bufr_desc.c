@@ -390,7 +390,7 @@ ValueType bufr_encoding_to_valtype( BufrValueEncoding *be )
       case TYPE_NUMERIC :
 			 /* FIXME: we can't allow negative ref values because we're presently
 			  * using -1 as "missing". See
-			  * https://bugs.launchpad.net/libecbufr/+bug/939600.
+			  * https://github.com/ECCC-MSC/libecbufr/issues/15
 			  * But there's no reason positive integer values can't be
 			  * represented entirely with INT32, as long as we count it in
 			  * the right place.
