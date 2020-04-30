@@ -72,8 +72,8 @@ LibECBUFR is internationalised with "gettext".
 
 Currently supported languages:
 
--English
--French (fr_CA)
+* English
+* French (fr_CA)
 
 To use the library in the language of your choice, the language must be supported
 and you must set the `LC_ALL` environment variable to the appropriate value.
