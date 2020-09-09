@@ -25,7 +25,7 @@ mkdir -p ${SRCPKGDIR}
 # this captures any local changes, which allows building a package without
 # pushing something upstream which may not actually work
 if [ -x /usr/bin/git ]; then
-	/usr/bin/git fast-export --all | (cd ${SRCPKGDIR} && git fast-import)
+	/usr/bin/git archive --format=tar HEAD | tar -xf - -C ${SRCPKGDIR}
 fi
 
 #
