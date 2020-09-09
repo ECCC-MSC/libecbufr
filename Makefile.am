@@ -4,7 +4,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 # automake <=1.9 doesn't have docdir
 docdir=@datadir@/doc/@PACKAGE_NAME@
-doc_DATA = AUTHORS ChangeLog COPYING INSTALL NEWS README TODO ChangeLog.bzr
+doc_DATA = AUTHORS ChangeLog COPYING COPYING.LESSER \
+	LICENSE.md README.md TODO ChangeLog.git
 
 EXTRA_DIST = reconf configure make_debpkg
 
@@ -17,11 +18,11 @@ if HAVE_PKGCONFIG
 pcdir=@prefix@/lib/pkgconfig
 pc_DATA = libecbufr.pc
 
-ChangeLog.bzr:
-	if test -x /usr/bin/bzr; then \
-		/usr/bin/bzr log --long > $@ ; \
+ChangeLog.git:
+	if test -x /usr/bin/git; then \
+		/usr/bin/git log > $@ ; \
 	else \
-		echo "/usr/bin/bzr not installed" > $@ ; \
+		echo "/usr/bin/git not installed" > $@ ; \
 	fi
 
 libecbufr.pc: Makefile
