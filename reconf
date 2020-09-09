@@ -4,6 +4,7 @@
 #         autoconf, autoheader,  aclocal, automake, libtoolize ...
 #
 echo "*** Running autoreconf"
+ln -sf README.md README
 rm -f configure
 autoreconf --force --install -Wno-portability
 if [ -f configure ]; then
