@@ -9,6 +9,7 @@ export PKGDIR=`pwd`
 
 build:
 	dh_testdir
+	ln -s README.md README
 	autoreconf --force --install
 	./configure
 	make
