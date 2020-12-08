@@ -248,26 +248,36 @@ void bufr_free_value( BufrValue *bv )
       case VALTYPE_INT8 :
 #if USE_GCMEMORY
          gcmem_dealloc(ValueINT8_gcmemory, bv);
+#else
+         free( bv );
 #endif
          break;
       case VALTYPE_INT32 :
 #if USE_GCMEMORY
          gcmem_dealloc(ValueINT32_gcmemory, bv);
+#else
+         free( bv );
 #endif
          break;
       case VALTYPE_INT64 :
 #if USE_GCMEMORY
          gcmem_dealloc(ValueINT64_gcmemory, bv);
+#else
+         free( bv );
 #endif
          break;
       case VALTYPE_FLT32 :
 #if USE_GCMEMORY
          gcmem_dealloc(ValueFLT32_gcmemory, bv);
+#else
+         free( bv );
 #endif
          break;
       case VALTYPE_FLT64 :
 #if USE_GCMEMORY
          gcmem_dealloc(ValueFLT64_gcmemory, bv);
+#else
+         free( bv );
 #endif
          break;
       case VALTYPE_STRING :
@@ -283,6 +293,8 @@ void bufr_free_value( BufrValue *bv )
          }
 #if USE_GCMEMORY
          gcmem_dealloc(ValueSTRING_gcmemory, bv);
+#else
+         free( bv );
 #endif
          break;
       case VALTYPE_UNDEFINE :
