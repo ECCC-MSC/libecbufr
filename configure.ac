@@ -7,10 +7,10 @@ BUILD_DATE=`date +%d-%m-%Y`
 AC_PREREQ(2.59)
 
 m4_define(libecbufr_version_major, 0)
-m4_define(libecbufr_version_minor, 8)
+m4_define(libecbufr_version_minor, 9)
 # An odd micro number indicates in-progress development, (eg. from git/cvs)
 # An even micro number indicates a released version.
-m4_define(libecbufr_version_micro, 7)
+m4_define(libecbufr_version_micro, 1)
 
 AC_INIT(libecbufr, libecbufr_version_major.libecbufr_version_minor.libecbufr_version_micro,[https://github.com/ECCC-MSC/libecbufr])
 
@@ -169,7 +169,7 @@ fi
 # no -fPIC       : for static library
 #CFLAGS="$CFLAGS -I${PWD}/API/Headers -std=gnu99 -g -D_REENTRANT"
 # add "-static" to have movable binaries
-CFLAGS="$CFLAGS -I${PWD}/API/Headers -I${PWD}/API/Sources -std=gnu99 -D_REENTRANT -fPIC -g"
+CFLAGS="$CFLAGS -I${PWD}/API/Headers -I${PWD}/API/Sources -std=gnu99 -D_REENTRANT -fPIC -O"
 LDFLAGS="$LDFLAGS -L${PWD}/API/Sources"
 
 # Checks for programs.
