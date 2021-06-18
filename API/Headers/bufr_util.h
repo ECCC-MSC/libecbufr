@@ -23,10 +23,12 @@ extern char *strimdup              ( char *dest, const char *src, int maxlen );
 
 extern char *str_schar2oct         ( char *str, int *len, int *bsize );
 extern char *str_oct2char          ( char *str, int *len );
+extern char *str_nstrtok           ( char **pptr, char *deli );
 
 extern void  append_char_to_string ( char **str, int *size, int *pos, unsigned char c );
 
 extern void  str_trimchar          ( char *str, char c );
+
 
 #if defined(__MINGW32__)
 

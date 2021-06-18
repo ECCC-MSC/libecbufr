@@ -17,14 +17,19 @@ This file is part of libECBUFR.
     License along with libECBUFR.  If not, see <http://www.gnu.org/licenses/>.
 ***/
 
+#define _DEFAULT_SOURCE
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <regex.h>
 #include "bufr_tables.h"
 #include "bufr_linklist.h"
 #include "bufr_i18n.h"
 #include "bufr_io.h"
+#include "bufr_api.h"
+
 
 /**
  * @english
@@ -61,6 +66,12 @@ int bufr_load_cmc_tables( BUFR_Tables *tables )
    int   rtrnB, rtrnD;
 
    if (tables == NULL) return -1;
+
+   env = getenv( "WMO_BUFR_TABLES" );
+   if (env != NULL)
+      {
+      if (bufr_load_wmo_tables( tables ) > 0) return 1;
+      }
 
    env = getenv( "AFSISIO" );
    if (env) 
@@ -115,8 +126,9 @@ LinkedList *bufr_load_tables_list ( char *path, int tbnos[], int nb )
    {
    char        *env;
    char         filename[512];
+   char         errmsg[1024];
    int          rtrnB, rtrnD;
-   BUFR_Tables *tables;
+   BUFR_Tables *tables, *ltables;
    int          version;
    LinkedList  *list;
    int          i, tb;
@@ -124,6 +136,16 @@ LinkedList *bufr_load_tables_list ( char *path, int tbnos[], int nb )
 
    list = lst_newlist();
 
+   env = getenv( "WMO_BUFR_TABLES" );
+   if (env != NULL)
+      {
+      sprintf( filename, "%s/fromWeb", env );
+      tb = bufr_load_wmo_tables_list ( list, filename );
+      }
+/*
+ * even if we have all the tables from WMO, we still need
+ * to load what is found under BUFR_TABLES (need version 13 for tests)
+ */
    if (path == NULL)
       {
       env = getenv( "BUFR_TABLES" );
@@ -143,13 +165,22 @@ LinkedList *bufr_load_tables_list ( char *path, int tbnos[], int nb )
       if( stat(filename,&buf) == 0 )
          if ( !S_ISDIR( buf.st_mode ) )
             rtrnD = bufr_load_m_tableD( tables, filename );
-      if (arr_count(tables->master.tableB) > 0)
+      ltables = bufr_use_tables_list( list, version );
+      if (ltables && (tables->master.version == ltables->master.version))
          {
-         lst_addlast( list, lst_newnode( tables ) );
-         }
+         if (bufr_is_debug())
+	    {
+            sprintf( errmsg, _("Info: Skipping %s, version %d already loaded\n"), filename, tables->master.version );
+            bufr_print_debug( errmsg );
+	    }
+         bufr_free_tables( tables );
+	 }
       else
          {
-         bufr_free_tables( tables );
+         if ((rtrnD >= 0) && (rtrnB >= 0 ))
+            lst_addlast( list, lst_newnode( tables ) );
+         else
+            bufr_free_tables( tables );
          }
       }
 
@@ -304,3 +335,168 @@ void bufr_tables_list_merge
       }
    }
 
+/**
+ * @english
+ *    bufr_load_wmo_tables( file_tables )
+ *    (BUFR_Tables *tables)
+ * This will load the WMO Table B and D into the BUFR tables object
+ * that is created by bufr_create_tables. Table B and D should be located
+ * in the directory pointed by the environment variable "WMO_BUFR_TABLES"
+ * and the tables should be in the CSV table format as provided by WMO
+ * @return int
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ * @todo should AFSISIO be supported as an env variable?
+ */
+int bufr_load_wmo_tables( BUFR_Tables *tables )
+   {
+   char *env, *str;
+   char  filename[512];
+   char  path[512];
+   int   rtrnB, rtrnD;
+   regex_t    preg;
+   char       pattern[256];
+   char       string[256];
+   regmatch_t pmatch[20];
+
+   if (tables == NULL) return -1;
+
+   env = getenv( "WMO_BUFR_TABLES" );
+   if (env)
+      {
+      sprintf( path, "%s", env );
+      str = strrchr( path, '/' );
+      if (str == NULL)
+         str = path;
+      else
+         str += 1;
+      strcpy( pattern, "BUFR([0-9]+)-([0-9]+)" );
+      if (regcomp(  &preg, pattern, REG_EXTENDED ) != 0 )
+         perror( "Failed to compile regular expression\n" );
+      if (regexec( &preg, path, 3, pmatch, 0 ) == 0)
+         {
+         int  len;
+         len = pmatch[2].rm_eo - pmatch[2].rm_so;
+         strncpy( string, path+pmatch[2].rm_so, len );
+         string[len] = '\0';
+         tables->master.version = atol( string );
+         }
+      }
+   else
+      {
+      char errmsg[256];
+
+      sprintf( errmsg, _("Warning: env.var. WMO_BUFR_TABLES not defined\n") );
+      bufr_print_debug( errmsg );
+      if (env == NULL) return -1;
+      }
+
+   sprintf( filename, "%s/txt/BUFRCREX_TableB_en.txt", path );
+
+   rtrnB = bufr_load_csv_tableB( tables, filename );
+
+   sprintf( filename, "%s/txt/BUFR_TableD_en.txt", path );
+   rtrnD = bufr_load_csv_tableD( tables, filename );
+
+   return ( (rtrnD >= 0) && (rtrnB >= 0 ));
+   }
+
+/**
+ * @english
+ *    bufr_load_wmo_tables_list ( path )
+ *    (char *path)
+ * This will load the WMO Table B and D of all version available
+ * into the BUFR_tables objects stored in a list
+ * Table B and D should be named as table_b-XX table_d-XX located
+ * in the directory pointed by the environment variable "WMO_BUFR_TABLES"
+ * and the tables should be in the CMC table format.
+ * @return LinkedList
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+int bufr_load_wmo_tables_list ( LinkedList *list, char *path )
+   {
+   int          rtrnB, rtrnD;
+   BUFR_Tables *tables;
+   BUFR_Tables *tbls;
+   int          version;
+   int          i, nb;
+   struct       stat buf;
+   struct       dirent **namelist;
+   char         errmsg[512];
+
+   regex_t      preg;
+   char         filename[1024];
+   char         pattern[256];
+   char         string[256];
+   char         verdir[256];
+   char         verstmp[256];
+   regmatch_t   pmatch[20];
+   int          len;
+
+   nb = scandir( path, &namelist, NULL, alphasort );
+   for ( i= nb-1 ; i >= 0 ; i-- )
+      {
+      strcpy( pattern, "BUFRCREX_([0-9]+)_([0-9]+)_([0-9]+)" );
+      if (regcomp(  &preg, pattern, REG_EXTENDED ) != 0 )
+         perror( "Failed to compile regular expression\n" );
+      if (regexec( &preg, namelist[i]->d_name, 4, pmatch, 0 ) == 0)
+         {
+         strcpy( verdir, namelist[i]->d_name );
+         len = pmatch[1].rm_eo - pmatch[1].rm_so;
+         strcpy( verstmp, verdir+pmatch[1].rm_so );
+         strncpy( string, verdir+pmatch[1].rm_so, len );
+         string[len] = '\0';
+         version = atol( string );
+	 tables = bufr_use_tables_list( list, version );
+	 if (tables && (tables->master.version == version))
+            {
+            if (bufr_is_debug())
+	       {
+               sprintf( errmsg, _("Info: Skipping %s, version %d already loaded\n"), verdir, version );
+               bufr_print_debug( errmsg );
+	       }
+	    continue;
+	    }
+	 else 
+	    {
+            tables = bufr_create_tables();
+            tables->master.version = version;
+            sprintf( filename, "%s/%s/BUFRCREX_%s_TableB_en.txt", path, verdir, verstmp );
+            rtrnB = bufr_load_csv_tableB( tables, filename );
+
+            sprintf( filename, "%s/%s/BUFR_%s_TableD_en.txt", path, verdir, verstmp );
+            rtrnD = bufr_load_csv_tableD( tables, filename );
+
+            if ((rtrnD >= 0) && (rtrnB >= 0 ))
+               {
+               if (bufr_is_debug())
+	          {
+                  sprintf( errmsg, _("Info: Adding Tables from %s, version %d\n"), verdir, version );
+                  bufr_print_debug( errmsg );
+		  }
+               lst_addlast( list, lst_newnode( tables ) );
+	       }
+	    else
+               {
+               if (bufr_is_debug())
+	          {
+                  sprintf( errmsg, _("Warning: Rejected Tables from %s\n"), verdir );
+                  bufr_print_debug( errmsg );
+		  }
+               bufr_free_tables( tables );
+	       }
+	    }
+         }
+      free(namelist[i]);
+      }
+   free(namelist);
+   }

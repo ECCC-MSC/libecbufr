@@ -131,8 +131,10 @@ typedef struct _TblsBufr
 
 extern EntryTableB   *bufr_fetch_tableB           ( BUFR_Tables *, int desc );
 extern EntryTableD   *bufr_fetch_tableD           ( BUFR_Tables *, int desc );
-extern EntryTableD   *bufr_match_tableD_sequence  ( BUFR_Tables *,
-                                                    int ndesc, int desc[] );
+extern EntryTableD   *bufr_match_tableD_sequence  ( BUFR_Tables *, int ndesc, int desc[] );
+
+extern int            bufr_load_csv_tableB        ( BUFR_Tables *tables, const char *filename );
+extern int            bufr_load_csv_tableD        ( BUFR_Tables *tables, const char *filename );
 
 extern int            bufr_load_l_tableB          ( BUFR_Tables *, const char *filename );
 extern int            bufr_load_l_tableD          ( BUFR_Tables *, const char *filename );

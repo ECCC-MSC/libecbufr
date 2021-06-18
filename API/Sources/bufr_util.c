@@ -239,6 +239,80 @@ void str_trimchar( char *str, char c )
       str[len+1] = '\0';
    }
 
+/**
+ * @english 
+ * thread safe string tokenizer that will not skip empty token
+ * @param   pptr : pointer to beginning of string
+ * @param   deli : delimiter string
+ * @endenglish
+ * @francais
+ * Decoupage de chaine de caracteres en jeton et qui ne saute pas les jetons 
+ * vides comme le fait strtok, Cette routine est securitaire pour les appels
+ * multi-taches
+ * @param   pptr : pointeur au debut de la chaine
+ * @param   deli : delimiteurs
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+char *str_nstrtok( char **pptr, char *deli )
+   {
+   char *ptr;
+   int len;
+   char *tok;
+   int  escaped;
+   int  ff;
+
+   if (pptr == NULL) return NULL;
+   ptr = *pptr;
+   if (ptr == NULL) return NULL;
+
+   while (isspace(*ptr))
+      ++ptr;
+
+   if (*ptr == '\0') return NULL;
+
+   len = strspn( ptr, deli );
+   if (len > 0)
+      {
+      tok = ptr - 1;
+      *pptr = ptr + 1;
+      return tok;
+      }
+   tok = ptr;
+   if (ptr[0] == '"')
+      {
+      ff = 0;
+      len = strcspn( ptr+1, "\"");
+      while (((ptr[ff+len]== '\\' )||(ptr[ff+len+2]!= ','))&&(ptr[ff+len]!= '\0')&&(ptr[ff+len+2]!= '\r')&&(ptr[ff+len+2]!= '\n'))
+         {
+         ff += len + 1;
+         len = strcspn( ptr+ff+1, "\"");
+	 }
+      len += ff;
+/* remove enclosing double quotes */
+      tok = ptr+1;
+      ptr[len+1] = '\0';
+
+      ptr += len+3;
+      *pptr = ptr;
+      return tok;
+      }
+   len = strcspn( ptr, deli );
+   if (ptr[len] == '\0')
+      {
+      *pptr = NULL;
+      }
+   else
+      {
+      ptr[len] = '\0';
+      ptr += len+1;
+      *pptr = ptr;
+      }
+
+   return tok;
+   }
+
 #if defined(__MINGW32__)
 char *mock_strtok_r( char *str, char *deli, char **pptr )
    {

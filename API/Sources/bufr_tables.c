@@ -58,20 +58,29 @@ static EntryTableDArray       bufr_tabled_read       ( EntryTableDArray addr_tab
 
 static int             compare_tableb         ( const void *p1, const void *p2);
 static int             compare_tabled         ( const void *p1, const void *p2);
+
 static int             compare_tabled_seq     (const void *p1, const void *p2);
 
 static int             bufr_check_desc_tableD ( BUFR_Tables *tbls, int desc , char *array );
 static int             bufr_check_loop_tableD ( BUFR_Tables *tbls, BufrTablesSet *tbl );
 static void            bufr_merge_tableB      ( EntryTableBArray table1, EntryTableBArray table2 );
 static void            bufr_merge_tableD      ( EntryTableDArray table1, EntryTableDArray table2 );
+
 static void            bufr_copy_EntryTableD  ( EntryTableD *r, const char *desc, int desclen,
                                                 int *descriptors, int count);
 static void            bufr_merge_TablesSet   ( BufrTablesSet *tbls1, BufrTablesSet *tbls2 );
 static int             strtlen                (char *Str);
 
+static char                  **bufr_csv_split_cells ( char *tmpstr, int *nbcell, int nb_alloc );
+static int                     bufr_csv_find_cell   ( char *value, char **cells, int nb );
+
+static EntryTableBArray        bufr_csv_read_tableb ( EntryTableBArray addr_tableb, const char *filename );
+static EntryTableDArray        bufr_csv_read_tabled ( EntryTableDArray addr_tabled, const char *filename);
+
 #define  DEBUG   0
 #if DEBUG
 static void test_print_tableD( char *tabled );
+static void test_print_tableB( char *tableb );
 #endif
 
 /**
@@ -600,6 +609,7 @@ static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
    EntryTableD  *etd, **p_etd;
    char   *array;
    int     has_error=0;
+   int     errcode;
 
    array = (IntArray)arr_create( 100, sizeof(int), 100 );
 
@@ -610,9 +620,11 @@ static int bufr_check_loop_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl )
       etd = p_etd[0];
       for (i = 0; i < etd->count ; i++ )
          {
-         if (bufr_check_desc_tableD( tbls, etd->descriptors[i], array ) < 0)
+         errcode = bufr_check_desc_tableD( tbls, etd->descriptors[i], array );
+         if (errcode < 0)
             {
-            has_error = -1;
+            if (errcode < has_error)
+               has_error = errcode;
             }
          }
       }
@@ -654,7 +666,7 @@ static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
                {
                sprintf( errmsg, _("Warning: Table D descriptor : %d is in a circular loop\n"), desc );
                bufr_print_debug( errmsg );
-               return -1;
+               return -2;
                }
             }
          }
@@ -665,6 +677,7 @@ static int bufr_check_desc_tableD( BUFR_Tables *tbls, int desc , char *array )
          {
          sprintf( errmsg, _("Warning: invalid Table D descriptor : %d\n"), desc );
          bufr_print_debug( errmsg );
+         arr_del( array, 1 );
          return -1;
          }
       for (i = 0; i < etd->count ; i++ )
@@ -2383,7 +2396,7 @@ int bufr_is_descriptor( int desc )
 #if DEBUG
 static void test_print_tableD( char *tabled )
    {
-   int           i, count;
+   int           i, s, count;
    EntryTableD  *r, **pe;
    char          buf[128];
 
@@ -2394,11 +2407,38 @@ static void test_print_tableD( char *tabled )
       r = pe ? *pe : NULL;
       if ( r != NULL)
          {
-         sprintf( buf, _("TableD : %d\n"), r->descriptor );
-         bufr_print_debug( buf );
+//         sprintf( buf, _("TableD : %d  '%s'\n"), r->descriptor, r->description );
+//         bufr_print_debug( buf );
+         fprintf( stdout, "TableD : %d  '%s'\n", r->descriptor, r->description );
+         for ( s = 0 ; s < r->count ; s++ )
+            {
+            fprintf( stdout, " %d", r->descriptors[s] );
+	    }
+         fprintf( stdout, "\n" );
          }
       }
    }
+
+static void test_print_tableB( char *tableb )
+   {
+   EntryTableB **ptr;
+   int i,cnt;
+   char *cstring;
+
+   cnt = arr_count( tableb );
+   for (i = 0; i < cnt ; i++)
+      {
+      ptr = (EntryTableB **)arr_get( tableb, i );
+      if (ptr)
+         {
+         fprintf( stdout,  "%d :  %s  (%d %d %d)\n", ptr[0]->descriptor, ptr[0]->description, 
+			 ptr[0]->encoding.scale,
+			 ptr[0]->encoding.reference,
+			 ptr[0]->encoding.nbits );
+         }
+      }
+   }
+
 #endif
 
 /**
@@ -2429,3 +2469,531 @@ int bufr_table_is_empty( BUFR_Tables *tbls )
    else 
       return 1;
    }
+
+/*
+**
+ * @english
+ *    bufr_load_csv_tableB(tables, filename)
+ *    (BUFR_Tables *, char *filename)
+ * This call is used to load CSV Table B versions into master
+ * table set.
+ * @warning The format of the files is expected to be of CSV Format.
+ * @return int
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @ingroup io tables
+ */
+int bufr_load_csv_tableB( BUFR_Tables *tables, const char *filename )
+   {
+   BufrTablesSet  *tbls;
+
+   tbls = &(tables->master);
+   tbls->tableBtype = TYPE_ALLOCATED;
+
+   if (tbls->tableB == NULL)
+      {
+      tbls->tableB = bufr_csv_read_tableb( NULL, filename );
+      if (bufr_is_debug())
+         {
+         char buf[1024];
+  
+         if (tbls->tableB != NULL)
+            sprintf( buf, _("Info:  Loaded Table B: %s  \n"), filename );
+	 else
+            sprintf( buf, _("Error:  Unable to load CSV Table B: %s  \n"), filename );
+         bufr_print_debug( buf );
+         }
+      }
+   else
+      {
+      char *tableB;
+
+      tableB = bufr_csv_read_tableb( NULL, filename );
+      bufr_merge_tableB( tbls->tableB, tableB );
+      bufr_tableb_free( tableB );
+      if (bufr_is_debug())
+         {
+         char buf[1024];
+
+         sprintf( buf, _("Info:  Merged Table B: %s  version=%d\n"), filename, tbls->version );
+         bufr_print_debug( buf );
+         }
+      }
+
+   if (tbls->tableB == NULL) return -1;
+   arr_sort( tbls->tableB, compare_tableb );
+   return 0;
+   }
+
+/**
+ * @english
+ *    bufr_load_csv_tableD(tables, filename)
+ *    (BUFR_Tables *, char *filename)
+ * This call is used to load CSV Table D versions into master
+ * table set. This along with the table B call (bufr_load_csv_tableB) is an
+ * alternative to bufr_load_cmc_tables.
+ * @warning The format of the files is expected to be of CSV Format.
+ * @return int
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @ingroup tables
+ */
+int bufr_load_csv_tableD( BUFR_Tables *tables, const char *filename )
+   {
+   int  rtrn;
+   BufrTablesSet  *tbls;
+
+   tbls = &(tables->master);
+   tbls->tableDtype = TYPE_ALLOCATED;
+
+   if (tbls->tableD == NULL)
+      {
+      tbls->tableD = bufr_csv_read_tabled( NULL, filename );
+      if (bufr_is_debug())
+         {
+         char buf[1024];
+
+         if (tbls->tableD != NULL)
+            sprintf( buf, _("Info:  Loaded Table D: %s  \n"), filename );
+	 else
+            sprintf( buf, _("Error:  Unable to load CSV Table D: %s  \n"), filename );
+         bufr_print_debug( buf );
+         }
+      }
+   else
+      {
+      EntryTableBArray tableD = bufr_csv_read_tabled( NULL, filename );
+      bufr_merge_tableD( tbls->tableD, tableD );
+      bufr_tabled_free( tableD );
+      if (bufr_is_debug())
+         {
+         char buf[1024];
+
+         sprintf( buf, _("Info:  Merged Table D: %s\n"), filename );
+         bufr_print_debug( buf );
+         }
+      }
+
+   arr_sort( tbls->tableD, compare_tabled );
+
+#if DEBUG
+   test_print_tableD( tbls->tableD );
+#endif
+/*
+ * check for any circular loop or error in table D
+*/
+   rtrn = bufr_check_loop_tableD( tables, tbls );
+
+   return rtrn;
+   }
+
+/**
+ * bufr_csv_read_tableb
+ * @english
+ * read Table B from a CSV file
+ * @param     filename    : Table B file 
+ * @param     addr_tableb : already allocated table b array to load in or merge with
+ *                    x=[1,47] y=[1,192]
+ * @return     EntryTableBArray : a Table B array
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ *
+ */
+static EntryTableBArray bufr_csv_read_tableb
+   (EntryTableBArray addr_tableb, const char *filename)
+   {
+   FILE         *fp ;
+   char          ligne[1024] ;
+   char          tmpstr[1024] ;
+
+   EntryTableB  *etb;
+   int           desc;
+   int           len;
+   char          errmsg[1024];
+   int           isdebug=bufr_is_debug();
+
+   int           lineno=0;
+   char          *tok;
+   char          **csv_header, **csvcells;
+   int           nbcell, csv_line_size;
+   int           pos_FXY, pos_ElementName, pos_BUFR_Unit, pos_BUFR_Scale, pos_BUFR_ReferenceValue, pos_BUFR_DataWidth_Bits;
+
+   if (filename == NULL) return NULL;
+
+   fp = fopen ( filename, "rb" ) ;
+   if (fp == NULL)
+      {
+      sprintf( errmsg, _("Warning: can't open Table B file %s\n"), filename );
+      bufr_print_debug( errmsg );
+      return NULL;
+      }
+
+   if (bufr_is_debug())
+      {
+      sprintf( errmsg, _("Loading Table B : %s\n"), filename );
+      bufr_print_debug( errmsg );
+      }
+
+   if (addr_tableb == NULL)
+      addr_tableb = (EntryTableBArray)arr_create( 100, sizeof(EntryTableB *), 100 );
+
+/* ClassNo,ClassName_en,FXY,ElementName_en,Note_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Status */
+
+   csvcells = NULL;
+   csv_header = NULL;
+
+   lineno = 0;
+   while ( fgets(ligne,1024,fp) != NULL )
+      {
+      ++lineno;
+
+      strcpy( tmpstr, ligne );
+      if (csvcells != NULL) free( csvcells );
+      csvcells = bufr_csv_split_cells( tmpstr, &nbcell, 15 );
+      if (lineno == 1) 
+         {
+         csv_line_size = nbcell;
+         pos_FXY = bufr_csv_find_cell( "FXY", csvcells, nbcell );
+         pos_ElementName = bufr_csv_find_cell( "ElementName_en", csvcells, nbcell );
+         pos_BUFR_Unit = bufr_csv_find_cell( "BUFR_Unit", csvcells, nbcell );
+         pos_BUFR_Scale = bufr_csv_find_cell( "BUFR_Scale", csvcells, nbcell );
+         pos_BUFR_ReferenceValue = bufr_csv_find_cell( "BUFR_ReferenceValue", csvcells, nbcell );
+         pos_BUFR_DataWidth_Bits = bufr_csv_find_cell( "BUFR_DataWidth_Bits", csvcells, nbcell );
+	 if ((pos_FXY < 0)||(pos_ElementName < 0)||(pos_BUFR_Unit < 0)||(pos_BUFR_Scale < 0)||(pos_BUFR_ReferenceValue < 0)||(pos_BUFR_DataWidth_Bits < 0))
+            {
+            fclose( fp );
+            sprintf( errmsg, _("Error reading Table B file %s\n"), filename );
+            bufr_print_debug( errmsg );
+	    free( csvcells );
+            return NULL;
+	    }
+         csv_header = csvcells;
+	 csvcells = NULL;
+	 continue;
+         }
+      if (nbcell != csv_line_size) 
+         {
+         sprintf( errmsg, _("Warning: nbcell=%d differ expected=%d, skipping line %d: %s\n"), nbcell, csv_line_size, lineno, ligne );
+         bufr_print_debug( errmsg );
+         continue;
+	 }
+      tok = csvcells[pos_FXY];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no FXY at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+      desc = atoi ( tok ) ;
+      if (!bufr_is_table_b( desc )) 
+         {
+         if (isdebug)
+            {
+            sprintf( errmsg, _("Skipped invalid descriptor at line %d: %s\n"), lineno, ligne );
+            bufr_print_debug( errmsg );
+            }
+         continue;
+         }
+      etb = bufr_new_EntryTableB();
+      etb->descriptor           = desc;
+
+      tok = csvcells[pos_ElementName];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no ElementName at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+      len = strlen( tok );
+      etb->description = strdup( tok );
+
+      tok = csvcells[pos_BUFR_Unit];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no Unit at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+      etb->unit = strdup( tok );
+
+      tok = csvcells[pos_BUFR_Scale];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no Scale at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+      etb->encoding.scale       = atoi ( tok ) ;
+
+      tok = csvcells[pos_BUFR_ReferenceValue];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no ReferenceValue at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+      etb->encoding.reference   = atoi ( tok ) ;
+
+      tok = csvcells[pos_BUFR_DataWidth_Bits];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no DataWidth_Bits at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+      etb->encoding.nbits       = atoi ( tok ) ;
+
+      etb->encoding.type        = bufr_unit_to_datatype( etb->unit );
+      if (etb->encoding.type == TYPE_UNDEFINED)
+         {
+         sprintf( errmsg, _("Warning: error while loading Table B file: %s\n"), 
+            filename );
+         bufr_print_debug( errmsg );
+         sprintf( errmsg, _("Error reading descriptor: %d unit=\"%s\"\n"), 
+                etb->descriptor, etb->unit );
+         bufr_print_debug( errmsg );
+         }
+#if DEBUG
+      if (isdebug)
+         {
+         sprintf( buf, _("Loaded descriptor: %s\n"), ligne );
+         bufr_print_debug( buf );
+         }
+#endif
+      arr_add( addr_tableb, (char *)&etb );
+      }
+   fclose ( fp ) ;
+
+   if (csvcells != NULL) free( csvcells );
+   return addr_tableb;
+   }
+
+/**
+ * bufr_csv_read_tabled
+ * @english
+ * read Table D from a CSV file
+ * @param   filename : file containing table D
+ * @param   addr_tabled : table D to be incremented (if relevant)
+ * @return     EntryTableDArray : a Table D array
+ * @endenglish
+ * @francais
+ * lire une table D d'un fichier CSV
+ * @param     filename : nom du fichier
+ * @param     addr_tabled  : une table D a incrementer (s'il y a lieu)
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+static EntryTableDArray bufr_csv_read_tabled (EntryTableDArray addr_tabled, const char *filename)
+   {
+   FILE *fp ;
+   char ligne[4096] ;
+   char tmpstr[4096] ;
+   char errmsg[4096];
+
+   EntryTableD  *etb;
+   int  count;
+   int  descriptors[1024];
+   char *tok, *ptr;
+   char description[sizeof(ligne)];
+   char description2[sizeof(ligne)];
+   int  desc, fxy1, fxy2;
+   int  lineno;
+
+   char          **csv_header, **csvcells;
+   int           nbcell, csv_line_size;
+   int           pos_FXY1, pos_FXY2, pos_Title_en;
+
+   if (filename == NULL) return NULL;
+
+   description[0] = '\0';
+   fp = fopen ( filename, "rb" ) ;
+   if (fp == NULL)
+		{
+      sprintf( ligne, _("Warning: can't open Table D file %s\n"), filename );
+      bufr_print_debug( ligne );
+      return NULL;
+      }
+
+   if (addr_tabled == NULL)
+      addr_tabled = (EntryTableDArray)arr_create( 100, sizeof(EntryTableD *), 100 );
+
+   csvcells = NULL;
+   csv_header = NULL;
+
+   descriptors[0] = 0;
+   count = 0;
+   lineno = 0;
+   while ( fgets(ligne,sizeof(ligne),fp) != NULL )
+      {
+      lineno++;
+      strcpy( tmpstr, ligne );
+
+      if (csvcells != NULL) free( csvcells );
+      csvcells = bufr_csv_split_cells( tmpstr, &nbcell, 15 );
+      if (lineno == 1) 
+         {
+         csv_line_size = nbcell;
+         pos_FXY1 = bufr_csv_find_cell( "FXY1", csvcells, nbcell );
+         pos_Title_en = bufr_csv_find_cell( "Title_en", csvcells, nbcell );
+         pos_FXY2 = bufr_csv_find_cell( "FXY2", csvcells, nbcell );
+	 if ((pos_FXY1 < 0)||(pos_Title_en < 0)||(pos_FXY2 < 0))
+            {
+            fclose( fp );
+            sprintf( errmsg, _("Error reading Table D file %s\n"), filename );
+            bufr_print_debug( errmsg );
+	    free( csvcells );
+            return NULL;
+	    }
+         csv_header = csvcells;
+	 csvcells = NULL;
+	 continue;
+         }
+      if (nbcell != csv_line_size) 
+         {
+         sprintf( errmsg, _("Warning: nbcell=%d differ expected=%d, skipping line %d: %s\n"), nbcell, csv_line_size, lineno, ligne );
+         bufr_print_debug( errmsg );
+         continue;
+	 }
+      tok = csvcells[pos_FXY1];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no FXY1 at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+      fxy1 = atoi( tok );
+
+      tok = csvcells[pos_Title_en];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no Title at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+
+      if ( fxy1 != descriptors[0] )
+         strcpy( description2, tok );
+      if (count == 0) 
+         {
+         strcpy( description, tok );
+         descriptors[count++] = fxy1;
+	 }
+
+      tok = csvcells[pos_FXY2];
+      if (tok == NULL) 
+         {
+         sprintf( errmsg, _("Warning: no FXY2 at line %d: %s\n"), lineno, ligne );
+         bufr_print_debug( errmsg );
+	 continue;
+	 }
+
+      fxy2 = atoi( tok );
+      if ( fxy1 == descriptors[0] )
+         {
+         descriptors[count++] = fxy2;
+         }
+      else if (count > 1)
+         {
+         etb = bufr_new_EntryTableD( descriptors[0],
+				description,
+				strlen(description),
+				descriptors+1, count-1 );
+         arr_add( addr_tabled, (char *)&etb );
+         descriptors[0] = fxy1;
+	 count = 1;
+         descriptors[count++] = fxy2;
+         strcpy( description, description2 );
+         }
+      }
+
+   if (count > 1)
+      {
+      etb = bufr_new_EntryTableD( descriptors[0],
+				description,
+				strlen(description),
+				descriptors+1, count-1 );
+      arr_add( addr_tabled, (char *)&etb );
+      }
+
+   fclose ( fp ) ;
+   if (csvcells != NULL) free( csvcells );
+
+   return addr_tabled;
+   }
+
+
+/**
+ * bufr_csv_split_cells
+ * @english
+ * split a line of CSV text into cells
+ * @param   tmpstr : input line of CSV string
+ * @param   int *nbcell  : return count of cells
+ * @param   int nb_alloc : initial number of cells to allocate
+ * @return  char ** : an array of string tokens
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+static char **bufr_csv_split_cells( char *tmpstr, int *nbcell, int nb_alloc )
+{
+   char *ptr, *tok;
+   int   i, cnt;
+   char  **cells;
+
+   cells = (char **)malloc( nb_alloc * sizeof(char *) );
+   ptr = tmpstr;
+   cnt = 0;
+   while (tok = str_nstrtok( &ptr, "," ))
+   {
+      if (cnt >= nb_alloc)
+         {
+         nb_alloc += 10;
+         cells = (char **)realloc( cells, nb_alloc * sizeof(char *) );
+	 }
+      cells[cnt] = tok;
+      ++cnt;
+   } 
+
+   *nbcell = cnt;
+   return cells;
+}
+
+/**
+ * bufr_csv_find_cell
+ * @english
+ * locate a string in an array and return its position
+ * @param   char *value  : string to locate
+ * @param   char **cells : array of string
+ * @param   int nb       : size of array
+ * @return  int : position of string 
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup tables
+ */
+static int bufr_csv_find_cell( char *value, char **cells, int nb )
+{
+   int i;
+   char  errmsg[256];
+
+   for (i = 0; i < nb ; i++) 
+      if (strcmp( cells[i], value ) == 0 ) return i;
+
+   sprintf( errmsg, _("Error cell name not found : %s\n"), value );
+   bufr_print_debug( errmsg );
+   return -1;
+}
