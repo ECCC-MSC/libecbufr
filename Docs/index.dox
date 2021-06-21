@@ -231,6 +231,13 @@ List of Environment Variables needed with sample values
 <dd> This is used to locate the BUFR tables.
 Thus your BUFR tables should be placed in a directory pointed to by this variable. This only apples
 to CMC-format BUFR tables. If installing from packages, BUFR tables will be found in ...
+<dt> WMO_BUFR_TABLES 
+<dd> This is used to locate the WMO BUFR4 tables
+BUFR4 tables can a WMO Tables gitlab repository or extracted directory of downloaded zip file from WMO website. 
+It can then be used directly from the library.  The directory name pointed by this variable is used to extract
+Tables version number as  BUFR4-XX, or by using a git command : "cd $WMO_BUFR_TABLES ; git describe --abbrev=0 --tags"
+Tables of current and previous versions found under  'fromWeb' directory will be loaded first, then appended with old CMC'stables 
+from $BUFR_TABLES directory. Where tables version 13 is required to successfully run the Tests.
 </dl>
 
 @todo where are the CMC tables found by default and where is the CMC table format documented?
