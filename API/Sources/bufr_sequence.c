@@ -2076,6 +2076,7 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
    int       last_desc=0, last_nbits=0;
    int       f, x, y;
    int       rep_desc=0, rep_cnt=0;
+   char      errmsg[1024];
 
    nbytes = 0;
    nbits = 0;
@@ -2087,8 +2088,9 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
       x = DESC_TO_X( cb->descriptor );
       y = DESC_TO_Y( cb->descriptor );
 #if DEBUG
-      fprintf ( stderr, "Desc=%d   flag=%d rep_desc=%d rep_cnt=%d\n", 
+      sprintf ( errmsg, "Desc=%d   flag=%d rep_desc=%d rep_cnt=%d\n", 
                   cb->descriptor , cb->flags, rep_desc, rep_cnt );
+      bufr_print_debug( errmsg );
 #endif
       if (cb->encoding.nbits > 0 )
          {
@@ -2101,7 +2103,8 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
                ||(cb->flags & FLAG_IGNORED))
             {
 #if DEBUG
-            fprintf ( stderr, "Skipping desc=%d\n", cb->descriptor );
+            sprintf ( errmsg, "Skipping desc=%d\n", cb->descriptor );
+            bufr_print_debug( errmsg );
 #endif
             }
          else if (last_desc == cb->descriptor )
@@ -2113,7 +2116,8 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
             if ((f == 3) && ((rep_desc==0)||((rep_desc > 0)&&(rep_cnt > 0))))
                {
 #if DEBUG
-               fprintf ( stderr, "Processing desc=%d\n", cb->descriptor );
+               sprintf ( errmsg, "Processing desc=%d\n", cb->descriptor );
+               bufr_print_debug( errmsg );
 #endif
                bsq = bufr_expand_descriptor( cb->descriptor, OP_RM_XPNDBL_DESC, tbls, &errflg );
                if (bsq)
@@ -2122,7 +2126,8 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
                   last_nbits = bufr_estimate_seq_length( bsq, tbls );
                   bufr_free_sequence( bsq );
 #if DEBUG
-                  fprintf ( stderr, "Processed desc=%d   flag=%d bits=%d\n", cb->descriptor , cb->flags, last_nbits );
+                  sprintf ( errmsg, "Processed desc=%d   flag=%d bits=%d\n", cb->descriptor , cb->flags, last_nbits );
+                  bufr_print_debug( errmsg );
 #endif
                   nbits += last_nbits;
                   }

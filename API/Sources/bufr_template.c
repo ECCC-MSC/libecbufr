@@ -120,7 +120,6 @@ BUFR_Template *bufr_create_template
          sprintf( errmsg, _("Error: not a valid descriptor %d\n"), 
                descs[i].descriptor );
          bufr_print_debug( errmsg );
-         fprintf( stderr, "%s", errmsg );
          }
       else if (bufr_is_table_b( descs[i].descriptor ))
          {
@@ -353,7 +352,6 @@ int bufr_finalize_template( BUFR_Template *tmplt )
          sprintf( errmsg, _("Error: not a valid descriptor %d\n"), 
                code->descriptor );
          bufr_print_debug( errmsg );
-         fprintf( stderr, "%s", errmsg );
          bufr_free_sequence( gabarit );
          return -1;
          }

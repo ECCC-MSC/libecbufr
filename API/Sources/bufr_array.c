@@ -24,6 +24,7 @@ This file is part of libECBUFR.
 
 #include "bufr_array.h"
 #include "bufr_i18n.h"
+#include "bufr_io.h"
 
  typedef struct { char *eles;  /* pointer to the elements               */
                   int   size;  /* size of each element in the array     */
@@ -64,9 +65,13 @@ This file is part of libECBUFR.
        if (arr->grow > 0)
          arr_allocate( arr, arr->total+arr->grow );
        else {
-         fprintf( stderr, _("Warning: initial array size too small: %d\n"), 
+         char errmsg[512];
+
+         sprintf( errmsg, _("Warning: initial array size too small: %d\n"), 
               arr->total );
-         fprintf( stderr, _("Warning: item can't be added\n") );
+	 bufr_print_debug( errmsg );
+         sprintf( errmsg, _("Warning: item can't be added\n") );
+	 bufr_print_debug( errmsg );
          return arr->count;
        }
     }

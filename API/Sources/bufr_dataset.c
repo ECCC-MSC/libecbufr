@@ -811,11 +811,8 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
    verbose = bufr_is_verbose();
 
    strcpy( errmsg, _("### Creating BUFR Message with Dataset\n") );
-   if (debug)
+   if (debug || verbose)
       bufr_print_debug( errmsg );
-   if (verbose)
-      fprintf( stderr, "%s", errmsg );
-
 
    msg = bufr_create_message( dts->tmplte->edition );
    bufr_copy_sect1( &(msg->s1), &(dts->s1) );
@@ -991,7 +988,6 @@ BUFR_Message *bufr_encode_message( BUFR_Dataset *dts , int x_compress )
       sprintf( errmsg, _n("It exceeds the maximum allowed of %d octet\n", "It exceeds the maximum allowed of %d octets\n", BUFR_MAX_MSG_LEN), 
                BUFR_MAX_MSG_LEN );
       bufr_print_debug( errmsg );
-      fprintf( stderr, "%s", errmsg );
       }
 
    if (debug)
@@ -1566,12 +1562,12 @@ static uint64_t bufr_value2bits( BufrDescriptor *bd )
       default :
          {
          char    errmsg[2048];
-         fprintf( stderr, _("Error: internal problem in bufr_value2bits(), wrong type:%.6d (%d)"), 
+         sprintf( errmsg, _("Error: internal problem in bufr_value2bits(), wrong type:%.6d (%d)"), 
                   bd->descriptor, bd->encoding.type );
+	 bufr_print_debug( errmsg );
          bufr_print_descriptor( errmsg, bd );
-         fprintf( stderr, "%s ", errmsg );
          if (bufr_print_value( errmsg, bd->value ))
-            fprintf( stderr, "%s\n", errmsg );
+	    bufr_print_debug( errmsg );
          exit(1);
          }
       break;
@@ -3320,6 +3316,7 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
    BufrDDOp      *ddo=NULL;
    BUFR_Tables   *tbls;
    char          ligne[2048];
+   char          msg[2048];
 
    char          *tok;
    int            icode;
@@ -3383,7 +3380,10 @@ static int bufr_load_datasubsets( FILE *fp, BUFR_Dataset *dts, int lineno, BUFR_
       if (strncmp( ligne, "DATASUBSET", 10 ) == 0)
          {
          if (bufr_is_verbose())
-            fprintf( stderr, _("Loading: %s\n"), ligne );
+	    {
+            sprintf( msg, _("Loading: %s\n"), ligne );
+	    bufr_print_debug( msg );
+	    }
 
          if (bsq2) 
             {
