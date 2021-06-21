@@ -381,7 +381,7 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
       {
       tbls->tableB = bufr_tableb_read( NULL, filename, local, data_cat_desc, &data_cat, &version );
       tbls->version = version;
-      if (bufr_is_debug())
+      if (bufr_is_debug() && (tbls->tableB != NULL))
          {
          char buf[128];
 
@@ -395,15 +395,18 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
 
       tableB = bufr_tableb_read( NULL, filename, local, data_cat_desc, 
                                  &data_cat, &version );
-      bufr_merge_tableB( tbls->tableB, tableB );
-      bufr_tableb_free( tableB );
-      tbls->version = version;
-      if (bufr_is_debug())
+      if (tableB != NULL)
          {
-         char buf[128];
+         bufr_merge_tableB( tbls->tableB, tableB );
+         bufr_tableb_free( tableB );
+         tbls->version = version;
+         if (bufr_is_debug())
+            {
+            char buf[128];
 
-         sprintf( buf, _("Info:  Merged Table B: %s  version=%d\n"), filename, version );
-         bufr_print_debug( buf );
+            sprintf( buf, _("Info:  Merged Table B: %s  version=%d\n"), filename, version );
+            bufr_print_debug( buf );
+            }
          }
       }
 
@@ -480,7 +483,7 @@ static int bufr_load_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl, const char *
    if (tbl->tableD == NULL)
       {
       tbl->tableD = bufr_tabled_read( NULL, filename );
-      if (bufr_is_debug())
+      if (bufr_is_debug() && (tbl->tableD != NULL))
          {
          char buf[128];
 
@@ -491,14 +494,17 @@ static int bufr_load_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl, const char *
    else
       {
       EntryTableBArray tableD = bufr_tabled_read( NULL, filename );
-      bufr_merge_tableD( tbl->tableD, tableD );
-      bufr_tabled_free( tableD );
-      if (bufr_is_debug())
+      if (tableD != NULL)
          {
-         char buf[128];
+         bufr_merge_tableD( tbl->tableD, tableD );
+         bufr_tabled_free( tableD );
+         if (bufr_is_debug())
+            {
+            char buf[128];
 
-         sprintf( buf, _("Info:  Merged Table D: %s\n"), filename );
-         bufr_print_debug( buf );
+            sprintf( buf, _("Info:  Merged Table D: %s\n"), filename );
+            bufr_print_debug( buf );
+            }
          }
       }
 
@@ -2398,7 +2404,7 @@ static void test_print_tableD( char *tabled )
    {
    int           i, s, count;
    EntryTableD  *r, **pe;
-   char          buf[128];
+   char          buf[512];
 
    count = arr_count(tabled);
    for ( i = 0 ; i < count ; i++ )
@@ -2407,14 +2413,15 @@ static void test_print_tableD( char *tabled )
       r = pe ? *pe : NULL;
       if ( r != NULL)
          {
-//         sprintf( buf, _("TableD : %d  '%s'\n"), r->descriptor, r->description );
-//         bufr_print_debug( buf );
-         fprintf( stdout, "TableD : %d  '%s'\n", r->descriptor, r->description );
+         sprintf( buf, _("TableD : %d  '%s'\n"), r->descriptor, r->description );
+         bufr_print_debug( buf );
          for ( s = 0 ; s < r->count ; s++ )
             {
-            fprintf( stdout, " %d", r->descriptors[s] );
+            sprintf( buf, " %d", r->descriptors[s] );
+            bufr_print_debug( buf );
 	    }
-         fprintf( stdout, "\n" );
+         sprintf( buf, "\n" );
+         bufr_print_debug( buf );
          }
       }
    }
@@ -2424,6 +2431,7 @@ static void test_print_tableB( char *tableb )
    EntryTableB **ptr;
    int i,cnt;
    char *cstring;
+   char          buf[512];
 
    cnt = arr_count( tableb );
    for (i = 0; i < cnt ; i++)
@@ -2431,10 +2439,11 @@ static void test_print_tableB( char *tableb )
       ptr = (EntryTableB **)arr_get( tableb, i );
       if (ptr)
          {
-         fprintf( stdout,  "%d :  %s  (%d %d %d)\n", ptr[0]->descriptor, ptr[0]->description, 
+         sprintf( buf,  "%d :  %s  (%d %d %d)\n", ptr[0]->descriptor, ptr[0]->description, 
 			 ptr[0]->encoding.scale,
 			 ptr[0]->encoding.reference,
 			 ptr[0]->encoding.nbits );
+         bufr_print_debug( buf );
          }
       }
    }
