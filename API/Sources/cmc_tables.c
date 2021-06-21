@@ -157,6 +157,7 @@ LinkedList *bufr_load_tables_list ( char *path, int tbnos[], int nb )
       {
       tb = tbnos[i];
       tables = bufr_create_tables();
+      rtrnB = rtrnD = -1;
       sprintf( filename, "%s/table_b_bufr-%d", path, tb );
       if( stat(filename,&buf) == 0 )
          if ( !S_ISDIR( buf.st_mode ) )
@@ -354,26 +355,37 @@ void bufr_tables_list_merge
  */
 int bufr_load_wmo_tables( BUFR_Tables *tables )
    {
-   char *env, *str;
-   char  filename[512];
-   char  path[512];
-   int   rtrnB, rtrnD;
-   regex_t    preg;
+   char      *env, *str;
+   char       filename[512];
+   char       path[512];
+   char       errmsg[512];
+
+   int        rtrnB, rtrnD;
    char       pattern[256];
    char       string[256];
    regmatch_t pmatch[20];
+   regex_t    preg;
 
    if (tables == NULL) return -1;
 
+   tables->master.version = -1;
    env = getenv( "WMO_BUFR_TABLES" );
    if (env)
       {
+      if (bufr_is_verbose()||bufr_is_debug())
+         {
+         sprintf( errmsg, _("Info: WMO_BUFR_TABLES defined as %s\n"), env );
+         bufr_print_debug( errmsg );
+	 }
       sprintf( path, "%s", env );
       str = strrchr( path, '/' );
       if (str == NULL)
          str = path;
       else
          str += 1;
+      /*
+       * downloaded WMO BUFR Tables zip file would have version number as suffix
+       */
       strcpy( pattern, "BUFR([0-9]+)-([0-9]+)" );
       if (regcomp(  &preg, pattern, REG_EXTENDED ) != 0 )
          perror( "Failed to compile regular expression\n" );
@@ -385,14 +397,69 @@ int bufr_load_wmo_tables( BUFR_Tables *tables )
          string[len] = '\0';
          tables->master.version = atol( string );
          }
+      else
+         {
+         char    cmd[256], rtrn[256];
+         struct  stat buf;
+	 FILE   *fp;
+	 int     cgitrepo;
+
+      /*
+       * For gitlab WMO BUFR Tables, could get version number from tag
+       * but is there any other way?
+       */
+         rtrn[0] = '\0';
+	 sprintf( filename, "%s/.git", env );
+         cgitrepo = ((stat(filename,&buf)==0)&&(S_ISDIR( buf.st_mode )));
+         if (cgitrepo&&(stat(env,&buf)==0)&&(S_ISDIR( buf.st_mode )))
+	    {
+	    strcpy( cmd, "cd $WMO_BUFR_TABLES ; git describe --abbrev=0 --tags" );
+            if (bufr_is_verbose()||bufr_is_debug())
+               {
+               sprintf( errmsg, _("Trying to obtain BUFR Tables version by doing : %s\n"), cmd );
+               bufr_print_debug( errmsg );
+	       }
+	    fp = popen( cmd, "r" );
+	    if (fgets( rtrn, 256, fp ) > 0 ) 
+	       {
+               strcpy( pattern, "(V|v)([0-9]+)(.([0-9]+))?" );
+               if (regcomp(  &preg, pattern, REG_EXTENDED ) != 0 )
+                  perror( "Failed to compile regular expression\n" );
+               if (regexec( &preg, rtrn, 4, pmatch, 0 ) == 0)
+                  {
+                  int  len;
+                  len = pmatch[2].rm_eo - pmatch[2].rm_so;
+                  strncpy( string, rtrn+pmatch[2].rm_so, len );
+                  string[len] = '\0';
+                  tables->master.version = atol( string );
+                  }
+	       }
+	    pclose( fp );
+	    }
+         else
+            {
+            sprintf( errmsg, _("Error: defined WMO_BUFR_TABLES is not valid %s\n"), env );
+            bufr_print_debug( errmsg );
+	    return -1;
+	    }
+         }
+      if (tables->master.version <= 0)
+         {
+         sprintf( errmsg, _("Error: failed to obtain tables version\n") );
+         bufr_print_debug( errmsg );
+	 return -1;
+	 }
+      if (bufr_is_verbose()||bufr_is_debug())
+         {
+         sprintf( errmsg, _("Info: WMO_BUFR_TABLES version is %d\n"), tables->master.version );
+         bufr_print_debug( errmsg );
+	 }
       }
    else
       {
-      char errmsg[256];
-
       sprintf( errmsg, _("Warning: env.var. WMO_BUFR_TABLES not defined\n") );
       bufr_print_debug( errmsg );
-      if (env == NULL) return -1;
+      return -1;
       }
 
    sprintf( filename, "%s/txt/BUFRCREX_TableB_en.txt", path );
@@ -442,6 +509,7 @@ int bufr_load_wmo_tables_list ( LinkedList *list, char *path )
    regmatch_t   pmatch[20];
    int          len;
 
+   namelist = NULL;
    nb = scandir( path, &namelist, NULL, alphasort );
    for ( i= nb-1 ; i >= 0 ; i-- )
       {
@@ -498,5 +566,6 @@ int bufr_load_wmo_tables_list ( LinkedList *list, char *path )
          }
       free(namelist[i]);
       }
-   free(namelist);
+   if (namelist)
+      free(namelist);
    }
