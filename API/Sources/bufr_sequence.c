@@ -1447,6 +1447,7 @@ int bufr_apply_tables2node
                      {
                      if (cb->encoding.nbits != ddo->local_nbits_follows)
                         {
+#if 0
                         BufrDescriptor *cb1;
                         ListNode *prev;
                         int       new206;
@@ -1462,6 +1463,8 @@ int bufr_apply_tables2node
                                     cb->descriptor, cb->encoding.nbits, cb1->descriptor, new206 );
                            bufr_print_debug( errmsg );
                            }
+#endif
+                        cb->encoding.nbits = ddo->local_nbits_follows;
                         }
                      }
                   else
