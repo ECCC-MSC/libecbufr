@@ -383,7 +383,7 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
       tbls->version = version;
       if (bufr_is_debug() && (tbls->tableB != NULL))
          {
-         char buf[128];
+         char buf[1024];
 
          sprintf( buf, _("Info:  Loaded Table B: %s  version=%d\n"), filename, version );
          bufr_print_debug( buf );
@@ -402,7 +402,7 @@ static int bufr_load_tableB( BUFR_Tables *tables, BufrTablesSet *tbls, const cha
          tbls->version = version;
          if (bufr_is_debug())
             {
-            char buf[128];
+            char buf[1024];
 
             sprintf( buf, _("Info:  Merged Table B: %s  version=%d\n"), filename, version );
             bufr_print_debug( buf );
@@ -485,7 +485,7 @@ static int bufr_load_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl, const char *
       tbl->tableD = bufr_tabled_read( NULL, filename );
       if (bufr_is_debug() && (tbl->tableD != NULL))
          {
-         char buf[128];
+         char buf[1024];
 
          sprintf( buf, _("Info:  Loaded Table D: %s\n"), filename );
          bufr_print_debug( buf );
@@ -500,7 +500,7 @@ static int bufr_load_tableD( BUFR_Tables *tbls, BufrTablesSet *tbl, const char *
          bufr_tabled_free( tableD );
          if (bufr_is_debug())
             {
-            char buf[128];
+            char buf[1024];
 
             sprintf( buf, _("Info:  Merged Table D: %s\n"), filename );
             bufr_print_debug( buf );
@@ -903,8 +903,8 @@ static EntryTableBArray bufr_tableb_read
     char *ltds, int *cat, int *version)
    {
    FILE         *fp ;
-   char          ligne[256] ;
-   char          buf[256] ;
+   char          ligne[1024] ;
+   char          buf[1024] ;
    EntryTableB  *etb;
    int           column[7], count;
    int           desc;
