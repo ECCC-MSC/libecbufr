@@ -1,4 +1,4 @@
-### Message header            : "\000\000»€"
+### Message header            : "\000\000»\200"
 ### BUFR Edition              : 4
 ###          length           : 47997
 ###   Section 0
@@ -35097,7 +35097,7 @@
    025143 {R=11} MSNG
    015005 {R=11} MSNG
 
-### Message header            : "\000\000\000\000\000»€\000\000L°"
+### Message header            : "\000\000\000\000\000»\200\000\000L°"
 ### BUFR Edition              : 4
 ###          length           : 19626
 ###   Section 0
