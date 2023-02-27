@@ -41,7 +41,7 @@ This file is part of libECBUFR.
 #include "private/gcmemory.h"
 #include "config.h"
 
-static caddr_t  BufrDescriptor_gcmemory=NULL;
+static void * BufrDescriptor_gcmemory=NULL;
 
 
 static int bufr_check_class31_set( BufrDescriptor *cb );
