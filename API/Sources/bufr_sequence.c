@@ -2306,6 +2306,7 @@ static void bufr_transfer_rtmd
    while ( node )
       {
       cb = (BufrDescriptor *)node->data;
+		if( cb->meta ) bufr_free_rtmd(cb->meta);
       cb->meta = bufr_duplicate_rtmd( rtmd );
       node = lst_nextnode( node );
       }
