@@ -10,7 +10,7 @@ m4_define(libecbufr_version_major, 0)
 m4_define(libecbufr_version_minor, 9)
 # An odd micro number indicates in-progress development, (eg. from git/cvs)
 # An even micro number indicates a released version.
-m4_define(libecbufr_version_micro, 3)
+m4_define(libecbufr_version_micro, 4)
 
 AC_INIT(libecbufr, libecbufr_version_major.libecbufr_version_minor.libecbufr_version_micro,[https://github.com/ECCC-MSC/libecbufr])
 
