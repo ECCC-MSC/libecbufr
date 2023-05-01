@@ -2072,7 +2072,7 @@ ListNode *bufr_getnode_sequence ( BUFR_Sequence *cl, int pos )
 int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
    {
    ListNode *node;
-   int       nbytes, nbits;
+   int       nbits;
    BufrDescriptor *cb;
    int       errflg;
    BUFR_Sequence  *bsq;
@@ -2081,7 +2081,6 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
    int       rep_desc=0, rep_cnt=0;
    char      errmsg[1024];
 
-   nbytes = 0;
    nbits = 0;
    node = lst_firstnode( seq->list );
    while ( node )
@@ -2095,9 +2094,18 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
                   cb->descriptor , cb->flags, rep_desc, rep_cnt );
       bufr_print_debug( errmsg );
 #endif
+      if (cb->encoding.af_nbits > 0)
+         {
+         nbits += cb->encoding.af_nbits;
+	 sprintf( errmsg, "descriptor= %d  af  nbits=%d\n", cb->descriptor, cb->encoding.af_nbits );
+         bufr_print_debug( errmsg );
+	 }
+
       if (cb->encoding.nbits > 0 )
          {
          nbits += cb->encoding.nbits;
+	 sprintf( errmsg, "descriptor= %d   nbits=%d\n", cb->descriptor, cb->encoding.nbits );
+         bufr_print_debug( errmsg );
          }
       else
          {
@@ -2113,6 +2121,8 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
          else if (last_desc == cb->descriptor )
             {
             nbits += last_nbits;
+	    sprintf( errmsg, "descriptor= %d   nbits=%d\n", last_desc, last_nbits );
+            bufr_print_debug( errmsg );
             }
          else
             {
@@ -2133,6 +2143,8 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
                   bufr_print_debug( errmsg );
 #endif
                   nbits += last_nbits;
+	          sprintf( errmsg, "descriptor= %d   nbits=%d\n", last_desc, last_nbits );
+                  bufr_print_debug( errmsg );
                   }
                }
             }
@@ -2151,11 +2163,10 @@ int bufr_estimate_seq_length( BUFR_Sequence *seq, BUFR_Tables *tbls )
       node = node->next; /* lst_nextnode( node ); */
       }
 
-   nbytes = nbits / 8 ;
-   if (nbits % 8) nbytes += 1;
-
    return nbits;
    }
+
+
 
 /**
  * @english
