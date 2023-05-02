@@ -61,6 +61,8 @@ static  char *str_debug = "DEBUG.decoder";
 static  char *str_template= NULL;
 
 static int   stop_count=0;
+static int   subset_from=0;
+static int   subset_to=0;
 static int   dumpmode=0;
 static int   show_unitdesc=0;
 static int   show_loctime=0;
@@ -77,8 +79,8 @@ static BUFR_Enforcement  enforce=BUFR_WARN_ALLOW;
 static void abort_usage(char *pgrmname);
 static void cleanup(void);
 static int  read_cmdline( int argc, char *argv[] );
-static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables * );
-static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables * );
+static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *, int isubset );
+static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *, int isubset );
 
 static void run_decoder(void);
 
@@ -115,6 +117,7 @@ static void abort_usage(char *pgrmname)
    fprintf( stderr, _("          [-verbose]                  send more messages\n") );
    fprintf( stderr, _("          [-local]                    save the local table B\n") );
    fprintf( stderr, _("          [-stop       <nb_messages>] stops decoding after the specified number of messages\n") );
+   fprintf( stderr, _("          [-subset     <no>]          decode only the given subset\n") );
    fprintf( stderr, _("          [-lax]                      loosen enforcement of BUFR rules\n") );
    fprintf( stderr, _("          [-strict]                   enforce BUFR rules compliance\n") );
    fprintf( stderr, _("          [-keep_zero]                keep all trailing zeroes\n") );
@@ -161,6 +164,9 @@ static int read_cmdline( int argc, char *argv[] )
      } else if (strcmp(argv[i],"-stop")==0) {
        ++i; if (i >= argc) abort_usage(argv[0]);
        stop_count = atoi(argv[i]);
+     } else if (strcmp(argv[i],"-subset")==0) {
+       ++i; if (i >= argc) abort_usage(argv[0]);
+       sscanf( argv[i], "%d,%d", &subset_from, &subset_to );
      } else if (strcmp(argv[i],"-local")==0) {
        save_local_table_B = 1;
      } else if (strcmp(argv[i],"-describe")==0) {
@@ -362,7 +368,7 @@ static void run_decoder(void)
             bufr_print_debug( buf );
             }
          bufr_set_enforcement( msg, enforce );
-         dts = bufr_decode_message( msg, useTables ); 
+         dts = bufr_decode_message_subsets( msg, useTables, subset_from, subset_to ); 
          }
 
       if (dts == NULL) 
@@ -412,9 +418,9 @@ static void run_decoder(void)
          bufr_fdump_dataset( dts, fp );
          }
       else if (format_ouput == 1)
-         bufr_show_dataset_formatted( dts, file_tables );
+         bufr_show_dataset_formatted( dts, file_tables, subset_from );
       else if (format_ouput == 0)
-         bufr_show_dataset( dts, file_tables );
+         bufr_show_dataset( dts, file_tables, subset_from );
 
       bufr_free_dataset( dts );
       bufr_free_message( msg );
@@ -432,23 +438,27 @@ static void run_decoder(void)
    bufr_free_tables_list( tables_list );
    }
 
-static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
+static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables, int isubset )
    {
    DataSubset    *subset;
    int            sscount, cvcount;
    int            i, j;
    BufrDescriptor      *bcv;
    char           buf[256];
+   int            sss;
 
+   sss = 0;
    sscount = bufr_count_datasubset( dts );
-   for (i = 0; i < sscount ; i++)
+   if (isubset <= 0) isubset = 1;
+
+   for (i = sss; i < sscount ; i++)
       {
       subset = bufr_get_datasubset( dts, i );
       cvcount = bufr_datasubset_count_descriptor( subset );
 
       sprintf( buf, _n("## Subset %d : %d descriptor\n", 
                        "## Subset %d : %d descriptors\n", cvcount), 
-               i+1, cvcount );
+               i+isubset, cvcount );
       bufr_print_output( buf );
 
       for (j = 0; j < cvcount ; j++)
@@ -594,7 +604,7 @@ static void bufr_show_dataset( BUFR_Dataset *dts, BUFR_Tables *tables )
       }
    }
 
-static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables )
+static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables, int isubset )
    {
    DataSubset     *subset;
    int             sscount, cvcount;
@@ -606,6 +616,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
    int             maxlen, len;
    int             ivalue;
 
+   if (isubset <= 0) isubset = 1;
    sscount = bufr_count_datasubset( dts );
    for (i = 0; i < sscount ; i++)
       {
@@ -614,7 +625,7 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
 
       sprintf( buf, _n("## Subset %d : %d descriptor\n", 
                        "## Subset %d : %d descriptors\n", cvcount), 
-               i+1, cvcount );
+               i+isubset, cvcount );
       bufr_print_output( buf );
 /*
  * precalculates how long RTMD string will be

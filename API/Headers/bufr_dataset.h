@@ -134,6 +134,7 @@ extern BufrDescriptor  *bufr_datasubset_next_descriptor   ( DataSubset *ss, int 
 
 extern BUFR_Dataset    *bufr_decode_message         ( BUFR_Message *msg, BUFR_Tables *local_tables );
 extern BUFR_Message    *bufr_encode_message         ( BUFR_Dataset *dts , int x_compress );
+extern BUFR_Dataset    *bufr_decode_message_subsets ( BUFR_Message *msg, BUFR_Tables *local_tables, int subset_from, int subset_to );
 
 
 extern int              bufr_merge_dataset          ( BUFR_Dataset *dest, int dest_pos, 
