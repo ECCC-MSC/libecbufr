@@ -26,7 +26,6 @@ This file is part of libECBUFR.
 
 
 #include <stdio.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
 #include "private/gcmemory.h"

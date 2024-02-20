@@ -40,13 +40,13 @@ This file is part of libECBUFR.
 #include "private/gcmemory.h"
 #include "config.h"
 
-static caddr_t  ValueINT8_gcmemory=NULL;
-static caddr_t  ValueINT16_gcmemory=NULL;
-static caddr_t  ValueINT32_gcmemory=NULL;
-static caddr_t  ValueINT64_gcmemory=NULL;
-static caddr_t  ValueFLT32_gcmemory=NULL;
-static caddr_t  ValueFLT64_gcmemory=NULL;
-static caddr_t  ValueSTRING_gcmemory=NULL;
+static void * ValueINT8_gcmemory=NULL;
+static void * ValueINT16_gcmemory=NULL;
+static void * ValueINT32_gcmemory=NULL;
+static void * ValueINT64_gcmemory=NULL;
+static void * ValueFLT32_gcmemory=NULL;
+static void * ValueFLT64_gcmemory=NULL;
+static void * ValueSTRING_gcmemory=NULL;
 
 /**
  * @english

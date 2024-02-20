@@ -25,7 +25,7 @@ This file is part of libECBUFR.
 #include "private/gcmemory.h"
 #include "config.h"
 
-static caddr_t  ListNode_gcmemory=NULL;
+static void *  ListNode_gcmemory=NULL;
 
 
 /**************************************************************************
