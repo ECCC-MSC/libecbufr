@@ -37,7 +37,7 @@ binary-indep: install
 	dh_fixperms
 	dh_builddeb
 
-binary: binary-indep binary-arch
+binary: binary-arch binary-indep
 .PHONY: build clean binary-indep binary-arch binary install
 
 clean:
