@@ -14,10 +14,8 @@ build:
 	./configure
 	make
 
-binary: build
-
 # Build architecture-dependent files here.
-binary-arch:
+binary-arch: build
 # We have nothing to do by default.
 
 # Build architecture-independent files here.
