@@ -27,6 +27,7 @@ This file is part of libECBUFR.
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "bufr_linklist.h"
 #include "bufr_array.h"
@@ -1506,7 +1507,7 @@ int bufr_apply_tables2node
 
             if (ddo->change_ref_value != 0)
                {
-               cb->encoding.reference *= 10^ddo->change_ref_value;
+               cb->encoding.reference *= pow(10,ddo->change_ref_value);
                cb->encoding.ref_nbits = bufr_value_nbits( cb->encoding.reference );
                if (debug)
                   {
