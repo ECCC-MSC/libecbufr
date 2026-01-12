@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export BUFR_TABLES=../Tables/
-export LC_ALL="en_US.UTF-8"
+export LC_ALL="C"
 unset AFSISIO
 
 for i in BUFR/*.bufr
