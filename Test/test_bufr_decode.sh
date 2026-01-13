@@ -2,6 +2,7 @@
 
 DECODER=../Utilities/bufr_decoder
 export BUFR_TABLES=../Tables/
+export LC_ALL="C"
 unset AFSISIO
 
 test1file ()

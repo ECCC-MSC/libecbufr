@@ -30,6 +30,7 @@ This file is part of libECBUFR.
 #include <math.h>
 #include <time.h>
 #include <string.h>
+#include <ctype.h>
 #include <sys/types.h>
 
 #include "bufr_util.h"
