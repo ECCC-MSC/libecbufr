@@ -1,3 +1,12 @@
+libecbufr (0.9.5) unstable; urgency=low
+
+  * Merged bugs fixed from branch git@github.com:beauregardc/libecbufr.git
+    upto 0.9.5
+  * rolled back on changes/features made in 0.9.4 and moved them to branch
+    dev_subsets_range
+
+ -- Vanh Souvanlasy <vanh.souvanlasy@ec.gc.ca>  Tue, 13 Jan 2026 15:03:38 -0500
+
 libecbufr (0.8.7) unstable; urgency=low
 
   * new development release version
