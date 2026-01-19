@@ -48,6 +48,7 @@ extern "C" {
 
 #define  BUFR_ERR_MSGS_LIMIT    10
 
+extern void           bufr_skip_bits       ( BUFR_Message *bufr, int nbbits, int *errcode);
 extern int            bufr_end_of_data     ( BUFR_Message *bufr );
 extern void           bufr_putbits         ( BUFR_Message *bufr, uint64_t val, int nbbits );
 extern uint64_t       bufr_getbits         ( BUFR_Message *bufr, int nbbits, int *errcode );

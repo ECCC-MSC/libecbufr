@@ -49,7 +49,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 
  int
@@ -92,7 +92,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup internal
  */
  static void
  arr_allocate( Array *arr, int len )
@@ -122,7 +122,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  int
  arr_count( ArrayPtr obj )
@@ -144,7 +144,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  ArrayPtr
  arr_create(int len, int size, int grow)
@@ -192,7 +192,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  int
  arr_del( ArrayPtr obj, int nele )
@@ -219,7 +219,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  void
  arr_free( ArrayPtr *obj )
@@ -250,7 +250,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  ArrayItemPtr
  arr_get( ArrayPtr obj, int pos )
@@ -277,7 +277,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  int
  arr_inc( ArrayPtr obj, int nele )
@@ -311,7 +311,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  extern void
  arr_reduce( ArrayPtr obj )
@@ -335,7 +335,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 
  ArrayPtr
@@ -374,7 +374,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  * @see arr_find
  */
  ArrayItemPtr
@@ -407,7 +407,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  * @see arr_search
  */
  ArrayItemPtr
@@ -437,7 +437,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  int
  arr_set( ArrayPtr obj, int pos, const void *elem )
@@ -470,7 +470,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
  int
  arr_size( ArrayPtr obj )
@@ -491,7 +491,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 
  void
@@ -516,7 +516,7 @@ This file is part of libECBUFR.
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 void arr_free_string(ArrayPtr *parray)
 {
@@ -549,7 +549,7 @@ void arr_free_string(ArrayPtr *parray)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 int arr_find_string( ArrayPtr array, const char *string  )
    {
@@ -585,7 +585,7 @@ int arr_find_string( ArrayPtr array, const char *string  )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 void  arr_add_string( ArrayPtr array, const char *string )
    {
@@ -610,7 +610,7 @@ void  arr_add_string( ArrayPtr array, const char *string )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 int arr_floatcmp(const void *c1, const void *c2)
     {
@@ -633,7 +633,7 @@ int arr_floatcmp(const void *c1, const void *c2)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 int arr_floatdcmp(const void *c1, const void *c2)
     {
@@ -656,7 +656,7 @@ int arr_floatdcmp(const void *c1, const void *c2)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 int arr_intcmp(const void *c1, const void *c2)
     {
@@ -679,7 +679,7 @@ int arr_intcmp(const void *c1, const void *c2)
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup data_structures internal
+ * @ingroup data_structures
  */
 int arr_intDescCmp
    (const void *c1, const void *c2)

@@ -145,7 +145,7 @@ void bufr_enable_meta(int mode)
  * Trouver la position d'un descripteur dans un sous-jeu (subset) de données
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup descriptor dataset
+ * @ingroup dataset
  */
 int bufr_subset_find_descriptor( DataSubset *dts, int descriptor, int startpos )
    {
@@ -567,7 +567,7 @@ void bufr_set_key_flt32( BufrDescValue *cv, int descriptor, float *values, int n
  * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup decode descriptor
+ * @ingroup descriptor
  */
 void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
    {
@@ -600,7 +600,7 @@ void bufr_set_key_location( BufrDescValue *cv, int descriptor, float value  )
  * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup decode descriptor
+ * @ingroup descriptor
  * @see bufr_set_key_qualifier_int32, bufr_set_key_qualifier_flt32
  */
 void bufr_set_key_qualifier( BufrDescValue *cv, int descriptor, 
@@ -634,7 +634,7 @@ void bufr_set_key_qualifier( BufrDescValue *cv, int descriptor,
  * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup decode descriptor
+ * @ingroup descriptor
  * @see bufr_set_key_qualifier, bufr_set_key_qualifier_flt32
  */
 void bufr_set_key_qualifier_int32( BufrDescValue *cv, int descriptor, 
@@ -671,7 +671,7 @@ void bufr_set_key_qualifier_int32( BufrDescValue *cv, int descriptor,
  * afin d'effectuer une recherche dans un sous-ensemble de données (data subset)
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup decode descriptor
+ * @ingroup descriptor
  * @see bufr_set_key_qualifier, bufr_set_key_qualifier_flt32
  */
 void bufr_set_key_qualifier_flt32( BufrDescValue *cv, int descriptor, 
@@ -705,7 +705,7 @@ void bufr_set_key_qualifier_flt32( BufrDescValue *cv, int descriptor,
  * @todo translate.
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup decode descriptor
+ * @ingroup descriptor
  */
 void bufr_set_key_callback( BufrDescValue *cv, int descriptor,
 	int (*valcmp)(void* data, BufrDescriptor* bd), void* data)
@@ -757,7 +757,7 @@ void bufr_set_key_callback( BufrDescValue *cv, int descriptor,
  * @todo translate.
  * @endfrancais
  * @author Chris Beauregard
- * @ingroup decode descriptor
+ * @ingroup descriptor
  */
 void bufr_set_key_meta_callback( BufrDescValue *cv,
 	int (*valcmp)(void* data, BufrDescriptor* bd), void* data)

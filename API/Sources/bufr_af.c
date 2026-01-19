@@ -47,7 +47,7 @@ static void bufr_copy_afd( BufrAFD *dest, const BufrAFD *src );
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup encode descriptor
+ * @ingroup descriptor
  */
 BufrAF  *bufr_create_af( const int *blens, int count )
    {
@@ -97,7 +97,7 @@ BufrAF  *bufr_create_af( const int *blens, int count )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup encode descriptor
+ * @ingroup descriptor
  */
 BufrAF  *bufr_duplicate_af( const BufrAF *dup )
    {
@@ -129,7 +129,7 @@ BufrAF  *bufr_duplicate_af( const BufrAF *dup )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup encode descriptor
+ * @ingroup descriptor
  */
 void bufr_free_af( BufrAF *af )
    {
@@ -152,7 +152,7 @@ void bufr_free_af( BufrAF *af )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup io debug descriptor
+ * @ingroup descriptor
  */
 int bufr_print_af ( char *outstr, const BufrAF *af )
    {
@@ -176,7 +176,7 @@ int bufr_print_af ( char *outstr, const BufrAF *af )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup encode descriptor
+ * @ingroup descriptor
  */
 BufrAFD  *bufr_create_afd( const int *blens, int count )
    {
@@ -382,7 +382,7 @@ void bufr_af_set_value  ( BufrAF *af, int pos, int val )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup descriptor internal
+ * @ingroup internal
  */
 static void bufr_copy_af( BufrAF *dest, const BufrAF *src )
    {
@@ -413,7 +413,7 @@ static void bufr_copy_af( BufrAF *dest, const BufrAF *src )
  * @todo translate to French
  * @endfrancais
  * @author Vanh Souvanlasy
- * @ingroup descriptor internal
+ * @ingroup internal
  */
 static void bufr_copy_afd( BufrAFD *dest, const BufrAFD *src )
    {

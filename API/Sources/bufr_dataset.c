@@ -59,13 +59,13 @@ static DataSubset *bufr_duplicate_datasubset ( DataSubset *dss );
 static void        bufr_put_numeric_compressed
                            ( BUFR_Message *msg, BUFR_Dataset *dts, BufrDescriptor *bcv, int j );
 static int         bufr_get_ccitt_compressed 
-                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode ** );
+                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **, int subset_from, int subset_to );
 static int         bufr_get_ieeefp_compressed 
-                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode ** );
+                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **, int subset_from, int subset_to );
 static int         bufr_get_numeric_compressed
-                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode ** );
+                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **, int subset_from, int subset_to );
 static int         bufr_get_af_compressed
-                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode ** );
+                           ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **, int subset_from, int subset_to );
 static DataSubset *bufr_allocate_datasubset  ( void );
 static void        bufr_fill_datasubset      ( DataSubset *subset, BUFR_Sequence *bsq );
 static int         bufr_load_header( FILE *fp, BUFR_Dataset *dts );
@@ -2157,6 +2157,7 @@ static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
 
 /**
  * @english
+ * Decode every subsets of a BUFR message
  * This is a higher-level call than bufr_read_message, the tables that have
  * been passed to this call should contain all of the elements referred to
  * by the message or it will fail and return NIL. The returned “dts” is
@@ -2175,6 +2176,26 @@ static int  bufr_get_desc_ieeefp( BUFR_Message *bufr, BufrDescriptor *bd )
  */
 BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    {
+   return bufr_decode_message_subsets( msg, tables, 0, 0 );
+   }
+
+/**
+ * @english
+ * Decode selected range of subsets from a BUFR message
+ * @param msg the Message to decode
+ * @param tables use the tables to resolve descriptors of the Message
+ * @param start position of subset, set to 0 for all
+ * @param end position of subset
+ * @return data stored in a BUFR_Dataset
+ * @endenglish
+ * @francais
+ * @todo translate to French
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup message decode
+ */
+BUFR_Dataset  *bufr_decode_message_subsets( BUFR_Message *msg, BUFR_Tables *tables, int subset_from, int subset_to )
+   {
    BufrDescValue   *codets;
    int             count;
    int            *code;
@@ -2191,7 +2212,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    int             f, x, y;
    int             debug=bufr_is_debug();
    char            errmsg[256];
-   DataSubset     *subset;
+   DataSubset     *subset = NULL;
    BufrDDOp       *ddo;
    int             errcode, skip;
    LinkedList     *tmplist;
@@ -2199,11 +2220,23 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    int             flags;
    BUFR_DecodeInfo s4;
 
+
    if (bufr_table_is_empty( tables ))
       {
       bufr_print_debug( _("Error: BUFR Tables contains no entry, cannot decode message\n") );
       return NULL;
       }
+
+   nbsubset   = msg->s3.no_data_subsets;
+   if (subset_from > nbsubset) 
+      {
+      sprintf( errmsg, _("Error: Bad subset #%d, will not decode message\n"), subset_from );
+      bufr_print_debug( errmsg );
+      return NULL;
+      }
+   if (subset_from < 0) subset_from = 1;
+   if (subset_to < subset_from) subset_to = subset_from;
+   if (subset_to > nbsubset) subset_to = nbsubset;
 
    if (debug)
       bufr_print_debug( _("### Converting BUFR Message into Dataset\n") );
@@ -2273,14 +2306,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       free( codets );
       return NULL;
       }
-/*
-   if (bufr_finalize_template( template ) < 0) 
-      {
-      bufr_free_template ( template );
-      free( codets );
-      return NULL;
-      }
-*/
+
    dts = bufr_create_dataset( template );
    if (dts == NULL)
       {
@@ -2302,10 +2328,6 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
    bufr_free_template ( template );
 
    compressed = msg->s3.flag & BUFR_FLAG_COMPRESSED;
-/*
- * see how many datasubset are specified in section 3
- */
-   nbsubset   = msg->s3.no_data_subsets;
 
    count = arr_count( dts->tmplte->gabarit );
    bsq = bufr_create_sequence(NULL);
@@ -2323,27 +2345,47 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       bufr_add_descriptor_to_sequence( bsq, cb );
       }
 
+   if (bufr_expand_sequence( bsq, OP_EXPAND_DELAY_REPL | OP_ZDRC_SKIP, dts->tmplte->tables ) < 0) return NULL;
    ddo = bufr_create_BufrDDOp( msg->enforce );
    bufr_apply_Tables( ddo, bsq,  dts->tmplte, NULL, &errcode ); 
    bufr_free_BufrDDOp( ddo );
-   if (errcode < 0)
-	   dts->data_flag |= BUFR_FLAG_INVALID;
+   if (errcode < 0) dts->data_flag |= BUFR_FLAG_INVALID;
 
    flags = 0;
-   bufr_check_sequence( bsq, NULL, &flags, tables, 0 );
-
+   bufr_check_sequence( bsq, NULL, &flags, dts->tmplte->tables, 0 );
    if (!compressed)
       {
+      int nbits_seq=0, seq_len_is_const=1;
+      int nbsubset1, j1;
+
       if (debug)
          bufr_print_debug( _("### Message is not compressed\n") );
+      
+      if (flags & HAS_DELAYED_REPLICATION)
+         {
+         if (subset_from > 0) 
+            {
+            if (debug)
+                bufr_print_debug( _("### Warning: Message contains delayed replications, cannot skip\n") );
+	    seq_len_is_const = 0;
+            fprintf( stderr, "### Warning: Message contains delayed replications, cannot skip\n");
+	    }
+         }
+
+      nbsubset1 = nbsubset;
+      nbits_seq = bufr_estimate_seq_length( bsq, dts->tmplte->tables );
+      if ( seq_len_is_const )
+         {
+         if (subset_from > 0) 
+	    nbsubset1 = subset_to - subset_from + 1;
+         if (subset_from > 1)
+            bufr_skip_bits( msg, nbits_seq*(subset_from-1), &errcode );
+	 }
 /*
  * loop as many times as specified to fill in all the datasubsets
  */
-      for (j = 0; j < nbsubset ; j++ )
+      for (j = 0; j < nbsubset1 ; j++ )
          {
-         subset = bufr_allocate_datasubset();
-         arr_add( dts->datasubsets, (char *)&subset );
-
          bsq2 = bufr_copy_sequence( bsq );
          node = lst_firstnode( bsq2->list );
          ddo = bufr_create_BufrDDOp( msg->enforce );
@@ -2372,10 +2414,10 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 /*
  * terminate the loop and bail out nicely
 */
-					snprintf( errmsg, sizeof(errmsg),
-						_("Warning: premature end-of-data reading subset %d\n"), j);
-					bufr_print_debug( errmsg );
-					dts->data_flag |= BUFR_FLAG_INVALID;
+		snprintf( errmsg, sizeof(errmsg),
+			_("Warning: premature end-of-data reading subset %d\n"), j);
+		bufr_print_debug( errmsg );
+		dts->data_flag |= BUFR_FLAG_INVALID;
 
                node = NULL;
                j = nbsubset;
@@ -2401,10 +2443,10 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 
                   if (bufr_get_desc_value( msg, cb31 ) < 0)
                      {
-							snprintf( errmsg, sizeof(errmsg),
+			snprintf( errmsg, sizeof(errmsg),
 								_("Warning: premature end-of-data reading subset %d\n"), j);
-							bufr_print_debug( errmsg );
-							dts->data_flag |= BUFR_FLAG_INVALID;
+			bufr_print_debug( errmsg );
+			dts->data_flag |= BUFR_FLAG_INVALID;
                      node = NULL;
                      j = nbsubset;
                      continue;
@@ -2424,7 +2466,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                      int  msglen;
                      bsq2->list = tmplist;
                      len = bufr_estimate_seq_length( bsq2, tables );
-                     msglen = s4.len+(len/8);
+                     msglen = (s4.len+len)/8;
 
                      if (msglen > (s4.max_len*3) )
                         {
@@ -2435,15 +2477,17 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                         bufr_print_debug( errmsg );
                         tmplist = NULL;
                         }
-
                      }
+
                   if (tmplist == NULL)
                      {
+                     subset = bufr_allocate_datasubset();
+                     bufr_fill_datasubset( subset, bsq2 );
+                     arr_add( dts->datasubsets, (char *)&subset );
+
                      bufr_free_BufrDDOp( ddo );
-                     bufr_free_dataset( dts );
                      bufr_free_sequence( bsq );
-                     bufr_free_sequence( bsq2 );
-                     return NULL;
+                     return dts;
                      }
                   node = lst_nextnode( node ); /* skip over class 31 code */
                   }
@@ -2455,11 +2499,31 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
          bufr_free_BufrDDOp( ddo );
          ddo = NULL;
 
-         len = bufr_estimate_seq_length( bsq2, tables );
-         s4.len += len/8;
+	 if (seq_len_is_const)
+            s4.len += nbits_seq;
+	 else
+            s4.len += bufr_estimate_seq_length( bsq2, tables );
+
+         j1 = j+1;
          /* bsq2 is freed by bufr_fill_datasubset */
-         bufr_fill_datasubset( subset, bsq2 );
+	 if (seq_len_is_const || (subset_from<=0) || (j1 >= subset_from)&&(j1 <= subset_to))
+            {
+            subset = bufr_allocate_datasubset();
+            arr_add( dts->datasubsets, (char *)&subset );
+            bufr_fill_datasubset( subset, bsq2 );
+	    subset = NULL;
+	    }
+         else
+            {
+            bufr_free_sequence( bsq2 );
+	    }
          }
+         if (seq_len_is_const && (subset_from > 0))
+            {
+	    nbsubset1 = subset_to - subset_from + 1;
+            if (subset_from > 1)
+            bufr_skip_bits( msg, nbits_seq*(nbsubset - subset_to), &errcode );
+	    }
       }
    else
       {
@@ -2467,17 +2531,22 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
       BufrDDOp       **ddos;
       BufrDescriptor       *cb2;
       ListNode       **nodes;
+      int             nbsubset1;
 
       if (debug)
          bufr_print_debug( _("### Message is compressed\n") );
+
+      nbsubset1 = nbsubset;
+      if (subset_from > 0) 
+	 nbsubset1 = subset_to - subset_from + 1;
 /*
  * allocates all subsets
  */
-      bseq = (BUFR_Sequence **)malloc ( nbsubset * sizeof(BUFR_Sequence *) );
-      ddos = (BufrDDOp **)malloc ( nbsubset * sizeof(BufrDDOp *) );
-      nodes = (ListNode **)malloc ( nbsubset * sizeof(ListNode *) );
+      bseq = (BUFR_Sequence **)malloc ( nbsubset1 * sizeof(BUFR_Sequence *) );
+      ddos = (BufrDDOp **)malloc ( nbsubset1 * sizeof(BufrDDOp *) );
+      nodes = (ListNode **)malloc ( nbsubset1 * sizeof(ListNode *) );
 
-      for ( i = 0; i < nbsubset ; i++ )
+      for ( i = 0; i < nbsubset1 ; i++ )
          {
          bseq[i] = bufr_copy_sequence( bsq );
          subset = bufr_allocate_datasubset();
@@ -2499,7 +2568,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             }
          if (cb->flags & FLAG_SKIPPED)
             {
-            for ( i = 0; i < nbsubset ; i++ )
+            for ( i = 0; i < nbsubset1 ; i++ )
                {
                node2 = nodes[i];
                ddos[i]->current = node2;
@@ -2514,7 +2583,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             continue;
             }
 
-         for ( i = 0; i < nbsubset ; i++ )
+         for ( i = 0; i < nbsubset1 ; i++ )
             {
             node2 = nodes[i];
             ddos[i]->current = node2;
@@ -2523,43 +2592,43 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
 	            dts->data_flag |= BUFR_FLAG_INVALID;
             }
 
-         errcode = bufr_get_af_compressed( cb, nbsubset, msg, nodes );
+         errcode = bufr_get_af_compressed( cb, nbsubset, msg, nodes, subset_from, subset_to );
          if (errcode < 0)
-				{
-				dts->data_flag |= BUFR_FLAG_INVALID;
-				node = NULL;
-				}
+            {
+            dts->data_flag |= BUFR_FLAG_INVALID;
+	    node = NULL;
+	    }
 
-			/* assert( errcode >= 0 ) */
+	/* assert( errcode >= 0 ) */
          switch (cb->encoding.type)
             {
             case TYPE_CCITT_IA5 :
-               errcode = bufr_get_ccitt_compressed( cb, nbsubset, msg, nodes );
+               errcode = bufr_get_ccitt_compressed( cb, nbsubset, msg, nodes, subset_from, subset_to );
                break;
             case TYPE_IEEE_FP :
-               errcode = bufr_get_ieeefp_compressed( cb, nbsubset, msg, nodes );
+               errcode = bufr_get_ieeefp_compressed( cb, nbsubset, msg, nodes, subset_from, subset_to );
                break;
             case TYPE_NUMERIC :
             case TYPE_CODETABLE :
             case TYPE_FLAGTABLE :
             case TYPE_CHNG_REF_VAL_OP :
-               errcode = bufr_get_numeric_compressed( cb, nbsubset, msg, nodes );
+               errcode = bufr_get_numeric_compressed( cb, nbsubset, msg, nodes, subset_from, subset_to );
                break; 
             default : 
                if (debug) bufr_print_debug( "\n" );
                break; 
             }
          if (errcode < 0)
-				{
-				dts->data_flag |= BUFR_FLAG_INVALID;
-				node = NULL;
-				}
+	    {
+  	    dts->data_flag |= BUFR_FLAG_INVALID;
+	    node = NULL;
+	    }
 
 /*
  * apply post value operations on BufrDescriptor
 
 */
-         for ( i = 0; i < nbsubset ; i++ )
+         for ( i = 0; i < nbsubset1 ; i++ )
             {
             node2 = nodes[i];
             ddos[i]->current = node2;
@@ -2579,7 +2648,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                int errcode, skip;
 
                errcode = 0;
-               for (i = 0; i < nbsubset ; i++)
+               for (i = 0; i < nbsubset1 ; i++)
                   {
                   node2 = nodes[i]->prev;
                   tmplist = bufr_expand_node_descriptor( bseq[i]->list, node2, OP_EXPAND_DELAY_REPL|OP_ZDRC_IGNORE, tables, &skip, &errcode, &s4 );
@@ -2589,8 +2658,8 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                      }
                   if (tmplist == NULL)
                      {
-                     bufr_free_dataset( dts );
-                     for ( i = 0; i < nbsubset ; i++ )
+//                     bufr_free_dataset( dts );
+                     for ( i = 0; i < nbsubset1 ; i++ )
                         {
                         bufr_free_BufrDDOp( ddos[i] );
                         bufr_free_sequence( bseq[i] );
@@ -2598,7 +2667,7 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
                      free( bseq );
                      free( ddos );
                      free( nodes );
-                     return NULL;
+                     return dts;
                      }
                   bseq[i]->list = tmplist;
                   ddos[i]->current = node2;
@@ -2611,12 +2680,12 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
             }
 
          ++j;
-         for ( i = 0; i < nbsubset ; i++ )
+         for ( i = 0; i < nbsubset1 ; i++ )
             nodes[i] = nodes[i]->next;
          node = lst_nextnode( node );
          }
 
-      for (i = 0; i < nbsubset ; i++)
+      for (i = 0; i < nbsubset1 ; i++)
          {
          subset = bufr_get_datasubset( dts, i );
 /*
@@ -2681,9 +2750,9 @@ BUFR_Dataset  *bufr_decode_message( BUFR_Message *msg, BUFR_Tables *tables )
  * @ingroup internal
  */
 static int bufr_get_ccitt_compressed
-   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
+   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes, int subset_from, int subset_to )
    {
-   int             i;
+   int             i, count, nbits;
    ListNode       *node2;
    int             debug=bufr_is_debug();
    char            *errmsg;
@@ -2693,6 +2762,8 @@ static int bufr_get_ccitt_compressed
    int             errcode;
    int             missing;
 
+   count = (subset_from > 0) ? subset_to - subset_from + 1 : nbsubset;
+
    if (debug)
       bufr_print_debug( "   R0=" );
 
@@ -2700,6 +2771,7 @@ static int bufr_get_ccitt_compressed
    if (errcode < 0) return errcode;
 
    nbinc = bufr_getbits( msg, 6, &errcode );
+
    if ( errcode < 0 ) return errcode;
 
 /*
@@ -2725,7 +2797,12 @@ static int bufr_get_ccitt_compressed
       nbinc = 0;
       }
 
-   for (i = 0; i < nbsubset ; i++)
+   nbits = nbinc * 8 ;
+
+   if (subset_from > 1)
+      bufr_skip_bits( msg, nbits*(subset_from-1), &errcode );
+
+   for (i = 0; i < count ; i++)
       {
       node2 = nodes[i];
       cb2 = (BufrDescriptor *)node2->data;
@@ -2767,6 +2844,9 @@ static int bufr_get_ccitt_compressed
          }
       }
 
+   if (subset_from > 0)
+       bufr_skip_bits( msg, nbits*(nbsubset-subset_to), &errcode );
+
    arr_free( &dstrptr );
    return 1;
    }
@@ -2786,15 +2866,25 @@ static int bufr_get_ccitt_compressed
  * @ingroup internal
  */
 static int bufr_get_ieeefp_compressed
-   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
+   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes, int subset_from, int subset_to )
    {
-   int             i;
+   int             i, count, nbits;
    ListNode       *node2;
    int             debug=bufr_is_debug();
    char            errmsg[256];
    BufrDescriptor       *cb2;
    int             nbinc;
    int             errcode;
+
+   if (subset_from > 0)
+      {
+      node2 = nodes[0];
+      cb2 = (BufrDescriptor *)node2->data;
+      nbits = cb2->encoding.nbits;
+      count = subset_to - subset_from + 1;
+      }
+   else 
+      count = nbsubset;
 
    if (debug)
       bufr_print_debug( "   R0=" );
@@ -2810,7 +2900,10 @@ static int bufr_get_ieeefp_compressed
       }
    if (errcode < 0) return errcode;
 
-   for (i = 0; i < nbsubset ; i++)
+   if (subset_from > 1)
+      bufr_skip_bits( msg, nbits*(subset_from-1), &errcode );
+
+   for (i = 0; i < count ; i++)
       {
       node2 = nodes[i];
       cb2 = (BufrDescriptor *)node2->data;
@@ -2837,6 +2930,10 @@ static int bufr_get_ieeefp_compressed
          bufr_copy_value( cb2->value, cb->value );
          }
       }
+
+   if (subset_from > 0)
+       bufr_skip_bits( msg, nbits*(nbsubset-subset_to), &errcode );
+
    return 1;
    }
 
@@ -2856,10 +2953,10 @@ static int bufr_get_ieeefp_compressed
  * @ingroup internal
  */
 static int bufr_get_numeric_compressed
-   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
+   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes, int subset_from, int subset_to )
    {
    uint64_t        ival, ival2, imin;
-   int             i;
+   int             i, count;
    ListNode       *node2;
    int             debug=bufr_is_debug();
    char            errmsg[256];
@@ -2868,8 +2965,8 @@ static int bufr_get_numeric_compressed
    int             errcode;
    uint64_t        missing, msng;
 
+   count = (subset_from > 0) ? subset_to - subset_from + 1 : nbsubset;
    missing = bufr_missing_ivalue(  cb->encoding.nbits );
-
    imin = bufr_getbits( msg, cb->encoding.nbits, &errcode );
    if (debug)
       {
@@ -2905,9 +3002,11 @@ static int bufr_get_numeric_compressed
       nbinc = 0; 
 
    if ( errcode < 0 ) return errcode;
+
+
    if (nbinc == 0) 
       {
-      for (i = 0; i < nbsubset ; i++)
+      for (i = 0; i < count ; i++)
          {
          node2 = nodes[i];
          cb2 = (BufrDescriptor *)node2->data;
@@ -2926,8 +3025,10 @@ static int bufr_get_numeric_compressed
       }
    else
       {
+      if (subset_from > 1)
+         bufr_skip_bits( msg, nbinc*(subset_from-1), &errcode );
       msng = bufr_missing_ivalue( nbinc );
-      for (i = 0; i < nbsubset ; i++)
+      for (i = 0; i < count ; i++)
          {
          node2 = nodes[i];
          cb2 = (BufrDescriptor *)node2->data;
@@ -2949,6 +3050,8 @@ static int bufr_get_numeric_compressed
             bufr_print_debug( "\n" );
             }
          }
+      if (subset_from > 0)
+         bufr_skip_bits( msg, nbinc*(nbsubset-subset_to), &errcode );
       }
    return 1;
    }
@@ -2970,10 +3073,10 @@ static int bufr_get_numeric_compressed
 
  */
 static int bufr_get_af_compressed
-   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes )
+   ( BufrDescriptor *cb, int nbsubset, BUFR_Message *msg, ListNode **nodes, int subset_from, int subset_to )
    {
    uint64_t        ival, imin;
-   int             i;
+   int             i, count, nbits;
    ListNode       *node2;
    int             debug;
    char            errmsg[256];
@@ -2986,6 +3089,7 @@ static int bufr_get_af_compressed
    if (cb->value == NULL)
       cb->value = bufr_mkval_for_descriptor( cb );
 
+   count = (subset_from > 0) ? subset_to - subset_from + 1 : nbsubset;
    debug = bufr_is_debug();
    imin = bufr_getbits( msg, cb->value->af->nbits, &errcode );
    if (debug)
@@ -3005,7 +3109,7 @@ static int bufr_get_af_compressed
    if (errcode < 0) return errcode;
    if (nbinc == 0) 
       {
-      for (i = 0; i < nbsubset ; i++)
+      for (i = 0; i < count ; i++)
          {
          node2 = nodes[i];
          cb2 = (BufrDescriptor *)node2->data;
@@ -3022,7 +3126,9 @@ static int bufr_get_af_compressed
       }
    else
       {
-      for (i = 0; i < nbsubset ; i++)
+      if (subset_from > 1)
+         bufr_skip_bits( msg, nbinc*(subset_from-1), &errcode );
+      for (i = 0; i < count ; i++)
          {
          node2 = nodes[i];
          cb2 = (BufrDescriptor *)node2->data;
@@ -3039,6 +3145,8 @@ static int bufr_get_af_compressed
             bufr_print_debug( "\n" );
             }
          }
+      if (subset_from > 0)
+         bufr_skip_bits( msg, nbinc*(nbsubset-subset_to), &errcode );
       }
    return 1;
    }

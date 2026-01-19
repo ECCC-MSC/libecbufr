@@ -603,8 +603,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
 /*
  * repeter l'insertion si le nombre de bits est plus grand que 8
  * repeat insertion if number of bits to insert is greater than 8 
-
-*/
+ */
    while ( nbit_left > 0 )
       {
       nbit_take = nbit_left < 8 ? nbit_left : 8 ;
@@ -626,7 +625,7 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
             bufr->s4.bitno = bitno;
             bufr->s4.current = ptrData;
             return bits;
-		      }
+	      }
          else
             {
             ++ptrData;
@@ -649,6 +648,94 @@ uint64_t bufr_getbits ( BUFR_Message *bufr, int nbbits, int *errcode)
 
    return bits;
    }
+
+/**
+ * @english
+ * @todo translate
+ * @endenglish
+ * @francais
+ * sauter pardessus des bits
+ * @param     bufr : la structure de donnees BUFR
+ * @param     nbbits : nombre de bits 
+ * @param     errcode : return error code, less than 0 if error
+ * @endfrancais
+ * @author Vanh Souvanlasy
+ * @ingroup internal
+ */
+void bufr_skip_bits ( BUFR_Message *bufr, int nbbits, int *errcode)
+{
+   unsigned char *ptrData ;
+   int            p1 ;
+   int            nbit_take, nbit_left, nbit_shift;
+   int            bitno ;
+   int            nbits_read;
+
+   nbits_read = 0;
+   *errcode = 0;
+
+   ptrData = bufr->s4.current;
+   bitno = bufr->s4.bitno;
+
+/*
+ * saut par tranche de 8 bits
+ */
+   p1  = bitno % 8 ;
+   nbit_take = nbbits < (8-p1) ? nbbits : (8-p1) ;
+   nbit_left = nbbits - nbit_take ;
+   nbit_shift = 8 - ( nbit_take + p1 ) ;
+   nbits_read += nbit_take;
+
+   bitno += nbit_take;
+   bitno = bitno % 8;
+   if (bitno == 0)
+      {
+      if (( ptrData >= (bufr->s4.data + bufr->s4.max_data_len - 1) ) && (nbits_read < nbbits))
+	 {
+         bufr_vprint_debug( _("Warning: bufr_skipbits( %d ), out of bounds! remain=%d bits\n"), nbbits,  nbits_read );
+         *errcode = -1;
+         return;
+	 }
+      else
+         {
+         ++ptrData;
+         }
+      }
+
+/*
+ * repeter l'insertion si le nombre de bits est plus grand que 8
+ * repeat insertion if number of bits to insert is greater than 8 
+ */
+   while ( nbit_left > 0 )
+      {
+      nbit_take = nbit_left < 8 ? nbit_left : 8 ;
+      nbit_left -= nbit_take ;
+      nbit_shift = 8 - nbit_take ;
+      nbits_read += nbit_take;
+      bitno += nbit_take;
+      bitno = bitno % 8;
+      if (bitno == 0)
+         {
+	 if (ptrData >= (bufr->s4.data + bufr->s4.max_data_len - 1))
+            {
+            if (nbits_read < nbbits)
+               {
+               bufr_vprint_debug( _("Warning: bufr_skip_bits( %d ), out of bounds! remain=%d bits\n"), nbbits,  nbits_read );
+               *errcode = -1;
+               }
+            bufr->s4.bitno = bitno;
+            bufr->s4.current = ptrData;
+            }
+         else
+            {
+            ++ptrData;
+            }
+         }
+      }
+
+   bitno = bitno % 8;
+   bufr->s4.bitno = bitno;
+   bufr->s4.current = ptrData;
+}
 
 /**
  * @english

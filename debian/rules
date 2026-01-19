@@ -15,7 +15,7 @@ build:
 	make
 
 # Build architecture-dependent files here.
-binary-arch:
+binary-arch: build
 # We have nothing to do by default.
 
 # Build architecture-independent files here.
@@ -37,7 +37,7 @@ binary-indep: install
 	dh_fixperms
 	dh_builddeb
 
-binary: binary-indep binary-arch
+binary: binary-arch binary-indep
 .PHONY: build clean binary-indep binary-arch binary install
 
 clean:
