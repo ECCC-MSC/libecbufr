@@ -1597,7 +1597,7 @@ static void bufr_put_desc_value ( BUFR_Message *bufr, BufrDescriptor *bd )
    float           fval;
    double          dval;
    int             blen;
-   uint64_t        ui64val;
+   uint64_t        ui64val=0;
    int32_t         i32val;
    int64_t         i64val;
    char            errmsg[256];
@@ -3236,7 +3236,7 @@ int bufr_load_dataset( BUFR_Dataset *dts,  const char *infile )
    {
    FILE          *fp;
    char           errmsg[256];
-   int            status;
+   int            status=0;
    int            lineno;
 
    if (infile == NULL) return -1;

@@ -414,12 +414,12 @@ This file is part of libECBUFR.
  arr_find( ArrayPtr obj, const void *vaddr, int (*compar)( const void *, const void * ) )
     {
     Array *arr=(Array *)obj;
-	 int c;
+    size_t c;
 
     if( arr == NULL ) return NULL;
     if ((arr->eles == NULL)||(arr->count==0)) return NULL;
 
-	 c = (int)arr->count;
+    c = (int)arr->count;
     return( (char *)lfind( (void *)vaddr, (void *)arr->eles, 
 	     &c, arr->size, compar ) );
     }

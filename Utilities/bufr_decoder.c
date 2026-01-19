@@ -725,8 +725,9 @@ static void bufr_show_dataset_formatted( BUFR_Dataset *dts, BUFR_Tables *tables 
                   }
                else
                   {
-                  sprintf( buf, _("Error: descriptor not found in table B {%d}"), desc );
-                  bufr_print_output( buf );
+                  sprintf( buf, _("*** DESCRIPTOR NOT FOUND IN TABLE B {%d} ***"), desc );
+                  sprintf( buf2, "%-89s", buf );
+                  bufr_print_output( buf2 );
                   }
                }
             else  if (bcv->encoding.type == TYPE_CCITT_IA5)

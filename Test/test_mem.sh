@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export BUFR_TABLES=../Tables/
+export LC_ALL="C"
 unset AFSISIO
 
 for i in BUFR/*.bufr
